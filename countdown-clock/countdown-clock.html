@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script defer src="countdown-clock.js"></script>
+    <link rel="stylesheet" href="styles/main.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>[* Fancier Countdown Timer *]</title>
+  </head>
+
+  <body>
+    <div class="tsw-timer-inputs">
+      <label for="tsw-countdown-date">Enter target date:</label>
+      <input type="date" id="tsw-countdown-date" name="tsw-countdown-date" />
+      <button type="button" class="tsw-countdown-submit">Submit</button>
+    </div>
+
+    <!-- Countdown clock app -->
+    <article>
+      <div class="tsw-container--center">
+        <div
+          id="tsw-countdown-timer"
+          class="tsw-countdown"
+          aria-role="timer"
+          aria-atomic="true"
+          aria-label="left until FN5GL application window closes"
+          aria-labelledby="tsw-days-left tsw-days-label tsw-hours-left tsw-hours-label tsw-minutes-left tsw-minutes-label tsw-seconds-left tsw-seconds-label tsw-countdown-timer"
+        >
+          <div
+            id="tsw-countdown-alert"
+            role="alert"
+            aria-live="assertive"
+            style="
+              position: absolute;
+              width: 0;
+              height: 0;
+              clip: rect(0, 0, 0, 0);
+            "
+          ></div>
+          <div class="tsw-countdown_container">
+            <div
+              class="tsw-countdown_panel tsw-countdown_days"
+              aria-hidden="true"
+            >
+              <span id="tsw-days-left" class="tsw-countdown_time"></span>
+              <div id="tsw-days-label" class="tsw-countdown_label">Days</div>
+            </div>
+            <div class="tsw-countdown_time-decorator" aria-hidden="true">:</div>
+            <div
+              class="tsw-countdown_panel tsw-countdown_hours"
+              aria-hidden="true"
+            >
+              <span id="tsw-hours-left" class="tsw-countdown_time"></span>
+              <div id="tsw-hours-label" class="tsw-countdown_label">Hours</div>
+            </div>
+            <div class="tsw-countdown_time-decorator" aria-hidden="true">:</div>
+            <div
+              class="tsw-countdown_panel tsw-countdown_minutes"
+              aria-hidden="true"
+            >
+              <span id="tsw-minutes-left" class="tsw-countdown_time"></span>
+              <div id="tsw-minutes-label" class="tsw-countdown_label">
+                Minutes
+              </div>
+            </div>
+            <div class="tsw-countdown_time-decorator" aria-hidden="true">:</div>
+            <div
+              class="tsw-countdown_panel tsw-countdown_seconds"
+              aria-hidden="true"
+            >
+              <span id="tsw-seconds-left" class="tsw-countdown_time"></span>
+              <div id="tsw-seconds-label" class="tsw-countdown_label">
+                Seconds
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </body>
+</html>

@@ -120,11 +120,12 @@ const timeZoneStatus = document.querySelector(".tsw-countdown-status-time-zone")
 const updateTimeZone = (isInitialLoad = false) => {
   if (isInitialLoad) {
     countdownState.timeZone = "local";
+    timeZoneToggleButton.textContent = "eastern";
   } else {
+    timeZoneToggleButton.textContent = countdownState.timeZone;
     countdownState.timeZone = countdownState.timeZone === "local" ? "eastern" : "local";
   }
 
-  timeZoneToggleButton.textContent = countdownState.timeZone;
   timeZoneStatus.textContent = `Time zone of target: ${countdownState.timeZone}`;
 };
 

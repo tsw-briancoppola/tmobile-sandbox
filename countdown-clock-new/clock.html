@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script defer src="script.js"></script>
+    <link rel="stylesheet" href="styles.css" type="text/css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/luxon@latest/build/global/luxon.min.js"></script>
+
+    <title>[* Countdown Clock *]</title>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="tsw-countdown">
+        <div class="tsw-countdown-controls">
+          <div>
+            <label for="tsw-countdown-date">Enter target date/time:</label>
+            <input type="datetime-local" class="tsw-countdown-date" name="tsw-countdown-date" />
+            <button type="button" class="tsw-countdown-date-submit">Submit</button>
+          </div>
+          <button class="tsw-time-zone-toggle"></button>
+          <button class="tsw-theme-toggle"></button>
+        </div>
+
+        <div class="tsw-countdown-clock">
+          <div class="tsw-time-unit">
+            <span class="tsw-countdown-days tsw-number">--</span>
+            <span>Days</span>
+          </div>
+          <span class="tsw-time-colon">:</span>
+          <div class="tsw-time-unit">
+            <span class="tsw-countdown-hours tsw-number">--</span>
+            <span>Hours</span>
+          </div>
+          <span class="tsw-time-colon">:</span>
+          <div class="tsw-time-unit">
+            <span class="tsw-countdown-minutes tsw-number">--</span>
+            <span>Minutes</span>
+          </div>
+          <span class="tsw-time-colon">:</span>
+          <div class="tsw-time-unit">
+            <span class="tsw-countdown-seconds tsw-number">--</span>
+            <span>Seconds</span>
+          </div>
+        </div>
+
+        <div class="tsw-countdown-status">
+          <p class="tsw-countdown-status-theme"></p>
+          <p class="tsw-countdown-status-time-zone"></p>
+          <p class="tsw-countdown-status-alert"></p>
+        </div>
+
+        <div
+          id="tsw-countdown-a11y-alert"
+          role="alert"
+          aria-live="assertive"
+          style="position: absolute; width: 0; height: 0; clip: rect(0, 0, 0, 0)"
+        ></div>
+      </div>
+    </div>
+  </body>
+</html>

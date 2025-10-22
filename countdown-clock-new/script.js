@@ -117,21 +117,20 @@ selectedDateSubmitButton.addEventListener("click", () => {
 const timeZoneToggleButton = document.querySelector(".tsw-time-zone-toggle");
 const timeZoneStatus = document.querySelector(".tsw-countdown-status-time-zone");
 
-const setTimeZone = () => {
+const updateTimeZone = (isInitialLoad = false) => {
+  if (isInitialLoad) {
+    countdownState.timeZone = "local";
+  } else {
+    countdownState.timeZone = countdownState.timeZone === "local" ? "eastern" : "local";
+  }
+
   timeZoneToggleButton.textContent = countdownState.timeZone;
-  countdownState.timeZone === "local" ? (countdownState.timeZone = "eastern") : (countdownState.timeZone = "local");
   timeZoneStatus.textContent = `Time zone of target: ${countdownState.timeZone}`;
 };
 
-const setTimeZoneOnLoad = () => {
-  countdownState.timeZone = "local";
-  timeZoneToggleButton.textContent = "eastern";
-  timeZoneStatus.textContent = `Time zone of target: ${countdownState.timeZone}`;
-};
+timeZoneToggleButton.addEventListener("click", () => updateTimeZone(false));
 
-timeZoneToggleButton.addEventListener("click", setTimeZone);
-
-setTimeZoneOnLoad();
+updateTimeZone(true);
 
 /* =-=-=-=-=-=- */
 /* Theme toggle */

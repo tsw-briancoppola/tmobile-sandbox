@@ -140,35 +140,24 @@ updateTimeZone(true);
 const themeToggleButton = document.querySelector(".tsw-theme-toggle");
 const themeStatus = document.querySelector(".tsw-countdown-status-theme");
 
-const setTheme = (savedTheme) => {
-  if (savedTheme === "dark") {
-    document.body.classList.add("dark-theme");
-    localStorage.setItem("theme", "dark");
-    themeToggleButton.textContent = "Light theme";
-    themeStatus.textContent = "Current theme: Dark";
-  } else {
-    document.body.classList.remove("dark-theme");
-    localStorage.setItem("theme", "light");
-    themeToggleButton.textContent = "Dark theme";
-    themeStatus.textContent = "Current theme: Light";
-  }
-};
+const setTheme = (theme) => {
+  const isDark = theme === "dark";
 
-themeToggleButton.addEventListener("click", () => {
-  localStorage.getItem("theme") === "dark" ? setTheme("light") : setTheme("dark");
-});
+  document.body.classList.toggle("dark-theme", isDark);
+  localStorage.setItem("theme", theme);
+  themeToggleButton.textContent = isDark ? "Light theme" : "Dark theme";
+  themeStatus.textContent = `Current theme: ${isDark ? "Dark" : "Light"}`;
+};
 
 const setThemeOnLoad = () => {
   const savedTheme = localStorage.getItem("theme");
   const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-  if (savedTheme) {
-    setTheme(savedTheme);
-  } else if (prefersDark) {
-    setTheme("dark");
-  } else {
-    setTheme("light");
-  }
+  setTheme(savedTheme || (prefersDark ? "dark" : "light"));
 };
+
+themeToggleButton.addEventListener("click", () => {
+  localStorage.getItem("theme") === "dark" ? setTheme("light") : setTheme("dark");
+});
 
 setThemeOnLoad();

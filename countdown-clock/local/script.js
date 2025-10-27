@@ -15,6 +15,7 @@ const CountDownClock = {
   urgencyInterval: 1,
   a11yAlertInterval: 10,
   init(seletedDateArg, timeZoneArg, urgencyIntervalArg, a11yAlertIntervalArg) {
+    // Change 'document' to window.npi in the NPI component
     this.countDownEl = document.querySelector(".tsw-countdown");
     if (!this.countDownEl) {
       return;
@@ -81,6 +82,11 @@ const CountDownClock = {
   },
 };
 
+window.addEventListener("load", () => {
+  const targetDate = "2025-10-25T13:33";
+  CountDownClock.init(targetDate, "local", 1, 30);
+});
+
 /* =-=-=-=-=-=- */
 /* State object */
 /* =-=-=-=-=-=- */
@@ -100,6 +106,8 @@ const selectedDateSubmitButton = document.querySelector(".tsw-countdown-date-sub
 
 selectedDateSubmitButton.addEventListener("click", () => {
   const timeZone = countdownState.timeZone;
+
+  console.log(selectedDate.value);
 
   if (!selectedDate.value) {
     alert("Target date not chosen. Select target date.");

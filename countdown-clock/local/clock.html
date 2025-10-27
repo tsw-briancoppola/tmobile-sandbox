@@ -19,17 +19,18 @@
 
   <body>
     <div class="container">
-      <div class="tsw-countdown">
-        <div class="tsw-countdown-controls">
-          <div>
-            <label for="tsw-countdown-date">Enter target date/time:</label>
-            <input type="datetime-local" class="tsw-countdown-date" name="tsw-countdown-date" />
-            <button type="button" class="tsw-countdown-date-submit">Submit</button>
-          </div>
-          <button class="tsw-time-zone-toggle"></button>
-          <button class="tsw-theme-toggle"></button>
+      <div class="controls">
+        <div>
+          <label for="tsw-countdown-date">Enter target date/time:</label>
+          <input type="datetime-local" class="tsw-countdown-date" name="tsw-countdown-date" />
+          <button type="button" class="tsw-countdown-date-submit">Submit</button>
         </div>
+        <button class="tsw-time-zone-toggle"></button>
+        <button class="tsw-theme-toggle"></button>
+      </div>
 
+      <!-- NPI code -->
+      <div class="tsw-countdown">
         <div class="tsw-countdown-clock">
           <div class="tsw-time-unit">
             <span class="tsw-countdown-days tsw-number">--</span>
@@ -53,8 +54,8 @@
         </div>
 
         <div class="tsw-countdown-status">
-          <p class="tsw-countdown-status-theme"></p>
-          <p class="tsw-countdown-status-time-zone"></p>
+          <!-- <p class="tsw-countdown-status-theme"></p>
+          <p class="tsw-countdown-status-time-zone"></p> -->
           <p class="tsw-countdown-status-alert"></p>
         </div>
 
@@ -65,6 +66,7 @@
           style="position: absolute; width: 0; height: 0; clip: rect(0, 0, 0, 0)"
         ></div>
       </div>
+      <!-- End NPI code -->
     </div>
   </body>
 </html>

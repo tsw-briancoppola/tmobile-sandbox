@@ -34,6 +34,10 @@
 
   /* Clock */
 
+  .tsw-countdown {
+    background-color: var(--countdown-background-color);
+  }
+
   .tsw-countdown-clock {
     display: grid;
     grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
@@ -66,6 +70,7 @@
   /* Status */
 
   .tsw-countdown-status {
+    display: none;
     text-align: center;
   }
   .tsw-countdown-status .tsw-countdown-status-alert {
@@ -114,13 +119,12 @@
     countDownToThisTime: null,
     countDown: null,
     timeZoneForTarget: "local",
+    theme: "light",
     urgencyInterval: 1,
     a11yAlertInterval: 10,
-    init(seletedDateArg, timeZoneArg, urgencyIntervalArg, a11yAlertIntervalArg) {
+    init(selectedDateArg, timeZoneArg, themeArg, urgencyIntervalArg, a11yAlertIntervalArg) {
       this.countDownEl = window.npi.querySelector(".tsw-countdown");
-      if (!this.countDownEl) {
-        return;
-      }
+      if (!this.countDownEl) return;
       if (a11yAlertIntervalArg !== undefined) {
         if (!Number.isInteger(a11yAlertIntervalArg)) {
           throw new Error("Argument is not a number");
@@ -129,7 +133,9 @@
       }
       this.timeZoneForTarget = timeZoneArg;
       this.urgencyInterval = urgencyIntervalArg;
-      this.countDownToThisTime = this.setTimeZoneForTarget(seletedDateArg);
+      this.theme = themeArg;
+      this.countDownToThisTime = this.setTimeZoneForTarget(selectedDateArg);
+      this.setTheme(this.theme);
       this.countDown = this.startCountDown();
     },
     setTimeZoneForTarget(date) {
@@ -141,6 +147,9 @@
       } else {
         return new Date(date);
       }
+    },
+    setTheme(theme) {
+      theme === "dark" ? this.countDownEl.classList.add("dark-theme") : this.countDownEl.classList.remove("dark-theme");
     },
     startCountDown() {
       return setInterval(() => {
@@ -156,6 +165,7 @@
       const displayHours = this.countDownEl.querySelector(".tsw-countdown-hours");
       const displayMinutes = this.countDownEl.querySelector(".tsw-countdown-minutes");
       const displaySeconds = this.countDownEl.querySelector(".tsw-countdown-seconds");
+      const statusWrapper = this.countDownEl.querySelector(".tsw-countdown-status");
       const statusAlert = this.countDownEl.querySelector(".tsw-countdown-status-alert");
       const a11yAlert = this.countDownEl.querySelector("#tsw-countdown-a11y-alert");
       const secs = Math.floor(seconds % 60);
@@ -172,8 +182,10 @@
         a11yAlert.textContent = "";
       }
       if (dys < this.urgencyInterval) {
+        statusWrapper.style.display = "block";
         statusAlert.textContent = "Less than 24 hours to go!!!";
       } else {
+        statusWrapper.style.display = "none";
         statusAlert.textContent = "";
       }
     },
@@ -185,6 +197,6 @@
 
   window.addEventListener("load", () => {
     const targetDate = "2025-10-31T13:33";
-    CountDownClock.init(targetDate, "local", 1, 30);
+    CountDownClock.init(targetDate, "local", "light", 1, 30);
   });
 </script>

@@ -12,14 +12,12 @@ const CountDownClock = {
   countDownToThisTime: null,
   countDown: null,
   timeZoneForTarget: "local",
+  theme: "light",
   urgencyInterval: 1,
   a11yAlertInterval: 10,
-  init(seletedDateArg, timeZoneArg, urgencyIntervalArg, a11yAlertIntervalArg) {
-    // Change 'document' to window.npi in the NPI component
-    this.countDownEl = document.querySelector(".tsw-countdown");
-    if (!this.countDownEl) {
-      return;
-    }
+  init(selectedDateArg, timeZoneArg, themeArg, urgencyIntervalArg, a11yAlertIntervalArg) {
+    this.countDownEl = window.npi.querySelector(".tsw-countdown");
+    if (!this.countDownEl) return;
     if (a11yAlertIntervalArg !== undefined) {
       if (!Number.isInteger(a11yAlertIntervalArg)) {
         throw new Error("Argument is not a number");
@@ -28,7 +26,9 @@ const CountDownClock = {
     }
     this.timeZoneForTarget = timeZoneArg;
     this.urgencyInterval = urgencyIntervalArg;
-    this.countDownToThisTime = this.setTimeZoneForTarget(seletedDateArg);
+    this.theme = themeArg;
+    this.countDownToThisTime = this.setTimeZoneForTarget(selectedDateArg);
+    this.setTheme(this.theme);
     this.countDown = this.startCountDown();
   },
   setTimeZoneForTarget(date) {
@@ -40,6 +40,9 @@ const CountDownClock = {
     } else {
       return new Date(date);
     }
+  },
+  setTheme(theme) {
+    theme === "light" ? this.countDownEl.classList.remove("dark-theme") : countdownWrapper.classList.add("dark-theme");
   },
   startCountDown() {
     return setInterval(() => {
@@ -83,8 +86,8 @@ const CountDownClock = {
 };
 
 window.addEventListener("load", () => {
-  const targetDate = "2025-10-25T13:33";
-  CountDownClock.init(targetDate, "local", 1, 30);
+  const targetDate = "2025-10-31T13:33";
+  CountDownClock.init(targetDate, "local", "light", 1, 30);
 });
 
 /* =-=-=-=-=-=- */

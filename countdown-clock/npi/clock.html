@@ -36,6 +36,7 @@
   /* Interface */
 
   .tsw-countdown-interface button {
+    cursor: pointer;
     padding: 10px 15px;
     font-size: 14px;
     font-weight: 700;
@@ -125,7 +126,7 @@
     <button class="tsw-countdown-edit">Edit countdown clock</button>
   </div>
 
-  <div class="tsw-modal-overlay is-visible">
+  <div class="tsw-modal-overlay">
     <div class="tsw-modal">TEST</div>
   </div>
 
@@ -253,7 +254,12 @@
   // Modal and overlay
 
   const countdownWrapper = document.querySelector("#tsw-countdown-id").querySelector("xpr-npi-content").shadowRoot;
+  const countdownEditButton = countdownWrapper.querySelector(".tsw-countdown-edit");
   const modalOverlay = countdownWrapper.querySelector(".tsw-modal-overlay");
+
+  countdownEditButton.addEventListener("click", () => {
+    modalOverlay.classList.add("is-visible");
+  });
 
   modalOverlay.addEventListener("click", () => {
     modalOverlay.classList.remove("is-visible");

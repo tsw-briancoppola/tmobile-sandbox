@@ -16,7 +16,7 @@ const CountDownClock = {
   urgencyInterval: 1,
   a11yAlertInterval: 10,
   init(selectedDateArg, timeZoneArg, themeArg, urgencyIntervalArg, a11yAlertIntervalArg) {
-    this.countDownEl = window.npi.querySelector(".tsw-countdown");
+    this.countDownEl = document.querySelector(".tsw-countdown");
     if (!this.countDownEl) return;
     if (a11yAlertIntervalArg !== undefined) {
       if (!Number.isInteger(a11yAlertIntervalArg)) {
@@ -42,7 +42,7 @@ const CountDownClock = {
     }
   },
   setTheme(theme) {
-    theme === "light" ? this.countDownEl.classList.remove("dark-theme") : countdownWrapper.classList.add("dark-theme");
+    theme === "dark" ? this.countDownEl.classList.add("dark-theme") : this.countDownEl.classList.remove("dark-theme");
   },
   startCountDown() {
     return setInterval(() => {
@@ -58,6 +58,7 @@ const CountDownClock = {
     const displayHours = this.countDownEl.querySelector(".tsw-countdown-hours");
     const displayMinutes = this.countDownEl.querySelector(".tsw-countdown-minutes");
     const displaySeconds = this.countDownEl.querySelector(".tsw-countdown-seconds");
+    const statusWrapper = this.countDownEl.querySelector(".tsw-countdown-status");
     const statusAlert = this.countDownEl.querySelector(".tsw-countdown-status-alert");
     const a11yAlert = this.countDownEl.querySelector("#tsw-countdown-a11y-alert");
     const secs = Math.floor(seconds % 60);
@@ -74,8 +75,10 @@ const CountDownClock = {
       a11yAlert.textContent = "";
     }
     if (dys < this.urgencyInterval) {
+      statusWrapper.style.display = "block";
       statusAlert.textContent = "Less than 24 hours to go!!!";
     } else {
+      statusWrapper.style.display = "none";
       statusAlert.textContent = "";
     }
   },
@@ -87,7 +90,7 @@ const CountDownClock = {
 
 window.addEventListener("load", () => {
   const targetDate = "2025-10-31T13:33";
-  CountDownClock.init(targetDate, "local", "light", 1, 30);
+  CountDownClock.init(targetDate, "local", "dark", 1, 30);
 });
 
 /* =-=-=-=-=-=- */

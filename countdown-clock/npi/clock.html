@@ -23,6 +23,7 @@
     padding: 2rem;
     font-family: var(--tsw-font-main);
     color: var(--countdown-text-color);
+    background-color: var(--countdown-background-color);
   }
 
   .tsw-countdown.dark-theme {
@@ -32,11 +33,51 @@
     --time-unit-background-color: var(--color-brand-grayscale-white);
   }
 
-  /* Clock */
+  /* Interface */
 
-  .tsw-countdown {
-    background-color: var(--countdown-background-color);
+  .tsw-countdown-interface button {
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-brand-grayscale-white);
+    border: 1px solid var(--color-brand-primary-400);
+    background-color: var(--color-brand-primary-400);
   }
+
+  /* Modal and overlay */
+
+  .tsw-modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70vw;
+    max-width: 800px;
+    background-color: var(--color-brand-grayscale-white);
+    z-index: 1001;
+  }
+
+  .tsw-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(7px);
+    -webkit-backdrop-filter: blur(7px);
+    z-index: 1000;
+    display: none;
+  }
+  .tsw-modal-overlay.is-visible {
+    display: block;
+  }
+
+  /* Clock */
 
   .tsw-countdown-clock {
     display: grid;
@@ -80,6 +121,14 @@
 </style>
 
 <div class="tsw-countdown">
+  <div class="tsw-countdown-interface">
+    <button class="tsw-countdown-edit">Edit countdown clock</button>
+  </div>
+
+  <div class="tsw-modal-overlay is-visible">
+    <div class="tsw-modal">TEST</div>
+  </div>
+
   <div class="tsw-countdown-clock">
     <div class="tsw-time-unit">
       <span class="tsw-countdown-days tsw-number">--</span>
@@ -123,7 +172,8 @@
     urgencyInterval: 1,
     a11yAlertInterval: 10,
     init(selectedDateArg, timeZoneArg, themeArg, urgencyIntervalArg, a11yAlertIntervalArg) {
-      this.countDownEl = window.npi.querySelector(".tsw-countdown");
+      this.countDownWrapper = document.querySelector("#tsw-countdown-id").querySelector("xpr-npi-content");
+      this.countDownEl = this.countDownWrapper.shadowRoot.querySelector(".tsw-countdown");
       if (!this.countDownEl) return;
       if (a11yAlertIntervalArg !== undefined) {
         if (!Number.isInteger(a11yAlertIntervalArg)) {
@@ -176,7 +226,7 @@
       displayMinutes.textContent = mins > 0 ? (mins < 10 ? "0" + mins : mins) : "00";
       displayHours.textContent = hrs > 0 ? (hrs < 10 ? "0" + hrs : hrs) : "00";
       displayDays.textContent = dys > 0 ? (dys < 10 ? "0" + dys : dys) : "00";
-      if (secs % this.a11yAlertInterval !== 0) {
+      if (dys < this.a11yAlertInterval) {
         a11yAlert.textContent = "Less than 24 hours to go!!!";
       } else {
         a11yAlert.textContent = "";
@@ -198,5 +248,14 @@
   window.addEventListener("load", () => {
     const targetDate = "2025-10-31T13:33";
     CountDownClock.init(targetDate, "local", "light", 1, 30);
+  });
+
+  // Modal and overlay
+
+  const countdownWrapper = document.querySelector("#tsw-countdown-id").querySelector("xpr-npi-content").shadowRoot;
+  const modalOverlay = countdownWrapper.querySelector(".tsw-modal-overlay");
+
+  modalOverlay.addEventListener("click", () => {
+    modalOverlay.classList.remove("is-visible");
   });
 </script>

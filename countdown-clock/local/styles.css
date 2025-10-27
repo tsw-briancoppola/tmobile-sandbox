@@ -65,13 +65,11 @@ h6 {
 /* Countdown wrapper */
 
 .tsw-countdown {
-  /* Set up primary text */
   --tsw-font-display: "TeleNeo Web", var(--phx--text-family-brand), -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   --tsw-font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 
-  /* box-sizing: border-box; */
   --tsw-font-size: 16px;
   --color-brand-primary-400: #e20074;
   --color-brand-grayscale-900: #1c1c1c;
@@ -100,6 +98,10 @@ h6 {
 }
 
 /* Clock */
+
+.tsw-countdown {
+  background-color: var(--countdown-background-color);
+}
 
 .tsw-countdown-clock {
   display: grid;
@@ -133,6 +135,7 @@ h6 {
 /* Status */
 
 .tsw-countdown-status {
+  display: none;
   text-align: center;
 }
 .tsw-countdown-status .tsw-countdown-status-alert {

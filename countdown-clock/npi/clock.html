@@ -1,5 +1,7 @@
+<!-- Countdown clock - CSS -->
+
 <style>
-  .tsw-countdown {
+  .tsw-countdown-container {
     --tsw-font-display: "TeleNeo Web", var(--phx--text-family-brand), -apple-system, BlinkMacSystemFont, "Segoe UI",
       Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
     --tsw-font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif,
@@ -7,9 +9,15 @@
 
     --tsw-font-size: 16px;
     --color-brand-primary-400: #e20074;
+    --color-brand-primary-600: #770141;
+    --color-brand-grayscale-400: #8c8c8c;
     --color-brand-grayscale-900: #1c1c1c;
     --color-brand-grayscale-white: #fff;
 
+    font-family: var(--tsw-font-main);
+  }
+
+  .tsw-countdown {
     --countdown-text-color: var(--color-brand-grayscale-900);
     --countdown-background-color: var(--color-brand-grayscale-white);
     --time-unit-text-color: var(--color-brand-grayscale-white);
@@ -21,7 +29,6 @@
     align-items: center;
     gap: 2rem;
     padding: 2rem;
-    font-family: var(--tsw-font-main);
     color: var(--countdown-text-color);
     background-color: var(--countdown-background-color);
   }
@@ -33,15 +40,15 @@
     --time-unit-background-color: var(--color-brand-grayscale-white);
   }
 
-  /* Interface */
+  /* UI Elements */
 
-  .tsw-countdown-interface button {
+  .tsw-countdown button {
     cursor: pointer;
     padding: 10px 15px;
     font-size: 14px;
     font-weight: 700;
+    border: 0;
     color: var(--color-brand-grayscale-white);
-    border: 1px solid var(--color-brand-primary-400);
     background-color: var(--color-brand-primary-400);
   }
 
@@ -52,10 +59,18 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 70vw;
-    max-width: 800px;
+    width: 50vw;
+    max-width: 500px;
+    padding: 4rem;
+    font-size: 16px;
+    font-weight: 700;
     background-color: var(--color-brand-grayscale-white);
     z-index: 1001;
+  }
+  .tsw-modal {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
   }
 
   .tsw-modal-overlay {
@@ -121,48 +136,79 @@
   }
 </style>
 
-<div class="tsw-countdown">
-  <div class="tsw-countdown-interface">
-    <button class="tsw-countdown-edit">Edit countdown clock</button>
-  </div>
+<!-- Countdown clock - HTML -->
 
+<div class="tsw-countdown-container">
   <div class="tsw-modal-overlay">
-    <div class="tsw-modal">TEST</div>
+    <div class="tsw-modal">
+      <div>
+        <label for="tsw-countdown-date">Target date/time:</label>
+        <input type="datetime-local" class="tsw-countdown-date" name="tsw-countdown-date" />
+      </div>
+      <div class="tsw-dropdown">
+        <select id="tsw-dropdown-theme" name="tsw-dropdown-theme" aria-controls="">
+          <option value=""></option>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
+        <label aria-hidden="true" id="tsw-dropdown-theme-label" for="tsw-dropdown-theme">Theme</label>
+        <span aria-hidden="true" class="tsw-dropdown-caret"></span>
+      </div>
+      <div class="tsw-dropdown">
+        <select id="tsw-dropdown-time-zone" name="tsw-dropdown-time-zone" aria-controls="">
+          <option value=""></option>
+          <option value="local">Local</option>
+          <option value="eastern">Eastern (EST)</option>
+        </select>
+        <label aria-hidden="true" id="tsw-dropdown-time-zone-label" for="tsw-dropdown-time-zone"
+          >Time zone for target time</label
+        >
+        <span aria-hidden="true" class="tsw-dropdown-caret"></span>
+      </div>
+    </div>
   </div>
 
-  <div class="tsw-countdown-clock">
-    <div class="tsw-time-unit">
-      <span class="tsw-countdown-days tsw-number">--</span>
-      <span>Days</span>
+  <div class="tsw-countdown">
+    <div class="tsw-countdown-interface">
+      <button class="tsw-countdown-edit">Edit countdown clock</button>
     </div>
-    <span class="tsw-time-colon">:</span>
-    <div class="tsw-time-unit">
-      <span class="tsw-countdown-hours tsw-number">--</span>
-      <span>Hours</span>
-    </div>
-    <span class="tsw-time-colon">:</span>
-    <div class="tsw-time-unit">
-      <span class="tsw-countdown-minutes tsw-number">--</span>
-      <span>Minutes</span>
-    </div>
-    <span class="tsw-time-colon">:</span>
-    <div class="tsw-time-unit">
-      <span class="tsw-countdown-seconds tsw-number">--</span>
-      <span>Seconds</span>
-    </div>
-  </div>
 
-  <div class="tsw-countdown-status">
-    <p class="tsw-countdown-status-alert"></p>
-  </div>
+    <div class="tsw-countdown-clock">
+      <div class="tsw-time-unit">
+        <span class="tsw-countdown-days tsw-number">--</span>
+        <span>Days</span>
+      </div>
+      <span class="tsw-time-colon">:</span>
+      <div class="tsw-time-unit">
+        <span class="tsw-countdown-hours tsw-number">--</span>
+        <span>Hours</span>
+      </div>
+      <span class="tsw-time-colon">:</span>
+      <div class="tsw-time-unit">
+        <span class="tsw-countdown-minutes tsw-number">--</span>
+        <span>Minutes</span>
+      </div>
+      <span class="tsw-time-colon">:</span>
+      <div class="tsw-time-unit">
+        <span class="tsw-countdown-seconds tsw-number">--</span>
+        <span>Seconds</span>
+      </div>
+    </div>
 
-  <div
-    id="tsw-countdown-a11y-alert"
-    role="alert"
-    aria-live="assertive"
-    style="position: absolute; width: 0; height: 0; clip: rect(0, 0, 0, 0)"
-  ></div>
+    <div class="tsw-countdown-status">
+      <p class="tsw-countdown-status-alert"></p>
+    </div>
+
+    <div
+      id="tsw-countdown-a11y-alert"
+      role="alert"
+      aria-live="assertive"
+      style="position: absolute; width: 0; height: 0; clip: rect(0, 0, 0, 0)"
+    ></div>
+  </div>
 </div>
+
+<!-- Countdown clock - JavaScript -->
 
 <script>
   const CountDownClock = {
@@ -183,8 +229,9 @@
         this.a11yAlertInterval = a11yAlertIntervalArg;
       }
       this.timeZoneForTarget = timeZoneArg;
-      this.urgencyInterval = urgencyIntervalArg;
       this.theme = themeArg;
+      this.urgencyInterval = urgencyIntervalArg;
+      this.selectedDate = selectedDateArg;
       this.countDownToThisTime = this.setTimeZoneForTarget(selectedDateArg);
       this.setTheme(this.theme);
       this.countDown = this.startCountDown();
@@ -212,6 +259,7 @@
       }, 1000);
     },
     setView(seconds) {
+      console.log("triggered");
       const displayDays = this.countDownEl.querySelector(".tsw-countdown-days");
       const displayHours = this.countDownEl.querySelector(".tsw-countdown-hours");
       const displayMinutes = this.countDownEl.querySelector(".tsw-countdown-minutes");
@@ -246,22 +294,74 @@
     },
   };
 
+  const countdownWrapper = document.querySelector("#tsw-countdown-id").querySelector("xpr-npi-content").shadowRoot;
+  const dateTimeInput = countdownWrapper.querySelector(".tsw-countdown-date");
+
   window.addEventListener("load", () => {
-    const targetDate = "2025-10-31T13:33";
-    CountDownClock.init(targetDate, "local", "light", 1, 30);
+    // Generate default ISO string for 24 hours from now with Luxon DateTime object
+    const today = luxon.DateTime.local();
+    const tomorrow = today.plus({ days: 1 });
+    const formattedResult = tomorrow.toFormat("yyyy-MM-dd'T'HH:mm");
+    dateTimeInput.value = formattedResult;
+    CountDownClock.init(formattedResult, "local", "light", 1, 30);
   });
 
-  // Modal and overlay
+  // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+  // Modal and overlay event listeners
+  // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-  const countdownWrapper = document.querySelector("#tsw-countdown-id").querySelector("xpr-npi-content").shadowRoot;
   const countdownEditButton = countdownWrapper.querySelector(".tsw-countdown-edit");
   const modalOverlay = countdownWrapper.querySelector(".tsw-modal-overlay");
+  const dropdownTheme = countdownWrapper.querySelector("#tsw-dropdown-theme");
+  const dropdownTimeZone = countdownWrapper.querySelector("#tsw-dropdown-time-zone");
 
+  // Open modal
   countdownEditButton.addEventListener("click", () => {
+    // Pre-populate modal fields and dropdowns with current clock state
+    dateTimeInput.value = CountDownClock.selectedDate;
+    dropdownTheme.value = CountDownClock.theme;
+    dropdownTimeZone.value = CountDownClock.timeZoneForTarget;
+    // Open modal
     modalOverlay.classList.add("is-visible");
   });
 
-  modalOverlay.addEventListener("click", () => {
-    modalOverlay.classList.remove("is-visible");
+  // Close modal
+  modalOverlay.addEventListener("click", (event) => {
+    if (event.target === modalOverlay) {
+      modalOverlay.classList.remove("is-visible");
+    }
+  });
+
+  // Change theme
+  dropdownTheme.addEventListener("change", (event) => {
+    CountDownClock.setTheme(event.target.value);
+  });
+
+  // Change time zone
+  dropdownTimeZone.addEventListener("change", (event) => {
+    CountDownClock.timeZoneForTarget = event.target.value;
+    clearInterval(CountDownClock.countDown);
+    CountDownClock.countDownToThisTime = CountDownClock.setTimeZoneForTarget(CountDownClock.selectedDate);
+    CountDownClock.startCountDown();
+  });
+
+  // Change target date
+  dateTimeInput.addEventListener("change", (event) => {
+    const newDateTime = event.target.value;
+
+    if (!newDateTime) return;
+
+    const selectedTime = CountDownClock.setTimeZoneForTarget(newDateTime);
+    if (selectedTime < Date.now()) {
+      alert("Please select a future date and time");
+      dateTimeInput.value = CountDownClock.selectedDate;
+      return;
+    }
+
+    clearInterval(CountDownClock.countDown);
+    CountDownClock.selectedDate = newDateTime;
+    CountDownClock.countDownToThisTime = selectedTime;
+
+    CountDownClock.countDown = CountDownClock.startCountDown();
   });
 </script>

@@ -18,19 +18,47 @@
   </head>
 
   <body>
-    <div class="container">
-      <div class="controls">
-        <div>
-          <label for="tsw-countdown-date">Enter target date/time:</label>
-          <input type="datetime-local" class="tsw-countdown-date" name="tsw-countdown-date" />
-          <button type="button" class="tsw-countdown-date-submit">Submit</button>
+    <div class="tsw-countdown-container">
+      <div class="tsw-modal-overlay">
+        <div class="tsw-modal">
+          <div>
+            <label for="tsw-countdown-date">Target date/time:</label>
+            <input type="datetime-local" class="tsw-countdown-date" name="tsw-countdown-date" />
+          </div>
+          <!-- <div class="tsw-radio-button-group">
+              <input type="radio" id="tsw-time-zone-local" name="tsw-time-zone-eastern" value="local" checked />
+              <label for="tsw-time-zone-local">Local</label>
+              <input type="radio" id="tsw-time-zone-eastern" name="tsw-time-zone-eastern" value="eastern" />
+              <label for="tsw-time-zone-eastern">Eastern (EST)</label>
+            </div> -->
+          <div class="tsw-dropdown">
+            <select id="tsw-dropdown-theme" name="tsw-dropdown-theme" aria-controls="">
+              <option value=""></option>
+              <option value="light">Light</option>
+              <option value="dark">Dark</option>
+            </select>
+            <label aria-hidden="true" id="tsw-dropdown-theme-label" for="tsw-dropdown-theme">Theme</label>
+            <span aria-hidden="true" class="tsw-dropdown-caret"></span>
+          </div>
+          <div class="tsw-dropdown">
+            <select id="tsw-dropdown-time-zone" name="tsw-dropdown-time-zone" aria-controls="">
+              <option value=""></option>
+              <option value="local">Local</option>
+              <option value="eastern">Eastern (EST)</option>
+            </select>
+            <label aria-hidden="true" id="tsw-dropdown-time-zone-label" for="tsw-dropdown-time-zone"
+              >Time zone for target time</label
+            >
+            <span aria-hidden="true" class="tsw-dropdown-caret"></span>
+          </div>
         </div>
-        <button class="tsw-time-zone-toggle"></button>
-        <button class="tsw-theme-toggle"></button>
       </div>
 
-      <!-- NPI code -->
       <div class="tsw-countdown">
+        <div class="tsw-countdown-interface">
+          <button class="tsw-countdown-edit">Edit countdown clock</button>
+        </div>
+
         <div class="tsw-countdown-clock">
           <div class="tsw-time-unit">
             <span class="tsw-countdown-days tsw-number">--</span>
@@ -54,8 +82,6 @@
         </div>
 
         <div class="tsw-countdown-status">
-          <!-- <p class="tsw-countdown-status-theme"></p>
-          <p class="tsw-countdown-status-time-zone"></p> -->
           <p class="tsw-countdown-status-alert"></p>
         </div>
 
@@ -66,7 +92,6 @@
           style="position: absolute; width: 0; height: 0; clip: rect(0, 0, 0, 0)"
         ></div>
       </div>
-      <!-- End NPI code -->
     </div>
   </body>
 </html>

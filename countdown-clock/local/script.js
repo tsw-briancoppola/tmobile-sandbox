@@ -4,9 +4,9 @@ urgencyInterval: Integer for number of days before target date when urgency aler
 a11yAlertInterval: Integer between 0 - 60. Will be used to represent interval to alert users using a screen reader.
 */
 
-/* =-=-=-=-=-=-=-=-=-=-=- */
-/* Countdown clock object */
-/* =-=-=-=-=-=-=-=-=-=-=- */
+// =-=-=-=-=-=-=-=-=-=-=-
+// Countdown clock object
+// =-=-=-=-=-=-=-=-=-=-=-
 
 const CountDownClock = {
   countDownToThisTime: null,
@@ -16,6 +16,9 @@ const CountDownClock = {
   urgencyInterval: 1,
   a11yAlertInterval: 10,
   init(selectedDateArg, timeZoneArg, themeArg, urgencyIntervalArg, a11yAlertIntervalArg) {
+    // this.countDownWrapper = document.querySelector("#tsw-countdown-id").querySelector("xpr-npi-content");
+    // this.countDownEl = this.countDownWrapper.shadowRoot.querySelector(".tsw-countdown");
+
     this.countDownEl = document.querySelector(".tsw-countdown");
     if (!this.countDownEl) return;
     if (a11yAlertIntervalArg !== undefined) {
@@ -25,8 +28,9 @@ const CountDownClock = {
       this.a11yAlertInterval = a11yAlertIntervalArg;
     }
     this.timeZoneForTarget = timeZoneArg;
-    this.urgencyInterval = urgencyIntervalArg;
     this.theme = themeArg;
+    this.urgencyInterval = urgencyIntervalArg;
+    this.selectedDate = selectedDateArg;
     this.countDownToThisTime = this.setTimeZoneForTarget(selectedDateArg);
     this.setTheme(this.theme);
     this.countDown = this.startCountDown();
@@ -54,6 +58,7 @@ const CountDownClock = {
     }, 1000);
   },
   setView(seconds) {
+    console.log("triggered");
     const displayDays = this.countDownEl.querySelector(".tsw-countdown-days");
     const displayHours = this.countDownEl.querySelector(".tsw-countdown-hours");
     const displayMinutes = this.countDownEl.querySelector(".tsw-countdown-minutes");
@@ -69,7 +74,7 @@ const CountDownClock = {
     displayMinutes.textContent = mins > 0 ? (mins < 10 ? "0" + mins : mins) : "00";
     displayHours.textContent = hrs > 0 ? (hrs < 10 ? "0" + hrs : hrs) : "00";
     displayDays.textContent = dys > 0 ? (dys < 10 ? "0" + dys : dys) : "00";
-    if (secs % this.a11yAlertInterval !== 0) {
+    if (dys < this.a11yAlertInterval) {
       a11yAlert.textContent = "Less than 24 hours to go!!!";
     } else {
       a11yAlert.textContent = "";
@@ -88,90 +93,76 @@ const CountDownClock = {
   },
 };
 
+const dateTimeInput = document.querySelector(".tsw-countdown-date");
+
 window.addEventListener("load", () => {
-  const targetDate = "2025-10-31T13:33";
-  CountDownClock.init(targetDate, "local", "dark", 1, 30);
+  // Generate default ISO string for 24 hours from now with Luxon DateTime object
+  const today = luxon.DateTime.local();
+  const tomorrow = today.plus({ days: 1 });
+  const formattedResult = tomorrow.toFormat("yyyy-MM-dd'T'HH:mm");
+  dateTimeInput.value = formattedResult;
+  CountDownClock.init(formattedResult, "local", "light", 1, 30);
 });
 
-/* =-=-=-=-=-=- */
-/* State object */
-/* =-=-=-=-=-=- */
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// Modal and overlay event listeners
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-const countdownState = {
-  timeZone: "local",
-  urgency: 1, // Number of days before target date/time
-  a11yAlertInterval: 10,
-};
+// const countdownWrapper = document.querySelector("#tsw-countdown-id").querySelector("xpr-npi-content").shadowRoot;
+// const countdownEditButton = countdownWrapper.querySelector(".tsw-countdown-edit");
+// const modalOverlay = countdownWrapper.querySelector(".tsw-modal-overlay");
 
-/* =-=-=-=-=-=-= */
-/* Date selector */
-/* =-=-=-=-=-=-= */
+const countdownEditButton = document.querySelector(".tsw-countdown-edit");
+const modalOverlay = document.querySelector(".tsw-modal-overlay");
+const dropdownTheme = document.querySelector("#tsw-dropdown-theme");
+const dropdownTimeZone = document.querySelector("#tsw-dropdown-time-zone");
 
-const selectedDate = document.querySelector(".tsw-countdown-date");
-const selectedDateSubmitButton = document.querySelector(".tsw-countdown-date-submit");
+// Open modal
+countdownEditButton.addEventListener("click", () => {
+  // Pre-populate modal fields and dropdowns with current clock state
+  dateTimeInput.value = CountDownClock.selectedDate;
+  dropdownTheme.value = CountDownClock.theme;
+  dropdownTimeZone.value = CountDownClock.timeZoneForTarget;
+  // Open modal
+  modalOverlay.classList.add("is-visible");
+});
 
-selectedDateSubmitButton.addEventListener("click", () => {
-  const timeZone = countdownState.timeZone;
-
-  console.log(selectedDate.value);
-
-  if (!selectedDate.value) {
-    alert("Target date not chosen. Select target date.");
-  } else {
-    const urgency = countdownState.urgency;
-    const a11yAlertInterval = countdownState.a11yAlertInterval;
-    CountDownClock.init(selectedDate.value, timeZone, urgency, a11yAlertInterval);
+// Close modal
+modalOverlay.addEventListener("click", (event) => {
+  if (event.target === modalOverlay) {
+    modalOverlay.classList.remove("is-visible");
   }
 });
 
-/* =-=-=-=-=-=-=-=- */
-/* Time zone toggle */
-/* =-=-=-=-=-=-=-=- */
-
-const timeZoneToggleButton = document.querySelector(".tsw-time-zone-toggle");
-const timeZoneStatus = document.querySelector(".tsw-countdown-status-time-zone");
-
-const updateTimeZone = (isInitialLoad = false) => {
-  if (isInitialLoad) {
-    countdownState.timeZone = "local";
-    timeZoneToggleButton.textContent = "eastern";
-  } else {
-    timeZoneToggleButton.textContent = countdownState.timeZone;
-    countdownState.timeZone = countdownState.timeZone === "local" ? "eastern" : "local";
-  }
-
-  timeZoneStatus.textContent = `Time zone of target: ${countdownState.timeZone}`;
-};
-
-timeZoneToggleButton.addEventListener("click", () => updateTimeZone(false));
-
-updateTimeZone(true);
-
-/* =-=-=-=-=-=- */
-/* Theme toggle */
-/* =-=-=-=-=-=- */
-
-const themeToggleButton = document.querySelector(".tsw-theme-toggle");
-const themeStatus = document.querySelector(".tsw-countdown-status-theme");
-
-const setTheme = (theme) => {
-  const isDark = theme === "dark";
-
-  document.body.classList.toggle("dark-theme", isDark);
-  localStorage.setItem("theme", theme);
-  themeToggleButton.textContent = isDark ? "Light theme" : "Dark theme";
-  themeStatus.textContent = `Current theme: ${isDark ? "Dark" : "Light"}`;
-};
-
-const setThemeOnLoad = () => {
-  const savedTheme = localStorage.getItem("theme");
-  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-  setTheme(savedTheme || (prefersDark ? "dark" : "light"));
-};
-
-themeToggleButton.addEventListener("click", () => {
-  localStorage.getItem("theme") === "dark" ? setTheme("light") : setTheme("dark");
+// Change theme
+dropdownTheme.addEventListener("change", (event) => {
+  CountDownClock.setTheme(event.target.value);
 });
 
-setThemeOnLoad();
+// Change time zone
+dropdownTimeZone.addEventListener("change", (event) => {
+  CountDownClock.timeZoneForTarget = event.target.value;
+  clearInterval(CountDownClock.countDown);
+  CountDownClock.countDownToThisTime = CountDownClock.setTimeZoneForTarget(CountDownClock.selectedDate);
+  CountDownClock.startCountDown();
+});
+
+// Change target date
+dateTimeInput.addEventListener("change", (event) => {
+  const newDateTime = event.target.value;
+
+  if (!newDateTime) return;
+
+  const selectedTime = CountDownClock.setTimeZoneForTarget(newDateTime);
+  if (selectedTime < Date.now()) {
+    alert("Please select a future date and time");
+    dateTimeInput.value = CountDownClock.selectedDate;
+    return;
+  }
+
+  clearInterval(CountDownClock.countDown);
+  CountDownClock.selectedDate = newDateTime;
+  CountDownClock.countDownToThisTime = selectedTime;
+
+  CountDownClock.countDown = CountDownClock.startCountDown();
+});

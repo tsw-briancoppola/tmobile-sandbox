@@ -15,7 +15,7 @@ const CountDownClock = {
   theme: "light",
   urgencyInterval: 1,
   a11yAlertInterval: 10,
-  init(selectedDateArg, timeZoneArg, themeArg, urgencyIntervalArg, a11yAlertIntervalArg) {
+  init(selectedDateArg, timeZoneArg, placementArg, themeArg, urgencyIntervalArg, a11yAlertIntervalArg) {
     // this.countDownWrapper = document.querySelector("#tsw-countdown-id").querySelector("xpr-npi-content");
     // this.countDownEl = this.countDownWrapper.shadowRoot.querySelector(".tsw-countdown");
 
@@ -27,13 +27,18 @@ const CountDownClock = {
       }
       this.a11yAlertInterval = a11yAlertIntervalArg;
     }
+    this.placement = placementArg;
     this.timeZoneForTarget = timeZoneArg;
     this.theme = themeArg;
     this.urgencyInterval = urgencyIntervalArg;
     this.selectedDate = selectedDateArg;
+    this.setPlacement(this.placement);
     this.countDownToThisTime = this.setTimeZoneForTarget(selectedDateArg);
     this.setTheme(this.theme);
     this.countDown = this.startCountDown();
+  },
+  setPlacement(placement) {
+    this.countDownEl.setAttribute("tsw-placement", placement);
   },
   setTimeZoneForTarget(date) {
     if (this.timeZoneForTarget === "eastern") {
@@ -58,7 +63,6 @@ const CountDownClock = {
     }, 1000);
   },
   setView(seconds) {
-    console.log("triggered");
     const displayDays = this.countDownEl.querySelector(".tsw-countdown-days");
     const displayHours = this.countDownEl.querySelector(".tsw-countdown-hours");
     const displayMinutes = this.countDownEl.querySelector(".tsw-countdown-minutes");
@@ -101,7 +105,7 @@ window.addEventListener("load", () => {
   const tomorrow = today.plus({ days: 1 });
   const formattedResult = tomorrow.toFormat("yyyy-MM-dd'T'HH:mm");
   dateTimeInput.value = formattedResult;
-  CountDownClock.init(formattedResult, "local", "light", 1, 30);
+  CountDownClock.init(formattedResult, "local", "card", "light", 1, 30);
 });
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -114,8 +118,9 @@ window.addEventListener("load", () => {
 
 const countdownEditButton = document.querySelector(".tsw-countdown-edit");
 const modalOverlay = document.querySelector(".tsw-modal-overlay");
-const dropdownTheme = document.querySelector("#tsw-dropdown-theme");
+const dropdownPlacement = document.querySelector("#tsw-dropdown-placement");
 const dropdownTimeZone = document.querySelector("#tsw-dropdown-time-zone");
+const dropdownTheme = document.querySelector("#tsw-dropdown-theme");
 
 // Open modal
 countdownEditButton.addEventListener("click", () => {
@@ -134,17 +139,10 @@ modalOverlay.addEventListener("click", (event) => {
   }
 });
 
-// Change theme
-dropdownTheme.addEventListener("change", (event) => {
-  CountDownClock.setTheme(event.target.value);
-});
-
-// Change time zone
-dropdownTimeZone.addEventListener("change", (event) => {
-  CountDownClock.timeZoneForTarget = event.target.value;
-  clearInterval(CountDownClock.countDown);
-  CountDownClock.countDownToThisTime = CountDownClock.setTimeZoneForTarget(CountDownClock.selectedDate);
-  CountDownClock.startCountDown();
+// Change placement
+dropdownPlacement.addEventListener("change", (event) => {
+  CountDownClock.placement = event.target.value;
+  CountDownClock.setPlacement(event.target.value);
 });
 
 // Change target date
@@ -165,4 +163,18 @@ dateTimeInput.addEventListener("change", (event) => {
   CountDownClock.countDownToThisTime = selectedTime;
 
   CountDownClock.countDown = CountDownClock.startCountDown();
+});
+
+// Change time zone
+dropdownTimeZone.addEventListener("change", (event) => {
+  CountDownClock.timeZoneForTarget = event.target.value;
+  clearInterval(CountDownClock.countDown);
+  CountDownClock.countDownToThisTime = CountDownClock.setTimeZoneForTarget(CountDownClock.selectedDate);
+  CountDownClock.startCountDown();
+});
+
+// Change theme
+dropdownTheme.addEventListener("change", (event) => {
+  CountDownClock.theme = event.target.value;
+  CountDownClock.setTheme(event.target.value);
 });

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- GSAP links -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <!-- JS link -->
+    <script defer src="script.js"></script>
+    <!-- CSS link -->
+    <link rel="stylesheet" href="styles.css" type="text/css" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <div class="tsw-slide-panel-container">
+      <!-- <div class="progress-bar"></div> -->
+      <!-- <div class="section-number">Section <span id="current-section">1</span> / 5</div> -->
+
+      <div class="tsw-slide-panel tsw-panel1">
+        <div class="tsw-content">
+          <h1>GSAP scrolling panels!</h1>
+        </div>
+        <div class="tsw-content tsw-scroll-indicator">
+          <p>Scroll down</p>
+          <!-- Use a new SVG path and potentially adjust the viewbox -->
+          <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#e3e3e3">
+            <!-- This path is from your original code, which might have internal spacing issues -->
+            <path
+              d="M480-200 240-440l46.67-46.67 193.33 193 193.33-193L720-440 480-200Zm0-248.67-240-240 46.67-46.66 193.33 193 193.33-193L720-688.67l-240 240Z"
+            />
+          </svg>
+        </div>
+      </div>
+
+      <div class="tsw-slide-panel tsw-panel2">
+        <div class="tsw-content">
+          <h1>Panel 2</h1>
+          <p>Pretty cool, huh?</p>
+        </div>
+      </div>
+
+      <div class="tsw-slide-panel tsw-panel3">
+        <div class="tsw-content">
+          <h1>Panel 3</h1>
+          <p>Another one</p>
+        </div>
+      </div>
+
+      <div class="tsw-slide-panel tsw-panel4">
+        <div class="tsw-content">
+          <h1>Panel 4</h1>
+          <p>Yet another one</p>
+        </div>
+      </div>
+
+      <div class="tsw-slide-panel tsw-panel5">
+        <div class="tsw-content">
+          <h1>Panel 5</h1>
+          <p>Last one!</p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

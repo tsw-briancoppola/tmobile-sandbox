@@ -58,7 +58,11 @@ class CountDownClock {
   }
 
   setTheme(theme) {
-    theme === "dark" ? this.countDownEl.classList.add("dark-theme") : this.countDownEl.classList.remove("dark-theme");
+    this.countDownEl.classList.remove("dark-theme");
+    this.countDownEl.classList.remove("magenta-theme");
+
+    if (theme === "dark") this.countDownEl.classList.add("dark-theme");
+    if (theme === "magenta") this.countDownEl.classList.add("magenta-theme");
   }
 
   startCountDown() {

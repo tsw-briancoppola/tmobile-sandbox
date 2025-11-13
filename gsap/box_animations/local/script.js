@@ -30,7 +30,7 @@ const tswButtonScale = document.querySelector(".tsw-button-scale");
 const tswButtonBounce = document.querySelector(".tsw-button-bounce");
 
 tswButtonSpin.addEventListener("click", () => {
-  gsap.to(".tsw-box", { rotation: 360, duration: 1, ease: "power2.out", yoyo: true, repeat: 1 });
+  gsap.to(".tsw-box", { rotation: 360, duration: 1, ease: "power2.out", stagger: 0.2, yoyo: true, repeat: 1 });
 });
 
 tswButtonScale.addEventListener("click", () => {

@@ -23,8 +23,12 @@
 .tsw-countdown {
   --countdown-text-color: var(--color-brand-grayscale-900);
   --countdown-background-color: var(--color-brand-grayscale-white);
+  --time-unit-number-color: var(--color-brand-primary-400);
   --time-unit-text-color: var(--color-brand-grayscale-white);
   --time-unit-background-color: var(--color-brand-grayscale-900);
+  --status-alert-text: var(--color-brand-primary-400);
+  --button-text-color: var(--color-brand-grayscale-white);
+  --button-background-color: var(--color-brand-primary-400);
 
   display: flex;
   flex-direction: column;
@@ -39,8 +43,23 @@
 .tsw-countdown.dark-theme {
   --countdown-text-color: var(--color-brand-grayscale-white);
   --countdown-background-color: var(--color-brand-grayscale-900);
+  --time-unit-number-color: var(--color-brand-primary-400);
   --time-unit-text-color: var(--color-brand-grayscale-900);
   --time-unit-background-color: var(--color-brand-grayscale-white);
+  --status-alert-text: var(--color-brand-primary-400);
+  --button-text-color: var(--color-brand-grayscale-white);
+  --button-background-color: var(--color-brand-primary-400);
+}
+
+.tsw-countdown.magenta-theme {
+  --countdown-text-color: var(--color-brand-grayscale-white);
+  --countdown-background-color: var(--color-brand-primary-400);
+  --time-unit-number-color: var(--color-brand-grayscale-900);
+  --time-unit-text-color: var(--color-brand-grayscale-900);
+  --time-unit-background-color: var(--color-brand-grayscale-white);
+  --status-alert-text: var(--color-brand-grayscale-white);
+  --button-text-color: var(--color-brand-primary-400);
+  --button-background-color: var(--color-brand-grayscale-white);
 }
 
 /* UI Elements */
@@ -51,8 +70,9 @@
   font-size: 14px;
   font-weight: 700;
   border: 0;
-  color: var(--color-brand-grayscale-white);
-  background-color: var(--color-brand-primary-400);
+  color: var(--button-text-color);
+  background-color: var(--button-background-color);
+  box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.5);
 }
 
 /* Modal and overlay */
@@ -197,7 +217,7 @@
   font-size: 3rem;
   line-height: 4rem;
   font-weight: 700;
-  color: var(--color-brand-primary-400);
+  color: var(--time-unit-number-color);
 }
 
 .tsw-countdown-clock .tsw-time-colon {
@@ -212,6 +232,8 @@
   text-align: center;
 }
 .tsw-countdown-status .tsw-countdown-status-alert {
+  font-size: 18px;
+  font-weight: 600;
   margin: 0;
-  color: var(--color-brand-primary-400);
+  color: var(--status-alert-text);
 }

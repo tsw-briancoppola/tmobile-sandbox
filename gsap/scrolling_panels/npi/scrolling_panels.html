@@ -1,0 +1,261 @@
+<!-- Countdown clock - CSS -->
+
+<style>
+  .tsw-slide-panel-container {
+    --tsw-font-display: "TeleNeo Web", var(--phx--text-family-brand), -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    --tsw-font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif,
+      "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+
+    --tsw-font-size: 16px;
+    --color-brand-primary-400: #e20074;
+    --color-brand-primary-600: #770141;
+    --color-brand-grayscale-400: #ccc;
+    --color-brand-grayscale-500: #8c8c8c;
+    --color-brand-grayscale-600: #6a6a6a;
+    --color-brand-grayscale-700: #414141;
+    --color-brand-grayscale-900: #1c1c1c;
+    --color-brand-grayscale-white: #fff;
+
+    --color-overlay: rgba(0, 0, 0, 0.4);
+    --color-input-shadow: 0px 0px 5px 0px rgba(226, 0, 116, 0.5);
+
+    font-family: var(--tsw-font-main);
+
+    --slide-panel-text-color: var(--color-brand-grayscale-900);
+    --slide-panel-background-color: var(--color-brand-grayscale-white);
+
+    padding: 2rem;
+    color: var(--slide-panel-text-color);
+    background-color: var(--slide-panel-background-color);
+  }
+
+  .tsw-slide-panel-container.dark-theme {
+    --slide-panel-text-color: var(--color-brand-grayscale-white);
+    --slide-panel-background-color: var(--color-brand-grayscale-900);
+  }
+
+  /* Reset */
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: "Arial", sans-serif;
+    overflow-x: hidden;
+    margin: 0;
+  }
+
+  /* Panel styles */
+
+  .tsw-slide-panel {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .tsw-panel1 {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    z-index: 1;
+  }
+
+  .tsw-panel2 {
+    background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    transform: translateX(100%);
+    z-index: 2;
+  }
+
+  .tsw-panel3 {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+    transform: translateX(-100%);
+    z-index: 3;
+  }
+
+  .tsw-panel4 {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+    transform: translateY(100%);
+    z-index: 4;
+  }
+
+  .tsw-panel5 {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    transform: translateY(-100%);
+    z-index: 5;
+  }
+
+  /* Panel content styles */
+
+  .tsw-content {
+    text-align: center;
+    color: white;
+    padding: 40px;
+    max-width: 800px;
+  }
+
+  .tsw-content h1 {
+    font-size: 4em;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .tsw-content p {
+    font-size: 1.5em;
+    line-height: 1.6;
+    text-shadow: 1px 1px 10px rgba(0, 0, 0, 0.3);
+  }
+
+  /* Scroll styles */
+
+  .tsw-scroll-indicator {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    font-size: 1em;
+    z-index: 10;
+  }
+  .tsw-scroll-indicator svg {
+    fill: white;
+    font-size: 1em;
+    opacity: 0.8;
+    animation: bounce 2s infinite;
+  }
+
+  @keyframes bounce {
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-14px);
+    }
+    60% {
+      transform: translateY(-8px);
+    }
+  }
+
+  /* Box styles */
+
+  .box1 {
+    width: 100px;
+    height: 100px;
+    background-color: #009900;
+  }
+</style>
+
+<!-- Countdown clock - HTML -->
+
+<div class="tsw-slide-panel-container">
+  <!-- <div class="progress-bar"></div> -->
+  <!-- <div class="section-number">Section <span id="current-section">1</span> / 5</div> -->
+
+  <div class="tsw-slide-panel tsw-panel1">
+    <div class="tsw-content">
+      <h1>GSAP scrolling panels!</h1>
+    </div>
+    <div class="box1"></div>
+    <div class="tsw-content tsw-scroll-indicator">
+      <p>Scroll down</p>
+      <svg xmlns="http://www.w3.org/2000/svg" height="40px" viewBox="0 -960 960 960" width="40px" fill="#e3e3e3">
+        <path
+          d="M480-200 240-440l46.67-46.67 193.33 193 193.33-193L720-440 480-200Zm0-248.67-240-240 46.67-46.66 193.33 193 193.33-193L720-688.67l-240 240Z"
+        />
+      </svg>
+    </div>
+  </div>
+
+  <div class="tsw-slide-panel tsw-panel2">
+    <div class="tsw-content">
+      <h1>Panel 2</h1>
+      <p>Pretty cool, huh?</p>
+    </div>
+  </div>
+
+  <div class="tsw-slide-panel tsw-panel3">
+    <div class="tsw-content">
+      <h1>Panel 3</h1>
+      <p>Another one</p>
+    </div>
+  </div>
+
+  <div class="tsw-slide-panel tsw-panel4">
+    <div class="tsw-content">
+      <h1>Panel 4</h1>
+      <p>Yet another one</p>
+    </div>
+  </div>
+
+  <div class="tsw-slide-panel tsw-panel5">
+    <div class="tsw-content">
+      <h1>Panel 5</h1>
+      <p>Last one!</p>
+    </div>
+  </div>
+</div>
+
+<!-- Countdown clock - JavaScript -->
+
+<script>
+  const slidePanelWrapper = document.querySelector("#tsw-slide-panel-id").querySelector("xpr-npi-content").shadowRoot;
+  const slidePanel1 = slidePanelWrapper.querySelector(".tsw-panel1");
+  const slidePanel2 = slidePanelWrapper.querySelector(".tsw-panel2");
+  const slidePanel3 = slidePanelWrapper.querySelector(".tsw-panel3");
+  const slidePanel4 = slidePanelWrapper.querySelector(".tsw-panel4");
+  const slidePanel5 = slidePanelWrapper.querySelector(".tsw-panel5");
+  const box1 = slidePanelWrapper.querySelector(".box1");
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  gsap.to(box1, { rotation: 360, duration: 1, ease: "power2.out", stagger: 0.2, yoyo: true, repeat: 1 });
+
+  // Create timeline for all panel animations
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: slidePanel1,
+      start: "top top",
+      end: "+=4000",
+      scrub: 1,
+      pin: true,
+    },
+  });
+
+  // Add panel animations to timeline with sequential timing
+  tl.to(slidePanel2, { x: "0%", duration: 1 }, 0)
+    .to(slidePanel3, { x: "0%", duration: 1 }, 1)
+    .to(slidePanel4, { y: "0%", duration: 1 }, 2)
+    .to(slidePanel5, { y: "0%", duration: 1 }, 3);
+
+  window.addEventListener("load", () => {
+    // addContent();
+    // animateBoxes();
+
+    // Create timeline for all panel animations
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: slidePanel1,
+        start: "top top",
+        end: "+=4000",
+        scrub: 1,
+        pin: true,
+      },
+    });
+
+    // Add panel animations to timeline with sequential timing
+    tl.to(slidePanel2, { x: "0%", duration: 1 }, 0)
+      .to(slidePanel3, { x: "0%", duration: 1 }, 1)
+      .to(slidePanel4, { y: "0%", duration: 1 }, 2)
+      .to(slidePanel5, { y: "0%", duration: 1 }, 3);
+  });
+</script>

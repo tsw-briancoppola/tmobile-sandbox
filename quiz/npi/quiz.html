@@ -1,0 +1,429 @@
+<!-- Countdown clock - CSS -->
+
+<style>
+  .tsw-quiz {
+    --tsw-font-display: "TeleNeo Web", var(--phx--text-family-brand), -apple-system, BlinkMacSystemFont, "Segoe UI",
+      Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    --tsw-font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif,
+      "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+
+    --tsw-font-size: 16px;
+    --color-brand-primary-400: #e20074;
+    --color-brand-primary-600: #770141;
+    --color-brand-grayscale-400: #ccc;
+    --color-brand-grayscale-500: #8c8c8c;
+    --color-brand-grayscale-600: #6a6a6a;
+    --color-brand-grayscale-700: #414141;
+    --color-brand-grayscale-900: #1c1c1c;
+    --color-brand-grayscale-white: #fff;
+
+    --color-overlay: rgba(0, 0, 0, 0.4);
+    --color-input-shadow: 0px 0px 5px 0px rgba(226, 0, 116, 0.5);
+
+    font-family: var(--tsw-font-main);
+
+    --quiz-text-color: var(--color-brand-grayscale-600);
+    --quiz-highlight-color: var(--color-brand-primary-400);
+    --quiz-background-color: var(--color-brand-grayscale-white);
+
+    color: var(--quiz-text-color);
+    background-color: var(--quiz-background-color);
+  }
+
+  /* .tsw-quiz.dark-theme {
+  --quiz-text-color: var(--color-brand-grayscale-white);
+  --quiz-background-color: var(--color-brand-grayscale-900);
+} */
+
+  /* Reset */
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: "Arial", sans-serif;
+    overflow-x: hidden;
+    margin: 0;
+  }
+
+  ul {
+    list-style-type: none;
+  }
+
+  /* UI elements */
+
+  .tsw-quiz button {
+    cursor: pointer;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: 700;
+    border: 0;
+    border-radius: 5px;
+    color: var(--color-brand-grayscale-white);
+    background-color: var(--color-brand-primary-400);
+    /* box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.5); */
+  }
+  .tsw-quiz button:disabled {
+    cursor: inherit;
+    background-color: var(--color-brand-grayscale-500);
+  }
+
+  /* Quiz checklist styles */
+
+  .tsw-quiz {
+    display: flex;
+    justify-content: space-between;
+    max-width: 1200px;
+    padding: 30px;
+    margin: 0 auto;
+  }
+
+  .tsw-quiz h2 {
+    color: var(--quiz-highlight-color);
+    margin-bottom: 20px;
+    line-height: 30px;
+  }
+  .tsw-quiz p {
+    line-height: 22px;
+  }
+
+  .tsw-quiz-checklist {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 24px;
+    flex: 0 0 280px;
+    border-right: 1px solid var(--color-brand-grayscale-400);
+  }
+  .tsw-quiz-checklist li {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    cursor: pointer;
+  }
+  .tsw-quiz-checklist li.active {
+    color: var(--quiz-highlight-color);
+  }
+
+  .tsw-quiz-checklist li svg {
+    width: 24px;
+    height: 24px;
+  }
+  .tsw-quiz-checklist .tsw-radio-checked {
+    display: none;
+  }
+  .tsw-quiz-checklist li.active .tsw-radio-checked {
+    display: block;
+  }
+  .tsw-quiz-checklist li.active .tsw-radio-unchecked {
+    display: none;
+  }
+
+  /* Quiz main content styles */
+
+  .tsw-quiz-main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 0 50px;
+  }
+
+  .tsw-quiz-panel {
+    display: none;
+  }
+  .tsw-quiz-panel.active {
+    display: block;
+  }
+
+  /* Quiz choice button styles */
+
+  .tsw-quiz-choice-buttons {
+    display: flex;
+    gap: 10px;
+    margin: 30px auto 0;
+  }
+  .tsw-quiz-choice-buttons label {
+    padding: 10px 15px;
+    border: 1px solid var(--color-brand-grayscale-900);
+    border-radius: 50px;
+    height: fit-content;
+    line-height: normal;
+    cursor: pointer;
+  }
+  .tsw-quiz-choice-buttons input {
+    opacity: 0;
+    position: absolute;
+    width: 0;
+    height: 0;
+  }
+  .tsw-quiz-choice-buttons input:checked + label {
+    color: var(--color-brand-grayscale-white);
+    background-color: var(--color-brand-grayscale-900);
+    border: 1px solid var(--color-brand-grayscale-900);
+  }
+  .tsw-quiz-choice-buttons input:checked + label::before {
+    content: "\2713 "; /* Unicode checkmark symbol */
+    padding-right: 10px;
+  }
+
+  /* Quiz stepper button styles */
+
+  .tsw-quiz-stepper-buttons {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* Quiz svg icon styles */
+
+  .tsw-quiz-svg-icons {
+    display: none;
+  }
+  #tsw-radio-checked-svg {
+    fill: var(--quiz-highlight-color);
+  }
+  #tsw-radio-unchecked-svg {
+    fill: var(--quiz-text-color);
+  }
+</style>
+
+<!-- Quiz - HTML -->
+
+<div class="tsw-quiz">
+  <ul class="tsw-quiz-checklist">
+    <li>
+      <svg class="tsw-radio-checked"><use xlink:href="#tsw-radio-checked-svg" /></svg>
+      <svg class="tsw-radio-unchecked"><use xlink:href="#tsw-radio-unchecked-svg" /></svg>
+      <span>Getting Started</span>
+    </li>
+    <li>
+      <svg class="tsw-radio-checked"><use xlink:href="#tsw-radio-checked-svg" /></svg>
+      <svg class="tsw-radio-unchecked"><use xlink:href="#tsw-radio-unchecked-svg" /></svg>
+      <span>Phone Plan</span>
+    </li>
+    <li>
+      <svg class="tsw-radio-checked"><use xlink:href="#tsw-radio-checked-svg" /></svg>
+      <svg class="tsw-radio-unchecked"><use xlink:href="#tsw-radio-unchecked-svg" /></svg>
+      <span>Line Selection</span>
+    </li>
+    <li>
+      <svg class="tsw-radio-checked"><use xlink:href="#tsw-radio-checked-svg" /></svg>
+      <svg class="tsw-radio-unchecked"><use xlink:href="#tsw-radio-unchecked-svg" /></svg>
+      <span>Device Compatibility</span>
+    </li>
+    <li>
+      <svg class="tsw-radio-checked"><use xlink:href="#tsw-radio-checked-svg" /></svg>
+      <svg class="tsw-radio-unchecked"><use xlink:href="#tsw-radio-unchecked-svg" /></svg>
+      <span>Transfer your number</span>
+    </li>
+    <li>
+      <svg class="tsw-radio-checked"><use xlink:href="#tsw-radio-checked-svg" /></svg>
+      <svg class="tsw-radio-unchecked"><use xlink:href="#tsw-radio-unchecked-svg" /></svg>
+      <span>Review / Switch</span>
+    </li>
+  </ul>
+
+  <div class="tsw-quiz-main">
+    <div class="tsw-quiz-panels">
+      <div class="tsw-quiz-panel tsw-quiz-panel--1">
+        <h2>Getting Started / Switcher Headline / Switch to TMO and take control of your wireless plan.</h2>
+        <p>
+          Save more and switch with confidence. T-Mobile makes it easy to bring your phone, keep your number, and enjoy
+          the freedom of America's largest 5G network. Let's get started.
+        </p>
+      </div>
+
+      <div class="tsw-quiz-panel tsw-quiz-panel--2">
+        <h2>Do you know what T-Mobile phone plan you want?</h2>
+        <p>
+          Knowing what you want is the first step to switching with confidence. From individual lines to family plans
+          packed with value, T-Mobile makes it easy to find the plan that fits your needs and your budget.
+        </p>
+        <div class="tsw-quiz-choice-buttons">
+          <input type="radio" id="tsw-knows-plan--no" name="tsw-knows-plan" value="no" />
+          <label for="tsw-knows-plan--no">No, I don't know</label>
+          <input type="radio" id="tsw-knows-plan--yes" name="tsw-knows-plan" value="yes" />
+          <label for="tsw-knows-plan--yes">Yes, I already know my plan</label>
+        </div>
+      </div>
+
+      <div class="tsw-quiz-panel tsw-quiz-panel--3">
+        <h2>How many lines are you bringing?</h2>
+        <p>
+          Sed tincidunt nibh posuere fringilla phasellus in elementum. Sodales cursus penatibus cursus amet quisque odio
+          ornare. Ullamcorper et enim nullam a est in. Enim diam id egestas aliquet pretium habitasse. Felis felis.
+        </p>
+        <div class="tsw-quiz-choice-buttons">
+          <input type="radio" id="tsw-lines--1" name="tsw-line-count" value="1" />
+          <label for="tsw-lines--1">1</label>
+          <input type="radio" id="tsw-lines--2" name="tsw-line-count" value="2" />
+          <label for="tsw-lines--2">2</label>
+          <input type="radio" id="tsw-lines--3" name="tsw-line-count" value="3" />
+          <label for="tsw-lines--3">3</label>
+          <input type="radio" id="tsw-lines--4" name="tsw-line-count" value="4" />
+          <label for="tsw-lines--4">4</label>
+          <input type="radio" id="tsw-lines--5plus" name="tsw-line-count" value="5+" />
+          <label for="tsw-lines--5plus">5+</label>
+        </div>
+      </div>
+
+      <div class="tsw-quiz-panel tsw-quiz-panel--4">
+        <h2>Panel 4</h2>
+        <p></p>
+      </div>
+
+      <div class="tsw-quiz-panel tsw-quiz-panel--5">
+        <h2>Panel 5</h2>
+        <p></p>
+      </div>
+
+      <div class="tsw-quiz-panel tsw-quiz-panel--6">
+        <h2>Panel 6</h2>
+        <p></p>
+      </div>
+    </div>
+
+    <div class="tsw-quiz-stepper-buttons">
+      <button type="button" class="tsw-quiz-button-back">Back</button>
+      <button type="button" class="tsw-quiz-button-next">Next</button>
+    </div>
+  </div>
+</div>
+
+<div class="tsw-quiz-svg-icons">
+  <svg
+    id="tsw-radio-checked-svg"
+    xmlns="http://www.w3.org/2000/svg"
+    height="24px"
+    viewBox="0 -960 960 960"
+    width="24px"
+    fill="#e3e3e3"
+  >
+    <path
+      d="M480-280q83 0 141.5-58.5T680-480q0-83-58.5-141.5T480-680q-83 0-141.5 58.5T280-480q0 83 58.5 141.5T480-280Zm0 200q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Z"
+    />
+  </svg>
+  <svg
+    id="tsw-radio-unchecked-svg"
+    xmlns="http://www.w3.org/2000/svg"
+    height="24px"
+    viewBox="0 -960 960 960"
+    width="24px"
+    fill="#e3e3e3"
+  >
+    <path
+      d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Z"
+    />
+  </svg>
+</div>
+
+<!-- Countdown clock - JavaScript -->
+
+<script>
+  const quizWrapper = document.querySelector("#tsw-quiz").querySelector("xpr-npi-content").shadowRoot;
+
+  const listItems = quizWrapper.querySelectorAll(".tsw-quiz-checklist li");
+  const panels = quizWrapper.querySelectorAll(".tsw-quiz-panel");
+  const backButton = quizWrapper.querySelector(".tsw-quiz-button-back");
+  const nextButton = quizWrapper.querySelector(".tsw-quiz-button-next");
+  const choiceButtonsKnowsPlan = quizWrapper.querySelectorAll('input[name="tsw-knows-plan"]');
+  const choiceButtonsLineCount = quizWrapper.querySelectorAll('input[name="tsw-line-count"]');
+
+  // User state object
+  let quizState = {
+    currentListItem: 0,
+    knowsPlan: null,
+    lineCount: 0,
+  };
+
+  const updateCurrentListItem = (index) => {
+    // Remove 'active' from all list items and panels
+    listItems.forEach((item) => {
+      item.classList.remove("active");
+    });
+    panels.forEach((panel) => {
+      panel.classList.remove("active");
+    });
+
+    // Add 'active' to new list item and panel
+    listItems[index].classList.add("active");
+    panels[index].classList.add("active");
+
+    // Update quizState.currentListItem
+    quizState.currentListItem = index;
+
+    // Update local storage
+    localStorage.setItem("tsw-quiz", JSON.stringify(quizState));
+  };
+
+  const updateStepperButtons = () => {
+    backButton.disabled = quizState.currentListItem <= 0;
+    nextButton.disabled = quizState.currentListItem >= listItems.length - 1;
+  };
+
+  // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+  // List and button event handlers
+  // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+  listItems.forEach((item, index) => {
+    item.addEventListener("click", () => {
+      updateCurrentListItem(index);
+      updateStepperButtons();
+    });
+  });
+
+  // Stepper buttons
+
+  backButton.addEventListener("click", () => {
+    updateCurrentListItem(quizState.currentListItem - 1);
+    updateStepperButtons();
+  });
+
+  nextButton.addEventListener("click", () => {
+    updateCurrentListItem(quizState.currentListItem + 1);
+    updateStepperButtons();
+  });
+
+  // Choice buttons
+
+  choiceButtonsKnowsPlan.forEach((radio) => {
+    radio.addEventListener("change", function () {
+      quizState.knowsPlan = this.value;
+      localStorage.setItem("tsw-quiz", JSON.stringify(quizState));
+    });
+  });
+
+  choiceButtonsLineCount.forEach((radio) => {
+    radio.addEventListener("change", function () {
+      quizState.lineCount = this.value;
+      localStorage.setItem("tsw-quiz", JSON.stringify(quizState));
+    });
+  });
+
+  // =-=-=-=
+  // On load
+  // =-=-=-=
+
+  const initChoiceButtons = (local) => {
+    choiceButtonsKnowsPlan.forEach((button) => {
+      if (button.value === local.knowsPlan) button.checked = true;
+    });
+    choiceButtonsLineCount.forEach((button) => {
+      if (button.value === local.lineCount) button.checked = true;
+    });
+  };
+
+  const init = () => {
+    const localStorageData = JSON.parse(localStorage.getItem("tsw-quiz"));
+    if (localStorageData) quizState = localStorageData;
+
+    updateCurrentListItem(quizState.currentListItem);
+    initChoiceButtons(quizState);
+    updateStepperButtons();
+  };
+
+  init();
+</script>

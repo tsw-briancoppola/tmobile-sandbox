@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Google material icons link -->
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <!-- JS link -->
+    <script defer src="script.js"></script>
+    <!-- CSS link -->
+    <link rel="stylesheet" href="styles.css" type="text/css" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <div class="tsw-quiz">
+      <ul class="tsw-quiz-checklist">
+        <li>
+          <svg class="tsw-radio-checked"><use xlink:href="#tsw-radio-checked-svg" /></svg>
+          <svg class="tsw-radio-unchecked"><use xlink:href="#tsw-radio-unchecked-svg" /></svg>
+          <span>Getting Started</span>
+        </li>
+        <li>
+          <svg class="tsw-radio-checked"><use xlink:href="#tsw-radio-checked-svg" /></svg>
+          <svg class="tsw-radio-unchecked"><use xlink:href="#tsw-radio-unchecked-svg" /></svg>
+          <span>Phone Plan</span>
+        </li>
+        <li>
+          <svg class="tsw-radio-checked"><use xlink:href="#tsw-radio-checked-svg" /></svg>
+          <svg class="tsw-radio-unchecked"><use xlink:href="#tsw-radio-unchecked-svg" /></svg>
+          <span>Line Selection</span>
+        </li>
+        <li>
+          <svg class="tsw-radio-checked"><use xlink:href="#tsw-radio-checked-svg" /></svg>
+          <svg class="tsw-radio-unchecked"><use xlink:href="#tsw-radio-unchecked-svg" /></svg>
+          <span>Device Compatibility</span>
+        </li>
+        <li>
+          <svg class="tsw-radio-checked"><use xlink:href="#tsw-radio-checked-svg" /></svg>
+          <svg class="tsw-radio-unchecked"><use xlink:href="#tsw-radio-unchecked-svg" /></svg>
+          <span>Transfer your number</span>
+        </li>
+        <li>
+          <svg class="tsw-radio-checked"><use xlink:href="#tsw-radio-checked-svg" /></svg>
+          <svg class="tsw-radio-unchecked"><use xlink:href="#tsw-radio-unchecked-svg" /></svg>
+          <span>Review / Switch</span>
+        </li>
+      </ul>
+
+      <div class="tsw-quiz-main">
+        <div class="tsw-quiz-panels">
+          <div class="tsw-quiz-panel tsw-quiz-panel--1">
+            <h2>Getting Started / Switcher Headline / Switch to TMO and take control of your wireless plan.</h2>
+            <p>
+              Save more and switch with confidence. T-Mobile makes it easy to bring your phone, keep your number, and
+              enjoy the freedom of America's largest 5G network. Let's get started.
+            </p>
+          </div>
+
+          <div class="tsw-quiz-panel tsw-quiz-panel--2">
+            <h2>Do you know what T-Mobile phone plan you want?</h2>
+            <p>
+              Knowing what you want is the first step to switching with confidence. From individual lines to family
+              plans packed with value, T-Mobile makes it easy to find the plan that fits your needs and your budget.
+            </p>
+            <div class="tsw-quiz-choice-buttons">
+              <input type="radio" id="tsw-knows-plan--no" name="tsw-knows-plan" value="no" />
+              <label for="tsw-knows-plan--no">No, I don't know</label>
+              <input type="radio" id="tsw-knows-plan--yes" name="tsw-knows-plan" value="yes" />
+              <label for="tsw-knows-plan--yes">Yes, I already know my plan</label>
+            </div>
+          </div>
+
+          <div class="tsw-quiz-panel tsw-quiz-panel--3">
+            <h2>How many lines are you bringing?</h2>
+            <p>
+              Sed tincidunt nibh posuere fringilla phasellus in elementum. Sodales cursus penatibus cursus amet quisque
+              odio ornare. Ullamcorper et enim nullam a est in. Enim diam id egestas aliquet pretium habitasse. Felis
+              felis.
+            </p>
+            <div class="tsw-quiz-choice-buttons">
+              <input type="radio" id="tsw-lines--1" name="tsw-line-count" value="1" />
+              <label for="tsw-lines--1">1</label>
+              <input type="radio" id="tsw-lines--2" name="tsw-line-count" value="2" />
+              <label for="tsw-lines--2">2</label>
+              <input type="radio" id="tsw-lines--3" name="tsw-line-count" value="3" />
+              <label for="tsw-lines--3">3</label>
+              <input type="radio" id="tsw-lines--4" name="tsw-line-count" value="4" />
+              <label for="tsw-lines--4">4</label>
+              <input type="radio" id="tsw-lines--5plus" name="tsw-line-count" value="5+" />
+              <label for="tsw-lines--5plus">5+</label>
+            </div>
+          </div>
+
+          <div class="tsw-quiz-panel tsw-quiz-panel--4">
+            <h2>Panel 4</h2>
+            <p></p>
+          </div>
+
+          <div class="tsw-quiz-panel tsw-quiz-panel--5">
+            <h2>Panel 5</h2>
+            <p></p>
+          </div>
+
+          <div class="tsw-quiz-panel tsw-quiz-panel--6">
+            <h2>Panel 6</h2>
+            <p></p>
+          </div>
+        </div>
+
+        <div class="tsw-quiz-stepper-buttons">
+          <button type="button" class="tsw-quiz-button-back">Back</button>
+          <button type="button" class="tsw-quiz-button-next">Next</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="tsw-quiz-svg-icons">
+      <svg
+        id="tsw-radio-checked-svg"
+        xmlns="http://www.w3.org/2000/svg"
+        height="24px"
+        viewBox="0 -960 960 960"
+        width="24px"
+        fill="#e3e3e3"
+      >
+        <path
+          d="M480-280q83 0 141.5-58.5T680-480q0-83-58.5-141.5T480-680q-83 0-141.5 58.5T280-480q0 83 58.5 141.5T480-280Zm0 200q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Z"
+        />
+      </svg>
+      <svg
+        id="tsw-radio-unchecked-svg"
+        xmlns="http://www.w3.org/2000/svg"
+        height="24px"
+        viewBox="0 -960 960 960"
+        width="24px"
+        fill="#e3e3e3"
+      >
+        <path
+          d="M480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Zm0-80q134 0 227-93t93-227q0-134-93-227t-227-93q-134 0-227 93t-93 227q0 134 93 227t227 93Z"
+        />
+      </svg>
+    </div>
+  </body>
+</html>

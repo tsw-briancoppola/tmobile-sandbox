@@ -4,12 +4,14 @@ const backButton = document.querySelector(".tsw-quiz-button-back");
 const nextButton = document.querySelector(".tsw-quiz-button-next");
 const choiceButtonsKnowsPlan = document.querySelectorAll('input[name="tsw-knows-plan"]');
 const choiceButtonsLineCount = document.querySelectorAll('input[name="tsw-line-count"]');
+const choiceButtonsDevice = document.querySelectorAll('input[name="tsw-device"]');
 
 // User state object
 let quizState = {
   currentListItem: 0,
   knowsPlan: null,
   lineCount: 0,
+  device: null,
 };
 
 const updateCurrentListItem = (index) => {
@@ -62,16 +64,23 @@ nextButton.addEventListener("click", () => {
 
 // Choice buttons
 
-choiceButtonsKnowsPlan.forEach((radio) => {
-  radio.addEventListener("change", function () {
+choiceButtonsKnowsPlan.forEach((button) => {
+  button.addEventListener("change", function () {
     quizState.knowsPlan = this.value;
     localStorage.setItem("tsw-quiz", JSON.stringify(quizState));
   });
 });
 
-choiceButtonsLineCount.forEach((radio) => {
-  radio.addEventListener("change", function () {
+choiceButtonsLineCount.forEach((button) => {
+  button.addEventListener("change", function () {
     quizState.lineCount = this.value;
+    localStorage.setItem("tsw-quiz", JSON.stringify(quizState));
+  });
+});
+
+choiceButtonsDevice.forEach((button) => {
+  button.addEventListener("change", function () {
+    quizState.device = this.value;
     localStorage.setItem("tsw-quiz", JSON.stringify(quizState));
   });
 });
@@ -86,6 +95,9 @@ const initChoiceButtons = (local) => {
   });
   choiceButtonsLineCount.forEach((button) => {
     if (button.value === local.lineCount) button.checked = true;
+  });
+  choiceButtonsDevice.forEach((button) => {
+    if (button.value === local.device) button.checked = true;
   });
 };
 

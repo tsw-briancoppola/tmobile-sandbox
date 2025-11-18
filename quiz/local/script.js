@@ -89,15 +89,15 @@ choiceButtonsDevice.forEach((button) => {
 // On load
 // =-=-=-=
 
-const initChoiceButtons = (local) => {
+const initChoiceButtons = (state) => {
   choiceButtonsKnowsPlan.forEach((button) => {
-    if (button.value === local.knowsPlan) button.checked = true;
+    if (button.value === state.knowsPlan) button.checked = true;
   });
   choiceButtonsLineCount.forEach((button) => {
-    if (button.value === local.lineCount) button.checked = true;
+    if (button.value === state.lineCount) button.checked = true;
   });
   choiceButtonsDevice.forEach((button) => {
-    if (button.value === local.device) button.checked = true;
+    if (button.value === state.device) button.checked = true;
   });
 };
 

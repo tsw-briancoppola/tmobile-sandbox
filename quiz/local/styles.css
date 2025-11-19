@@ -50,7 +50,7 @@ ul {
   list-style-type: none;
 }
 
-/* Quiz checklist styles */
+/* Quiz styles */
 
 .tsw-quiz {
   display: flex;
@@ -70,9 +70,16 @@ ul {
   margin-bottom: 20px;
   line-height: 30px;
 }
+.tsw-quiz h3 {
+  color: var(--color-brand-grayscale-900);
+  margin-bottom: 20px;
+  line-height: 30px;
+}
 .tsw-quiz p {
   line-height: 22px;
 }
+
+/* Quiz checklist styles */
 
 .tsw-quiz-checklist {
   display: none;
@@ -132,8 +139,17 @@ ul {
 
 .tsw-quiz-panel {
   display: none;
+  flex-direction: column;
+  gap: 40px;
 }
 .tsw-quiz-panel.active {
+  display: flex;
+}
+
+.tsw-quiz-panel-result {
+  display: none;
+}
+.tsw-quiz-panel-result.active {
   display: block;
 }
 
@@ -143,7 +159,6 @@ ul {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
-  margin: 30px auto 0;
 }
 .tsw-quiz-choice-buttons label {
   padding: 10px 15px;
@@ -190,11 +205,12 @@ ul {
   /* box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.5); */
 }
 .tsw-quiz-stepper-buttons button:disabled {
-  display: none;
+  visibility: hidden;
 }
-.tsw-quiz-stepper-buttons button:only-child {
+
+/* .tsw-quiz-stepper-buttons button:only-child {
   margin-left: auto;
-}
+} */
 
 /* Quiz svg icon styles */
 

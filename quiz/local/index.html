@@ -3,8 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Google material icons link -->
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
     <!-- JS link -->
     <script defer src="script.js"></script>
     <!-- CSS link -->
@@ -50,32 +48,41 @@
       <div class="tsw-quiz-main">
         <div class="tsw-quiz-panels">
           <div class="tsw-quiz-panel tsw-quiz-panel--1">
-            <h2>Thinking about switching to T&#8209;Mobile?</h2>
-            <p>Answer a few quick questions and we'll help guide you through the process.</p>
+            <div class="tsw-quiz-panel-header">
+              <h2>Thinking about switching to T&#8209;Mobile?</h2>
+              <p>Answer a few quick questions and we'll help guide you through the process.</p>
+            </div>
           </div>
-
           <div class="tsw-quiz-panel tsw-quiz-panel--2">
-            <h2>Do you know what T&#8209;Mobile phone plan you want?</h2>
-            <p>
-              Knowing what you want is the first step to switching with confidence. From individual lines to family
-              plans packed with value, T&#8209;Mobile makes it easy to find the plan that fits your needs and your
-              budget.
-            </p>
+            <div class="tsw-quiz-panel-header">
+              <h2>Do you know what T&#8209;Mobile phone plan you want?</h2>
+              <p>
+                Knowing what you want is the first step to switching with confidence. From individual lines to family
+                plans packed with value, T&#8209;Mobile makes it easy to find the plan that fits your needs and your
+                budget.
+              </p>
+            </div>
             <div class="tsw-quiz-choice-buttons">
-              <input type="radio" id="tsw-knows-plan--no" name="tsw-knows-plan" value="no" />
+              <input type="radio" id="tsw-knows-plan--no" name="tsw-knows-plan" value="no" data-target="result-no" />
               <label for="tsw-knows-plan--no">No, I don't know</label>
-              <input type="radio" id="tsw-knows-plan--yes" name="tsw-knows-plan" value="yes" />
+              <input type="radio" id="tsw-knows-plan--yes" name="tsw-knows-plan" value="yes" data-target="result-yes" />
               <label for="tsw-knows-plan--yes">Yes, I already know my plan</label>
             </div>
+            <div class="tsw-quiz-panel-result" id="result-no">
+              <h3>That's okay, we'll help you find the perfect plan.</h3>
+            </div>
+            <div class="tsw-quiz-panel-result" id="result-yes"><h3>Excellent!</h3></div>
           </div>
 
           <div class="tsw-quiz-panel tsw-quiz-panel--3">
-            <h2>How many lines are you bringing?</h2>
-            <p>
-              Sed tincidunt nibh posuere fringilla phasellus in elementum. Sodales cursus penatibus cursus amet quisque
-              odio ornare. Ullamcorper et enim nullam a est in. Enim diam id egestas aliquet pretium habitasse. Felis
-              felis.
-            </p>
+            <div class="tsw-quiz-panel-header">
+              <h2>How many lines are you bringing?</h2>
+              <p>
+                Sed tincidunt nibh posuere fringilla phasellus in elementum. Sodales cursus penatibus cursus amet
+                quisque odio ornare. Ullamcorper et enim nullam a est in. Enim diam id egestas aliquet pretium
+                habitasse. Felis felis.
+              </p>
+            </div>
             <div class="tsw-quiz-choice-buttons">
               <input type="radio" id="tsw-lines--1" name="tsw-line-count" value="1" />
               <label for="tsw-lines--1">1</label>
@@ -91,7 +98,9 @@
           </div>
 
           <div class="tsw-quiz-panel tsw-quiz-panel--4">
-            <h2>Do you need to buy a new device or are you bringing your own?</h2>
+            <div class="tsw-quiz-panel-header">
+              <h2>Do you need to buy a new device or are you bringing your own?</h2>
+            </div>
             <div class="tsw-quiz-choice-buttons">
               <input type="radio" id="tsw-device--1" name="tsw-device" value="buy" />
               <label for="tsw-device--1">I need to buy a new device</label>
@@ -103,7 +112,9 @@
           </div>
 
           <div class="tsw-quiz-panel tsw-quiz-panel--5">
-            <h2>Is your device unlocked?</h2>
+            <div class="tsw-quiz-panel-header">
+              <h2>Is your device unlocked?</h2>
+            </div>
             <div class="tsw-quiz-choice-buttons">
               <input type="radio" id="tsw-unlocked--1" name="tsw-unlocked" value="no" />
               <label for="tsw-unlocked--1">No</label>

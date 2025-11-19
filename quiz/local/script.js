@@ -2,10 +2,14 @@ const listItems = document.querySelectorAll(".tsw-quiz-checklist li");
 const panels = document.querySelectorAll(".tsw-quiz-panel");
 const backButton = document.querySelector(".tsw-quiz-button-back");
 const nextButton = document.querySelector(".tsw-quiz-button-next");
-const choiceButtonsKnowsPlan = document.querySelectorAll('input[name="tsw-knows-plan"]');
-const choiceButtonsLineCount = document.querySelectorAll('input[name="tsw-line-count"]');
-const choiceButtonsDevice = document.querySelectorAll('input[name="tsw-device"]');
-const choiceButtonsUnlocked = document.querySelectorAll('input[name="tsw-unlocked"]');
+const panel2buttons = document.querySelectorAll('.tsw-quiz-panel--2 input[type="radio"]');
+const panel2results = document.querySelectorAll(".tsw-quiz-panel--2 .tsw-quiz-panel-result");
+const panel3buttons = document.querySelectorAll('.tsw-quiz-panel--3 input[type="radio"]');
+const panel3results = document.querySelectorAll(".tsw-quiz-panel--3 .tsw-quiz-panel-result");
+const panel4buttons = document.querySelectorAll('.tsw-quiz-panel--4 input[type="radio"]');
+const panel4results = document.querySelectorAll(".tsw-quiz-panel--4 .tsw-quiz-panel-result");
+const panel5buttons = document.querySelectorAll('.tsw-quiz-panel--5 input[type="radio"]');
+const panel5results = document.querySelectorAll(".tsw-quiz-panel--5 .tsw-quiz-panel-result");
 
 // User state object
 let quizState = {
@@ -64,33 +68,33 @@ nextButton.addEventListener("click", () => {
   updateStepperButtons();
 });
 
-// Choice buttons
+// Panel choice buttons and results
 
-choiceButtonsKnowsPlan.forEach((button) => {
-  button.addEventListener("change", function () {
-    quizState.knowsPlan = this.value;
-    localStorage.setItem("tsw-quiz", JSON.stringify(quizState));
-  });
-});
+const choiceButtonMaps = [
+  { buttons: panel2buttons, results: panel2results, stateKey: "knowsPlan" },
+  { buttons: panel3buttons, results: panel3results, stateKey: "lineCount" },
+  { buttons: panel4buttons, results: panel4results, stateKey: "device" },
+  { buttons: panel5buttons, results: panel5results, stateKey: "unlocked" },
+];
 
-choiceButtonsLineCount.forEach((button) => {
-  button.addEventListener("change", function () {
-    quizState.lineCount = this.value;
-    localStorage.setItem("tsw-quiz", JSON.stringify(quizState));
-  });
-});
+choiceButtonMaps.forEach(({ buttons, results, stateKey }) => {
+  buttons.forEach((button) => {
+    button.addEventListener("change", function () {
+      quizState[stateKey] = this.value;
+      localStorage.setItem("tsw-quiz", JSON.stringify(quizState));
 
-choiceButtonsDevice.forEach((button) => {
-  button.addEventListener("change", function () {
-    quizState.device = this.value;
-    localStorage.setItem("tsw-quiz", JSON.stringify(quizState));
-  });
-});
+      results.forEach((result) => {
+        result.classList.remove("active");
+      });
 
-choiceButtonsUnlocked.forEach((button) => {
-  button.addEventListener("change", function () {
-    quizState.unlocked = this.value;
-    localStorage.setItem("tsw-quiz", JSON.stringify(quizState));
+      const targetId = this.getAttribute("data-target");
+      if (targetId) {
+        const targetPanel = document.getElementById(targetId);
+        if (targetPanel) {
+          targetPanel.classList.add("active");
+        }
+      }
+    });
   });
 });
 
@@ -99,17 +103,20 @@ choiceButtonsUnlocked.forEach((button) => {
 // =-=-=-=
 
 const initChoiceButtons = (state) => {
-  choiceButtonsKnowsPlan.forEach((button) => {
-    if (button.value === state.knowsPlan) button.checked = true;
-  });
-  choiceButtonsLineCount.forEach((button) => {
-    if (button.value === state.lineCount) button.checked = true;
-  });
-  choiceButtonsDevice.forEach((button) => {
-    if (button.value === state.device) button.checked = true;
-  });
-  choiceButtonsUnlocked.forEach((button) => {
-    if (button.value === state.unlocked) button.checked = true;
+  // Set initial value of all choice buttons based on local storage or default
+  const buttonMaps = [
+    { buttons: panel2buttons, value: state.knowsPlan },
+    { buttons: panel3buttons, value: state.lineCount },
+    { buttons: panel4buttons, value: state.device },
+    { buttons: panel5buttons, value: state.unlocked },
+  ];
+
+  buttonMaps.forEach((map) => {
+    map.buttons.forEach((button) => {
+      if (button.value === map.value) {
+        button.checked = true;
+      }
+    });
   });
 };
 

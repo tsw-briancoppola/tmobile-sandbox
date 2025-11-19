@@ -53,7 +53,7 @@
     list-style-type: none;
   }
 
-  /* Quiz styles */
+  /* Quiz checklist styles */
 
   .tsw-quiz {
     display: flex;
@@ -73,16 +73,9 @@
     margin-bottom: 20px;
     line-height: 30px;
   }
-  .tsw-quiz h3 {
-    color: var(--color-brand-grayscale-900);
-    margin-bottom: 20px;
-    line-height: 30px;
-  }
   .tsw-quiz p {
     line-height: 22px;
   }
-
-  /* Quiz checklist styles */
 
   .tsw-quiz-checklist {
     display: none;
@@ -142,17 +135,8 @@
 
   .tsw-quiz-panel {
     display: none;
-    flex-direction: column;
-    gap: 40px;
   }
   .tsw-quiz-panel.active {
-    display: flex;
-  }
-
-  .tsw-quiz-panel-result {
-    display: none;
-  }
-  .tsw-quiz-panel-result.active {
     display: block;
   }
 
@@ -162,6 +146,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 10px;
+    margin: 30px auto 0;
   }
   .tsw-quiz-choice-buttons label {
     padding: 10px 15px;
@@ -210,10 +195,9 @@
   .tsw-quiz-stepper-buttons button:disabled {
     visibility: hidden;
   }
-
   /* .tsw-quiz-stepper-buttons button:only-child {
-  margin-left: auto;
-} */
+    margin-left: auto;
+  } */
 
   /* Quiz svg icon styles */
 
@@ -267,40 +251,30 @@
   <div class="tsw-quiz-main">
     <div class="tsw-quiz-panels">
       <div class="tsw-quiz-panel tsw-quiz-panel--1">
-        <div class="tsw-quiz-panel-header">
-          <h2>Thinking about switching to T&#8209;Mobile?</h2>
-          <p>Answer a few quick questions and we'll help guide you through the process.</p>
-        </div>
+        <h2>Thinking about switching to T&#8209;Mobile?</h2>
+        <p>Answer a few quick questions and we'll help guide you through the process.</p>
       </div>
+
       <div class="tsw-quiz-panel tsw-quiz-panel--2">
-        <div class="tsw-quiz-panel-header">
-          <h2>Do you know what T&#8209;Mobile phone plan you want?</h2>
-          <p>
-            Knowing what you want is the first step to switching with confidence. From individual lines to family plans
-            packed with value, T&#8209;Mobile makes it easy to find the plan that fits your needs and your budget.
-          </p>
-        </div>
+        <h2>Do you know what T&#8209;Mobile phone plan you want?</h2>
+        <p>
+          Knowing what you want is the first step to switching with confidence. From individual lines to family plans
+          packed with value, T&#8209;Mobile makes it easy to find the plan that fits your needs and your budget.
+        </p>
         <div class="tsw-quiz-choice-buttons">
-          <input type="radio" id="tsw-knows-plan--no" name="tsw-knows-plan" value="no" data-target="result-no" />
+          <input type="radio" id="tsw-knows-plan--no" name="tsw-knows-plan" value="no" />
           <label for="tsw-knows-plan--no">No, I don't know</label>
-          <input type="radio" id="tsw-knows-plan--yes" name="tsw-knows-plan" value="yes" data-target="result-yes" />
+          <input type="radio" id="tsw-knows-plan--yes" name="tsw-knows-plan" value="yes" />
           <label for="tsw-knows-plan--yes">Yes, I already know my plan</label>
         </div>
-        <div class="tsw-quiz-panel-result" id="result-no">
-          <h3>That's okay, we'll help you find the perfect plan.</h3>
-        </div>
-        <div class="tsw-quiz-panel-result" id="result-yes"><h3>Excellent!</h3></div>
       </div>
 
       <div class="tsw-quiz-panel tsw-quiz-panel--3">
-        <div class="tsw-quiz-panel-header">
-          <h2>How many lines are you bringing?</h2>
-          <p>
-            Sed tincidunt nibh posuere fringilla phasellus in elementum. Sodales cursus penatibus cursus amet quisque
-            odio ornare. Ullamcorper et enim nullam a est in. Enim diam id egestas aliquet pretium habitasse. Felis
-            felis.
-          </p>
-        </div>
+        <h2>How many lines are you bringing?</h2>
+        <p>
+          Sed tincidunt nibh posuere fringilla phasellus in elementum. Sodales cursus penatibus cursus amet quisque odio
+          ornare. Ullamcorper et enim nullam a est in. Enim diam id egestas aliquet pretium habitasse. Felis felis.
+        </p>
         <div class="tsw-quiz-choice-buttons">
           <input type="radio" id="tsw-lines--1" name="tsw-line-count" value="1" />
           <label for="tsw-lines--1">1</label>
@@ -316,9 +290,7 @@
       </div>
 
       <div class="tsw-quiz-panel tsw-quiz-panel--4">
-        <div class="tsw-quiz-panel-header">
-          <h2>Do you need to buy a new device or are you bringing your own?</h2>
-        </div>
+        <h2>Do you need to buy a new device or are you bringing your own?</h2>
         <div class="tsw-quiz-choice-buttons">
           <input type="radio" id="tsw-device--1" name="tsw-device" value="buy" />
           <label for="tsw-device--1">I need to buy a new device</label>
@@ -330,9 +302,7 @@
       </div>
 
       <div class="tsw-quiz-panel tsw-quiz-panel--5">
-        <div class="tsw-quiz-panel-header">
-          <h2>Is your device unlocked?</h2>
-        </div>
+        <h2>Is your device unlocked?</h2>
         <div class="tsw-quiz-choice-buttons">
           <input type="radio" id="tsw-unlocked--1" name="tsw-unlocked" value="no" />
           <label for="tsw-unlocked--1">No</label>
@@ -391,14 +361,10 @@
   const panels = quizWrapper.querySelectorAll(".tsw-quiz-panel");
   const backButton = quizWrapper.querySelector(".tsw-quiz-button-back");
   const nextButton = quizWrapper.querySelector(".tsw-quiz-button-next");
-  const panel2buttons = quizWrapper.querySelectorAll('.tsw-quiz-panel--2 input[type="radio"]');
-  const panel2results = quizWrapper.querySelectorAll(".tsw-quiz-panel--2 .tsw-quiz-panel-result");
-  const panel3buttons = quizWrapper.querySelectorAll('.tsw-quiz-panel--3 input[type="radio"]');
-  const panel3results = quizWrapper.querySelectorAll(".tsw-quiz-panel--3 .tsw-quiz-panel-result");
-  const panel4buttons = quizWrapper.querySelectorAll('.tsw-quiz-panel--4 input[type="radio"]');
-  const panel4results = quizWrapper.querySelectorAll(".tsw-quiz-panel--4 .tsw-quiz-panel-result");
-  const panel5buttons = quizWrapper.querySelectorAll('.tsw-quiz-panel--5 input[type="radio"]');
-  const panel5results = quizWrapper.querySelectorAll(".tsw-quiz-panel--5 .tsw-quiz-panel-result");
+  const choiceButtonsKnowsPlan = quizWrapper.querySelectorAll('input[name="tsw-knows-plan"]');
+  const choiceButtonsLineCount = quizWrapper.querySelectorAll('input[name="tsw-line-count"]');
+  const choiceButtonsDevice = quizWrapper.querySelectorAll('input[name="tsw-device"]');
+  const choiceButtonsUnlocked = quizWrapper.querySelectorAll('input[name="tsw-unlocked"]');
 
   // User state object
   let quizState = {
@@ -457,33 +423,33 @@
     updateStepperButtons();
   });
 
-  // Panel choice buttons and results
+  // Choice buttons
 
-  const choiceButtonMaps = [
-    { buttons: panel2buttons, results: panel2results, stateKey: "knowsPlan" },
-    { buttons: panel3buttons, results: panel3results, stateKey: "lineCount" },
-    { buttons: panel4buttons, results: panel4results, stateKey: "device" },
-    { buttons: panel5buttons, results: panel5results, stateKey: "unlocked" },
-  ];
+  choiceButtonsKnowsPlan.forEach((button) => {
+    button.addEventListener("change", function () {
+      quizState.knowsPlan = this.value;
+      localStorage.setItem("tsw-quiz", JSON.stringify(quizState));
+    });
+  });
 
-  choiceButtonMaps.forEach(({ buttons, results, stateKey }) => {
-    buttons.forEach((button) => {
-      button.addEventListener("change", function () {
-        quizState[stateKey] = this.value;
-        localStorage.setItem("tsw-quiz", JSON.stringify(quizState));
+  choiceButtonsLineCount.forEach((button) => {
+    button.addEventListener("change", function () {
+      quizState.lineCount = this.value;
+      localStorage.setItem("tsw-quiz", JSON.stringify(quizState));
+    });
+  });
 
-        results.forEach((result) => {
-          result.classList.remove("active");
-        });
+  choiceButtonsDevice.forEach((button) => {
+    button.addEventListener("change", function () {
+      quizState.device = this.value;
+      localStorage.setItem("tsw-quiz", JSON.stringify(quizState));
+    });
+  });
 
-        const targetId = this.getAttribute("data-target");
-        if (targetId) {
-          const targetPanel = quizWrapper.getElementById(targetId);
-          if (targetPanel) {
-            targetPanel.classList.add("active");
-          }
-        }
-      });
+  choiceButtonsUnlocked.forEach((button) => {
+    button.addEventListener("change", function () {
+      quizState.unlocked = this.value;
+      localStorage.setItem("tsw-quiz", JSON.stringify(quizState));
     });
   });
 
@@ -492,20 +458,17 @@
   // =-=-=-=
 
   const initChoiceButtons = (state) => {
-    // Set initial value of all choice buttons based on local storage or default
-    const buttonMaps = [
-      { buttons: panel2buttons, value: state.knowsPlan },
-      { buttons: panel3buttons, value: state.lineCount },
-      { buttons: panel4buttons, value: state.device },
-      { buttons: panel5buttons, value: state.unlocked },
-    ];
-
-    buttonMaps.forEach((map) => {
-      map.buttons.forEach((button) => {
-        if (button.value === map.value) {
-          button.checked = true;
-        }
-      });
+    choiceButtonsKnowsPlan.forEach((button) => {
+      if (button.value === state.knowsPlan) button.checked = true;
+    });
+    choiceButtonsLineCount.forEach((button) => {
+      if (button.value === state.lineCount) button.checked = true;
+    });
+    choiceButtonsDevice.forEach((button) => {
+      if (button.value === state.device) button.checked = true;
+    });
+    choiceButtonsUnlocked.forEach((button) => {
+      if (button.value === state.unlocked) button.checked = true;
     });
   };
 

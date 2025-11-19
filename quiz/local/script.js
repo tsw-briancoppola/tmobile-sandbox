@@ -5,6 +5,7 @@ const nextButton = document.querySelector(".tsw-quiz-button-next");
 const choiceButtonsKnowsPlan = document.querySelectorAll('input[name="tsw-knows-plan"]');
 const choiceButtonsLineCount = document.querySelectorAll('input[name="tsw-line-count"]');
 const choiceButtonsDevice = document.querySelectorAll('input[name="tsw-device"]');
+const choiceButtonsUnlocked = document.querySelectorAll('input[name="tsw-unlocked"]');
 
 // User state object
 let quizState = {
@@ -12,6 +13,7 @@ let quizState = {
   knowsPlan: null,
   lineCount: 0,
   device: null,
+  unlocked: null,
 };
 
 const updateCurrentListItem = (index) => {
@@ -85,6 +87,13 @@ choiceButtonsDevice.forEach((button) => {
   });
 });
 
+choiceButtonsUnlocked.forEach((button) => {
+  button.addEventListener("change", function () {
+    quizState.unlocked = this.value;
+    localStorage.setItem("tsw-quiz", JSON.stringify(quizState));
+  });
+});
+
 // =-=-=-=
 // On load
 // =-=-=-=
@@ -98,6 +107,9 @@ const initChoiceButtons = (state) => {
   });
   choiceButtonsDevice.forEach((button) => {
     if (button.value === state.device) button.checked = true;
+  });
+  choiceButtonsUnlocked.forEach((button) => {
+    if (button.value === state.unlocked) button.checked = true;
   });
 };
 

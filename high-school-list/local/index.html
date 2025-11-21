@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- JS link -->
+    <script defer src="./data/data.js"></script>
     <script defer src="script.js"></script>
     <!-- CSS link -->
     <link rel="stylesheet" href="styles.css" type="text/css" />
@@ -11,6 +12,14 @@
   </head>
 
   <body>
-    <div class="tsw-hs-list"></div>
+    <div class="tsw-hs-list-container">
+      <search class="search">
+        <label for="site-search">Search the list:</label>
+        <input type="search" id="site-search" name="q" placeholder="Enter school name or city" />
+        <!-- <button type="submit">Search</button> -->
+      </search>
+
+      <div class="tsw-hs-list"></div>
+    </div>
   </body>
 </html>

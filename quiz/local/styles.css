@@ -181,7 +181,7 @@ ul {
   border: 1px solid var(--color-brand-grayscale-900);
 }
 .tsw-quiz-choice-buttons input:checked + label::before {
-  content: "\2713 "; /* Unicode checkmark symbol */
+  content: "\2713"; /* Unicode checkmark symbol */
   padding-right: 10px;
 }
 

@@ -40,7 +40,12 @@
   box-sizing: border-box;
 }
 
+html {
+  font-size: 62.5%;
+}
+
 body {
+  font-size: 1.6rem;
   font-family: "Arial", sans-serif;
   overflow-x: hidden;
   margin: 0;
@@ -50,4 +55,39 @@ ul {
   list-style-type: none;
 }
 
-/* Quiz styles */
+/* List container styles */
+
+.tsw-hs-list-container {
+  padding: 3rem;
+  max-width: 110rem;
+  margin: 0 auto;
+}
+
+/* Search styles */
+
+.tsw-hs-list-container .search {
+  margin-bottom: 4rem;
+}
+.tsw-hs-list-container .search input {
+  border: 1px solid rgb(140, 140, 140);
+  border-radius: 0.4rem;
+  font-size: 1.6rem;
+  line-height: 2rem;
+  min-width: 30rem;
+  padding: 1.2rem 3rem 1.2rem 0.8rem;
+  outline-offset: 0.2rem;
+}
+
+/* List styles */
+
+.tsw-hs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.tsw-hs-list__row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+}

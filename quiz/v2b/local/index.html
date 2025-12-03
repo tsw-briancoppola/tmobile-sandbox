@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- JS link -->
+    <script defer src="script.js"></script>
+    <!-- CSS link -->
+    <link rel="stylesheet" href="styles.css" type="text/css" />
+    <title>Document</title>
+  </head>
+
+  <body>
+    <div class="tsw-quiz">
+      <ul class="tsw-quiz-panel-list">
+        <li>
+          <span>Phone Plan</span>
+        </li>
+        <li>
+          <span>Devices & Offers</span>
+        </li>
+        <li>
+          <span>Making the Switch</span>
+        </li>
+        <li>
+          <span>Pricing</span>
+        </li>
+        <li>
+          <span>Review & Confirm</span>
+        </li>
+      </ul>
+
+      <div class="tsw-quiz-main">
+        <div class="tsw-quiz-panels">
+          <div class="tsw-quiz-panel tsw-quiz-panel--1">
+            <div class="tsw-quiz-panel-header">
+              <h2>Thinking about switching to T-Mobile?</h2>
+              <p>
+                We're here to make switching easy, choose what you'd like more information on. Select all that apply.
+              </p>
+            </div>
+            <ul class="tsw-quiz-help-buttons">
+              <li>
+                <input type="checkbox" name="help-types" id="phone-plans" value="phone-plans" />
+                <label for="phone-plans">
+                  <svg><use xlink:href="#tsw-help-button-phone-plans" /></svg>
+                  Phone Plans
+                </label>
+              </li>
+              <li>
+                <input type="checkbox" name="help-types" id="devices-offers" value="devices-offers" />
+                <label for="devices-offers">
+                  <svg><use xlink:href="#tsw-help-button-devices" /></svg>
+                  Devices & Offers
+                </label>
+              </li>
+              <li>
+                <input type="checkbox" name="help-types" id="making-the-switch" value="making-the-switch" />
+                <label for="making-the-switch">
+                  <svg><use xlink:href="#tsw-help-button-making-the-switch" /></svg>
+                  Making the Switch
+                </label>
+              </li>
+              <li>
+                <input type="checkbox" name="help-types" id="pricing" value="pricing" />
+                <label for="pricing">
+                  <svg><use xlink:href="#tsw-help-button-pricing" /></svg>
+                  Pricing
+                </label>
+              </li>
+            </ul>
+          </div>
+
+          <div class="tsw-quiz-panel tsw-quiz-panel--2">
+            <div class="tsw-quiz-panel-header">
+              <h2>Do you know what T&#8209;Mobile phone plan you want?</h2>
+              <p>
+                Knowing what you want is the first step to switching with confidence. From individual lines to family
+                plans packed with value, T&#8209;Mobile makes it easy to find the plan that fits your needs and your
+                budget.
+              </p>
+            </div>
+            <div class="tsw-quiz-choice-buttons">
+              <input type="radio" id="tsw-knows-plan--no" name="tsw-knows-plan" value="no" data-target="result-no" />
+              <label for="tsw-knows-plan--no">No, I don't know</label>
+              <input type="radio" id="tsw-knows-plan--yes" name="tsw-knows-plan" value="yes" data-target="result-yes" />
+              <label for="tsw-knows-plan--yes">Yes, I already know my plan</label>
+            </div>
+            <div class="tsw-quiz-panel-result" id="result-no">
+              <h3>That's okay, we'll help you find the perfect plan.</h3>
+            </div>
+            <div class="tsw-quiz-panel-result" id="result-yes"><h3>Excellent!</h3></div>
+          </div>
+
+          <div class="tsw-quiz-panel tsw-quiz-panel--3">
+            <div class="tsw-quiz-panel-header">
+              <h2>How many lines are you bringing?</h2>
+              <p>
+                Sed tincidunt nibh posuere fringilla phasellus in elementum. Sodales cursus penatibus cursus amet
+                quisque odio ornare. Ullamcorper et enim nullam a est in. Enim diam id egestas aliquet pretium
+                habitasse. Felis felis.
+              </p>
+            </div>
+            <div class="tsw-quiz-choice-buttons">
+              <input type="radio" id="tsw-lines--1" name="tsw-line-count" value="1" />
+              <label for="tsw-lines--1">1</label>
+              <input type="radio" id="tsw-lines--2" name="tsw-line-count" value="2" />
+              <label for="tsw-lines--2">2</label>
+              <input type="radio" id="tsw-lines--3" name="tsw-line-count" value="3" />
+              <label for="tsw-lines--3">3</label>
+              <input type="radio" id="tsw-lines--4" name="tsw-line-count" value="4" />
+              <label for="tsw-lines--4">4</label>
+              <input type="radio" id="tsw-lines--5plus" name="tsw-line-count" value="5+" />
+              <label for="tsw-lines--5plus">5+</label>
+            </div>
+          </div>
+
+          <div class="tsw-quiz-panel tsw-quiz-panel--4">
+            <div class="tsw-quiz-panel-header">
+              <h2>Do you need to buy a new device or are you bringing your own?</h2>
+            </div>
+            <div class="tsw-quiz-choice-buttons">
+              <input type="radio" id="tsw-device--1" name="tsw-device" value="buy" />
+              <label for="tsw-device--1">I need to buy a new device</label>
+              <input type="radio" id="tsw-device--2" name="tsw-device" value="own" />
+              <label for="tsw-device--2">I'm bringing in my own device</label>
+              <input type="radio" id="tsw-device--3" name="tsw-device" value="trade" />
+              <label for="tsw-device--3">I'd like to trade in my current device</label>
+            </div>
+          </div>
+
+          <div class="tsw-quiz-panel tsw-quiz-panel--5">
+            <div class="tsw-quiz-panel-header">
+              <h2>Is your device unlocked?</h2>
+            </div>
+            <div class="tsw-quiz-choice-buttons">
+              <input type="radio" id="tsw-unlocked--1" name="tsw-unlocked" value="no" />
+              <label for="tsw-unlocked--1">No</label>
+              <input type="radio" id="tsw-unlocked--2" name="tsw-unlocked" value="yes" />
+              <label for="tsw-unlocked--2">Yes</label>
+              <input type="radio" id="tsw-unlocked--3" name="tsw-unlocked" value="not sure" />
+              <label for="tsw-unlocked--3">I'm not sure</label>
+            </div>
+          </div>
+
+          <div class="tsw-quiz-panel tsw-quiz-panel--6">
+            <h2>Panel 6</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="tsw-quiz-stepper-buttons">
+        <button type="button" class="tsw-quiz-button-back">&lt; Back</button>
+        <button type="button" class="tsw-quiz-button-next">Next &gt;</button>
+      </div>
+    </div>
+
+    <div class="tsw-quiz-svg-icons">
+      <svg
+        id="tsw-help-button-phone-plans"
+        xmlns="http://www.w3.org/2000/svg"
+        height="24px"
+        viewBox="0 -960 960 960"
+        width="24px"
+      >
+        <path
+          fill="currentColor"
+          d="M200-120q-33 0-56.5-23.5T120-200v-560q0-33 23.5-56.5T200-840h168q13-36 43.5-58t68.5-22q38 0 68.5 22t43.5 58h168q33 0 56.5 23.5T840-760v560q0 33-23.5 56.5T760-120H200Zm0-80h560v-560H200v560Zm80-80h280v-80H280v80Zm0-160h400v-80H280v80Zm0-160h400v-80H280v80Zm200-190q13 0 21.5-8.5T510-820q0-13-8.5-21.5T480-850q-13 0-21.5 8.5T450-820q0 13 8.5 21.5T480-790ZM200-200v-560 560Z"
+        />
+      </svg>
+      <svg
+        id="tsw-help-button-devices"
+        xmlns="http://www.w3.org/2000/svg"
+        height="24px"
+        viewBox="0 -960 960 960"
+        width="24px"
+        fill="#e3e3e3"
+      >
+        <path
+          fill="currentColor"
+          d="M400-560ZM160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720H160v480h80v80h-80Zm640-80v-320H640v320h160Zm-180 80q-25 0-42.5-17.5T560-220v-360q0-25 17.5-42.5T620-640h200q25 0 42.5 17.5T880-580v360q0 25-17.5 42.5T820-160H620Zm100-300q13 0 21.5-9t8.5-21q0-13-8.5-21.5T720-520q-12 0-21 8.5t-9 21.5q0 12 9 21t21 9ZM340-160l-20-70q-19-17-29.5-40T280-320q0-27 10.5-50t29.5-40l20-70h120l20 70q19 17 29.5 40t10.5 50q0 27-10.5 50T480-230l-20 70H340Zm60-100q26 0 43-17.5t17-42.5q0-25-18-42.5T400-380q-24 0-42 17t-18 43q0 26 17 43t43 17Zm320-140Z"
+        />
+      </svg>
+      <svg
+        id="tsw-help-button-making-the-switch"
+        xmlns="http://www.w3.org/2000/svg"
+        height="24px"
+        viewBox="0 -960 960 960"
+        width="24px"
+        fill="#e3e3e3"
+      >
+        <path
+          fill="currentColor"
+          d="M280-40q-33 0-56.5-23.5T200-120v-720q0-33 23.5-56.5T280-920h400q33 0 56.5 23.5T760-840v124q18 7 29 22t11 34v80q0 19-11 34t-29 22v404q0 33-23.5 56.5T680-40H280Zm0-80h400v-720H280v720Zm0 0v-720 720Zm120-40h160q17 0 28.5-11.5T600-200q0-17-11.5-28.5T560-240H400q-17 0-28.5 11.5T360-200q0 17 11.5 28.5T400-160Z"
+        />
+      </svg>
+      <svg
+        id="tsw-help-button-pricing"
+        xmlns="http://www.w3.org/2000/svg"
+        height="24px"
+        viewBox="0 -960 960 960"
+        width="24px"
+        fill="#e3e3e3"
+      >
+        <path
+          fill="currentColor"
+          d="M440-200h80v-40h40q17 0 28.5-11.5T600-280v-120q0-17-11.5-28.5T560-440H440v-40h160v-80h-80v-40h-80v40h-40q-17 0-28.5 11.5T360-520v120q0 17 11.5 28.5T400-360h120v40H360v80h80v40ZM240-80q-33 0-56.5-23.5T160-160v-640q0-33 23.5-56.5T240-880h320l240 240v480q0 33-23.5 56.5T720-80H240Zm280-560v-160H240v640h480v-480H520ZM240-800v160-160 640-640Z"
+        />
+      </svg>
+    </div>
+  </body>
+</html>

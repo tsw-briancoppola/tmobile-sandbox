@@ -1,27 +1,5 @@
-const searchBox = document.querySelector(
-  ".tsw-hs-list-container .search input"
-);
+const searchBox = document.querySelector(".tsw-hs-list-container .search input");
 const list = document.querySelector(".tsw-hs-list");
-
-// =-=-=-=-=-=-=-=-=-
-// Pull data from API
-// =-=-=-=-=-=-=-=-=-
-
-const API_URL = "https://playground.mockoon.com/contacts";
-
-const fetchApiData = async () => {
-  try {
-    const response = await fetch(API_URL);
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error("Error fetching data:", error);
-  }
-};
 
 // =-=-=-=-=-=-=-=-=-=
 // Render data in list
@@ -33,19 +11,21 @@ const createRow = (school) => {
   const dataProperties = Object.keys(school);
 
   dataProperties.forEach((property) => {
-    const dataRowCell = document.createElement("div");
-    const dataClassName = `tsw-hs-list__row--${property}`;
-    dataRowCell.classList.add(dataClassName);
-    if (property === "website") {
-      const dataLink = document.createElement("a");
-      dataLink.setAttribute("href", school[property]);
-      dataLink.setAttribute("target", "_blank");
-      dataLink.textContent = "School website";
-      dataRowCell.appendChild(dataLink);
-    } else {
-      dataRowCell.textContent = school[property];
+    if (property !== "id") {
+      const dataRowCell = document.createElement("div");
+      const dataClassName = `tsw-hs-list__row--${property}`;
+      dataRowCell.classList.add(dataClassName);
+      if (property === "website") {
+        const dataLink = document.createElement("a");
+        dataLink.setAttribute("href", school[property]);
+        dataLink.setAttribute("target", "_blank");
+        dataLink.textContent = "School website";
+        dataRowCell.appendChild(dataLink);
+      } else {
+        dataRowCell.textContent = school[property];
+      }
+      dataRow.appendChild(dataRowCell);
     }
-    dataRow.appendChild(dataRowCell);
   });
 
   return dataRow;
@@ -100,7 +80,7 @@ const filterData = (data, value) => {
 };
 
 const updateRenderedData = (value) => {
-  const filteredData = filterData(apiData, value);
+  const filteredData = filterData(schoolData, value);
   clearData();
   renderData(filteredData);
 };
@@ -116,25 +96,8 @@ searchBox.addEventListener("input", () => {
 // On load
 // =-=-=-=
 
-// API data variable
-let apiData = [];
-
-const init = async () => {
-  const data = await fetchApiData();
-  if (data) {
-    // Convert pulled data to new data objects with desired properties
-    const newDataArray = data.map(({ name, address, profilePicture }) => {
-      let { city, state } = address ?? {};
-      const website = profilePicture;
-      state = stateAbbreviations[state];
-
-      return { name, city, state, website };
-    });
-
-    //
-    apiData = newDataArray.filter((_, index) => index < 20);
-    renderData(apiData);
-  }
+const init = () => {
+  renderData(schoolData);
 };
 
 init();

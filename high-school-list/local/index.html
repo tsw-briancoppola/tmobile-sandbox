@@ -13,18 +13,44 @@
 
   <body>
     <div class="tsw-hs-list-container">
-      <search class="search">
-        <label for="site-search">Search the list:</label>
+      <search class="tsw-hs-list-search-container">
+        <label for="tsw-hs-list-search">Search the list:</label>
         <input
-          type="search"
-          id="site-search"
+          type="text"
+          id="tsw-hs-list-search"
           name="q"
-          placeholder="Enter school name or city"
+          placeholder="Enter school name, city, or state"
         />
-        <!-- <button type="submit">Search</button> -->
+        <button type="button" class="tsw-hs-list-search-clear">
+          <svg class="tsw-dropdown-arrow">
+            <use xlink:href="#tsw-dropdown-arrow-svg" />
+          </svg>
+        </button>
       </search>
 
       <div class="tsw-hs-list"></div>
+      <div class="tsw-hs-list-empty"><p>No results found!</p></div>
+
+      <div class="tsw-hs-list-pagination">
+        <button type="button" class="tsw-pagination-prev">Previous</button>
+        <span class="tsw-pagination-info"></span>
+        <button type="button" class="tsw-pagination-next">Next</button>
+      </div>
+    </div>
+
+    <!-- SVG icons -->
+    <div class="tsw-hs-list-svg-icons">
+      <svg
+        id="tsw-dropdown-arrow-svg"
+        xmlns="http://www.w3.org/2000/svg"
+        height="24px"
+        viewBox="0 -960 960 960"
+        width="24px"
+      >
+        <path
+          d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
+        />
+      </svg>
     </div>
   </body>
 </html>

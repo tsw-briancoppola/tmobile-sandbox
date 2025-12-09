@@ -45,6 +45,7 @@ html {
 }
 
 body {
+  height: 100vh;
   font-size: 1.6rem;
   font-family: "Arial", sans-serif;
   overflow-x: hidden;
@@ -69,8 +70,9 @@ ul {
 .tsw-quiz {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 3rem;
   max-width: 120rem;
+  min-height: 50rem;
   padding: 2.4rem;
   margin: 0 auto;
 }
@@ -139,8 +141,10 @@ ul {
 }
 @media (min-width: 768px) {
   .tsw-quiz-panel-list {
-    display: flex;
     justify-content: space-around;
+  }
+  .tsw-quiz-panel-list.active {
+    display: flex;
   }
 }
 
@@ -184,10 +188,6 @@ ul {
 } */
 
 /* Quiz panel styles */
-
-.tsw-quiz-panels {
-  min-height: 35rem;
-}
 
 .tsw-quiz-panel {
   display: none;

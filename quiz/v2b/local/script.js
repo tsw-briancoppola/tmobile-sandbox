@@ -1,5 +1,6 @@
-const listItems = document.querySelectorAll(".tsw-quiz-panel-list li");
 const panels = document.querySelectorAll(".tsw-quiz-panel");
+const panelList = document.querySelector(".tsw-quiz-panel-list");
+const panelListItems = document.querySelectorAll(".tsw-quiz-panel-list li");
 const backButton = document.querySelector(".tsw-quiz-button-back");
 const nextButton = document.querySelector(".tsw-quiz-button-next");
 const panel2buttons = document.querySelectorAll('.tsw-quiz-panel--2 input[type="radio"]');
@@ -24,8 +25,11 @@ let quizState = {
 };
 
 const updatecurrentPanel = (index) => {
+  // Toggle list item display based on current panel
+  index === 0 ? panelList.classList.remove("active") : panelList.classList.add("active");
+
   // Remove 'active' from all list items and panels
-  listItems.forEach((item) => {
+  panelListItems.forEach((item) => {
     item.classList.remove("active");
   });
   panels.forEach((panel) => {
@@ -34,7 +38,7 @@ const updatecurrentPanel = (index) => {
 
   // Add 'active' to new list item and panel
   if (index > 0) {
-    listItems[index - 1].classList.add("active");
+    panelListItems[index - 1].classList.add("active");
   }
   panels[index].classList.add("active");
 
@@ -54,7 +58,7 @@ const updateStepperButtons = () => {
 // List and button event handlers
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-listItems.forEach((item, index) => {
+panelListItems.forEach((item, index) => {
   item.addEventListener("click", () => {
     updatecurrentPanel(index + 1);
     updateStepperButtons();

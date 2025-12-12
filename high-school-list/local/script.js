@@ -10,7 +10,7 @@ const paginationNumbersContainer = document.querySelector(
 );
 
 let currentPage = 0;
-const itemsPerPage = 10;
+const itemsPerPage = 15;
 
 // =-=-=-=-=-=-=-=-=-
 // Pull data from API
@@ -118,6 +118,7 @@ const renderPaginationNumbers = () => {
   }
   // Middle pages
   else {
+    console.log("middle");
     const startPageIdx = currentPage;
     const endPageIdx = currentPage + 2;
 
@@ -155,9 +156,7 @@ const createRow = (school) => {
 };
 
 const clearData = () => {
-  while (list.firstChild) {
-    list.removeChild(list.firstChild);
-  }
+  list.innerHTML = "";
 };
 
 const renderData = (data) => {
@@ -284,7 +283,7 @@ const init = async () => {
     return { name, city, state, website };
   });
 
-  apiData = newDataArray.filter((_, index) => index < 31);
+  apiData = newDataArray.filter((_, index) => index < 80);
   currentDataSet = [...apiData];
   // Render data
   renderData(currentDataSet);

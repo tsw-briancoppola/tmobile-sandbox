@@ -62,12 +62,25 @@ ul {
   list-style-type: none;
 }
 
+/* UI element styles */
+
+.button-magenta {
+  cursor: pointer;
+  padding: 1rem 1.5rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+  border: 0;
+  color: var(--color-brand-grayscale-white);
+  background-color: var(--color-brand-primary-400);
+  box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.5);
+}
+
 /* List container styles */
 
 .tsw-hs-list-container {
   padding: 3rem;
   max-width: 110rem;
-  min-height: 90rem;
+  height: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -159,7 +172,6 @@ ul {
   border-radius: 0.5rem;
   color: var(--button-text-color);
   background-color: var(--button-background-color);
-  /* box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.2); */
 }
 .tsw-pagination-number.active {
   color: var(--color-brand-grayscale-white);

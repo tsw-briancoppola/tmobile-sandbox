@@ -46,7 +46,7 @@ html {
 
 body {
   height: 100vh;
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   font-family: "Arial", sans-serif;
   overflow-x: hidden;
   margin: 0;
@@ -60,16 +60,35 @@ p {
   margin: 0;
   line-height: normal;
 }
+p {
+  margin-bottom: 1rem;
+}
 
-ul {
-  list-style-type: none;
+a,
+a:visited {
+  color: var(--quiz-highlight-color);
 }
 
 .bold {
   font-weight: 700;
 }
 
+/* UI elements */
+
+.magenta-button {
+  cursor: pointer;
+  padding: 1rem 1.5rem;
+  font-size: 1.6rem;
+  /* font-weight: 600; */
+  border: 0;
+  border-radius: 0.5rem;
+  color: var(--color-brand-grayscale-white);
+  background-color: var(--color-brand-primary-400);
+}
+
+/* =-=-=-=-=-= */
 /* Quiz styles */
+/* =-=-=-=-=-= */
 
 .tsw-quiz {
   display: flex;
@@ -95,9 +114,6 @@ ul {
   color: var(--color-brand-grayscale-900);
   line-height: 3rem;
 }
-.tsw-quiz p {
-  line-height: 2.2rem;
-}
 
 /* Quiz main div styles */
 
@@ -107,37 +123,56 @@ ul {
   flex-direction: column;
   justify-content: space-between;
 }
-/* @media (min-width: 768px) {
-  .tsw-quiz-main {
-    padding: 0 0 0 40px;
-  }
-} */
 
 /* Quiz panel styles */
 
 .tsw-quiz-panel {
   display: none;
   flex-direction: column;
-  gap: 3rem;
+  gap: 3.5rem;
 }
 .tsw-quiz-panel.active {
   display: flex;
 }
 
-.tsw-quiz-panel-result {
-  display: none;
-}
-.tsw-quiz-panel-result.active {
-  display: block;
-}
-
-/* Quiz answer styles */
+/* Quiz panel element styles */
 
 .tsw-quiz-answer {
   display: none;
+  flex-direction: column;
+  gap: 2rem;
 }
 .tsw-quiz-answer.active {
-  display: block;
+  display: flex;
+}
+
+.tsw-quiz-text ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  padding-left: 3rem;
+}
+
+/* Quiz plan card styles */
+
+.tsw-plan-card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(25rem, 100%), 1fr));
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+.tsw-plan-card {
+  flex: 1;
+  border-radius: 1rem;
+  box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+}
+.tsw-plan-card > div {
+  padding: 1.5rem;
+}
+.tsw-plan-card-headline {
+  color: var(--color-brand-grayscale-white);
+  background-color: var(--color-brand-grayscale-900);
 }
 
 /* Quiz radio button and checkbox styles */
@@ -150,6 +185,7 @@ ul {
 }
 .tsw-quiz-radio-buttons label,
 .tsw-quiz-checkboxes label {
+  font-size: 1.6rem;
   padding: 1rem 1.5rem;
   border: 1px solid var(--color-brand-grayscale-900);
   border-radius: 5rem;
@@ -190,18 +226,6 @@ ul {
 .tsw-quiz-stepper-buttons {
   display: flex;
   justify-content: space-between;
-}
-
-.tsw-quiz-stepper-buttons button {
-  cursor: pointer;
-  padding: 1rem 1.5rem;
-  font-size: 1.6rem;
-  font-weight: 600;
-  border: 0;
-  border-radius: 0.5rem;
-  color: var(--color-brand-grayscale-white);
-  background-color: var(--color-brand-primary-400);
-  /* box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.5); */
 }
 .tsw-quiz-stepper-buttons button:disabled {
   visibility: hidden;

@@ -23,6 +23,9 @@
                 about switching.
               </p>
             </div>
+            <div>
+              <button type="button" class="tsw-get-started-button magenta-button">Get started</button>
+            </div>
           </div>
 
           <!-- Panel 2 -->
@@ -47,19 +50,34 @@
             <div class="tsw-quiz-question">
               <h2>Do you know what T&#8209;Mobile phone plan you want?</h2>
               <div class="tsw-quiz-radio-buttons">
-                <input type="radio" id="tsw-know-plan--1" name="tsw-know-plan" value="yes" />
-                <label for="tsw-know-plan--1">Yes, I already know my plan</label>
-                <input type="radio" id="tsw-know-plan--2" name="tsw-know-plan" value="not sure" />
-                <label for="tsw-know-plan--2">I'm not sure</label>
+                <input type="radio" id="tsw-knows-plan--1" name="tsw-knows-plan" value="yes" />
+                <label for="tsw-knows-plan--1">Yes, I already know my plan</label>
+                <input type="radio" id="tsw-knows-plan--2" name="tsw-knows-plan" value="not sure" />
+                <label for="tsw-knows-plan--2">I'm not sure</label>
               </div>
             </div>
 
-            <div class="tsw-quiz-answer" data-question="tsw-know-plan" data-answer="yes">
+            <div class="tsw-quiz-answer" data-question="tsw-knows-plan" data-answer="yes">
               <p class="bold">Awesome! We'll help you figure out the rest of the switching process.</p>
             </div>
 
-            <div class="tsw-quiz-answer" data-question="tsw-know-plan" data-answer="not sure">
+            <div class="tsw-quiz-answer" data-question="tsw-knows-plan" data-answer="not sure">
               <p class="bold">That's okay, we'll help you find the perfect plan.</p>
+
+              <div class="tsw-plan-card-container">
+                <div class="tsw-plan-card">
+                  <div class="tsw-plan-card-headline">Experience Beyond</div>
+                  <div class="tsw-plan-card-main">$100/month</div>
+                </div>
+                <div class="tsw-plan-card">
+                  <div class="tsw-plan-card-headline">Essentials</div>
+                  <div class="tsw-plan-card-main">$60/month</div>
+                </div>
+                <div class="tsw-plan-card">
+                  <div class="tsw-plan-card-headline">Experience More</div>
+                  <div class="tsw-plan-card-main">$85/month</div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -92,8 +110,18 @@
                 <input type="radio" id="tsw-need-device--2" name="tsw-need-device" value="own" />
                 <label for="tsw-need-device--2">I'm bringing my own device</label>
                 <input type="radio" id="tsw-need-device--3" name="tsw-need-device" value="trade" />
-                <label for="tsw-need-device--3">I'd lke to trade my current device</label>
+                <label for="tsw-need-device--3">I'd like to trade my current device</label>
               </div>
+            </div>
+
+            <div class="tsw-quiz-answer" data-question="tsw-need-device" data-answer="buy">
+              <p class="bold">We'll show you our best deals on the latest devices.</p>
+            </div>
+            <div class="tsw-quiz-answer" data-question="tsw-need-device" data-answer="own">
+              <p class="bold">We'll ask you a few more questions about your device to make sure it's eligible.</p>
+            </div>
+            <div class="tsw-quiz-answer" data-question="tsw-need-device" data-answer="trade">
+              <p class="bold">We'll ask you a few more questions about your device to make sure it's eligible.</p>
             </div>
           </div>
 
@@ -153,12 +181,33 @@
               <p class="bold">We'll get you set up with a new number when you switch.</p>
             </div>
           </div>
+
+          <!-- Panel 8 -->
+          <div class="tsw-quiz-panel tsw-quiz-panel--8">
+            <div class="tsw-quiz-text">
+              <h2>Here's what you'll need to switch</h2>
+              <ul>
+                <li>Pick your plan</li>
+                <li>Choose your new device</li>
+                <li>Unlock your device</li>
+                <li>Check your device compatibility (IMEI)</li>
+                <li>Trade-in your device</li>
+                <li>Check trade-in value</li>
+                <li>Transfer your phone number</li>
+                <li>Explore device deals</li>
+              </ul>
+            </div>
+            <div class="tsw-quiz-text">
+              <p>When you're ready, you can <a href="#">switch online</a> or through the <a href="#"></a>T&#8209;Life app</a>.</p>
+              <p>You can also <a href="#">chat with us</a> or <a href="#">find the closest store</a> if you need extra help.</p>
+            </div>
+          </div>
         </div>
       </div>
 
       <div class="tsw-quiz-stepper-buttons">
-        <button type="button" class="tsw-quiz-button-back">&lt; Back</button>
-        <button type="button" class="tsw-quiz-button-next">Next &gt;</button>
+        <button type="button" class="magenta-button tsw-quiz-button-back">&lt; Back</button>
+        <button type="button" class="magenta-button tsw-quiz-button-next">Next &gt;</button>
       </div>
     </div>
   </body>

@@ -60,13 +60,34 @@ p {
   margin: 0;
   line-height: normal;
 }
-
-a,
-a:visited {
-  color: var(--quiz-highlight-color);
+p {
+  font-size: 1.8rem;
 }
 
+ul {
+  list-style-type: none;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+/* UI elements */
+
+.magenta-button {
+  cursor: pointer;
+  padding: 1rem 1.5rem;
+  font-size: 1.6rem;
+  /* font-weight: 600; */
+  border: 0;
+  border-radius: 0.5rem;
+  color: var(--color-brand-grayscale-white);
+  background-color: var(--color-brand-primary-400);
+}
+
+/* =-=-=-=-=-= */
 /* Quiz styles */
+/* =-=-=-=-=-= */
 
 .tsw-quiz {
   display: flex;
@@ -84,84 +105,13 @@ a:visited {
 }
 
 .tsw-quiz h2 {
-  color: var(--color-brand-grayscale-900);
+  color: var(--quiz-highlight-color);
   line-height: 3rem;
   margin-bottom: 1.4rem;
 }
 .tsw-quiz h3 {
   color: var(--color-brand-grayscale-900);
   line-height: 3rem;
-}
-.tsw-quiz p {
-  line-height: 2.2rem;
-}
-
-/* Quiz help button styles */
-
-.tsw-quiz-help-buttons {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 2rem;
-  list-style-type: none;
-}
-.tsw-quiz-help-buttons li {
-  align-self: stretch;
-}
-.tsw-quiz-help-buttons li label {
-  height: 100%;
-  padding: 2rem 5rem;
-  border: 2px solid var(--color-brand-grayscale-700);
-  border-radius: 1rem;
-  cursor: pointer;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  gap: 1rem;
-}
-.tsw-quiz-help-buttons li label svg {
-  width: 2.8rem;
-  height: 2.4rem;
-  fill: var(--quiz-text-color);
-  flex-shrink: 0; /* Prevents the icon from shrinking on smaller screens */
-}
-.tsw-quiz-help-buttons li input {
-  display: none;
-}
-.tsw-quiz-help-buttons li input:checked + label {
-  color: var(--color-brand-grayscale-white);
-  background-color: var(--color-brand-grayscale-900);
-}
-.tsw-quiz-help-buttons li input:checked + label svg {
-  fill: var(--color-brand-grayscale-white);
-}
-
-/* Quiz panel list styles */
-
-.tsw-quiz-panel-list {
-  display: none;
-  list-style-type: none;
-}
-@media (min-width: 768px) {
-  .tsw-quiz-panel-list {
-    justify-content: space-around;
-  }
-  .tsw-quiz-panel-list.active {
-    display: flex;
-  }
-}
-
-.tsw-quiz-panel-list li {
-  text-align: center;
-  flex: 1;
-  padding: 1.2rem;
-  border-bottom: 3px solid var(--color-brand-grayscale-700);
-  cursor: pointer;
-}
-.tsw-quiz-panel-list li.active {
-  color: var(--quiz-highlight-color);
-  border-color: var(--color-brand-primary-400);
 }
 
 /* Quiz main div styles */
@@ -172,31 +122,16 @@ a:visited {
   flex-direction: column;
   justify-content: space-between;
 }
-/* @media (min-width: 768px) {
-  .tsw-quiz-main {
-    padding: 0 0 0 40px;
-  }
-} */
 
 /* Quiz panel styles */
 
 .tsw-quiz-panel {
-  display: none;
-  flex-direction: column;
-  gap: 3rem;
-}
-.tsw-quiz-panel.active {
   display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
 }
 
-/* Quiz panel element styles */
-
-.tsw-quiz-answer-section {
-  display: none;
-}
-.tsw-quiz-answer-section.active {
-  display: block;
-}
+/* Quiz answer styles */
 
 .tsw-quiz-answer {
   display: none;
@@ -207,14 +142,26 @@ a:visited {
   display: flex;
 }
 
-.tsw-quiz-text p {
-  margin-bottom: 1rem;
+/* Quiz plan card styles */
+
+.tsw-plan-card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(25rem, 100%), 1fr));
+  gap: 2rem;
+  flex-wrap: wrap;
 }
-.tsw-quiz-text ul {
-  padding-left: 3rem;
+.tsw-plan-card {
+  flex: 1;
+  border-radius: 1rem;
+  box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
 }
-.tsw-quiz-text ul li {
-  margin-bottom: 1rem;
+.tsw-plan-card > div {
+  padding: 1.5rem;
+}
+.tsw-plan-card-headline {
+  color: var(--color-brand-grayscale-white);
+  background-color: var(--color-brand-grayscale-900);
 }
 
 /* Quiz radio button and checkbox styles */
@@ -267,18 +214,6 @@ a:visited {
 .tsw-quiz-stepper-buttons {
   display: flex;
   justify-content: space-between;
-}
-
-.tsw-quiz-stepper-buttons button {
-  cursor: pointer;
-  padding: 1rem 1.5rem;
-  font-size: 1.6rem;
-  font-weight: 600;
-  border: 0;
-  border-radius: 0.5rem;
-  color: var(--color-brand-grayscale-white);
-  background-color: var(--color-brand-primary-400);
-  /* box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.5); */
 }
 .tsw-quiz-stepper-buttons button:disabled {
   visibility: hidden;

@@ -1,25 +1,76 @@
 const panelsContainer = document.querySelector(".tsw-quiz-panel-container");
 const panels = document.querySelectorAll(".tsw-quiz-panel");
 const panelListItems = document.querySelectorAll(".tsw-quiz-panel-list li");
-const getStartedButton = document.querySelector(".tsw-get-started-button");
 const backButton = document.querySelector(".tsw-quiz-button-back");
 const nextButton = document.querySelector(".tsw-quiz-button-next");
 const helpTypeButtons = document.querySelectorAll(".tsw-quiz-help-buttons li input");
 
 // User state object
 let quizState = {
-  scenario: "single line",
   currentPanel: 0,
   choices: {},
 };
 
-const updatecurrentPanel = (index) => {
-  panels.forEach((panel) => {
-    panel.classList.remove("active");
-  });
+// =-=-=-=-=-=-=-=-=-=-=-=
+// Panel builder functions
+// =-=-=-=-=-=-=-=-=-=-=-=
 
-  // Add 'active' to new list item and panel
-  panels[index].classList.add("active");
+const radioButtonHTML = (index, name, text, value, isChecked) => `
+  <input type="radio" id="${name}--${index}" name="${name}" value="${value}" ${isChecked ? "checked" : ""}  />
+  <label for="${name}--${index}">${text}</label>
+`;
+
+const radioButtonsRow = (questionUI) => {
+  if (!questionUI || !questionUI.choices) return "";
+  const { name, type, choices } = questionUI;
+
+  const savedValue = quizState.choices[name];
+
+  const buttons = choices
+    .map((button, index) => {
+      // Determine if this specific button matches the saved state
+      const isChecked = savedValue === button.value;
+      console.log(savedValue + " " + button.value);
+      return radioButtonHTML(button.id || index, name, button.text, button.value, isChecked);
+    })
+    .join("");
+
+  return `<div class="tsw-quiz-radio-buttons">${buttons}</div>`;
+};
+
+const answerHTML = (name, { value, answer }) =>
+  `<div class="tsw-quiz-answer" data-question="${name}" data-answer="${value}">
+    <p class="bold">${answer}</p>
+  </div>`;
+
+const questionAnswers = (questionUI) => {
+  if (!questionUI || !questionUI.choices) return "";
+
+  const { name, choices } = questionUI;
+  if (!choices || !choices.some((choice) => choice.answer)) return "";
+
+  return choices.map((choice) => answerHTML(name, choice)).join("");
+};
+
+const QuizPanel = (step, content) => `
+  <div class="tsw-quiz-panel tsw-quiz-panel--${step}">
+    <div class="tsw-quiz-question">
+      <h2>${content.title}</h2>
+      ${radioButtonsRow(content.questionUI)}
+    </div>
+    ${questionAnswers(content.questionUI)}
+  </div>
+`;
+
+// =-=-=-=-=-=-
+// Update panel
+// =-=-=-=-=-=-
+
+const updatecurrentPanel = (index) => {
+  const newPanelContent = panelContent[index];
+  const newPanel = QuizPanel(index, newPanelContent);
+
+  document.querySelector(".tsw-quiz-panel-container").innerHTML = newPanel;
 
   // Update quizState.currentPanel
   quizState.currentPanel = index;
@@ -30,7 +81,7 @@ const updatecurrentPanel = (index) => {
 
 const updateStepperButtons = () => {
   backButton.disabled = quizState.currentPanel <= 0;
-  nextButton.disabled = quizState.currentPanel >= panels.length - 1;
+  nextButton.disabled = quizState.currentPanel >= panelContent.length - 1;
 };
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -44,18 +95,16 @@ panelListItems.forEach((item, index) => {
   });
 });
 
-// Stepper and Get started buttons
+// Stepper buttons
 
 backButton.addEventListener("click", () => {
   updatecurrentPanel(quizState.currentPanel - 1);
   updateStepperButtons();
 });
 
-[getStartedButton, nextButton].forEach((btn) => {
-  btn.addEventListener("click", () => {
-    updatecurrentPanel(quizState.currentPanel + 1);
-    updateStepperButtons();
-  });
+nextButton.addEventListener("click", () => {
+  updatecurrentPanel(quizState.currentPanel + 1);
+  updateStepperButtons();
 });
 
 // All panel inputs
@@ -98,41 +147,13 @@ panelsContainer.addEventListener("change", (event) => {
 // On load
 // =-=-=-=
 
-const initHelpTypeButtons = (state) => {
-  // Set initial value of all help type buttons based on local storage or default
-  helpTypeButtons.forEach((button) => {
-    if (state.selectedHelpTypes.includes(button.value)) {
-      button.checked = true;
-    } else {
-      button.checked = false;
-    }
-  });
-};
-
-const initChoiceButtons = (state) => {
-  // Set initial value of all choice buttons based on local storage or default
-  // const buttonMaps = [
-  //   { buttons: panel2RadioButtons, value: state.choices.knowsPlan },
-  //   { buttons: panel3RadioButtons, value: state.choices.lineCount },
-  //   { buttons: panel4RadioButtons, value: state.choices.device },
-  //   { buttons: panel5RadioButtons, value: state.choices.unlocked },
-  // ];
-  // buttonMaps.forEach((map) => {
-  //   map.buttons.forEach((button) => {
-  //     if (button.value === map.value) {
-  //       button.checked = true;
-  //     }
-  //   });
-  // });
-};
-
 const init = () => {
   const localStorageData = JSON.parse(localStorage.getItem("tsw-quiz"));
   if (localStorageData) quizState = localStorageData;
 
   updatecurrentPanel(quizState.currentPanel);
-  initHelpTypeButtons(quizState);
-  initChoiceButtons(quizState);
+  // initHelpTypeButtons(quizState);
+  // initChoiceButtons(quizState);
   updateStepperButtons();
 };
 

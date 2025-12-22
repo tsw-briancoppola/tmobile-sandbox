@@ -84,6 +84,21 @@ panelsContainer.addEventListener("change", (event) => {
     quizState.choices[name] = value;
   }
 
+  // Reveal appropriate answer element if any
+  const currentPanel = target.closest(".tsw-quiz-panel");
+  if (!currentPanel) return;
+
+  const answerSection = currentPanel.querySelector(".tsw-quiz-answer-section");
+  if (answerSection) answerSection.classList.add("active");
+
+  const answers = currentPanel.querySelectorAll(`.tsw-quiz-answer[data-question="${name}"]`);
+  answers.forEach((ans) => ans.classList.remove("active"));
+
+  const targetAnswer = currentPanel.querySelector(`[data-answer="${value}"]`);
+  if (targetAnswer) {
+    targetAnswer.classList.add("active");
+  }
+
   localStorage.setItem("tsw-quiz", JSON.stringify(quizState));
 
   console.log("Current State:", quizState.choices);

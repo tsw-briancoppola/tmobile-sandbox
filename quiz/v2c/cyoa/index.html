@@ -79,25 +79,33 @@
               <h2>Do you know what T&#8209;Mobile phone plan you want?</h2>
               <div class="tsw-quiz-radio-buttons">
                 <input type="radio" id="tsw-knows-plan--1" name="tsw-knows-plan" value="no" />
-                <label for="tsw-knows-plan--no">No, I don't know</label>
-                <input type="radio" id="tsw-knows-plan--1" name="tsw-knows-plan" value="yes" />
-                <label for="tsw-knows-plan--yes">Yes, I already know my plan</label>
+                <label for="tsw-knows-plan--1">No, I don't know</label>
+                <input type="radio" id="tsw-knows-plan--2" name="tsw-knows-plan" value="yes" />
+                <label for="tsw-knows-plan--2">Yes, I already know my plan</label>
               </div>
             </div>
 
-            <div class="tsw-quiz-question">
-              <h2>How many lines are you bringing over?</h2>
-              <div class="tsw-quiz-radio-buttons">
-                <input type="radio" id="tsw-lines--1" name="tsw-line-count" value="1" />
-                <label for="tsw-lines--1">1</label>
-                <input type="radio" id="tsw-lines--2" name="tsw-line-count" value="2" />
-                <label for="tsw-lines--2">2</label>
-                <input type="radio" id="tsw-lines--3" name="tsw-line-count" value="3" />
-                <label for="tsw-lines--3">3</label>
-                <input type="radio" id="tsw-lines--4" name="tsw-line-count" value="4" />
-                <label for="tsw-lines--4">4</label>
-                <input type="radio" id="tsw-lines--5plus" name="tsw-line-count" value="5+" />
-                <label for="tsw-lines--5plus">5+</label>
+            <div class="tsw-quiz-answer-section">
+              <div class="tsw-quiz-answer" data-question="tsw-knows-plan" data-answer="no">
+                <h2>No problem, we'll show you all the great plans we offer.</h2>
+                <h2>How many lines are you bringing over?</h2>
+              </div>
+              <div class="tsw-quiz-answer" data-question="tsw-knows-plan" data-answer="yes">
+                <h2>Great! How many lines are you bringing over?</h2>
+              </div>
+              <div class="tsw-quiz-question">
+                <div class="tsw-quiz-radio-buttons">
+                  <input type="radio" id="tsw-lines--1" name="tsw-line-count" value="1" />
+                  <label for="tsw-lines--1">1</label>
+                  <input type="radio" id="tsw-lines--2" name="tsw-line-count" value="2" />
+                  <label for="tsw-lines--2">2</label>
+                  <input type="radio" id="tsw-lines--3" name="tsw-line-count" value="3" />
+                  <label for="tsw-lines--3">3</label>
+                  <input type="radio" id="tsw-lines--4" name="tsw-line-count" value="4" />
+                  <label for="tsw-lines--4">4</label>
+                  <input type="radio" id="tsw-lines--5" name="tsw-line-count" value="5+" />
+                  <label for="tsw-lines--5">5+</label>
+                </div>
               </div>
             </div>
           </div>
@@ -161,16 +169,70 @@
                 <label for="tsw-check-value--2">No</label>
               </div>
             </div>
+
+            <div class="tsw-quiz-question">
+              <h2>What brand is your phone?</h2>
+              <div class="tsw-quiz-radio-buttons">
+                <input type="radio" id="tsw-your-phone-brand--1" name="tsw-your-phone-brand" value="Apple" />
+                <label for="tsw-your-phone-brand--1">Apple</label>
+                <input type="radio" id="tsw-your-phone-brand--2" name="tsw-your-phone-brand" value="Samsung" />
+                <label for="tsw-your-phone-brand--2">Samsung</label>
+                <input type="radio" id="tsw-your-phone-brand--3" name="tsw-your-phone-brand" value="Motorola" />
+                <label for="tsw-your-phone-brand--3">Motorola</label>
+              </div>
+            </div>
           </div>
 
           <!-- Panel 5 -->
           <div class="tsw-quiz-panel tsw-quiz-panel--5">
-            <h2>Here's what you'll need before you switch.</h2>
             <div class="tsw-quiz-text">
+              <h2>Here's what you'll need before you switch.</h2>
               <h3>Current account number</h3>
               <p>
                 You can find your account number on one of the following: your paper bill, digital bill, or within your
-                profile on your carrier's app. Learn more
+                profile on your carrier's app. <a href="#">Learn more</a>
+              </p>
+            </div>
+            <div class="tsw-quiz-text">
+              <h3>Check phone compatibility</h3>
+              <p>Make sure your phone is compatible with our network. <a href="#">Check compatibility</a></p>
+            </div>
+            <div class="tsw-quiz-text">
+              <h3>Confirm your phone trade-in value</h3>
+              <p>Use our simple tool to estimate the value of your device. <a href="#">Check trade-in</a></p>
+            </div>
+            <div class="tsw-quiz-text">
+              <h3>See if you're eligible to transfer your number</h3>
+              <p>
+                Check if your number is eligible to transfer. You'll need your ID, account number, and PIN or passcode.
+                <a href="#">Learn more</a>
+              </p>
+            </div>
+            <div class="tsw-quiz-text">
+              <h3>Get your transfer PIN</h3>
+              <p>
+                With recent security measures, having your account number isn't always enough. Having your temporary
+                Transfer PIN will save time when you join and make transferring your number easier.
+              </p>
+              <p>How to find it:</p>
+              <ul>
+                <li>Your Transfer PIN can be requested from your previous carrier.</li>
+                <li>It can usually be found in your carrier's online account settings.</li>
+                <li>Can't find it? No problem. Just contact your previous carrier</li>
+              </ul>
+            </div>
+            <div class="tsw-quiz-text">
+              <h3>Back up your current phone</h3>
+              <p>
+                Back up your current phone so your contacts, pictures, and more are ready to go.<br />
+                <a href="#">Learn more</a>
+              </p>
+            </div>
+            <div class="tsw-quiz-text">
+              <h3>See if you're eligible to transfer your number</h3>
+              <p>
+                Check if your number is eligible to transfer. You'll need your ID, account number, and PIN or passcode.
+                <a href="#">Learn more</a>
               </p>
             </div>
           </div>

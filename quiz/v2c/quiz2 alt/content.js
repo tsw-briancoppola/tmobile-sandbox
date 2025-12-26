@@ -1,3 +1,27 @@
+const planData = [
+  {
+    title: "Experience beyond",
+    tagline: "Most value packed",
+    rate: "$100/month",
+    rateStrikethrough: "$105",
+    boldText: "for 1 phone line + taxes and fees",
+  },
+  {
+    title: "Essentials",
+    tagline: "Our lowest price",
+    rate: "$60/month",
+    rateStrikethrough: "$65",
+    boldText: "for 1 phone line + taxes and fees",
+  },
+  {
+    title: "Experience more",
+    tagline: "Most popular plan",
+    rate: "$85/month",
+    rateStrikethrough: "$90",
+    boldText: "for 1 phone line + taxes and fees",
+  },
+];
+
 const panelContent = [
   {
     panel: 0,
@@ -35,7 +59,7 @@ const panelContent = [
     panel: 2,
     title: "Do you know what T&#8209;Mobile phone plan you want?",
     questionUI: {
-      name: "tsw-know-plan",
+      name: "tsw-knows-plan",
       type: "radio",
       choices: [
         {
@@ -47,6 +71,10 @@ const panelContent = [
           value: "not sure",
           text: "I'm not sure",
           answer: "That's okay, we'll help you find the perfect plan.",
+          supplemental: {
+            type: "plan-data",
+            data: planData,
+          },
         },
       ],
     },
@@ -82,5 +110,3 @@ const panelContent = [
     },
   },
 ];
-
-const planData = [{}];

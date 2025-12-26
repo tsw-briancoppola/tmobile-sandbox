@@ -30,7 +30,6 @@ const radioButtonsRow = (questionUI) => {
     .map((button, index) => {
       // Determine if this specific button matches the saved state
       const isChecked = savedValue === button.value;
-      console.log(savedValue + " " + button.value);
       return radioButtonHTML(button.id || index, name, button.text, button.value, isChecked);
     })
     .join("");
@@ -38,10 +37,32 @@ const radioButtonsRow = (questionUI) => {
   return `<div class="tsw-quiz-radio-buttons">${buttons}</div>`;
 };
 
-const answerHTML = (name, { value, answer }) =>
-  `<div class="tsw-quiz-answer" data-question="${name}" data-answer="${value}">
+const supplementalHTML = (supplemental) => {
+  console.log(supplemental.data);
+
+  const cards = supplemental.data
+    .map((data) => {
+      const { title, tagline, rate, rateStrikethrough, boldText } = data;
+      return `<div class="tsw-plan-card">
+              <div class="tsw-plan-card-headline">${title}</div>
+              <div class="tsw-plan-card-main">
+                <div class="tsw-plan-card-tagline">${tagline}</div>
+                <div class="tsw-plan-card-rate"><span class="strikethrough">${rateStrikethrough}</span>${rate}</div>
+                <div>${boldText}</div>
+              </div>
+            </div>`;
+    })
+    .join("");
+
+  return `<div class="tsw-plan-card-container">${cards}</div>`;
+};
+
+const answerHTML = (name, { value, answer, supplemental }) => {
+  return `<div class="tsw-quiz-answer" data-question="${name}" data-answer="${value}">
     <p class="bold">${answer}</p>
+    ${supplemental ? supplementalHTML(supplemental) : ""}
   </div>`;
+};
 
 const questionAnswers = (questionUI) => {
   if (!questionUI || !questionUI.choices) return "";
@@ -52,28 +73,29 @@ const questionAnswers = (questionUI) => {
   return choices.map((choice) => answerHTML(name, choice)).join("");
 };
 
-const QuizPanel = (step, content) => `
-  <div class="tsw-quiz-panel tsw-quiz-panel--${step}">
-    <div class="tsw-quiz-question">
-      <h2>${content.title}</h2>
-      ${radioButtonsRow(content.questionUI)}
+const QuizPanel = (step, content) => {
+  return `
+    <div class="tsw-quiz-panel tsw-quiz-panel--${step}">
+      <div class="tsw-quiz-question">
+        <h2>${content.title}</h2>
+        ${radioButtonsRow(content.questionUI)}
+      </div>
+      ${questionAnswers(content.questionUI)}
     </div>
-    ${questionAnswers(content.questionUI)}
-  </div>
-`;
+  `;
+};
 
 // =-=-=-=-=-=-
 // Update panel
 // =-=-=-=-=-=-
 
 const updatecurrentPanel = (index) => {
-  const newPanelContent = panelContent[index];
-  const newPanel = QuizPanel(index, newPanelContent);
-
-  document.querySelector(".tsw-quiz-panel-container").innerHTML = newPanel;
-
   // Update quizState.currentPanel
   quizState.currentPanel = index;
+
+  const newPanelContent = panelContent[index];
+  const newPanel = QuizPanel(index, newPanelContent);
+  document.querySelector(".tsw-quiz-panel-container").innerHTML = newPanel;
 
   // Update local storage
   localStorage.setItem("tsw-quiz", JSON.stringify(quizState));

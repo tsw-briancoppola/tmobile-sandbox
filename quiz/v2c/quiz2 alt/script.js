@@ -55,6 +55,8 @@ const supplementalHTML = (supplemental) => {
   return `<div class="tsw-plan-card-container">${cards}</div>`;
 };
 
+// Quiz questions and answers
+
 const answerHTML = (name, { value, answer, supplemental }) => {
   const isActive = quizState.choices[name] === value ? "active" : "";
 
@@ -73,14 +75,22 @@ const questionAnswers = (questionUI) => {
   return hasAnswers ? choices.map((choice) => answerHTML(name, choice)).join("") : "";
 };
 
+// Quiz panel types
+
+const questionHTML = (content) => `
+  <div class="tsw-quiz-question">
+    <h2>${content.title}</h2>
+    ${radioButtonsRow(content.questionUI)}
+  </div>
+  ${questionAnswers(content.questionUI)}
+`;
+
+// Main quiz panel container
+
 const QuizPanel = (step, content) => {
   return `
     <div class="tsw-quiz-panel tsw-quiz-panel--${step}" data-panel="${step}">
-      <div class="tsw-quiz-question">
-        <h2>${content.title}</h2>
-        ${radioButtonsRow(content.questionUI)}
-      </div>
-      ${questionAnswers(content.questionUI)}
+      ${content.questionUI ? questionHTML(content) : ""}
     </div>
   `;
 };
@@ -96,7 +106,7 @@ const saveState = () => {
 const updateChoice = (name, value, type, checked) => {
   // Update quizState object based on input type
   if (type === "checkbox") {
-    quizState.choices[name] == quizState.choices[name] || [];
+    quizState.choices[name] = quizState.choices[name] || [];
 
     if (checked) {
       quizState.choices[name].push(value);
@@ -200,7 +210,7 @@ panelsContainer.addEventListener("change", (event) => {
 
 const init = () => {
   const localStorageData = JSON.parse(localStorage.getItem("tsw-quiz"));
-  if (localStorageData) quizState = JSON.parse(localStorageData);
+  if (localStorageData) quizState = localStorageData;
 
   renderAllPanels();
   updateCurrentPanel(quizState.currentPanel);

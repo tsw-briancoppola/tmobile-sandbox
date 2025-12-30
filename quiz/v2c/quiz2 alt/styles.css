@@ -126,9 +126,12 @@ ul {
 /* Quiz panel styles */
 
 .tsw-quiz-panel {
-  display: flex;
+  display: none;
   flex-direction: column;
   gap: 3.5rem;
+}
+.tsw-quiz-panel.active {
+  display: flex;
 }
 
 /* Quiz answer styles */

@@ -16,12 +16,12 @@ let quizState = {
 // =-=-=-=-=-=-=-=-=-=-=-=
 
 const radioButtonHTML = (index, name, text, value, isChecked) => `
-  <input type="radio" id="${name}--${index}" name="${name}" value="${value}" ${isChecked ? "checked" : ""}  />
+  <input type="radio" id="${name}--${index}" name="${name}" value="${value}" ${isChecked ? "checked" : ""} />
   <label for="${name}--${index}">${text}</label>
 `;
 
 const radioButtonsRow = (questionUI) => {
-  if (!questionUI || !questionUI.choices) return "";
+  if (!questionUI?.choices) return "";
   const { name, type, choices } = questionUI;
 
   const savedValue = quizState.choices[name];
@@ -38,8 +38,6 @@ const radioButtonsRow = (questionUI) => {
 };
 
 const supplementalHTML = (supplemental) => {
-  console.log(supplemental.data);
-
   const cards = supplemental.data
     .map((data) => {
       const { title, tagline, rate, rateStrikethrough, boldText } = data;
@@ -58,24 +56,26 @@ const supplementalHTML = (supplemental) => {
 };
 
 const answerHTML = (name, { value, answer, supplemental }) => {
-  return `<div class="tsw-quiz-answer" data-question="${name}" data-answer="${value}">
+  const isActive = quizState.choices[name] === value ? "active" : "";
+
+  return `<div class="tsw-quiz-answer ${isActive}" data-question="${name}" data-answer="${value}">
     <p class="bold">${answer}</p>
     ${supplemental ? supplementalHTML(supplemental) : ""}
   </div>`;
 };
 
 const questionAnswers = (questionUI) => {
-  if (!questionUI || !questionUI.choices) return "";
+  if (!questionUI?.choices) return "";
 
   const { name, choices } = questionUI;
-  if (!choices || !choices.some((choice) => choice.answer)) return "";
+  const hasAnswers = choices.some((choice) => choice.answer);
 
-  return choices.map((choice) => answerHTML(name, choice)).join("");
+  return hasAnswers ? choices.map((choice) => answerHTML(name, choice)).join("") : "";
 };
 
 const QuizPanel = (step, content) => {
   return `
-    <div class="tsw-quiz-panel tsw-quiz-panel--${step}">
+    <div class="tsw-quiz-panel tsw-quiz-panel--${step}" data-panel="${step}">
       <div class="tsw-quiz-question">
         <h2>${content.title}</h2>
         ${radioButtonsRow(content.questionUI)}
@@ -85,20 +85,75 @@ const QuizPanel = (step, content) => {
   `;
 };
 
-// =-=-=-=-=-=-
-// Update panel
-// =-=-=-=-=-=-
+// =-=-=-=-=-=-=-=-
+// State management
+// =-=-=-=-=-=-=-=-
 
-const updatecurrentPanel = (index) => {
-  // Update quizState.currentPanel
+const saveState = () => {
+  localStorage.setItem("tsw-quiz", JSON.stringify(quizState));
+};
+
+const updateChoice = (name, value, type, checked) => {
+  // Update quizState object based on input type
+  if (type === "checkbox") {
+    quizState.choices[name] == quizState.choices[name] || [];
+
+    if (checked) {
+      quizState.choices[name].push(value);
+    } else {
+      quizState.choices[name] = quizState.choices[name].filter((item) => item !== value);
+    }
+  } else {
+    quizState.choices[name] = value;
+  }
+
+  saveState();
+};
+
+const showAnswer = (panel, questionName, answerValue) => {
+  const answers = panel.querySelectorAll(`.tsw-quiz-answer[data-question="${questionName}"]`);
+  answers.forEach((ans) => ans.classList.remove("active"));
+
+  const targetAnswer = panel.querySelector(`[data-answer="${answerValue}"]`);
+  targetAnswer?.classList.add("active");
+};
+
+// =-=-=-=-=-=-=-=-
+// Panel navigation
+// =-=-=-=-=-=-=-=-
+
+const renderAllPanels = () => {
+  const allPanelsHTML = panelContent
+    .map((content, index) => {
+      return QuizPanel(index, content);
+    })
+    .join("");
+
+  panelsContainer.innerHTML = allPanelsHTML;
+};
+
+const updateCurrentPanel = (index) => {
   quizState.currentPanel = index;
 
-  const newPanelContent = panelContent[index];
-  const newPanel = QuizPanel(index, newPanelContent);
-  document.querySelector(".tsw-quiz-panel-container").innerHTML = newPanel;
+  // Hide all panels, show current
+  const allPanels = panelsContainer.querySelectorAll(".tsw-quiz-panel");
+  allPanels.forEach((panel, i) => {
+    panel.classList.toggle("active", i === index);
+  });
 
-  // Update local storage
-  localStorage.setItem("tsw-quiz", JSON.stringify(quizState));
+  // Restore
+  const currentPanel = allPanels[index];
+  const inputs = currentPanel.querySelectorAll("input[name]");
+
+  inputs.forEach((input) => {
+    const savedValue = quizState.choices[input.name];
+    if (savedValue && input.value === savedValue) {
+      showAnswer(currentPanel, input.name, savedValue);
+    }
+  });
+
+  saveState();
+  updateStepperButtons();
 };
 
 const updateStepperButtons = () => {
@@ -112,57 +167,31 @@ const updateStepperButtons = () => {
 
 panelListItems.forEach((item, index) => {
   item.addEventListener("click", () => {
-    updatecurrentPanel(index + 1);
-    updateStepperButtons();
+    updateCurrentPanel(index + 1);
   });
 });
 
 // Stepper buttons
 
 backButton.addEventListener("click", () => {
-  updatecurrentPanel(quizState.currentPanel - 1);
-  updateStepperButtons();
+  updateCurrentPanel(quizState.currentPanel - 1);
 });
 
 nextButton.addEventListener("click", () => {
-  updatecurrentPanel(quizState.currentPanel + 1);
-  updateStepperButtons();
+  updateCurrentPanel(quizState.currentPanel + 1);
 });
 
 // All panel inputs
 
 panelsContainer.addEventListener("change", (event) => {
   const { target } = event;
+  if (!target.matches("input")) return;
+
   const { name, value, type, checked } = target;
-
-  // Update quizState object based on input type
-  if (type === "checkbox") {
-    if (!quizState.choices[name]) quizState.choices[name] = [];
-
-    if (checked) {
-      quizState.choices[name].push(value);
-    } else {
-      quizState.choices[name] = quizState.choices[name].filter((item) => item !== value);
-    }
-  } else {
-    quizState.choices[name] = value;
-  }
-
-  // Reveal appropriate answer element if any
   const currentPanel = target.closest(".tsw-quiz-panel");
-  if (!currentPanel) return;
 
-  const answers = currentPanel.querySelectorAll(`.tsw-quiz-answer[data-question="${name}"]`);
-  answers.forEach((ans) => ans.classList.remove("active"));
-
-  const targetAnswer = currentPanel.querySelector(`[data-answer="${value}"]`);
-  if (targetAnswer) {
-    targetAnswer.classList.add("active");
-  }
-
-  localStorage.setItem("tsw-quiz", JSON.stringify(quizState));
-
-  console.log("quizState:", quizState.choices);
+  updateChoice(name, value, type, checked);
+  showAnswer(currentPanel, name, value);
 });
 
 // =-=-=-=
@@ -171,12 +200,10 @@ panelsContainer.addEventListener("change", (event) => {
 
 const init = () => {
   const localStorageData = JSON.parse(localStorage.getItem("tsw-quiz"));
-  if (localStorageData) quizState = localStorageData;
+  if (localStorageData) quizState = JSON.parse(localStorageData);
 
-  updatecurrentPanel(quizState.currentPanel);
-  // initHelpTypeButtons(quizState);
-  // initChoiceButtons(quizState);
-  updateStepperButtons();
+  renderAllPanels();
+  updateCurrentPanel(quizState.currentPanel);
 };
 
 localStorage.removeItem("tsw-quiz");

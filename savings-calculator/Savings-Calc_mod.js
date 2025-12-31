@@ -14,7 +14,7 @@ const savingsData = {
         id: "esave",
         planName: "Better Value",
         tagline: "Our most value-packed plan",
-        selected: true,
+        selected: false,
         pricePoints: {
           id: "pricing",
           promo: true,
@@ -228,7 +228,7 @@ const savingsData = {
         id: "emore",
         planName: "Experience More",
         tagline: "Our most popular plan",
-        selected: false,
+        selected: true,
         pricePoints: {
           id: "pricing",
           promo: true,
@@ -1399,7 +1399,7 @@ window.onload = () => {
 
   setupDropdownOptions();
   checkPlanDropdown();
-  changeChartContent(3, "esave");
+  changeChartContent(2, "emore");
   checkStepper(SAVINGSCALC.querySelector(".tsw-savings-calc .device .stepper"));
 };
 

@@ -15,6 +15,8 @@ let quizState = {
 // Panel builder functions
 // =-=-=-=-=-=-=-=-=-=-=-=
 
+// Question buttons
+
 const radioButtonHTML = (index, name, text, value, isChecked) => `
   <input type="radio" id="${name}--${index}" name="${name}" value="${value}" ${isChecked ? "checked" : ""} />
   <label for="${name}--${index}">${text}</label>
@@ -36,6 +38,8 @@ const radioButtonsRow = (questionUI) => {
 
   return `<div class="tsw-quiz-radio-buttons">${buttons}</div>`;
 };
+
+// Plan cards
 
 const supplementalHTML = (supplemental) => {
   const cards = supplemental.data
@@ -77,7 +81,13 @@ const questionAnswers = (questionUI) => {
 
 // Quiz panel types
 
-const questionHTML = (content) => `
+const textPanelHTML = (content) => `
+  <div class="tsw-quiz-text">
+    <h2>${content.title}</h2>
+  </div>
+`;
+
+const questionPanelHTML = (content) => `
   <div class="tsw-quiz-question">
     <h2>${content.title}</h2>
     ${radioButtonsRow(content.questionUI)}
@@ -90,7 +100,8 @@ const questionHTML = (content) => `
 const QuizPanel = (step, content) => {
   return `
     <div class="tsw-quiz-panel tsw-quiz-panel--${step}" data-panel="${step}">
-      ${content.questionUI ? questionHTML(content) : ""}
+      ${content.text ? textPanelHTML(content) : ""}
+      ${content.questionUI ? questionPanelHTML(content) : ""}
     </div>
   `;
 };

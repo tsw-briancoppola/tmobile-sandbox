@@ -26,9 +26,10 @@ const panelContent = [
   {
     panel: 0,
     title: "Thinking about switching to T&#8209;Mobile?",
-    content: [
+    text: [
       {
-        text: "We're here to make switching easy. Choose what you'd like more information on and we'll give you a customized how to switch checklist.",
+        paragraph:
+          "We're here to make switching easy. Choose what you'd like more information on and we'll give you a customized how to switch checklist.",
       },
     ],
   },

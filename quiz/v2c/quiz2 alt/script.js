@@ -79,11 +79,39 @@ const questionAnswers = (questionUI) => {
   return hasAnswers ? choices.map((choice) => answerHTML(name, choice)).join("") : "";
 };
 
+// Quiz text panel areas
+
+const textHTMLList = (list) => {
+  return list
+    .map((item) => {
+      return `<li><a href="${item.url}">${item.text}</a></li>`;
+    })
+    .join("");
+};
+
+const textHTML = (text) => {
+  const textTags = text
+    .map((tag) => {
+      if (tag.type === "p") {
+        return `<p>${tag.value}</p>`;
+      } else if (tag.type === "list") {
+        return `<ul>${textHTMLList(tag.items)}</ul>`;
+      } else if (tag.type === "button") {
+        const action = tag.onClick === "next" ? `${updateCurrentPanel(quizState.currentPanel + 1)}` : "";
+        return `<button type="button" class="magenta-button" onClick="${action}">${tag.text}</button>`;
+      }
+    })
+    .join("");
+
+  return textTags;
+};
+
 // Quiz panel types
 
 const textPanelHTML = (content) => `
   <div class="tsw-quiz-text">
     <h2>${content.title}</h2>
+    ${textHTML(content.text)}
   </div>
 `;
 
@@ -164,6 +192,7 @@ const updateCurrentPanel = (index) => {
 
   // Restore
   const currentPanel = allPanels[index];
+  console.log(allPanels);
   const inputs = currentPanel.querySelectorAll("input[name]");
 
   inputs.forEach((input) => {

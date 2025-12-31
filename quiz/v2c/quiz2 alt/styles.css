@@ -62,14 +62,21 @@ p {
 }
 p {
   font-size: 1.8rem;
+  margin-bottom: 1.4rem;
 }
-
-ul {
-  list-style-type: none;
+a {
+  color: var(--quiz-highlight-color);
 }
 
 .bold {
   font-weight: 700;
+}
+
+ul {
+  margin-left: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
 }
 
 /* UI elements */

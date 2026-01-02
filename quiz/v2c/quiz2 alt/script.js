@@ -5,6 +5,9 @@ const backButton = document.querySelector(".tsw-quiz-button-back");
 const nextButton = document.querySelector(".tsw-quiz-button-next");
 const helpTypeButtons = document.querySelectorAll(".tsw-quiz-help-buttons li input");
 
+// Content source
+const CONTENT_SOURCE = panelContent;
+
 // User state object
 let quizState = {
   currentPanel: 0,
@@ -22,9 +25,9 @@ const radioButtonHTML = (index, name, text, value, isChecked) => `
   <label for="${name}--${index}">${text}</label>
 `;
 
-const radioButtonsRow = (questionUI) => {
-  if (!questionUI?.choices) return "";
-  const { name, type, choices } = questionUI;
+const radioButtonsRow = (question) => {
+  if (!question?.choices) return "";
+  const { name, type, choices } = question;
 
   const savedValue = quizState.choices[name];
 
@@ -70,16 +73,28 @@ const answerHTML = (name, { value, answer, supplemental }) => {
   </div>`;
 };
 
-const questionAnswers = (questionUI) => {
-  if (!questionUI?.choices) return "";
+const questionAnswers = (question) => {
+  if (!question?.choices) return "";
 
-  const { name, choices } = questionUI;
+  const { name, choices } = question;
   const hasAnswers = choices.some((choice) => choice.answer);
 
   return hasAnswers ? choices.map((choice) => answerHTML(name, choice)).join("") : "";
 };
 
 // Quiz text panel areas
+
+const textHTMLParagraph = (p) => {
+  return p
+    .map((segment) => {
+      if (segment.url) {
+        return `<a href="${segment.url}">${segment.text}</a>`;
+      } else {
+        return segment.text;
+      }
+    })
+    .join("");
+};
 
 const textHTMLList = (list) => {
   return list
@@ -93,12 +108,11 @@ const textHTML = (text) => {
   const textTags = text
     .map((tag) => {
       if (tag.type === "p") {
-        return `<p>${tag.value}</p>`;
+        return `<p>${textHTMLParagraph(tag.value)}</p>`;
       } else if (tag.type === "list") {
         return `<ul>${textHTMLList(tag.items)}</ul>`;
       } else if (tag.type === "button") {
-        const action = tag.onClick === "next" ? `${updateCurrentPanel(quizState.currentPanel + 1)}` : "";
-        return `<button type="button" class="magenta-button" onClick="${action}">${tag.text}</button>`;
+        return `<button type="button" class="magenta-button" data-action="${tag.onClick}">${tag.text}</button>`;
       }
     })
     .join("");
@@ -118,9 +132,9 @@ const textPanelHTML = (content) => `
 const questionPanelHTML = (content) => `
   <div class="tsw-quiz-question">
     <h2>${content.title}</h2>
-    ${radioButtonsRow(content.questionUI)}
+    ${radioButtonsRow(content.question)}
   </div>
-  ${questionAnswers(content.questionUI)}
+  ${questionAnswers(content.question)}
 `;
 
 // Main quiz panel container
@@ -129,7 +143,7 @@ const QuizPanel = (step, content) => {
   return `
     <div class="tsw-quiz-panel tsw-quiz-panel--${step}" data-panel="${step}">
       ${content.text ? textPanelHTML(content) : ""}
-      ${content.questionUI ? questionPanelHTML(content) : ""}
+      ${content.question ? questionPanelHTML(content) : ""}
     </div>
   `;
 };
@@ -171,8 +185,8 @@ const showAnswer = (panel, questionName, answerValue) => {
 // Panel navigation
 // =-=-=-=-=-=-=-=-
 
-const renderAllPanels = () => {
-  const allPanelsHTML = panelContent
+const renderAllPanels = (source) => {
+  const allPanelsHTML = source
     .map((content, index) => {
       return QuizPanel(index, content);
     })
@@ -211,9 +225,9 @@ const updateStepperButtons = () => {
   nextButton.disabled = quizState.currentPanel >= panelContent.length - 1;
 };
 
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-// List and button event handlers
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// Input and button event handlers
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 panelListItems.forEach((item, index) => {
   item.addEventListener("click", () => {
@@ -231,7 +245,7 @@ nextButton.addEventListener("click", () => {
   updateCurrentPanel(quizState.currentPanel + 1);
 });
 
-// All panel inputs
+// All panel inputs and other buttons
 
 panelsContainer.addEventListener("change", (event) => {
   const { target } = event;
@@ -244,6 +258,17 @@ panelsContainer.addEventListener("change", (event) => {
   showAnswer(currentPanel, name, value);
 });
 
+panelsContainer.addEventListener("click", (event) => {
+  const { target } = event;
+  if (!target.matches("button[data-action]")) return;
+
+  const action = target.dataset.action;
+
+  if (action === "next") {
+    updateCurrentPanel(quizState.currentPanel + 1);
+  }
+});
+
 // =-=-=-=
 // On load
 // =-=-=-=
@@ -252,7 +277,7 @@ const init = () => {
   const localStorageData = JSON.parse(localStorage.getItem("tsw-quiz"));
   if (localStorageData) quizState = localStorageData;
 
-  renderAllPanels();
+  renderAllPanels(CONTENT_SOURCE);
   updateCurrentPanel(quizState.currentPanel);
 };
 

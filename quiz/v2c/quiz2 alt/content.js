@@ -29,8 +29,11 @@ const panelContent = [
     text: [
       {
         type: "p",
-        value:
-          "Answer a few quick questions and we'll give you a customized checklist of everything you need to know about switching.",
+        value: [
+          {
+            text: "Answer a few quick questions and we'll give you a customized checklist of everything you need to know about switching.",
+          },
+        ],
       },
       {
         type: "button",
@@ -42,7 +45,7 @@ const panelContent = [
   {
     panel: 1,
     title: "Why are you interested in swtching to T&#8209;Mobile?",
-    questionUI: {
+    question: {
       name: "tsw-why-interested",
       type: "radio",
       choices: [
@@ -68,7 +71,7 @@ const panelContent = [
   {
     panel: 2,
     title: "Do you know what T&#8209;Mobile phone plan you want?",
-    questionUI: {
+    question: {
       name: "tsw-knows-plan",
       type: "radio",
       choices: [
@@ -92,7 +95,7 @@ const panelContent = [
   {
     panel: 3,
     title: "How many lines are you bringing?",
-    questionUI: {
+    question: {
       name: "tsw-line-count",
       type: "radio",
       choices: [
@@ -122,7 +125,7 @@ const panelContent = [
   {
     panel: 4,
     title: "Do you need to buy a new device or are you bringing your own?",
-    questionUI: {
+    question: {
       name: "tsw-which-device",
       type: "radio",
       choices: [
@@ -144,7 +147,7 @@ const panelContent = [
   {
     panel: 5,
     title: "Is your device unlocked?",
-    questionUI: {
+    question: {
       name: "tsw-device-unlocked",
       type: "radio",
       choices: [
@@ -171,7 +174,7 @@ const panelContent = [
   {
     panel: 6,
     title: "Do you want to keep your current phone number?",
-    questionUI: {
+    question: {
       name: "tsw-keep-current-number",
       type: "radio",
       choices: [
@@ -184,9 +187,100 @@ const panelContent = [
         {
           text: "No",
           value: "no",
-          answer: "We’ll get you set up with a new number when you switch.",
+          answer: "We'll get you set up with a new number when you switch.",
         },
       ],
+      button: {
+        text: "Get started",
+        onClick: "next",
+      },
     },
+  },
+  {
+    panel: 7,
+    title: "Here's what you'll need to switch",
+    text: [
+      {
+        type: "list",
+        items: [
+          {
+            text: "Pick your plan",
+            url: "#",
+          },
+          {
+            text: "Choose your new device",
+            url: "#",
+          },
+          {
+            text: "Unlock your device",
+            url: "#",
+          },
+          {
+            text: "Check your device compatibility (IMEI)",
+            url: "#",
+          },
+          {
+            text: "Trade-in your device",
+            url: "#",
+          },
+          {
+            text: "Check trade-in value",
+            url: "#",
+          },
+          {
+            text: "Transfer your phone number",
+            url: "#",
+          },
+          {
+            text: "Explore device deals",
+            url: "#",
+          },
+        ],
+      },
+      {
+        type: "p",
+        value: [
+          {
+            text: "When you're ready, you can ",
+          },
+          {
+            text: "switch online",
+            url: "#",
+          },
+          {
+            text: " or through the ",
+          },
+          {
+            text: "T&#8209;Life app",
+            url: "#",
+          },
+          {
+            text: ".",
+          },
+        ],
+      },
+      {
+        type: "p",
+        value: [
+          {
+            text: "You can also ",
+          },
+          {
+            text: "chat with us",
+            url: "#",
+          },
+          {
+            text: " or ",
+          },
+          {
+            text: "find the closest store",
+            url: "#",
+          },
+          {
+            text: " if you need extra help.",
+          },
+        ],
+      },
+    ],
   },
 ];

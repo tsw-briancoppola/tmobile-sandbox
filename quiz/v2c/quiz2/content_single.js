@@ -4,36 +4,36 @@ const planData = [
     tagline: "Most value packed",
     rate: "$100/month",
     rateStrikethrough: "$105",
-    boldText: "for 1 phone line + taxes and fees",
+    qualifier: "for 1 phone line + taxes and fees",
+    qualifierPlus: "+ up to $35 device connection charge per line",
   },
   {
     title: "Essentials",
     tagline: "Our lowest price",
     rate: "$60/month",
     rateStrikethrough: "$65",
-    boldText: "for 1 phone line + taxes and fees",
+    qualifier: "for 1 phone line + taxes and fees",
+    qualifierPlus: "+ up to $35 device connection charge per line",
   },
   {
     title: "Experience more",
     tagline: "Most popular plan",
     rate: "$85/month",
     rateStrikethrough: "$90",
-    boldText: "for 1 phone line + taxes and fees",
+    qualifier: "for 1 phone line + taxes and fees",
+    qualifierPlus: "+ up to $35 device connection charge per line",
   },
 ];
 
-const panelContent = [
+const panelContentSingle = [
   {
     panel: 0,
     title: "Thinking about switching to T&#8209;Mobile?",
     text: [
       {
         type: "p",
-        value: [
-          {
-            text: "Answer a few quick questions and we'll give you a customized checklist of everything you need to know about switching.",
-          },
-        ],
+        value:
+          "Answer a few quick questions and we'll give you a customized checklist of everything you need to know about switching.",
       },
       {
         type: "button",
@@ -183,17 +183,21 @@ const panelContent = [
           value: "yes",
           answer:
             "No problem. There is no charge for transferring your phone number and the transfer can take as little as 10 minutes.",
+          button: {
+            text: "See my results",
+            onClick: "next",
+          },
         },
         {
           text: "No",
           value: "no",
           answer: "We'll get you set up with a new number when you switch.",
+          button: {
+            text: "See my results",
+            onClick: "next",
+          },
         },
       ],
-      button: {
-        text: "Get started",
-        onClick: "next",
-      },
     },
   },
   {

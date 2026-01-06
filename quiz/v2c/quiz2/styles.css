@@ -46,7 +46,7 @@ html {
 
 body {
   height: 100vh;
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   font-family: "Arial", sans-serif;
   overflow-x: hidden;
   margin: 0;
@@ -60,12 +60,8 @@ p {
   margin: 0;
   line-height: normal;
 }
-p {
-  margin-bottom: 1rem;
-}
 
-a,
-a:visited {
+a {
   color: var(--quiz-highlight-color);
 }
 
@@ -73,10 +69,15 @@ a:visited {
   font-weight: 700;
 }
 
+.strikethrough {
+  text-decoration: line-through;
+}
+
 /* UI elements */
 
 .magenta-button {
   cursor: pointer;
+  align-self: flex-start;
   padding: 1rem 1.5rem;
   font-size: 1.6rem;
   /* font-weight: 600; */
@@ -95,7 +96,7 @@ a:visited {
   flex-direction: column;
   gap: 3rem;
   max-width: 120rem;
-  min-height: 60rem;
+  min-height: 55rem;
   padding: 2.4rem;
   margin: 0 auto;
 }
@@ -108,11 +109,23 @@ a:visited {
 .tsw-quiz h2 {
   color: var(--quiz-highlight-color);
   line-height: 3rem;
-  margin-bottom: 1.4rem;
+  margin-bottom: 1.8rem;
 }
 .tsw-quiz h3 {
   color: var(--color-brand-grayscale-900);
   line-height: 3rem;
+}
+
+.tsw-quiz p {
+  /* font-size: 1.8rem; */
+  margin-bottom: 2rem;
+}
+
+.tsw-quiz ul {
+  margin: 0 0 3rem 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 /* Quiz main div styles */
@@ -135,7 +148,7 @@ a:visited {
   display: flex;
 }
 
-/* Quiz panel element styles */
+/* Quiz answer styles */
 
 .tsw-quiz-answer {
   display: none;
@@ -146,11 +159,8 @@ a:visited {
   display: flex;
 }
 
-.tsw-quiz-text ul {
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-  padding-left: 3rem;
+.tsw-quiz-answer p {
+  margin: 0;
 }
 
 /* Quiz plan card styles */
@@ -170,9 +180,39 @@ a:visited {
 .tsw-plan-card > div {
   padding: 1.5rem;
 }
+
+.tsw-plan-card-main,
+.tsw-plan-card-rate,
+.tsw-plan-card-text {
+  display: flex;
+  flex-direction: column;
+}
+.tsw-plan-card-main {
+  font-size: 1.4rem;
+  gap: 1.4rem;
+}
+.tsw-plan-card-rate {
+  gap: 1rem;
+}
+.tsw-plan-card-rate-numbers {
+  font-size: 2rem;
+}
+.tsw-plan-card-text {
+  gap: 1rem;
+}
+
 .tsw-plan-card-headline {
   color: var(--color-brand-grayscale-white);
   background-color: var(--color-brand-grayscale-900);
+}
+.tsw-plan-card-tagline {
+  align-self: flex-start;
+  font-size: 1rem;
+  display: inline-block;
+  padding: 0.4rem 0.8rem;
+  color: var(--color-brand-grayscale-white);
+  background-color: var(--color-brand-grayscale-900);
+  border-radius: 0.5rem;
 }
 
 /* Quiz radio button and checkbox styles */
@@ -185,7 +225,6 @@ a:visited {
 }
 .tsw-quiz-radio-buttons label,
 .tsw-quiz-checkboxes label {
-  font-size: 1.6rem;
   padding: 1rem 1.5rem;
   border: 1px solid var(--color-brand-grayscale-900);
   border-radius: 5rem;

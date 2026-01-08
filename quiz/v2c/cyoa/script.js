@@ -26,21 +26,37 @@ const radioCheckboxHTML = (type, index, name, text, value, isChecked) => `
   <label for="${name}--${index}">${text}</label>
 `;
 
+const dropdownOptionsHTML = (choices) => {
+  return choices.map((choice) => {
+    const { text, value } = choice;
+    return `<option value=${value}>${text}</option>`;
+  });
+};
+
 const questionInputsRow = (question) => {
   if (!question?.choices) return "";
   const { name, type, choices } = question;
 
   const savedValue = quizState.choices[name];
+  let inputs = "";
 
-  const inputs = choices
-    .map((input, index) => {
-      // Determine if this specific button matches the saved state
-      const isChecked = savedValue === input.value;
-      if (type === "radio" || type === "checkbox") {
-        return radioCheckboxHTML(input.id || type, index, name, input.text, input.value, isChecked);
-      }
-    })
-    .join("");
+  if (type === "radio" || type === "checkbox") {
+    inputs = choices
+      .map((choice, index) => {
+        // Determine if this specific button matches the saved state
+        const isChecked = savedValue === choice.value;
+        if (type === "radio" || type === "checkbox") {
+          return radioCheckboxHTML(choice.id || type, index, name, choice.text, choice.value, isChecked);
+        }
+      })
+      .join("");
+  } else if (type === "dropdown") {
+    return `
+      <select class="tsw-quiz-choice-dropdown" id="${name}" name="${name}">
+        ${dropdownOptionsHTML(choices)}
+      </select>
+    `;
+  }
 
   return `<div class="tsw-quiz-inputs">${inputs}</div>`;
 };

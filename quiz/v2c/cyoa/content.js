@@ -95,6 +95,25 @@ const panelContent = [
           },
         ],
       },
+      {
+        title: "Which phone(s) would you like to see prices/offers for?",
+        name: "tsw-brands-interested",
+        type: "dropdown",
+        choices: [
+          {
+            text: "Apple",
+            value: "apple",
+          },
+          {
+            text: "Samsung",
+            value: "samsung",
+          },
+          {
+            text: "Motorola",
+            value: "motorola",
+          },
+        ],
+      },
     ],
   },
   {
@@ -172,6 +191,19 @@ const panelContent = [
         value: [
           {
             text: "Use our simple tool to estimate the value of your device. ",
+          },
+          {
+            text: "Check trade-in",
+            url: "#",
+          },
+        ],
+      },
+      {
+        type: "p",
+        subhead: "See if you're eligible to transfer your number",
+        value: [
+          {
+            text: "Check if your number is eligible to transfer. You'll need your ID, account number, and PIN or passcode. ",
           },
           {
             text: "Check trade-in",

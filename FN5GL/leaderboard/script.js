@@ -5,6 +5,13 @@ const fn5glBrackets = document.querySelector(".tsw-fn5gl-brackets");
 const DATA_SOURCE = highSchoolData;
 const DATA_SOURCE_PREVIOUS = highSchoolDataPrevious;
 
+// Set order of how regions are rendered
+const regionsOrder = ["north", "south", "east", "west"];
+
+// =-=-=-=-=-=-=-=-
+// Render functions
+// =-=-=-=-=-=-=-=-
+
 const renderTrend = (trendValue) => {
   if (trendValue === 0) {
     return `<span class="gray">—</span>`;
@@ -53,8 +60,6 @@ const renderRegion = (region, schools) => {
 
 const renderAllRegions = ({ highSchools }) => {
   const grouped = Object.groupBy(highSchools, (school) => school.region);
-  // Set order of how regions are rendered
-  const regionsOrder = ["north", "south", "east", "west"];
 
   const allRegionsHTML = regionsOrder
     .map((region) => {
@@ -65,7 +70,32 @@ const renderAllRegions = ({ highSchools }) => {
   fn5glLeaderboard.innerHTML = allRegionsHTML;
 };
 
-const renderBrackets = () => {};
+const getRegionLeaders = (schools) => {
+  const leaders = regionsOrder.map((region) => {
+    const regionSchools = schools.filter((school) => school.region === region);
+    return regionSchools.reduce((prev, current) => (prev.votes > current.votes ? prev : current));
+  });
+
+  return leaders;
+};
+
+const renderBrackets = ({ highSchools }) => {
+  const matchupNames = ["semifinal1", "semifinal2", "final"];
+  const regionLeaders = getRegionLeaders(highSchools);
+
+  const semifinalMatchups = matchupNames
+    .map((matchup, index) => {
+      return `
+      <div class="tsw-fn5gl-brackets-matchup ${matchup}">
+        <div class="tsw-fn5gl-brackets-school school1"></div>
+        <div class="tsw-fn5gl-brackets-school school2">School2</div>
+      </div>
+    `;
+    })
+    .join("");
+
+  fn5glBrackets.innerHTML = semifinalMatchups;
+};
 
 // =-=-=-=-=-=-=-=
 // Event functions
@@ -76,6 +106,7 @@ const addVote = (id) => {
   targetSchool.votes += 1000;
 
   renderAllRegions(DATA_SOURCE, DATA_SOURCE_PREVIOUS);
+  renderBrackets(DATA_SOURCE);
 };
 
 // =-=-=-=-=-=-=-=
@@ -100,6 +131,7 @@ const init = () => {
   // if (localStorageData) quizState = localStorageData;
 
   renderAllRegions(DATA_SOURCE, DATA_SOURCE_PREVIOUS);
+  renderBrackets(DATA_SOURCE);
 };
 
 init();

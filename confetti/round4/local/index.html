@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- JS link -->
+    <script defer src="script.js"></script>
+    <!-- CSS link -->
+    <link rel="stylesheet" href="styles.css" type="text/css" />
+    <!-- Confetti link -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/dist/confetti.browser.min.js"
+      integrity="sha384-JSZXO0kKYHTylAsDYTb+7Kg2eUyalm19b8Pydcdf8sQ1cCKYZr9lLahoKT9+LFY5"
+      crossorigin="anonymous"
+    ></script>
+    <title>[* Confetti test *]</title>
+  </head>
+
+  <body>
+    <div class="tsw-confetti-container">
+      <div class="tsw-confetti-header">
+        <h1>Confetti Test - Round 4!</h1>
+        <h2>Source: <a href="https://github.com/catdad/canvas-confetti" target="_blank">Canvas-Confetti</a></h2>
+      </div>
+      <div class="tsw-confetti-buttons">
+        <div>
+          <h3>Magenta confetti</h3>
+          <button id="tsw-confetti-button-1" class="magenta-button">4 corners</button>
+        </div>
+        <div>
+          <h3>Magenta confetti + 3 icons</h3>
+          <button id="tsw-confetti-button-2" class="magenta-button">4 corners</button>
+        </div>
+        <div>
+          <h3>Magenta confetti + 4 icons</h3>
+          <button id="tsw-confetti-button-3" class="magenta-button">4 corners</button>
+        </div>
+        <div>
+          <h3>Magenta confetti + 5 icons</h3>
+          <button id="tsw-confetti-button-4" class="magenta-button">4 corners</button>
+        </div>
+      </div>
+      <div class="tsw-confetti-big-buttons">
+        <button id="tsw-confetti-big-button-1" class="tsw-confetti-big-button">
+          <svg class="tsw-tmobile-logo">
+            <use xlink:href="#tsw-tmobile-logo-svg" />
+          </svg>
+        </button>
+        <button id="tsw-confetti-big-button-2" class="tsw-confetti-big-button">
+          <p>TELL<br />ME<br />WHY</p>
+        </button>
+      </div>
+    </div>
+
+    <div class="tsw-confetti-svg-icons">
+      <svg id="tsw-tmobile-logo-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80.2 80.3">
+        <path
+          d="M29.2,48.1h-10v-10h10v10ZM19.2,15.2v16.9h3v-.5c0-8,4.5-13,13-13h.5v35.9c0,5-2,7-7,7h-1.5v3.5h25.9v-3.5h-1.5c-5,0-7-2-7-7V18.7h.5c8.5,0,13,5,13,13v.5h3V15.2H19.2ZM51.1,48.1h10v-10h-10v10Z"
+        />
+      </svg>
+    </div>
+  </body>
+</html>

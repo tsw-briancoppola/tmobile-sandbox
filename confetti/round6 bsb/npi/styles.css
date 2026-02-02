@@ -1,0 +1,64 @@
+/* Variables */
+
+.tsw-container {
+  --tsw-font-display:
+    "TeleNeo Web", var(--phx--text-family-brand), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --tsw-font-main:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol";
+
+  --tsw-font-size: 16px;
+  --color-brand-primary-400: #e20074;
+  --color-brand-primary-500: #a7005a;
+  --color-brand-primary-600: #770141;
+  --color-brand-grayscale-100: #fbfbfb;
+  --color-brand-grayscale-200: #f5f5f5;
+  --color-brand-grayscale-300: #e6e6e6;
+  --color-brand-grayscale-400: #ccc;
+  --color-brand-grayscale-500: #8c8c8c;
+  --color-brand-grayscale-600: #6a6a6a;
+  --color-brand-grayscale-700: #414141;
+  --color-brand-grayscale-900: #1c1c1c;
+  --color-brand-grayscale-white: #fff;
+
+  --color-overlay: rgba(0, 0, 0, 0.4);
+  --color-input-shadow: 0px 0px 5px 0px rgba(226, 0, 116, 0.5);
+}
+
+/* BSB image styles */
+
+#tsw-bsb-image-img {
+  position: relative;
+  overflow: hidden;
+}
+
+#tsw-bsb-image-img::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/content/dam/digx/tmobile/us/en/sandbox/NEW-AEM-Organization-Framework-WIP/uncarrier-dark-projects/tell-me-why/Dance-16x9-FPO.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  opacity: 0;
+  transition: opacity 0.1s ease-in-out;
+  z-index: -1; /* Ensures it stays behind any text content */
+}
+
+#tsw-bsb-image-img.bg-visible::before {
+  opacity: 1;
+}
+
+#tsw-bsb-image-img img {
+  cursor: pointer;
+  opacity: 1;
+  visibility: visible;
+  transition: all 0.1s ease;
+}
+#tsw-bsb-image-img.bg-visible img {
+  opacity: 0;
+  visibility: hidden;
+}

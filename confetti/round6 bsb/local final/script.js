@@ -15,9 +15,9 @@ const runConfetti = (() => {
   };
 })();
 
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-// Confetti function and variables
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+// Confetti functions and variables
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 const colors = {
   magenta: "#e20074",
@@ -32,10 +32,9 @@ const confettiColorFamilies = {
   full: [colors.white, colors.berry, colors.darkBerry],
 };
 
-const generateConfetti = ({ corners, ticks, zIndex, particleCount, colorFamily, emojis = [], svgs = [] }) => {
+const generateConfetti = ({ fourCorners, ticks, zIndex, particleCount, colorFamily, emojis = [], svgs = [] }) => {
   // Adjust particle count and velocity based on screen width
   const responsiveMultiplier = Math.min(1, window.innerWidth / 1920);
-  console.log(responsiveMultiplier);
   const adjustedParticleCount = Math.floor(particleCount * responsiveMultiplier);
   const dynamicVelocity = Math.max(45, window.innerWidth / 15);
 
@@ -66,7 +65,7 @@ const generateConfetti = ({ corners, ticks, zIndex, particleCount, colorFamily, 
     confetti({
       ...config,
       ...base,
-      particleCount: adjustedParticleCount / corners,
+      particleCount: fourCorners ? adjustedParticleCount / 4 : adjustedParticleCount / 2,
       startVelocity: dynamicVelocity,
       gravity: 0.7,
     });
@@ -111,7 +110,7 @@ const generateConfetti = ({ corners, ticks, zIndex, particleCount, colorFamily, 
   fire(0, 1, 60);
   fire(1, 1, 120);
 
-  if (corners === 4) {
+  if (fourCorners) {
     fire(0, 0, 320);
     fire(1, 0, 210);
   }
@@ -145,7 +144,7 @@ const svgTMobileBadge = {
     magenta: colors.magenta,
     full: colors.berry,
   },
-  scalar: 5,
+  scalar: 7,
 };
 
 const svgTMobileTuesdays = {
@@ -154,7 +153,7 @@ const svgTMobileTuesdays = {
     magenta: colors.magenta,
     full: colors.berry,
   },
-  scalar: 7,
+  scalar: 8,
 };
 
 const svgPizzaSlice = {
@@ -163,7 +162,7 @@ const svgPizzaSlice = {
     magenta: colors.berry,
     full: colors.white,
   },
-  scalar: 5,
+  scalar: 7,
 };
 
 const svgMusicTicket = {
@@ -172,7 +171,7 @@ const svgMusicTicket = {
     magenta: colors.berry,
     full: colors.darkBerry,
   },
-  scalar: 5,
+  scalar: 7,
 };
 
 const svgGasPump = {
@@ -181,7 +180,7 @@ const svgGasPump = {
     magenta: colors.darkBerry,
     full: colors.darkBerry,
   },
-  scalar: 5,
+  scalar: 7,
 };
 
 // =-=-=-=-=-=-=-=-=
@@ -189,51 +188,27 @@ const svgGasPump = {
 // =-=-=-=-=-=-=-=-=
 
 const confettiSettings = {
-  corners: 4,
   ticks: 140,
   zIndex: 900,
   particleCount: 1200,
+  fourCorners: true,
   emojis: [],
   colorFamily: "full",
   svgs: [svgTMobileBadge, svgTMobileTuesdays, svgPizzaSlice, svgMusicTicket, svgGasPump],
 };
 
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-// Confetti and BSB image event listeners
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+// =-=-=-=-=-=-=-=-=-=-=-=-
+// Confetti event listeners
+// =-=-=-=-=-=-=-=-=-=-=-=-
 
-const DANCE_LENGTH = 300; // Length of time in milliseconds for one swap
-const SWAP_COUNT = 3; // Number of times to repeat swap
-
-const BSBImageFigure = document.getElementById("tsw-bsb-image-img");
-const BSBImage = BSBImageFigure.querySelector("img");
-
-const swapBSBImage = () => {
-  // Loop for multiple swaps
-  for (let i = 0; i < SWAP_COUNT; i++) {
-    // Each swap starts after the previous one finishes (DANCE_LENGTH * 2 * i)
-    setTimeout(
-      () => {
-        BSBImageFigure.classList.add("bg-visible");
-
-        setTimeout(() => {
-          BSBImageFigure.classList.remove("bg-visible");
-        }, DANCE_LENGTH);
-      },
-      DANCE_LENGTH * 2 * i,
-    );
-  }
-};
-
-BSBImage.addEventListener("click", () => {
+document.getElementById("tsw-confetti-big-button-1").addEventListener("click", () => {
   runConfetti(generateConfetti, confettiSettings);
-  swapBSBImage();
 });
 
 // =-=-=-=-=-=-=-=-=-=-=
 // Confetti on page load
 // =-=-=-=-=-=-=-=-=-=-=
 
-window.addEventListener("load", () => {
-  runConfetti(generateConfetti, confettiSettings);
-});
+// window.addEventListener("load", () => {
+//   runConfetti(generateConfetti, confettiSettings4);
+// });

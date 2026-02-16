@@ -4,70 +4,41 @@
 
 const mapContainer = document.querySelector(".tsw-map-usa-container");
 
-// =-=-=-=-
-// Map data
-// =-=-=-=-
-
-const stateData = {
-  IN: 1000,
-  KS: 3000,
-  OK: 4000,
-  ID: 4000,
-  NC: 2000,
-  IL: 5000,
-  SD: 1000,
-  NM: 2000,
-  WY: 4000,
-  PA: 2000,
-  KY: 1000,
-  IA: 2000,
-  MS: 2000,
-  MO: 1000,
-  VT: 1000,
-  MA: 2000,
-  CT: 3000,
-  MD: 1000,
-  DC: 5000,
-  NY: 4000,
-  UT: 1000,
-  NV: 1000,
-  CA: 4000,
-  OR: 2000,
-  WA: 6000,
-  MT: 1000,
-  CO: 5000,
-  TX: 2000,
-  AR: 2000,
-  AL: 1000,
-  GA: 5000,
-  TN: 3000,
-  WI: 4000,
-  MI: 3000,
-  MN: 5000,
-  NE: 2000,
-  LA: 4000,
-  FL: 2000,
-  WV: 1000,
-  OH: 4000,
-  AZ: 1000,
-  SC: 1000,
-  ME: 1000,
-};
-
-// =-=-=-=-=-=
-// Map actions
-// =-=-=-=-=-=
+// =-=-=-=-=-=-=
+// Map functions
+// =-=-=-=-=-=-=
 
 const COLOR_COUNT = 6;
-const MONEY_INTERVAL = 1000;
+const MONEY_INTERVAL = 50000;
 
-const updateStateColor = (state) => {
-  const stateCode = state.classList[1]?.split("_")[2];
-  // Update state color if state is in data object
-  if (stateData[stateCode]) {
-    state.classList.add(`level-${stateData[stateCode] / MONEY_INTERVAL}`);
+// Add and remove colors of states
+
+const moneyData = stateData.map((state) => state.money);
+// Split the state data into groups (clusters)
+const clusters = ss.ckmeans(moneyData, 6);
+// Determine the upper bound of each cluster
+const breaks = clusters.map((cluster) => Math.max(...cluster));
+
+// Get CSS class based on money value
+const getLevelClass = (value) => {
+  const index = breaks.findIndex((b) => value <= b);
+  const level = Math.min(index !== -1 ? index + 1 : 6, 6);
+  return `level-${level}`;
+};
+
+const addColorsToState = (state, thisStateData) => {
+  if (thisStateData?.money > 0) {
+    state.classList.add(getLevelClass(thisStateData.money));
   }
 };
+
+const removeColorsFromState = (state, thisStateData) => {
+  if (thisStateData?.money > 0) {
+    state.classList.remove(getLevelClass(thisStateData.money));
+  }
+};
+
+// Hover handler
 
 const handleHover = (stateCode, isHovering) => {
   const mapPaths = mapContainer.querySelectorAll("path");
@@ -84,9 +55,103 @@ const handleHover = (stateCode, isHovering) => {
   if (mapStateCode) mapStateCode.classList.toggle("hover", isHovering);
 };
 
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// Tooltip handler
+
+const handleTooltip = (thisStateData, isHovering, event) => {
+  const bbox = event.target.getBBox();
+  const centerX = bbox.x + bbox.width / 2;
+  const centerY = bbox.y + bbox.height / 2;
+
+  const tooltip = document.querySelector(".tsw-tooltip");
+  const stateName = thisStateData.name;
+
+  const tooltipHTML = `<p>${stateName}</p>`;
+  tooltip.innerHTML = tooltipHTML;
+
+  tooltip.style.left = `${centerX - 10}px`;
+  tooltip.style.top = `${centerY + 120}px`;
+
+  tooltip.classList.toggle("active", isHovering);
+};
+
+// =-=-=-=-=-=-=-=-=-=-=-=-=-
+// Mobile accordion functions
+// =-=-=-=-=-=-=-=-=-=-=-=-=-
+
+const accordionContainer = document.querySelector(".tsw-accordion-container");
+
+// Render one accordion state link
+
+const renderAccordionStateLink = (state) => {
+  const stateItem = document.createElement("li");
+  const stateItemButton = document.createElement("button");
+  stateItemButton.setAttribute("type", "button");
+  stateItemButton.textContent = state.name;
+
+  stateItemButton.addEventListener("click", () => {
+    openModal();
+    addContentToModal(state);
+  });
+
+  stateItem.appendChild(stateItemButton);
+  return stateItem;
+};
+
+// Render one accordion
+
+const renderAccordion = (range, statesInRange) => {
+  const accordionTemplate = document.querySelector("#tsw-accordion-template");
+  const clone = accordionTemplate.content.cloneNode(true);
+
+  const rangeId = `range-${range.replace(/\s+/g, "-")}`;
+  const button = clone.querySelector(".tsw-accordion-header");
+
+  button.setAttribute("id", `btn-${rangeId}`);
+  button.setAttribute("aria-controls", `panel-${rangeId}`);
+  button.setAttribute("aria-expanded", "false");
+
+  const accordionContent = clone.querySelector(".tsw-accordion-content");
+  const accordionInner = clone.querySelector(".tsw-accordion-content-inner");
+
+  // Apply ID and initial state to the wrapper
+  accordionContent.setAttribute("id", `panel-${rangeId}`);
+  accordionContent.setAttribute("aria-labelledby", `btn-${rangeId}`);
+  accordionContent.setAttribute("aria-hidden", "true"); // CSS uses this for animation
+
+  clone.querySelector(".tsw-header-text").textContent = range;
+
+  const stateList = document.createElement("ul");
+  statesInRange.forEach((state) => {
+    const stateLink = renderAccordionStateLink(state);
+    stateList.appendChild(stateLink);
+  });
+
+  accordionInner.appendChild(stateList);
+  return clone;
+};
+
+// Render all accordion groups
+
+const renderAccordionGroup = () => {
+  // Create object with states grouped by range
+  const statesGrouped = Object.groupBy(stateData, (state) => {
+    const firstLetter = state.name[0].toUpperCase();
+    return Object.keys(STATE_RANGE_CONFIG).find((range) => STATE_RANGE_CONFIG[range].includes(firstLetter));
+  });
+
+  // Create accordion for each state range
+  Object.keys(STATE_RANGE_CONFIG).forEach((range) => {
+    const statesInRange = statesGrouped[range] || [];
+    const accordion = renderAccordion(range, statesInRange);
+    accordionContainer.appendChild(accordion);
+  });
+};
+
+// =-=-=-=-=-=-=-=
+// Modal functions
+// =-=-=-=-=-=-=-=
+
 // Modal elements and focus trapping
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 const modalOverlay = document.querySelector(".tsw-modal-overlay");
 const modal = modalOverlay.querySelector(".tsw-modal");
@@ -113,9 +178,7 @@ modal.addEventListener("keydown", (event) => {
   }
 });
 
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 // Modal functions and event listeners
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 const modalCloseButton = document.querySelector(".tsw-modal-close");
 
@@ -137,84 +200,96 @@ modalCloseButton.addEventListener("click", () => {
   closeModal();
 });
 
-// =-=-=-=-=-=-=
 // Modal content
-// =-=-=-=-=-=-=
 
-const addContentToModal = (state) => {
-  const stateName = stateNames[state];
-  const stateMoney = stateData[state] || 0;
+const formatMoney = (money) => {
+  return money.toLocaleString("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+};
 
+const addContentToModal = (thisStateData) => {
   const modalHTML = `
-    <h3>State: ${stateName}</h3>
-    <p>Money spent: $${stateMoney}</p>
+    <h3>${thisStateData.name}</h3>
+    <p>Money spent:<br />
+    <span class="tsw-modal-main-money">$${formatMoney(thisStateData.money)}</span></p>
   `;
 
   modalMain.innerHTML = modalHTML;
 };
 
-// =-=-=-=
-// Tooltip
-// =-=-=-=
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// Render map and accordion on page load and set event listeners
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-const handleTooltip = (state, isHovering, event) => {
-  const bbox = event.target.getBBox();
-  const centerX = bbox.x + bbox.width / 2;
-  const centerY = bbox.y + bbox.height / 2;
+mapContainer.innerHTML = usaMapSVG;
 
-  const tooltip = document.querySelector(".tsw-tooltip");
-
-  const stateName = stateNames[state];
-  const tooltipHTML = `
-    <p>${stateName}</p>
-  `;
-  tooltip.innerHTML = tooltipHTML;
-
-  tooltip.style.left = `${centerX - 10}px`;
-  tooltip.style.top = `${centerY + 120}px`;
-
-  tooltip.classList.toggle("active", isHovering);
-};
-
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-// Render map on page load and set event listeners
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+const mapPaths = mapContainer.querySelectorAll("path");
+const rects = mapContainer.querySelectorAll("rect");
+const calloutBoxes = [...rects].filter((path) => path.classList.contains("sm_rect"));
+const allMapElements = [...mapPaths, ...calloutBoxes];
 
 const initMap = () => {
-  mapContainer.innerHTML = usaMapSVG;
-
-  const mapPaths = mapContainer.querySelectorAll("path");
-  const rects = mapContainer.querySelectorAll("rect");
-  const calloutBoxes = [...rects].filter((path) => path.classList.contains("sm_rect"));
-  const allMapElements = [...mapPaths, ...calloutBoxes];
-
   allMapElements.forEach((state) => {
+    // Get state data from state code
+    const stateCode = state.classList[1]?.split("_")[2];
+    const thisStateData = stateData.find((s) => s.code === stateCode);
+
+    console.log(state.tagName);
+
     // Update the color for each state based on money amount
-    updateStateColor(state);
+    addColorsToState(state, thisStateData);
 
     // Hover states for states
     state.addEventListener("mouseover", (event) => {
-      const stateCode = event.target.classList[1]?.split("_")[2];
-
       handleHover(stateCode, true);
-      handleTooltip(stateCode, true, event);
+      if (state.tagName === "path") handleTooltip(thisStateData, true, event);
     });
 
     state.addEventListener("mouseout", (event) => {
-      const stateCode = event.target.classList[1]?.split("_")[2];
-
       handleHover(stateCode, false);
-      handleTooltip(stateCode, false, event);
+      if (state.tagName === "path") handleTooltip(thisStateData, false, event);
     });
 
     // Open modal when state is clicked
-    state.addEventListener("click", (event) => {
-      const stateCode = event.target.classList[1].split("_")[2];
-
+    state.addEventListener("click", () => {
       openModal();
-      addContentToModal(stateCode);
+      addContentToModal(thisStateData);
     });
   });
+};
+
+// Event listeners for all accordion buttons
+
+const initAccordionGroup = () => {
+  accordionContainer.addEventListener("click", (event) => {
+    const thisButton = event.target.closest(".tsw-accordion-header");
+    if (!thisButton) return;
+
+    const isExpanded = thisButton.getAttribute("aria-expanded") === "true";
+
+    // Close other accordions, but only if user is trying to open this one
+    if (!isExpanded) {
+      const allButtons = accordionContainer.querySelectorAll(".tsw-accordion-header");
+      allButtons.forEach((otherBtn) => {
+        if (otherBtn !== thisButton) {
+          otherBtn.setAttribute("aria-expanded", "false");
+          const otherPanelId = otherBtn.getAttribute("aria-controls");
+          document.getElementById(otherPanelId).setAttribute("aria-hidden", "true");
+        }
+      });
+    }
+
+    const panelId = thisButton.getAttribute("aria-controls");
+    const panel = document.getElementById(panelId);
+
+    // Toggle logic
+    thisButton.setAttribute("aria-expanded", !isExpanded);
+    panel.setAttribute("aria-hidden", isExpanded); // CSS targets this for the transition
+  });
+
+  renderAccordionGroup();
 };
 
 // =-=-=-=
@@ -223,4 +298,5 @@ const initMap = () => {
 
 window.addEventListener("load", () => {
   initMap();
+  initAccordionGroup();
 });

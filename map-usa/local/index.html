@@ -3,40 +3,58 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- CDN links -->
+    <script src="https://unpkg.com/simple-statistics@7.8.8/dist/simple-statistics.min.js"></script>
     <!-- JS links -->
     <script defer src="js/map2.js"></script>
-    <script defer src="js/state-name-converter.js"></script>
+    <script defer src="js/state-data.js"></script>
     <script defer src="script.js"></script>
     <!-- CSS link -->
     <link rel="stylesheet" href="styles.css" type="text/css" />
-    <!-- Confetti link -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.4/dist/confetti.browser.min.js"
-      integrity="sha384-JSZXO0kKYHTylAsDYTb+7Kg2eUyalm19b8Pydcdf8sQ1cCKYZr9lLahoKT9+LFY5"
-      crossorigin="anonymous"
-    ></script>
     <title>[* USA Map Test *]</title>
   </head>
 
   <body>
     <div class="tsw-container">
+      <!-- Header -->
       <div class="tsw-header">
-        <h1>USA Map Test - Round 1!</h1>
-        <!-- <h2>Source: <a href="https://github.com/catdad/canvas-confetti" target="_blank">Canvas-Confetti</a></h2> -->
+        <h1>USA Map Test - Round&#160;1!</h1>
       </div>
-      <div class="tsw-map-usa-container">
-        <!-- Map is inserted here -->
-      </div>
+
+      <!-- Map -->
+      <div class="tsw-map-usa-container"></div>
 
       <!-- Tooltip -->
       <div class="tsw-tooltip">Tooltip</div>
+
+      <!-- State accordions for mobile -->
+      <div class="tsw-accordion-container"></div>
+
+      <!-- State accordion template -->
+      <template id="tsw-accordion-template">
+        <div class="tsw-accordion">
+          <button class="tsw-accordion-header" aria-expanded="false">
+            <span class="tsw-header-text"></span>
+          </button>
+          <div class="tsw-accordion-content">
+            <div class="tsw-accordion-content-inner">
+              <!-- JS injects accordion content here -->
+            </div>
+          </div>
+        </div>
+      </template>
 
       <!-- Info modal -->
       <div class="tsw-modal-overlay">
         <div class="tsw-modal">
           <button class="tsw-modal-close">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+            <!-- <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
               <path d="M382-208 122-468l90-90 170 170 366-366 90 90-456 456Z" />
+            </svg> -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+              <path
+                d="m336-280-56-56 144-144-144-143 56-56 144 144 143-144 56 56-144 143 144 144-56 56-143-144-144 144Z"
+              />
             </svg>
           </button>
           <div class="tsw-modal-main">

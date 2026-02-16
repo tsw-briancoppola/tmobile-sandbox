@@ -10,7 +10,7 @@ const highSchoolData = {
     },
     {
       id: "1",
-      name: "Byootie H.S.",
+      name: "Bigtime H.S.",
       city: "Stufftown",
       state: "WA",
       region: "west",
@@ -42,7 +42,7 @@ const highSchoolData = {
     },
     {
       id: "5",
-      name: "Sassy H.S.",
+      name: "Spectacular H.S.",
       city: "Spiffytown",
       state: "MA",
       region: "east",
@@ -106,7 +106,7 @@ const highSchoolData = {
     },
     {
       id: "13",
-      name: "Sassy H.S.",
+      name: "Groovy H.S.",
       city: "Neatotown",
       state: "GA",
       region: "south",
@@ -139,7 +139,7 @@ const highSchoolDataPrevious = {
       votes: 12000,
     },
     {
-      name: "Byootie H.S.",
+      name: "Bigtime H.S.",
       region: "west",
       votes: 14283,
     },
@@ -159,7 +159,7 @@ const highSchoolDataPrevious = {
       votes: 12000,
     },
     {
-      name: "Sassy H.S.",
+      name: "Spectacular H.S.",
       region: "east",
       votes: 14283,
     },
@@ -199,7 +199,7 @@ const highSchoolDataPrevious = {
       votes: 12000,
     },
     {
-      name: "Sassy H.S.",
+      name: "Groovy H.S.",
       region: "south",
       votes: 14283,
     },

@@ -9,32 +9,31 @@ const mapContainer = document.querySelector(".tsw-map-usa-container");
 // =-=-=-=-=-=-=
 
 const COLOR_COUNT = 6;
-const MONEY_INTERVAL = 50000;
 
 // Add and remove colors of states
 
-const moneyData = stateData.map((state) => state.money);
+const moneyData = stateData.map((state) => state.grantAmount);
 // Split the state data into groups (clusters)
-const clusters = ss.ckmeans(moneyData, 6);
+const clusters = ss.ckmeans(moneyData, COLOR_COUNT);
 // Determine the upper bound of each cluster
 const breaks = clusters.map((cluster) => Math.max(...cluster));
 
 // Get CSS class based on money value
 const getLevelClass = (value) => {
   const index = breaks.findIndex((b) => value <= b);
-  const level = Math.min(index !== -1 ? index + 1 : 6, 6);
+  const level = Math.min(index !== -1 ? index + 1 : COLOR_COUNT, COLOR_COUNT);
   return `level-${level}`;
 };
 
 const addColorsToState = (state, thisStateData) => {
-  if (thisStateData?.money > 0) {
-    state.classList.add(getLevelClass(thisStateData.money));
+  if (thisStateData?.grantAmount > 0) {
+    state.classList.add(getLevelClass(thisStateData.grantAmount));
   }
 };
 
 const removeColorsFromState = (state, thisStateData) => {
-  if (thisStateData?.money > 0) {
-    state.classList.remove(getLevelClass(thisStateData.money));
+  if (thisStateData?.grantAmount > 0) {
+    state.classList.remove(getLevelClass(thisStateData.grantAmount));
   }
 };
 
@@ -69,7 +68,7 @@ const handleTooltip = (thisStateData, isHovering, event) => {
   tooltip.innerHTML = tooltipHTML;
 
   tooltip.style.left = `${centerX - 10}px`;
-  tooltip.style.top = `${centerY + 120}px`;
+  tooltip.style.top = `${centerY + 100}px`;
 
   tooltip.classList.toggle("active", isHovering);
 };
@@ -159,7 +158,6 @@ const modalMain = modalOverlay.querySelector(".tsw-modal-main");
 const modalFocusableElements = modal.querySelectorAll("button, input, select");
 
 const modalFirstElement = modalFocusableElements[0];
-const modalSecondElement = modalFocusableElements[1];
 const modalLastElement = modalFocusableElements[modalFocusableElements.length - 1];
 
 modal.addEventListener("keydown", (event) => {
@@ -184,6 +182,7 @@ const modalCloseButton = document.querySelector(".tsw-modal-close");
 
 const openModal = () => {
   modalOverlay.classList.add("is-visible");
+  modal.focus();
 };
 
 const closeModal = () => {
@@ -200,6 +199,12 @@ modalCloseButton.addEventListener("click", () => {
   closeModal();
 });
 
+window.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    closeModal();
+  }
+});
+
 // Modal content
 
 const formatMoney = (money) => {
@@ -213,7 +218,11 @@ const addContentToModal = (thisStateData) => {
   const modalHTML = `
     <h3>${thisStateData.name}</h3>
     <p>Money spent:<br />
-    <span class="tsw-modal-main-money">$${formatMoney(thisStateData.money)}</span></p>
+      <span class="tsw-modal-main-money">$${formatMoney(thisStateData.grantAmount)}</span>
+    </p>
+    <p>Total towns awarded:<br />
+      <span class="tsw-modal-main-money">${thisStateData.townsAwarded}</span>
+    </p>
   `;
 
   modalMain.innerHTML = modalHTML;
@@ -235,8 +244,6 @@ const initMap = () => {
     // Get state data from state code
     const stateCode = state.classList[1]?.split("_")[2];
     const thisStateData = stateData.find((s) => s.code === stateCode);
-
-    console.log(state.tagName);
 
     // Update the color for each state based on money amount
     addColorsToState(state, thisStateData);

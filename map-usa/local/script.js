@@ -2,7 +2,8 @@
 // Page elements
 // =-=-=-=-=-=-=
 
-const mapContainer = document.querySelector(".tsw-map-usa-container");
+const mapUSAContainer = document.querySelector(".tsw-map-usa-container");
+const mapUSA = document.querySelector(".tsw-map-usa");
 
 // =-=-=-=-=-=-=
 // Map functions
@@ -26,9 +27,10 @@ const getLevelClass = (value) => {
 };
 
 const addColorsToState = (state, thisStateData) => {
-  if (thisStateData?.grantAmount > 0) {
-    state.classList.add(getLevelClass(thisStateData.grantAmount));
-  }
+  // if (thisStateData?.grantAmount > 0) {
+  //   state.classList.add(getLevelClass(thisStateData.grantAmount));
+  // }
+  state.classList.add("level-3");
 };
 
 const removeColorsFromState = (state, thisStateData) => {
@@ -40,13 +42,13 @@ const removeColorsFromState = (state, thisStateData) => {
 // Hover handler
 
 const handleHover = (stateCode, isHovering) => {
-  const mapPaths = mapContainer.querySelectorAll("path");
+  const mapPaths = mapUSA.querySelectorAll("path");
   const path = [...mapPaths].find((p) => p.classList[1]?.split("_")[2] === stateCode);
 
-  const calloutBoxes = mapContainer.querySelectorAll("rect");
+  const calloutBoxes = mapUSA.querySelectorAll("rect");
   const box = [...calloutBoxes].find((b) => b.classList[1]?.split("_")[2] === stateCode);
 
-  const mapStateCodes = mapContainer.querySelectorAll("text");
+  const mapStateCodes = mapUSA.querySelectorAll("text");
   const mapStateCode = [...mapStateCodes].find((p) => p.classList[1]?.split("_")[2] === stateCode);
 
   if (path) path.classList.toggle("hover", isHovering);
@@ -56,19 +58,36 @@ const handleHover = (stateCode, isHovering) => {
 
 // Tooltip handler
 
+const formatMoney = (money) => {
+  return money.toLocaleString("en-US", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
+};
+
 const handleTooltip = (thisStateData, isHovering, event) => {
   const bbox = event.target.getBBox();
-  const centerX = bbox.x + bbox.width / 2;
-  const centerY = bbox.y + bbox.height / 2;
+  const centerX = bbox.x + bbox.width / 2.4;
+  const bottomY = bbox.y + bbox.height / 1.1;
 
   const tooltip = document.querySelector(".tsw-tooltip");
-  const stateName = thisStateData.name;
+  const { name, grantAmount, townsAwarded } = thisStateData;
 
-  const tooltipHTML = `<p>${stateName}</p>`;
+  const tooltipHTML = `
+    <p class="tsw-tooltip-state">${name}</p>
+    <p>
+      Total grant amount:<br />
+      <span class="tsw-tooltip-numbers">$${formatMoney(grantAmount)}</span>
+    </p>
+    <p>
+      Towns awarded:<br />
+      <span class="tsw-tooltip-numbers">${townsAwarded}</span>
+    </p>
+  `;
   tooltip.innerHTML = tooltipHTML;
 
-  tooltip.style.left = `${centerX - 10}px`;
-  tooltip.style.top = `${centerY + 100}px`;
+  tooltip.style.left = `${centerX}px`;
+  tooltip.style.top = `${bottomY}px`;
 
   tooltip.classList.toggle("active", isHovering);
 };
@@ -207,13 +226,6 @@ window.addEventListener("keydown", (event) => {
 
 // Modal content
 
-const formatMoney = (money) => {
-  return money.toLocaleString("en-US", {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
-  });
-};
-
 const addContentToModal = (thisStateData) => {
   const modalHTML = `
     <h3>${thisStateData.name}</h3>
@@ -232,10 +244,10 @@ const addContentToModal = (thisStateData) => {
 // Render map and accordion on page load and set event listeners
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-mapContainer.innerHTML = usaMapSVG;
+mapUSA.innerHTML = usaMapSVG;
 
-const mapPaths = mapContainer.querySelectorAll("path");
-const rects = mapContainer.querySelectorAll("rect");
+const mapPaths = mapUSA.querySelectorAll("path");
+const rects = mapUSA.querySelectorAll("rect");
 const calloutBoxes = [...rects].filter((path) => path.classList.contains("sm_rect"));
 const allMapElements = [...mapPaths, ...calloutBoxes];
 

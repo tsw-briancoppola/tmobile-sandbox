@@ -66,29 +66,34 @@ const formatMoney = (money) => {
 };
 
 const handleTooltip = (thisStateData, isHovering, event) => {
-  const bbox = event.target.getBBox();
-  const centerX = bbox.x + bbox.width / 2.4;
-  const bottomY = bbox.y + bbox.height / 1.1;
+  let targetElement = event.target;
+
+  // Get screen position of element
+  const rect = targetElement.getBoundingClientRect();
+
+  // Get position of parent container
+  const container = document.querySelector(".tsw-map-usa-container");
+  const containerRect = container.getBoundingClientRect();
+
+  // Calculate position relative to container
+  const leftPx = rect.left - containerRect.left + rect.width / 2;
+  const topPx = rect.bottom - containerRect.top;
 
   const tooltip = document.querySelector(".tsw-tooltip");
+
   const { name, grantAmount, townsAwarded } = thisStateData;
-
-  const tooltipHTML = `
+  tooltip.innerHTML = `
     <p class="tsw-tooltip-state">${name}</p>
-    <p>
-      Total grant amount:<br />
-      <span class="tsw-tooltip-numbers">$${formatMoney(grantAmount)}</span>
-    </p>
-    <p>
-      Towns awarded:<br />
-      <span class="tsw-tooltip-numbers">${townsAwarded}</span>
-    </p>
+    <p>Total grant amount:<br /><span class="tsw-tooltip-numbers">$${formatMoney(grantAmount)}</span></p>
+    <p>Towns awarded:<br /><span class="tsw-tooltip-numbers">${townsAwarded}</span></p>
   `;
-  tooltip.innerHTML = tooltipHTML;
 
-  tooltip.style.left = `${centerX}px`;
-  tooltip.style.top = `${bottomY}px`;
+  tooltip.style.left = `${leftPx}px`;
+  tooltip.style.top = `${topPx}px`;
 
+  // Add class to callout boxes that adds a small margin above the tooltip
+  tooltip.classList.toggle("is-rect", targetElement.tagName === "rect");
+  // Show/hide tooltip based on isHovering
   tooltip.classList.toggle("active", isHovering);
 };
 
@@ -263,12 +268,12 @@ const initMap = () => {
     // Hover states for states
     state.addEventListener("mouseover", (event) => {
       handleHover(stateCode, true);
-      if (state.tagName === "path") handleTooltip(thisStateData, true, event);
+      handleTooltip(thisStateData, true, event);
     });
 
     state.addEventListener("mouseout", (event) => {
       handleHover(stateCode, false);
-      if (state.tagName === "path") handleTooltip(thisStateData, false, event);
+      handleTooltip(thisStateData, false, event);
     });
 
     // Open modal when state is clicked

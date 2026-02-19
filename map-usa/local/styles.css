@@ -397,38 +397,42 @@ ul {
   flex-direction: column;
   gap: 0.8rem;
   padding: 0.8rem;
-  opacity: 0;
   border: 1px solid var(--color-brand-grayscale-700);
   border-radius: 0.5rem;
   background-color: var(--color-brand-grayscale-white);
   transition: opacity 0.7s;
   pointer-events: none;
   user-select: none;
+  transform: translate(-50%, 0);
+  opacity: 0;
   box-shadow: var(--color-input-shadow);
-  transform: translateX(-50%);
+}
+.tsw-tooltip.active {
+  opacity: 1;
+}
+.tsw-tooltip.is-rect {
+  margin-top: 1rem;
 }
 /* Pointer 'triangle' at top of tooltip  */
 .tsw-tooltip::before {
   content: "";
   position: absolute;
-  width: 1.2rem;
-  height: 1.2rem;
-  top: -0.6rem;
+  width: 1.4rem;
+  height: 1.4rem;
+  top: -0.7rem;
   left: 50%;
   translate: -50% 0;
-  border: inherit;
   background: inherit;
   box-shadow: inherit;
+  clip-path: inset(-15px 2px 2px -15px);
+  border-top: 1px solid var(--color-brand-grayscale-700);
+  border-left: 1px solid var(--color-brand-grayscale-700);
   rotate: 45deg;
-  clip-path: polygon(0, 0, 100%, 0, 0, 100%);
-}
-
-.tsw-tooltip.active {
-  opacity: 1;
 }
 
 .tsw-tooltip p {
   font-size: 1.3rem;
+  white-space: nowrap;
 }
 .tsw-tooltip p.tsw-tooltip-state {
   font-size: 1.7rem;

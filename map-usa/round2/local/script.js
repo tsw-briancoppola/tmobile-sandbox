@@ -11,35 +11,13 @@ const mapUSA = document.querySelector(".tsw-map-usa");
 
 const COLOR_COUNT = 6;
 
-// Add and remove colors of states
+// Add colors of states
 
-const moneyData = stateData.map((state) => state.grantAmount);
-// Split the state data into groups (clusters)
-const clusters = ss.ckmeans(moneyData, COLOR_COUNT);
-// Determine the upper bound of each cluster
-const breaks = clusters.map((cluster) => Math.max(...cluster));
-
-// Get CSS class based on money value
-const getLevelClass = (value) => {
-  const index = breaks.findIndex((b) => value <= b);
-  const level = Math.min(index !== -1 ? index + 1 : COLOR_COUNT, COLOR_COUNT);
-  return `level-${level}`;
-};
-
-const addColorsToState = (state, thisStateData) => {
-  // if (thisStateData?.grantAmount > 0) {
-  //   state.classList.add(getLevelClass(thisStateData.grantAmount));
-  // }
+const addColorsToState = (state) => {
   state.classList.add("level-3");
 };
 
-const removeColorsFromState = (state, thisStateData) => {
-  if (thisStateData?.grantAmount > 0) {
-    state.classList.remove(getLevelClass(thisStateData.grantAmount));
-  }
-};
-
-// Hover handler
+// Hover handler for state and callout box colors
 
 const handleHover = (stateCode, isHovering) => {
   const mapPaths = mapUSA.querySelectorAll("path");
@@ -65,36 +43,42 @@ const formatMoney = (money) => {
   });
 };
 
-const handleTooltip = (thisStateData, isHovering, event) => {
-  let targetElement = event.target;
+// Tooltip state variables
+let isTooltipLocked = false;
+let lockedStateName = null;
 
-  // Get screen position of element
-  const rect = targetElement.getBoundingClientRect();
-
-  // Get position of parent container
-  const container = document.querySelector(".tsw-map-usa-container");
-  const containerRect = container.getBoundingClientRect();
-
-  // Calculate position relative to container
-  const leftPx = rect.left - containerRect.left + rect.width / 2;
-  const topPx = rect.bottom - containerRect.top;
-
+const handleTooltip = (thisStateData, isHovering, event, isClick = false) => {
   const tooltip = document.querySelector(".tsw-tooltip");
-
   const { name, grantAmount, townsAwarded } = thisStateData;
+
+  if (isClick) {
+    // If clicked state is same as current state, unlock it, otherwise lock it
+    lockedStateName = lockedStateName === name ? null : name;
+  } else {
+    // Don't trigger tooltip if it's already locked
+    if (lockedStateName && !isHovering) return;
+    if (lockedStateName && lockedStateName !== name) return;
+  }
+
+  // Build tooltip
+  const rect = event.target.getBoundingClientRect();
+  const mapContainer = document.querySelector(".tsw-map-usa");
+  const containerRect = mapContainer.getBoundingClientRect();
+
   tooltip.innerHTML = `
     <p class="tsw-tooltip-state">${name}</p>
     <p>Total grant amount:<br /><span class="tsw-tooltip-numbers">$${formatMoney(grantAmount)}</span></p>
     <p>Towns awarded:<br /><span class="tsw-tooltip-numbers">${townsAwarded}</span></p>
   `;
 
-  tooltip.style.left = `${leftPx}px`;
-  tooltip.style.top = `${topPx}px`;
+  // Position tooltip on map
+  tooltip.style.left = `${rect.left - containerRect.left + rect.width / 2}px`;
+  tooltip.style.top = `${rect.bottom - containerRect.top}px`;
+  tooltip.classList.toggle("is-rect", event.target.tagName === "rect");
 
-  // Add class to callout boxes that adds a small margin above the tooltip
-  tooltip.classList.toggle("is-rect", targetElement.tagName === "rect");
-  // Show/hide tooltip based on isHovering
-  tooltip.classList.toggle("active", isHovering);
+  // Determine whether tooltip needs to be active
+  const shouldBeActive = isHovering || lockedStateName === name;
+  tooltip.classList.toggle("active", shouldBeActive);
 };
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -276,10 +260,24 @@ const initMap = () => {
       handleTooltip(thisStateData, false, event);
     });
 
-    // Open modal when state is clicked
-    state.addEventListener("click", () => {
-      openModal();
-      addContentToModal(thisStateData);
+    // Open tooltip when state is clicked
+    state.addEventListener("click", (event) => {
+      event.stopPropagation();
+      handleTooltip(thisStateData, false, event, true);
+    });
+
+    // Close tooltip if any non-state location is clicked
+    document.addEventListener("click", () => {
+      lockedStateName = null;
+      document.querySelector(".tsw-tooltip").classList.remove("active");
+    });
+
+    // Close modal with Esc key
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        lockedStateName = null;
+        document.querySelector(".tsw-tooltip").classList.remove("active");
+      }
     });
   });
 };

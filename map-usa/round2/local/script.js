@@ -9,14 +9,6 @@ const mapUSA = document.querySelector(".tsw-map-usa");
 // Map functions
 // =-=-=-=-=-=-=
 
-const COLOR_COUNT = 6;
-
-// Add colors of states
-
-const addColorsToState = (state) => {
-  state.classList.add("level-3");
-};
-
 // Hover handler for state and callout box colors
 
 const handleHover = (stateCode, isHovering) => {
@@ -34,7 +26,7 @@ const handleHover = (stateCode, isHovering) => {
   if (mapStateCode) mapStateCode.classList.toggle("hover", isHovering);
 };
 
-// Tooltip handler
+// Tooltip handler and format money helper function
 
 const formatMoney = (money) => {
   return money.toLocaleString("en-US", {
@@ -245,9 +237,6 @@ const initMap = () => {
     // Get state data from state code
     const stateCode = state.classList[1]?.split("_")[2];
     const thisStateData = stateData.find((s) => s.code === stateCode);
-
-    // Update the color for each state based on money amount
-    addColorsToState(state, thisStateData);
 
     // Hover states for states
     state.addEventListener("mouseover", (event) => {

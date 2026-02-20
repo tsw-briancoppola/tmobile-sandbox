@@ -192,32 +192,8 @@ ul {
 .tsw-map-usa-container svg path,
 .tsw-map-usa-container svg rect {
   cursor: pointer;
-  fill: var(--color-brand-grayscale-400);
-  transition: 0.25s;
-}
-.tsw-map-usa-container svg path.level-1,
-.tsw-map-usa-container svg rect.level-1 {
-  fill: var(--color-brand-primary-100);
-}
-.tsw-map-usa-container svg path.level-2,
-.tsw-map-usa-container svg rect.level-2 {
-  fill: var(--color-brand-primary-200);
-}
-.tsw-map-usa-container svg path.level-3,
-.tsw-map-usa-container svg rect.level-3 {
-  fill: var(--color-brand-primary-300);
-}
-.tsw-map-usa-container svg path.level-4,
-.tsw-map-usa-container svg rect.level-4 {
   fill: var(--color-brand-primary-400);
-}
-.tsw-map-usa-container svg path.level-5,
-.tsw-map-usa-container svg rect.level-5 {
-  fill: var(--color-brand-primary-500);
-}
-.tsw-map-usa-container svg path.level-6,
-.tsw-map-usa-container svg rect.level-6 {
-  fill: var(--color-brand-primary-600);
+  transition: 0.25s;
 }
 .tsw-map-usa-container svg path.hover,
 .tsw-map-usa-container svg rect.hover {

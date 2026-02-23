@@ -9,29 +9,32 @@ const mapUSA = document.querySelector(".tsw-map-usa");
 // Map functions
 // =-=-=-=-=-=-=
 
-// Hover handler for state and callout box colors
-
-const handleHover = (stateCode, isHovering) => {
-  const mapPaths = mapUSA.querySelectorAll("path");
-  const path = [...mapPaths].find((p) => p.classList[1]?.split("_")[2] === stateCode);
-
-  const calloutBoxes = mapUSA.querySelectorAll("rect");
-  const box = [...calloutBoxes].find((b) => b.classList[1]?.split("_")[2] === stateCode);
-
-  const mapStateCodes = mapUSA.querySelectorAll("text");
-  const mapStateCode = [...mapStateCodes].find((p) => p.classList[1]?.split("_")[2] === stateCode);
-
-  if (path) path.classList.toggle("hover", isHovering);
-  if (box) box.classList.toggle("hover", isHovering);
-  if (mapStateCode) mapStateCode.classList.toggle("hover", isHovering);
-};
-
 // Tooltip handler and format money helper function
 
 const formatMoney = (money) => {
   return money.toLocaleString("en-US", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
+  });
+};
+
+// Hover handler for state and callout box colors
+
+const handleStateHighlight = (thisStateData, isHovering) => {
+  const { name, code } = thisStateData;
+
+  // Find your elements (Paths, Rects, Text) using your existing logic
+  const elements = [
+    [...mapUSA.querySelectorAll("path")].find((p) => p.classList[1]?.split("_")[2] === code),
+    [...mapUSA.querySelectorAll("rect")].find((b) => b.classList[1]?.split("_")[2] === code),
+    [...mapUSA.querySelectorAll("text")].find((t) => t.classList[1]?.split("_")[2] === code),
+  ];
+
+  // If hovering OR if this is the locked state, add the class.
+  const shouldHighlight = isHovering || lockedStateName === name;
+
+  elements.forEach((el) => {
+    if (el) el.classList.toggle("highlight", shouldHighlight);
   });
 };
 
@@ -44,6 +47,8 @@ const handleTooltip = (thisStateData, isHovering, event, isClick = false) => {
   const { name, grantAmount, townsAwarded } = thisStateData;
 
   if (isClick) {
+    // Remove highlight color from all states
+    mapUSA.querySelectorAll(".highlight").forEach((el) => el.classList.remove("highlight"));
     // If clicked state is same as current state, unlock it, otherwise lock it
     lockedStateName = lockedStateName === name ? null : name;
   } else {
@@ -71,6 +76,8 @@ const handleTooltip = (thisStateData, isHovering, event, isClick = false) => {
   // Determine whether tooltip needs to be active
   const shouldBeActive = isHovering || lockedStateName === name;
   tooltip.classList.toggle("active", shouldBeActive);
+
+  handleStateHighlight(thisStateData, isHovering);
 };
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -240,12 +247,12 @@ const initMap = () => {
 
     // Hover states for states
     state.addEventListener("mouseover", (event) => {
-      handleHover(stateCode, true);
+      handleStateHighlight(thisStateData, true);
       handleTooltip(thisStateData, true, event);
     });
 
     state.addEventListener("mouseout", (event) => {
-      handleHover(stateCode, false);
+      handleStateHighlight(thisStateData, false);
       handleTooltip(thisStateData, false, event);
     });
 
@@ -259,13 +266,15 @@ const initMap = () => {
     document.addEventListener("click", () => {
       lockedStateName = null;
       document.querySelector(".tsw-tooltip").classList.remove("active");
+      mapUSA.querySelectorAll(".highlight").forEach((el) => el.classList.remove("highlight"));
     });
 
-    // Close modal with Esc key
+    // Close tooltip with Esc key
     document.addEventListener("keydown", (event) => {
       if (event.key === "Escape") {
         lockedStateName = null;
         document.querySelector(".tsw-tooltip").classList.remove("active");
+        mapUSA.querySelectorAll(".highlight").forEach((el) => el.classList.remove("highlight"));
       }
     });
   });

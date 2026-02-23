@@ -1,10 +1,14 @@
 const usaMapSVG = `<svg
+  role="img"
   version="1.1"
   xmlns="http://www.w3.org/2000/svg"
   style="overflow: hidden; display: block"
   viewBox="-9.74 -4.87 487 299.992"
   preserveAspectRatio="xMidYMid meet"
+  aria-labelledby="tsw-map-usa-title"
 >
+  <title id="tsw-map-usa-title">Hometown Grants Map</title>
+  <desc id="">An interactive map</desc>
   <rect
     x="-2020"
     y="-1242"

@@ -12,10 +12,12 @@ const mapUSA = document.querySelector(".tsw-map-usa");
 // Tooltip handler and format money helper function
 
 const formatMoney = (money) => {
-  return money.toLocaleString("en-US", {
+  const moneyWithDigits = money.toLocaleString("en-US", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   });
+
+  return `$${moneyWithDigits}`;
 };
 
 // Hover handler for state and callout box colors
@@ -64,7 +66,7 @@ const handleTooltip = (thisStateData, isHovering, event, isClick = false) => {
 
   tooltip.innerHTML = `
     <p class="tsw-tooltip-state">${name}</p>
-    <p>Total grant amount:<br /><span class="tsw-tooltip-numbers">$${formatMoney(grantAmount)}</span></p>
+    <p>Total grant amount:<br /><span class="tsw-tooltip-numbers">${formatMoney(grantAmount)}</span></p>
     <p>Towns awarded:<br /><span class="tsw-tooltip-numbers">${townsAwarded}</span></p>
   `;
 
@@ -85,8 +87,44 @@ const handleTooltip = (thisStateData, isHovering, event, isClick = false) => {
 // =-=-=-=-=-=-=-=-=-=-=-=-=
 
 const dropdownContainer = document.querySelector(".tsw-dropdown-container");
-const dropdown = document.querySelector("#tsw-dropdown");
-const dropdownData = document.querySelector("#tsw-dropdown-data");
+const dropdown = document.querySelector("#tsw-dropdown-select");
+const dropdownDataState = document.querySelector(".tsw-dropdown-data-state");
+const dropdownDataTotal = document.querySelector(".tsw-dropdown-data-total");
+
+const renderDropdownData = (stateName) => {
+  const selectedStateData = stateData?.find((state) => state.name === stateName);
+
+  // Render selected state data
+  let dropdownDataStateHTML = `<p>Please select a state to see grant data for that state.</p>`;
+
+  if (selectedStateData) {
+    dropdownDataStateHTML = `
+      <p>State:<br /><span class="tsw-dropdown-data-value">${selectedStateData.name}</span></p>
+      <p>Total grant amount:<br /><span class="tsw-dropdown-data-value">${formatMoney(selectedStateData.grantAmount)}</span></p>
+      <p>Towns awarded:<br /><span class="tsw-dropdown-data-value">${selectedStateData.townsAwarded}</span></p>
+    `;
+  }
+
+  dropdownDataState.innerHTML = dropdownDataStateHTML;
+
+  // Render combined state data for all states
+  const stateDataSums = stateData.reduce(
+    (acc, curr) => {
+      acc.grantAmount += curr.grantAmount;
+      acc.townsAwarded += curr.townsAwarded;
+      return acc;
+    },
+    { grantAmount: 0, townsAwarded: 0 },
+  );
+
+  const dropdownDataTotalHTML = `
+    <p><span class="bold">All states combined</span></p>
+    <p>Total grant amount:<br /><span class="tsw-dropdown-data-value">${formatMoney(stateDataSums.grantAmount)}</span></p>
+    <p>Towns awarded:<br /><span class="tsw-dropdown-data-value">${stateDataSums.townsAwarded}</span></p>
+  `;
+
+  dropdownDataTotal.innerHTML = dropdownDataTotalHTML;
+};
 
 const renderDropdown = () => {
   const dropdownDefault = `<option value="" disabled selected hidden>Select a state</option>`;
@@ -100,11 +138,9 @@ const renderDropdown = () => {
   dropdown.innerHTML = dropdownDefault + dropdownOptions;
 };
 
-const renderDropdownData = () => {};
-
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-// Render map and accordion on page load and set event listeners
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+// Render map and dropdown on page load and set event listeners
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 mapUSA.innerHTML = usaMapSVG;
 
@@ -154,10 +190,13 @@ const initMap = () => {
   });
 };
 
-// Event listeners for all accordion buttons
-
 const initDropdown = () => {
   renderDropdown();
+  renderDropdownData();
+
+  dropdown.addEventListener("change", (event) => {
+    renderDropdownData(event.target.value);
+  });
 };
 
 // =-=-=-=

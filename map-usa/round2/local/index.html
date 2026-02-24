@@ -18,7 +18,7 @@
     <div class="tsw-container">
       <!-- Header -->
       <div class="tsw-header">
-        <h1>Check out all the towns that received community-building&#160;grants.</h1>
+        <h1>Check out all the towns that received community&#8209;building&#160;grants.</h1>
       </div>
 
       <!-- Map -->
@@ -29,12 +29,28 @@
 
       <!-- Dropdown for mobile -->
       <div class="tsw-dropdown-container">
-        <select name="tsw-dropdown" id="tsw-dropdown">
-          <!-- JS injects dropdown states here -->
-        </select>
-        <div class="tsw-dropdown-data">
+        <div class="tsw-dropdown">
+          <label aria-hidden="true" id="tsw-dropdown-select-label" for="tsw-dropdown-select">State</label>
+          <select id="tsw-dropdown-select">
+            <!-- JS injects dropdown states here -->
+          </select>
+          <svg class="tsw-dropdown-arrow">
+            <use xlink:href="#tsw-dropdown-arrow-svg"></use>
+          </svg>
+        </div>
+        <div class="tsw-dropdown-data tsw-dropdown-data-state">
           <!-- JS injects state data here -->
         </div>
+        <div class="tsw-dropdown-data tsw-dropdown-data-total">
+          <!-- JS injects state data here -->
+        </div>
+      </div>
+
+      <!-- SVG icons -->
+      <div class="tsw-dropdown-svg-icons">
+        <svg id="tsw-dropdown-arrow-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+          <path d="M480-360 280-560h400L480-360Z" />
+        </svg>
       </div>
     </div>
   </body>

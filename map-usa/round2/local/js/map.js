@@ -5,10 +5,9 @@ const usaMapSVG = `<svg
   style="overflow: hidden; display: block"
   viewBox="-9.74 -4.87 487 299.992"
   preserveAspectRatio="xMidYMid meet"
+  aria-label="Hometown Grants Map"
   aria-labelledby="tsw-map-usa-title"
 >
-  <title id="tsw-map-usa-title">Hometown Grants Map</title>
-  <desc id="">An interactive map</desc>
   <rect
     x="-2020"
     y="-1242"
@@ -23,6 +22,7 @@ const usaMapSVG = `<svg
     stroke-width="2.053388090349076"
     style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0"
     fill-opacity="0"
+    class="svg-bounding-box"
   />
   <path
     

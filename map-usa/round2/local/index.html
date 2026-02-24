@@ -18,7 +18,7 @@
     <div class="tsw-container">
       <!-- Header -->
       <div class="tsw-header">
-        <h1>USA Map Test - Round&#160;2!</h1>
+        <h1>Check out all the towns that received community-building&#160;grants.</h1>
       </div>
 
       <!-- Map -->
@@ -27,39 +27,14 @@
         <div class="tsw-tooltip"><!-- JS injects tooltip here --></div>
       </div>
 
-      <!-- State accordions for mobile -->
-      <div class="tsw-accordion-container">
-        <!-- JS injects accordions here -->
-      </div>
-
-      <!-- State accordion template -->
-      <template id="tsw-accordion-template">
-        <div class="tsw-accordion">
-          <button class="tsw-accordion-header" aria-expanded="false">
-            <span class="tsw-header-text"></span>
-          </button>
-          <div class="tsw-accordion-content">
-            <div class="tsw-accordion-content-inner">
-              <!-- JS injects accordion content here -->
-            </div>
-          </div>
+      <!-- Dropdown for mobile -->
+      <div class="tsw-dropdown-container">
+        <select name="tsw-dropdown" id="tsw-dropdown">
+          <!-- JS injects dropdown states here -->
+        </select>
+        <div class="tsw-dropdown-data">
+          <!-- JS injects state data here -->
         </div>
-      </template>
-
-      <!-- Info modal -->
-      <div class="tsw-modal-overlay">
-        <dialog class="tsw-modal">
-          <button class="tsw-modal-close">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
-              <path
-                d="m336-280-56-56 144-144-144-143 56-56 144 144 143-144 56 56-144 143 144 144-56 56-143-144-144 144Z"
-              />
-            </svg>
-          </button>
-          <div class="tsw-modal-main">
-            <h3>This is a modal!</h3>
-          </div>
-        </dialog>
       </div>
     </div>
   </body>

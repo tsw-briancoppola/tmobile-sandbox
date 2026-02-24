@@ -80,153 +80,27 @@ const handleTooltip = (thisStateData, isHovering, event, isClick = false) => {
   handleStateHighlight(thisStateData, isHovering);
 };
 
-// =-=-=-=-=-=-=-=-=-=-=-=-=-
-// Mobile accordion functions
-// =-=-=-=-=-=-=-=-=-=-=-=-=-
+// =-=-=-=-=-=-=-=-=-=-=-=-=
+// Mobile dropdown functions
+// =-=-=-=-=-=-=-=-=-=-=-=-=
 
-const accordionContainer = document.querySelector(".tsw-accordion-container");
+const dropdownContainer = document.querySelector(".tsw-dropdown-container");
+const dropdown = document.querySelector("#tsw-dropdown");
+const dropdownData = document.querySelector("#tsw-dropdown-data");
 
-// Render one accordion state link
+const renderDropdown = () => {
+  const dropdownDefault = `<option value="" disabled selected hidden>Select a state</option>`;
 
-const renderAccordionStateLink = (state) => {
-  const stateItem = document.createElement("li");
-  const stateItemButton = document.createElement("button");
-  stateItemButton.setAttribute("type", "button");
-  stateItemButton.textContent = state.name;
+  const dropdownOptions = stateData
+    .map((state) => {
+      return `<option value="${state.name}">${state.name}</option>`;
+    })
+    .join("");
 
-  stateItemButton.addEventListener("click", () => {
-    openModal();
-    addContentToModal(state);
-  });
-
-  stateItem.appendChild(stateItemButton);
-  return stateItem;
+  dropdown.innerHTML = dropdownDefault + dropdownOptions;
 };
 
-// Render one accordion
-
-const renderAccordion = (range, statesInRange) => {
-  const accordionTemplate = document.querySelector("#tsw-accordion-template");
-  const clone = accordionTemplate.content.cloneNode(true);
-
-  const rangeId = `range-${range.replace(/\s+/g, "-")}`;
-  const button = clone.querySelector(".tsw-accordion-header");
-
-  button.setAttribute("id", `btn-${rangeId}`);
-  button.setAttribute("aria-controls", `panel-${rangeId}`);
-  button.setAttribute("aria-expanded", "false");
-
-  const accordionContent = clone.querySelector(".tsw-accordion-content");
-  const accordionInner = clone.querySelector(".tsw-accordion-content-inner");
-
-  // Apply ID and initial state to the wrapper
-  accordionContent.setAttribute("id", `panel-${rangeId}`);
-  accordionContent.setAttribute("aria-labelledby", `btn-${rangeId}`);
-  accordionContent.setAttribute("aria-hidden", "true"); // CSS uses this for animation
-
-  clone.querySelector(".tsw-header-text").textContent = range;
-
-  const stateList = document.createElement("ul");
-  statesInRange.forEach((state) => {
-    const stateLink = renderAccordionStateLink(state);
-    stateList.appendChild(stateLink);
-  });
-
-  accordionInner.appendChild(stateList);
-  return clone;
-};
-
-// Render all accordion groups
-
-const renderAccordionGroup = () => {
-  // Create object with states grouped by range
-  const statesGrouped = Object.groupBy(stateData, (state) => {
-    const firstLetter = state.name[0].toUpperCase();
-    return Object.keys(STATE_RANGE_CONFIG).find((range) => STATE_RANGE_CONFIG[range].includes(firstLetter));
-  });
-
-  // Create accordion for each state range
-  Object.keys(STATE_RANGE_CONFIG).forEach((range) => {
-    const statesInRange = statesGrouped[range] || [];
-    const accordion = renderAccordion(range, statesInRange);
-    accordionContainer.appendChild(accordion);
-  });
-};
-
-// =-=-=-=-=-=-=-=
-// Modal functions
-// =-=-=-=-=-=-=-=
-
-// Modal elements and focus trapping
-
-const modalOverlay = document.querySelector(".tsw-modal-overlay");
-const modal = modalOverlay.querySelector(".tsw-modal");
-const modalMain = modalOverlay.querySelector(".tsw-modal-main");
-const modalFocusableElements = modal.querySelectorAll("button, input, select");
-
-const modalFirstElement = modalFocusableElements[0];
-const modalLastElement = modalFocusableElements[modalFocusableElements.length - 1];
-
-modal.addEventListener("keydown", (event) => {
-  if (event.key === "Tab") {
-    if (event.shiftKey) {
-      if (document.activeElement === modalFirstElement) {
-        modalLastElement.focus();
-        event.preventDefault();
-      }
-    } else {
-      if (document.activeElement === modalLastElement) {
-        modalFirstElement.focus();
-        event.preventDefault();
-      }
-    }
-  }
-});
-
-// Modal functions and event listeners
-
-const modalCloseButton = document.querySelector(".tsw-modal-close");
-
-const openModal = () => {
-  modalOverlay.classList.add("is-visible");
-  modal.focus();
-};
-
-const closeModal = () => {
-  modalOverlay.classList.remove("is-visible");
-};
-
-modalOverlay.addEventListener("click", (e) => {
-  if (e.target === e.currentTarget) {
-    closeModal(); // Only runs if you click the overlay, not the modal itself
-  }
-});
-
-modalCloseButton.addEventListener("click", () => {
-  closeModal();
-});
-
-window.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") {
-    closeModal();
-  }
-});
-
-// Modal content
-
-const addContentToModal = (thisStateData) => {
-  const modalHTML = `
-    <h3>${thisStateData.name}</h3>
-    <p>Money spent:<br />
-      <span class="tsw-modal-main-money">$${formatMoney(thisStateData.grantAmount)}</span>
-    </p>
-    <p>Total towns awarded:<br />
-      <span class="tsw-modal-main-money">${thisStateData.townsAwarded}</span>
-    </p>
-  `;
-
-  modalMain.innerHTML = modalHTML;
-};
+const renderDropdownData = () => {};
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 // Render map and accordion on page load and set event listeners
@@ -282,34 +156,8 @@ const initMap = () => {
 
 // Event listeners for all accordion buttons
 
-const initAccordionGroup = () => {
-  accordionContainer.addEventListener("click", (event) => {
-    const thisButton = event.target.closest(".tsw-accordion-header");
-    if (!thisButton) return;
-
-    const isExpanded = thisButton.getAttribute("aria-expanded") === "true";
-
-    // Close other accordions, but only if user is trying to open this one
-    if (!isExpanded) {
-      const allButtons = accordionContainer.querySelectorAll(".tsw-accordion-header");
-      allButtons.forEach((otherBtn) => {
-        if (otherBtn !== thisButton) {
-          otherBtn.setAttribute("aria-expanded", "false");
-          const otherPanelId = otherBtn.getAttribute("aria-controls");
-          document.getElementById(otherPanelId).setAttribute("aria-hidden", "true");
-        }
-      });
-    }
-
-    const panelId = thisButton.getAttribute("aria-controls");
-    const panel = document.getElementById(panelId);
-
-    // Toggle logic
-    thisButton.setAttribute("aria-expanded", !isExpanded);
-    panel.setAttribute("aria-hidden", isExpanded); // CSS targets this for the transition
-  });
-
-  renderAccordionGroup();
+const initDropdown = () => {
+  renderDropdown();
 };
 
 // =-=-=-=
@@ -318,5 +166,5 @@ const initAccordionGroup = () => {
 
 window.addEventListener("load", () => {
   initMap();
-  initAccordionGroup();
+  initDropdown();
 });

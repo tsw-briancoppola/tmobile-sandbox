@@ -1,11 +1,3 @@
-const STATE_RANGE_CONFIG = {
-  "A-F": ["A", "B", "C", "D", "F"],
-  "G-K": ["G", "H", "I", "K"],
-  "L-M": ["L", "M"],
-  "N-P": ["N", "O", "P"],
-  "S-W": ["Q", "R", "S", "T", "U", "V", "W"],
-};
-
 const stateData = [
   {
     code: "AL",

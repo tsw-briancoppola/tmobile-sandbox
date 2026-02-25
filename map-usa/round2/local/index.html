@@ -24,7 +24,16 @@
       <!-- Map -->
       <div class="tsw-map-usa-container">
         <div class="tsw-map-usa"><!-- JS injects map here --></div>
-        <div class="tsw-tooltip"><!-- JS injects tooltip here --></div>
+        <div class="tsw-tooltip">
+          <button class="tsw-tooltip-close-button">
+            <svg class="tsw-tooltip-close">
+              <use xlink:href="#tsw-tooltip-close-svg"></use>
+            </svg>
+          </button>
+          <div class="tsw-tooltip-content">
+            <!-- JS injects tooltip here -->
+          </div>
+        </div>
       </div>
 
       <!-- Dropdown for mobile -->
@@ -41,15 +50,18 @@
         <div class="tsw-dropdown-data tsw-dropdown-data-state">
           <!-- JS injects state data here -->
         </div>
-        <div class="tsw-dropdown-data tsw-dropdown-data-total">
-          <!-- JS injects state data here -->
-        </div>
+        <!-- <div class="tsw-dropdown-data tsw-dropdown-data-total">
+          JS injects state data here
+        </div> -->
       </div>
 
       <!-- SVG icons -->
-      <div class="tsw-dropdown-svg-icons">
+      <div class="tsw-map-usa-svg-icons">
         <svg id="tsw-dropdown-arrow-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
           <path d="M480-360 280-560h400L480-360Z" />
+        </svg>
+        <svg id="tsw-tooltip-close-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+          <path d="m336-280-56-56 144-144-144-143 56-56 144 144 143-144 56 56-144 143 144 144-56 56-143-144-144 144Z" />
         </svg>
       </div>
     </div>

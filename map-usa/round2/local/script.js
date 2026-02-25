@@ -46,6 +46,8 @@ let lockedStateName = null;
 
 const handleTooltip = (thisStateData, isHovering, event, isClick = false) => {
   const tooltip = document.querySelector(".tsw-tooltip");
+  const tooltipContent = document.querySelector(".tsw-tooltip-content");
+
   const { name, grantAmount, townsAwarded } = thisStateData;
 
   if (isClick) {
@@ -64,7 +66,7 @@ const handleTooltip = (thisStateData, isHovering, event, isClick = false) => {
   const mapContainer = document.querySelector(".tsw-map-usa");
   const containerRect = mapContainer.getBoundingClientRect();
 
-  tooltip.innerHTML = `
+  tooltipContent.innerHTML = `
     <p class="tsw-tooltip-state">${name}</p>
     <p>Total grant amount:<br /><span class="tsw-tooltip-numbers">${formatMoney(grantAmount)}</span></p>
     <p>Towns awarded:<br /><span class="tsw-tooltip-numbers">${townsAwarded}</span></p>
@@ -86,7 +88,6 @@ const handleTooltip = (thisStateData, isHovering, event, isClick = false) => {
 // Mobile dropdown functions
 // =-=-=-=-=-=-=-=-=-=-=-=-=
 
-const dropdownContainer = document.querySelector(".tsw-dropdown-container");
 const dropdown = document.querySelector("#tsw-dropdown-select");
 const dropdownDataState = document.querySelector(".tsw-dropdown-data-state");
 const dropdownDataTotal = document.querySelector(".tsw-dropdown-data-total");
@@ -99,31 +100,32 @@ const renderDropdownData = (stateName) => {
 
   if (selectedStateData) {
     dropdownDataStateHTML = `
-      <p>State:<br /><span class="tsw-dropdown-data-value">${selectedStateData.name}</span></p>
-      <p>Total grant amount:<br /><span class="tsw-dropdown-data-value">${formatMoney(selectedStateData.grantAmount)}</span></p>
-      <p>Towns awarded:<br /><span class="tsw-dropdown-data-value">${selectedStateData.townsAwarded}</span></p>
+      <p><span class="tsw-dropdown-data-header">State:</span><br />${selectedStateData.name}</span></p>
+      <p><span class="tsw-dropdown-data-header">Total grant amount:</span><br />${formatMoney(selectedStateData.grantAmount)}</p>
+      <p><span class="tsw-dropdown-data-header">Total amount of towns awarded:</span><br />${selectedStateData.townsAwarded}</p>
+      <p><span class="tsw-dropdown-data-header">Towns awarded:</span><br />Banner Elk, Biltmore Forest, Black Mountain, Boiling Spring Lakes, Carolina Beach, Carolina Shores, Cedar Mountain, Chapel Hill, Connelly Springs, Elizabeth City, Fayetteville, Forest City, Fuquay-Varina, Hendersonville, Huntersville, Indian Trail, Jacksonville, Kernersville, Kill Devil Hills, Kings Mountain, Laurinburg, Morehead City, Morrisville, Southern Pines, Wrightsville Beach</p>
     `;
   }
 
   dropdownDataState.innerHTML = dropdownDataStateHTML;
 
   // Render combined state data for all states
-  const stateDataSums = stateData.reduce(
-    (acc, curr) => {
-      acc.grantAmount += curr.grantAmount;
-      acc.townsAwarded += curr.townsAwarded;
-      return acc;
-    },
-    { grantAmount: 0, townsAwarded: 0 },
-  );
+  // const stateDataSums = stateData.reduce(
+  //   (acc, curr) => {
+  //     acc.grantAmount += curr.grantAmount;
+  //     acc.townsAwarded += curr.townsAwarded;
+  //     return acc;
+  //   },
+  //   { grantAmount: 0, townsAwarded: 0 },
+  // );
 
-  const dropdownDataTotalHTML = `
-    <p><span class="bold">All states combined</span></p>
-    <p>Total grant amount:<br /><span class="tsw-dropdown-data-value">${formatMoney(stateDataSums.grantAmount)}</span></p>
-    <p>Towns awarded:<br /><span class="tsw-dropdown-data-value">${stateDataSums.townsAwarded}</span></p>
-  `;
+  // const dropdownDataTotalHTML = `
+  //   <p><span class="bold">All states combined</p>
+  //   <p>Total grant amount:<br />${formatMoney(stateDataSums.grantAmount)}</p>
+  //   <p>Towns awarded:<br />${stateDataSums.townsAwarded}</p>
+  // `;
 
-  dropdownDataTotal.innerHTML = dropdownDataTotalHTML;
+  // dropdownDataTotal.innerHTML = dropdownDataTotalHTML;
 };
 
 const renderDropdown = () => {
@@ -144,49 +146,52 @@ const renderDropdown = () => {
 
 mapUSA.innerHTML = usaMapSVG;
 
-const mapPaths = mapUSA.querySelectorAll("path");
-const rects = mapUSA.querySelectorAll("rect");
-const calloutBoxes = [...rects].filter((path) => path.classList.contains("sm_rect"));
-const allMapElements = [...mapPaths, ...calloutBoxes];
+const allMapElements = [...mapUSA.querySelectorAll("path"), ...mapUSA.querySelectorAll("rect.sm_rect")];
+
+// Helper to close tooltip
+const closeTooltip = () => {
+  lockedStateName = null;
+  document.querySelector(".tsw-tooltip").classList.remove("active");
+  mapUSA.querySelectorAll(".highlight").forEach((el) => el.classList.remove("highlight"));
+};
 
 const initMap = () => {
+  // Map element listeners
   allMapElements.forEach((state) => {
-    // Get state data from state code
     const stateCode = state.classList[1]?.split("_")[2];
     const thisStateData = stateData.find((s) => s.code === stateCode);
 
-    // Hover states for states
-    state.addEventListener("mouseover", (event) => {
+    state.addEventListener("mouseover", (e) => {
       handleStateHighlight(thisStateData, true);
-      handleTooltip(thisStateData, true, event);
+      handleTooltip(thisStateData, true, e);
     });
 
-    state.addEventListener("mouseout", (event) => {
+    state.addEventListener("mouseout", (e) => {
       handleStateHighlight(thisStateData, false);
-      handleTooltip(thisStateData, false, event);
+      handleTooltip(thisStateData, false, e);
     });
 
-    // Open tooltip when state is clicked
-    state.addEventListener("click", (event) => {
-      event.stopPropagation();
-      handleTooltip(thisStateData, false, event, true);
+    state.addEventListener("click", (e) => {
+      handleTooltip(thisStateData, false, e, true);
     });
+  });
 
-    // Close tooltip if any non-state location is clicked
-    document.addEventListener("click", () => {
-      lockedStateName = null;
-      document.querySelector(".tsw-tooltip").classList.remove("active");
-      mapUSA.querySelectorAll(".highlight").forEach((el) => el.classList.remove("highlight"));
-    });
+  // Global listeners
+  document.addEventListener("click", (event) => {
+    const tooltip = document.querySelector(".tsw-tooltip");
+    const isState = event.target.closest("path") || event.target.closest("rect.sm_rect");
+    const isInsideTooltip = tooltip.contains(event.target);
+    const isCloseBtn = event.target.closest(".tsw-tooltip-close-button");
 
-    // Close tooltip with Esc key
-    document.addEventListener("keydown", (event) => {
-      if (event.key === "Escape") {
-        lockedStateName = null;
-        document.querySelector(".tsw-tooltip").classList.remove("active");
-        mapUSA.querySelectorAll(".highlight").forEach((el) => el.classList.remove("highlight"));
-      }
-    });
+    // Close tooltip if clicked the X button or clicked completely outside map/tooltip
+    if (isCloseBtn || (!isState && !isInsideTooltip)) {
+      closeTooltip();
+    }
+  });
+
+  // Close tooltip if Esc key is clicked
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeTooltip();
   });
 };
 

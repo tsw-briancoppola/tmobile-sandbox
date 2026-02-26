@@ -189,7 +189,7 @@ ul {
 }
 .tsw-map-usa-container svg path.highlight,
 .tsw-map-usa-container svg rect.highlight {
-  fill: var(--color-brand-primary-500);
+  fill: var(--color-brand-primary-500) !important;
   filter: drop-shadow(var(--color-outer-glow));
 }
 
@@ -239,7 +239,7 @@ ul {
 }
 .tsw-dropdown-arrow {
   position: absolute;
-  right: 1rem;
+  right: 1.8rem;
   top: 50%;
   transform: translateY(-50%);
   width: 2rem;

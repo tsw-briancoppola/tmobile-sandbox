@@ -25,18 +25,18 @@ const formatMoney = (money) => {
 const handleStateHighlight = (thisStateData, isHovering) => {
   const { name, code } = thisStateData;
 
-  // Find your elements (Paths, Rects, Text) using your existing logic
   const elements = [
-    [...mapUSA.querySelectorAll("path")].find((p) => p.classList[1]?.split("_")[2] === code),
-    [...mapUSA.querySelectorAll("rect")].find((b) => b.classList[1]?.split("_")[2] === code),
-    [...mapUSA.querySelectorAll("text")].find((t) => t.classList[1]?.split("_")[2] === code),
+    mapUSA.querySelector(`path[class*="_${code}"]`),
+    mapUSA.querySelector(`rect[class*="_${code}"]`),
+    mapUSA.querySelector(`text[class*="_${code}"]`),
   ];
 
-  // If hovering OR if this is the locked state, add the class.
   const shouldHighlight = isHovering || lockedStateName === name;
 
   elements.forEach((el) => {
-    if (el) el.classList.toggle("highlight", shouldHighlight);
+    if (el) {
+      el.classList.toggle("highlight", shouldHighlight);
+    }
   });
 };
 
@@ -45,6 +45,9 @@ let isTooltipLocked = false;
 let lockedStateName = null;
 
 const handleTooltip = (thisStateData, isHovering, event, isClick = false) => {
+  // Return if screen width is less than 768px
+  if (window.innerWidth < 768) return;
+
   const tooltip = document.querySelector(".tsw-tooltip");
   const tooltipContent = document.querySelector(".tsw-tooltip-content");
 
@@ -113,24 +116,6 @@ const renderDropdownData = (stateName) => {
   }
 
   dropdownDataState.innerHTML = dropdownDataStateHTML;
-
-  // Render combined state data for all states
-  // const stateDataSums = stateData.reduce(
-  //   (acc, curr) => {
-  //     acc.grantAmount += curr.grantAmount;
-  //     acc.townsAwarded += curr.townsAwarded;
-  //     return acc;
-  //   },
-  //   { grantAmount: 0, townsAwarded: 0 },
-  // );
-
-  // const dropdownDataTotalHTML = `
-  //   <p><span class="bold">All states combined</p>
-  //   <p>Total grant amount:<br />${formatMoney(stateDataSums.grantAmount)}</p>
-  //   <p>Towns awarded:<br />${stateDataSums.townsAwarded}</p>
-  // `;
-
-  // dropdownDataTotal.innerHTML = dropdownDataTotalHTML;
 };
 
 const renderDropdown = () => {
@@ -149,10 +134,6 @@ const renderDropdown = () => {
 // Render map and dropdown on page load and set event listeners
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-mapUSA.innerHTML = usaMapSVG;
-
-const allMapElements = [...mapUSA.querySelectorAll("path"), ...mapUSA.querySelectorAll("rect.sm_rect")];
-
 // Helper to close tooltip
 const closeTooltip = () => {
   lockedStateName = null;
@@ -162,18 +143,20 @@ const closeTooltip = () => {
 };
 
 const initMap = () => {
+  mapUSA.innerHTML = usaMapSVG;
+
+  const allMapElements = [...mapUSA.querySelectorAll("path"), ...mapUSA.querySelectorAll("rect.sm_rect")];
+
   // Map element listeners
   allMapElements.forEach((state) => {
     const stateCode = state.classList[1]?.split("_")[2];
     const thisStateData = stateData.find((s) => s.code === stateCode);
 
     state.addEventListener("mouseover", (e) => {
-      handleStateHighlight(thisStateData, true);
       handleTooltip(thisStateData, true, e);
     });
 
     state.addEventListener("mouseout", (e) => {
-      handleStateHighlight(thisStateData, false);
       handleTooltip(thisStateData, false, e);
     });
 
@@ -205,8 +188,21 @@ const initDropdown = () => {
   renderDropdown();
   renderDropdownData();
 
+  // Dropdown element listeners
   dropdown.addEventListener("change", (event) => {
-    renderDropdownData(event.target.value);
+    const selectedName = event.target.value;
+    renderDropdownData(selectedName);
+
+    const selectedStateData = stateData.find((s) => s.name === selectedName);
+
+    if (selectedStateData) {
+      mapUSA.querySelectorAll(".highlight").forEach((el) => el.classList.remove("highlight"));
+      mapUSA.querySelectorAll(".clicked").forEach((el) => el.classList.remove("clicked"));
+
+      lockedStateName = selectedName;
+
+      handleStateHighlight(selectedStateData, true, true);
+    }
   });
 };
 

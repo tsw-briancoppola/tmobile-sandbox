@@ -51,8 +51,9 @@ const handleTooltip = (thisStateData, isHovering, event, isClick = false) => {
   const { name, grantAmount, townsAwarded } = thisStateData;
 
   if (isClick) {
-    // Remove highlight color from all states
+    // Remove highlight color and 'clicked' class from all states
     mapUSA.querySelectorAll(".highlight").forEach((el) => el.classList.remove("highlight"));
+    mapUSA.querySelectorAll(".clicked").forEach((el) => el.classList.remove("clicked"));
     // If clicked state is same as current state, unlock it, otherwise lock it
     lockedStateName = lockedStateName === name ? null : name;
   } else {
@@ -77,9 +78,13 @@ const handleTooltip = (thisStateData, isHovering, event, isClick = false) => {
   tooltip.style.top = `${rect.bottom - containerRect.top}px`;
   tooltip.classList.toggle("is-rect", event.target.tagName === "rect");
 
-  // Determine whether tooltip needs to be active
+  // Determine whether tooltip should be active
   const shouldBeActive = isHovering || lockedStateName === name;
   tooltip.classList.toggle("active", shouldBeActive);
+
+  // Determine whether tooltip is 'clicked' or not
+  const isClicked = lockedStateName === name;
+  tooltip.classList.toggle("clicked", isClicked);
 
   handleStateHighlight(thisStateData, isHovering);
 };
@@ -153,6 +158,7 @@ const closeTooltip = () => {
   lockedStateName = null;
   document.querySelector(".tsw-tooltip").classList.remove("active");
   mapUSA.querySelectorAll(".highlight").forEach((el) => el.classList.remove("highlight"));
+  mapUSA.querySelectorAll(".clicked").forEach((el) => el.classList.remove("clicked"));
 };
 
 const initMap = () => {

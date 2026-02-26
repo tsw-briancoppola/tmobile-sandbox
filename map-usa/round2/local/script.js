@@ -31,6 +31,14 @@ const handleStateHighlight = (thisStateData, isHovering) => {
     mapUSA.querySelector(`text[class*="_${code}"]`),
   ];
 
+  // const targetState = mapUSA.querySelector(`path[class*="_${code}"]`);
+  // const observer = new MutationObserver((mutations) => {
+  //   mutations.forEach((mutation) => {
+  //     console.trace("class changed", mutation.target.className);
+  //   });
+  // });
+  // observer.observe(targetState, { attributes: true, attributeFilter: ["class"] });
+
   const shouldHighlight = isHovering || lockedStateName === name;
 
   elements.forEach((el) => {
@@ -136,6 +144,8 @@ const renderDropdown = () => {
 
 // Helper to close tooltip
 const closeTooltip = () => {
+  console.log("close tooltip");
+
   lockedStateName = null;
   document.querySelector(".tsw-tooltip").classList.remove("active");
   mapUSA.querySelectorAll(".highlight").forEach((el) => el.classList.remove("highlight"));
@@ -157,6 +167,7 @@ const initMap = () => {
     });
 
     state.addEventListener("mouseout", (e) => {
+      if (lockedStateName) return;
       handleTooltip(thisStateData, false, e);
     });
 
@@ -166,13 +177,17 @@ const initMap = () => {
   });
 
   // Global listeners
+
+  // Close tooltip if clicked the X button or clicked completely outside map/tooltip
   document.addEventListener("click", (event) => {
+    // Return if screen width is less than 768px
+    if (window.innerWidth < 768) return;
+
     const tooltip = document.querySelector(".tsw-tooltip");
     const isState = event.target.closest("path") || event.target.closest("rect.sm_rect");
     const isInsideTooltip = tooltip.contains(event.target);
     const isCloseBtn = event.target.closest(".tsw-tooltip-close-button");
 
-    // Close tooltip if clicked the X button or clicked completely outside map/tooltip
     if (isCloseBtn || (!isState && !isInsideTooltip)) {
       closeTooltip();
     }
@@ -190,6 +205,7 @@ const initDropdown = () => {
 
   // Dropdown element listeners
   dropdown.addEventListener("change", (event) => {
+    event.stopPropagation();
     const selectedName = event.target.value;
     renderDropdownData(selectedName);
 

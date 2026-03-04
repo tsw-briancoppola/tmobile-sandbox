@@ -138,6 +138,13 @@ window.addEventListener("keydown", (event) => {
 // Modal content
 
 const addContentToModal = (thisStateData) => {
+  let townsList =
+    "Banner Elk, Biltmore Forest, Black Mountain, Boiling Spring Lakes, Carolina Beach, Carolina Shores, Cedar Mountain, Chapel Hill, Connelly Springs, Elizabeth City, Fayetteville, Forest City, Fuquay-Varina, Hendersonville, Huntersville, Indian Trail, Jacksonville, Kernersville, Kill Devil Hills, Kings Mountain, Laurinburg, Morehead City, Morrisville, Southern Pines, Wrightsville Beach";
+
+  if (thisStateData.towns) {
+    townsList = thisStateData.towns.join(", ");
+  }
+
   const modalHTML = `
     <p><span class="tsw-modal-state">${thisStateData.name}</span></p>
     <p><span class="tsw-modal-header">Money spent:</span><br />
@@ -147,7 +154,7 @@ const addContentToModal = (thisStateData) => {
       ${thisStateData.townsAwarded}
     </p>
     <p><span class="tsw-modal-header">Towns awarded:</span><br />
-      Banner Elk, Biltmore Forest, Black Mountain, Boiling Spring Lakes, Carolina Beach, Carolina Shores, Cedar Mountain, Chapel Hill, Connelly Springs, Elizabeth City, Fayetteville, Forest City, Fuquay-Varina, Hendersonville, Huntersville, Indian Trail, Jacksonville, Kernersville, Kill Devil Hills, Kings Mountain, Laurinburg, Morehead City, Morrisville, Southern Pines, Wrightsville Beach
+      ${townsList}
     </p>
   `;
 

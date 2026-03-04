@@ -292,6 +292,7 @@ const stateData = [
     name: "Washington",
     grantAmount: 752802.7,
     townsAwarded: 16,
+    towns: ["Seattle", "Tacoma", "Bellevue", "Everett", "Bellingham", "Ellensburg", "Pasco", "Spokane"],
   },
   {
     code: "WV",

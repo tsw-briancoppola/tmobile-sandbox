@@ -192,7 +192,9 @@ const renderDropdown = () => {
 
   const dropdownOptions = stateData
     .map((state) => {
-      return `<option value="${state.name}">${state.name}</option>`;
+      const shouldBeDisabled = state.grantAmount === 0;
+      const disabledAttr = shouldBeDisabled ? "disabled" : "";
+      return `<option value="${state.name}" ${disabledAttr}>${state.name}</option>`;
     })
     .join("");
 

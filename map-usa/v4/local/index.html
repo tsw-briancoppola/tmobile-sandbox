@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- CDN links -->
+    <script src="https://unpkg.com/simple-statistics@7.8.8/dist/simple-statistics.min.js"></script>
+    <!-- JS links -->
+    <script defer src="js/map.js"></script>
+    <script defer src="js/state-data.js"></script>
+    <script defer src="script.js"></script>
+    <!-- CSS link -->
+    <link rel="stylesheet" href="styles.css" type="text/css" />
+    <title>[* USA Map Test *]</title>
+  </head>
+
+  <body>
+    <div class="tsw-container">
+      <!-- Map -->
+      <div class="tsw-map-usa-container">
+        <div class="tsw-map-usa"><!-- JS injects map here --></div>
+        <div class="tsw-tooltip">
+          <!-- JS injects state name here -->
+        </div>
+      </div>
+
+      <!-- State info modal -->
+      <div class="tsw-modal-overlay">
+        <dialog class="tsw-modal">
+          <button class="tsw-modal-close">
+            <svg>
+              <use xlink:href="#tsw-modal-close-svg"></use>
+            </svg>
+          </button>
+          <div class="tsw-modal-main">
+            <h3>This is a modal!</h3>
+          </div>
+        </dialog>
+      </div>
+
+      <!-- Dropdown for mobile -->
+      <div class="tsw-dropdown-container">
+        <div class="tsw-dropdown">
+          <label aria-hidden="true" id="tsw-dropdown-select-label" for="tsw-dropdown-select">State</label>
+          <select id="tsw-dropdown-select">
+            <!-- JS injects dropdown states here -->
+          </select>
+          <svg class="tsw-dropdown-arrow">
+            <use xlink:href="#tsw-dropdown-arrow-svg"></use>
+          </svg>
+        </div>
+        <div class="tsw-dropdown-data tsw-dropdown-data-state">
+          <!-- JS injects state data here -->
+        </div>
+        <!-- <div class="tsw-dropdown-data tsw-dropdown-data-total">
+          JS injects state data here
+        </div> -->
+      </div>
+
+      <!-- SVG icons -->
+      <div class="tsw-map-usa-svg-icons">
+        <svg id="tsw-dropdown-arrow-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+          <path d="M480-360 280-560h400L480-360Z" />
+        </svg>
+        <svg id="tsw-modal-close-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+          <path d="m336-280-56-56 144-144-144-143 56-56 144 144 143-144 56 56-144 143 144 144-56 56-143-144-144 144Z" />
+        </svg>
+      </div>
+    </div>
+  </body>
+</html>

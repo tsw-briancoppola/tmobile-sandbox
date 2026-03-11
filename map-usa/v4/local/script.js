@@ -40,7 +40,7 @@ const handleStateHighlight = (thisStateData, isHovering) => {
   });
 };
 
-const handleTooltip = (thisStateData, isHovering, event, isClick = false) => {
+const handleTooltip = (thisStateData, isHovering, event) => {
   // Return if screen width is less than 768px
   if (window.innerWidth < 768) return;
 
@@ -204,25 +204,30 @@ const disableState = (thisStateData) => {
   elements.forEach((el) => {
     if (el) {
       el.classList.add("disabled");
+      el.setAttribute("tabindex", -1);
     }
   });
 };
 
 const initMap = () => {
   mapUSA.innerHTML = usaMapSVG;
+  const usaMapSVGHTML = mapUSA.querySelector("#tsw-usa-map-svg");
 
   const allPaths = mapUSA.querySelectorAll("path");
   const allRects = mapUSA.querySelectorAll("rect.sm_rect");
   const allMapElements = [...allPaths, ...allRects];
-  // const focus = document.getElementById("tsw-state-focus");
 
-  // Set accessibility values for state paths
+  const focusOverlay = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  focusOverlay.setAttribute("id", "focus-overlay");
+  focusOverlay.setAttribute("pointer-events", "none");
+  usaMapSVGHTML.appendChild(focusOverlay);
+
+  // Set accessibility and tabbing for state paths
   allPaths.forEach((path) => {
     const stateCode = path.classList[1]?.split("_")[2];
     const thisStateData = stateData.find((s) => s.code === stateCode);
-    const indexValue = thisStateData?.code === "WA" ? 0 : 0;
 
-    path.setAttribute("tabindex", indexValue);
+    path.setAttribute("tabindex", 0);
     path.setAttribute("role", "button");
     path.setAttribute("aria-label", thisStateData?.name ?? "");
   });
@@ -255,29 +260,21 @@ const initMap = () => {
       addContentToModal(thisStateData);
     });
 
-    state.addEventListener("focus", function () {
-      console.log("focused", this);
-      this.parentNode.appendChild(this);
+    state.addEventListener("focus", () => {
+      focusOverlay.innerHTML = "";
+
+      const clone = state.cloneNode(false);
+      clone.removeAttribute("tabindex");
+      clone.removeAttribute("role");
+      clone.style.fill = "none";
+      clone.style.stroke = "#005fcc";
+      clone.style.strokeWidth = "3";
+      clone.style.strokeLinejoin = "round";
+      clone.style.pointerEvents = "none";
+      clone.style.opacity = "1";
+
+      focusOverlay.appendChild(clone);
     });
-
-    // state.addEventListener("focus", () => {
-    //   if (!focus) return;
-
-    //   // Set the reference to the current state's ID
-    //   const targetId = `#${state.id}`;
-
-    //   // Use setAttribute for modern browsers and setAttributeNS for legacy compatibility
-    //   focus.setAttribute("href", targetId);
-    //   focus.setAttributeNS("http://w3.org", "xlink:href", targetId);
-
-    //   focus.style.display = "block";
-
-    //   // OPTIONAL: Re-append to ensure it's still the last child if DOM changed
-    // });
-
-    // state.addEventListener("blur", () => {
-    //   focus.style.display = "none";
-    // });
   });
 };
 

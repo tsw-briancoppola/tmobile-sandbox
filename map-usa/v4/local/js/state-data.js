@@ -633,7 +633,7 @@ const stateData = [
     code: "VT",
     name: "Vermont",
     grantAmount: 150000,
-    townsAwarded: 3,
+    townsAwarded: 2,
     towns: ["Brattleboro", "Burlington"],
   },
   {

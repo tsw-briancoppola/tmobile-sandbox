@@ -1,9 +1,12 @@
-// =-=-=-=-=-=-=
-// Page elements
-// =-=-=-=-=-=-=
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+// Page elements and global variables
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 const mapUSAContainer = document.querySelector(".tsw-map-usa-container");
 const mapUSA = document.querySelector(".tsw-map-usa");
+
+let focusOverlay = null;
+let lastFocusedState = null;
 
 // =-=-=-=-=-=-=
 // Map functions
@@ -98,6 +101,12 @@ const openModal = () => {
 
 const closeModal = () => {
   modalOverlay.classList.remove("is-visible");
+  if (focusOverlay) focusOverlay.innerHTML = "";
+
+  if (lastFocusedState) {
+    lastFocusedState.focus();
+    lastFocusedState = null;
+  }
 };
 
 modalOverlay.addEventListener("click", (e) => {
@@ -221,7 +230,7 @@ const initMap = () => {
   const allRects = mapUSA.querySelectorAll("rect.sm_rect");
   const allMapElements = [...allPaths, ...allRects];
 
-  const focusOverlay = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  focusOverlay = document.createElementNS("http://www.w3.org/2000/svg", "g");
   focusOverlay.setAttribute("id", "focus-overlay");
   focusOverlay.setAttribute("pointer-events", "none");
   usaMapSVGHTML.appendChild(focusOverlay);
@@ -238,8 +247,12 @@ const initMap = () => {
 
   // Set accessibility and tabbing for state rects (callout boxes)
   allRects.forEach((rect) => {
+    const stateCode = rect.classList[1]?.split("_")[2];
+    const thisStateData = stateData.find((s) => s.code === stateCode);
+
     rect.setAttribute("tabindex", -1);
-    rect.setAttribute("aria-hidden", true);
+    rect.setAttribute("role", "img");
+    rect.setAttribute("aria-label", thisStateData?.name ?? "");
   });
 
   // Map element listeners
@@ -262,9 +275,13 @@ const initMap = () => {
 
     // Open modal when state is clicked
     state.addEventListener("click", () => {
-      console.log("click");
       if (window.innerWidth < 768) return;
+      if (state.tagName === "rect") {
+        const correspondingPath = mapUSA.querySelector(`path[class*="_${stateCode}"]`);
+        correspondingPath?.focus();
+      }
 
+      lastFocusedState = mapUSA.querySelector(`path[class*="_${stateCode}"]`);
       openModal();
       addContentToModal(thisStateData);
     });
@@ -272,8 +289,8 @@ const initMap = () => {
     // Open modal when focus is on state and return key is pressed
     state.addEventListener("keydown", (e) => {
       if (window.innerWidth < 768) return;
-
       if (e.key === "Enter") {
+        lastFocusedState = state;
         openModal();
         addContentToModal(thisStateData);
       }
@@ -306,11 +323,6 @@ const initMap = () => {
         rectClone.style.opacity = "1";
         focusOverlay.appendChild(rectClone);
       }
-    });
-
-    // State element listener for blur
-    state.addEventListener("blur", () => {
-      focusOverlay.innerHTML = "";
     });
   });
 };

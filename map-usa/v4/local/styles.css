@@ -190,20 +190,16 @@ ul {
 }
 .tsw-map-usa-container svg path:focus {
   outline: none;
-  /* stroke: #005fcc;
-  stroke-width: 2.5;
-  stroke-linejoin: round;
-  filter: drop-shadow(0 0 2px #000) drop-shadow(0 0 2px #000); */
 }
 
 .tsw-map-usa-container svg path.highlight,
 .tsw-map-usa-container svg rect.highlight {
-  fill: var(--color-brand-primary-500) !important;
+  fill: var(--color-brand-primary-500);
   filter: drop-shadow(var(--color-outer-glow));
 }
 .tsw-map-usa-container svg path.disabled,
 .tsw-map-usa-container svg rect.disabled {
-  fill: var(--color-brand-grayscale-500) !important;
+  fill: var(--color-brand-grayscale-500);
   cursor: initial;
 }
 

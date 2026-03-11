@@ -873,6 +873,7 @@ const usaMapSVG = `<svg
       stroke-opacity="1"
       stroke-width="1.875"
       stroke-linejoin="round"
+      vector-effect="non-scaling-stroke"
       transform="matrix(0.0487, 0, 0, 0.0487, 410, 230)"
       style="
         -webkit-tap-highlight-color: rgba(0, 0, 0, 0);

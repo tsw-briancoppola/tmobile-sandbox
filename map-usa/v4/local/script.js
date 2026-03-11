@@ -187,9 +187,9 @@ const renderDropdown = () => {
   dropdown.innerHTML = dropdownDefault + dropdownOptions;
 };
 
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-// Render map and dropdown on page load and set event listeners
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+// =-=-=-=-=-=-=-=-
+// Helper functions
+// =-=-=-=-=-=-=-=-
 
 // Helper to disable a state
 const disableState = (thisStateData) => {
@@ -208,6 +208,10 @@ const disableState = (thisStateData) => {
     }
   });
 };
+
+// =-=-=-=-=-=-=-=-=-=-=-
+// Initialize map on load
+// =-=-=-=-=-=-=-=-=-=-=-
 
 const initMap = () => {
   mapUSA.innerHTML = usaMapSVG;
@@ -232,6 +236,12 @@ const initMap = () => {
     path.setAttribute("aria-label", thisStateData?.name ?? "");
   });
 
+  // Set accessibility and tabbing for state rects (callout boxes)
+  allRects.forEach((rect) => {
+    rect.setAttribute("tabindex", -1);
+    rect.setAttribute("aria-hidden", true);
+  });
+
   // Map element listeners
   allMapElements.forEach((state) => {
     const stateCode = state.classList[1]?.split("_")[2];
@@ -253,30 +263,61 @@ const initMap = () => {
     // Open modal when state is clicked
     state.addEventListener("click", () => {
       console.log("click");
-      // Return if screen width is less than 768px
       if (window.innerWidth < 768) return;
 
       openModal();
       addContentToModal(thisStateData);
     });
 
+    // Open modal when focus is on state and return key is pressed
+    state.addEventListener("keydown", (e) => {
+      if (window.innerWidth < 768) return;
+
+      if (e.key === "Enter") {
+        openModal();
+        addContentToModal(thisStateData);
+      }
+    });
+
+    // State element listener for focus
     state.addEventListener("focus", () => {
       focusOverlay.innerHTML = "";
 
-      const clone = state.cloneNode(false);
-      clone.removeAttribute("tabindex");
-      clone.removeAttribute("role");
-      clone.style.fill = "none";
-      clone.style.stroke = "#005fcc";
-      clone.style.strokeWidth = "3";
-      clone.style.strokeLinejoin = "round";
-      clone.style.pointerEvents = "none";
-      clone.style.opacity = "1";
+      const pathClone = state.cloneNode(false);
+      pathClone.removeAttribute("tabindex");
+      pathClone.removeAttribute("role");
+      pathClone.style.fill = "none";
+      pathClone.style.stroke = "#005fcc";
+      pathClone.style.strokeWidth = "3";
+      pathClone.style.strokeLinejoin = "round";
+      pathClone.style.pointerEvents = "none";
+      pathClone.style.opacity = "1";
+      focusOverlay.appendChild(pathClone);
 
-      focusOverlay.appendChild(clone);
+      const correspondingRect = mapUSA.querySelector(`rect.sm_rect[class*=${stateCode}]`);
+      if (correspondingRect) {
+        const rectClone = correspondingRect.cloneNode(false);
+        rectClone.removeAttribute("tabindex");
+        rectClone.removeAttribute("role");
+        rectClone.style.fill = "none";
+        rectClone.style.stroke = "#005fcc";
+        rectClone.style.strokeWidth = "3";
+        rectClone.style.pointerEvents = "none";
+        rectClone.style.opacity = "1";
+        focusOverlay.appendChild(rectClone);
+      }
+    });
+
+    // State element listener for blur
+    state.addEventListener("blur", () => {
+      focusOverlay.innerHTML = "";
     });
   });
 };
+
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=
+// Initialize dropdown on load
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 const initDropdown = () => {
   renderDropdown();

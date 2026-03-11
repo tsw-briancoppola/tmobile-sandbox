@@ -179,7 +179,8 @@ ul {
   fill: var(--color-brand-primary-400);
   transition: 0.25s;
   stroke: var(--tsw-usa-map-stroke);
-  stroke-width: 3px;
+  stroke-opacity: 1;
+  stroke-width: 4px;
 }
 @media (min-width: 768px) {
   .tsw-map-usa-container svg path,
@@ -187,6 +188,18 @@ ul {
     stroke-width: 2px;
   }
 }
+.tsw-map-usa-container svg path:focus {
+  outline: none;
+  stroke: #005fcc;
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+  filter: drop-shadow(0 0 2px #000) drop-shadow(0 0 2px #000);
+}
+
+.tsw-map-usa-container svg path:focus-visible {
+  stroke: #005fcc;
+}
+
 .tsw-map-usa-container svg path.highlight,
 .tsw-map-usa-container svg rect.highlight {
   fill: var(--color-brand-primary-500) !important;

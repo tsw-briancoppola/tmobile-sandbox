@@ -31,14 +31,6 @@ const handleStateHighlight = (thisStateData, isHovering) => {
     mapUSA.querySelector(`text[class*="_${code}"]`),
   ];
 
-  // const targetState = mapUSA.querySelector(`path[class*="_${code}"]`);
-  // const observer = new MutationObserver((mutations) => {
-  //   mutations.forEach((mutation) => {
-  //     console.trace("class changed", mutation.target.className);
-  //   });
-  // });
-  // observer.observe(targetState, { attributes: true, attributeFilter: ["class"] });
-
   const shouldHighlight = isHovering;
 
   elements.forEach((el) => {
@@ -127,8 +119,7 @@ window.addEventListener("keydown", (event) => {
 // Modal content
 
 const addContentToModal = (thisStateData) => {
-  let townsList =
-    "Banner Elk, Biltmore Forest, Black Mountain, Boiling Spring Lakes, Carolina Beach, Carolina Shores, Cedar Mountain, Chapel Hill, Connelly Springs, Elizabeth City, Fayetteville, Forest City, Fuquay-Varina, Hendersonville, Huntersville, Indian Trail, Jacksonville, Kernersville, Kill Devil Hills, Kings Mountain, Laurinburg, Morehead City, Morrisville, Southern Pines, Wrightsville Beach";
+  let townsList = "No towns awarded";
 
   if (thisStateData.towns) {
     townsList = thisStateData.towns.join(", ");
@@ -165,11 +156,17 @@ const renderDropdownData = (stateName) => {
   let dropdownDataStateHTML = `<p>Please select a state to see grant data for that state.</p>`;
 
   if (selectedStateData) {
+    let townsList = "No towns awarded";
+
+    if (selectedStateData.towns) {
+      townsList = selectedStateData.towns.join(", ");
+    }
+
     dropdownDataStateHTML = `
       <p><span class="tsw-dropdown-data-header">State:</span><br />${selectedStateData.name}</span></p>
       <p><span class="tsw-dropdown-data-header">Total grant amount:</span><br />${formatMoney(selectedStateData.grantAmount)}</p>
       <p><span class="tsw-dropdown-data-header">Total amount of towns awarded:</span><br />${selectedStateData.townsAwarded}</p>
-      <p><span class="tsw-dropdown-data-header">Towns awarded:</span><br />Banner Elk, Biltmore Forest, Black Mountain, Boiling Spring Lakes, Carolina Beach, Carolina Shores, Cedar Mountain, Chapel Hill, Connelly Springs, Elizabeth City, Fayetteville, Forest City, Fuquay-Varina, Hendersonville, Huntersville, Indian Trail, Jacksonville, Kernersville, Kill Devil Hills, Kings Mountain, Laurinburg, Morehead City, Morrisville, Southern Pines, Wrightsville Beach</p>
+      <p><span class="tsw-dropdown-data-header">Towns awarded:</span><br />${townsList}</p>
     `;
   }
 
@@ -214,7 +211,21 @@ const disableState = (thisStateData) => {
 const initMap = () => {
   mapUSA.innerHTML = usaMapSVG;
 
-  const allMapElements = [...mapUSA.querySelectorAll("path"), ...mapUSA.querySelectorAll("rect.sm_rect")];
+  const allPaths = mapUSA.querySelectorAll("path");
+  const allRects = mapUSA.querySelectorAll("rect.sm_rect");
+  const allMapElements = [...allPaths, ...allRects];
+  // const focus = document.getElementById("tsw-state-focus");
+
+  // Set accessibility values for state paths
+  allPaths.forEach((path) => {
+    const stateCode = path.classList[1]?.split("_")[2];
+    const thisStateData = stateData.find((s) => s.code === stateCode);
+    const indexValue = thisStateData?.code === "WA" ? 0 : 0;
+
+    path.setAttribute("tabindex", indexValue);
+    path.setAttribute("role", "button");
+    path.setAttribute("aria-label", thisStateData?.name ?? "");
+  });
 
   // Map element listeners
   allMapElements.forEach((state) => {
@@ -236,12 +247,37 @@ const initMap = () => {
 
     // Open modal when state is clicked
     state.addEventListener("click", () => {
+      console.log("click");
       // Return if screen width is less than 768px
       if (window.innerWidth < 768) return;
 
       openModal();
       addContentToModal(thisStateData);
     });
+
+    state.addEventListener("focus", function () {
+      console.log("focused", this);
+      this.parentNode.appendChild(this);
+    });
+
+    // state.addEventListener("focus", () => {
+    //   if (!focus) return;
+
+    //   // Set the reference to the current state's ID
+    //   const targetId = `#${state.id}`;
+
+    //   // Use setAttribute for modern browsers and setAttributeNS for legacy compatibility
+    //   focus.setAttribute("href", targetId);
+    //   focus.setAttributeNS("http://w3.org", "xlink:href", targetId);
+
+    //   focus.style.display = "block";
+
+    //   // OPTIONAL: Re-append to ensure it's still the last child if DOM changed
+    // });
+
+    // state.addEventListener("blur", () => {
+    //   focus.style.display = "none";
+    // });
   });
 };
 
@@ -280,7 +316,6 @@ breakpoint.addEventListener("change", (event) => {
     mapUSA.querySelectorAll(".highlight").forEach((el) => el.classList.remove("highlight"));
   } else {
     // Window is narrower than 768px
-    console.log("Entered Mobile View");
   }
 });
 

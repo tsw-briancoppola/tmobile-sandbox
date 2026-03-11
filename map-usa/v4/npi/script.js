@@ -32,14 +32,6 @@ const handleStateHighlight = (thisStateData, isHovering) => {
     mapUSA.querySelector(`text[class*="_${code}"]`),
   ];
 
-  // const targetState = mapUSA.querySelector(`path[class*="_${code}"]`);
-  // const observer = new MutationObserver((mutations) => {
-  //   mutations.forEach((mutation) => {
-  //     console.trace("class changed", mutation.target.className);
-  //   });
-  // });
-  // observer.observe(targetState, { attributes: true, attributeFilter: ["class"] });
-
   const shouldHighlight = isHovering;
 
   elements.forEach((el) => {
@@ -167,8 +159,8 @@ const renderDropdownData = (stateName) => {
   if (selectedStateData) {
     let townsList = "No towns awarded";
 
-    if (thisStateData.towns) {
-      townsList = thisStateData.towns.join(", ");
+    if (selectedStateData.towns) {
+      townsList = selectedStateData.towns.join(", ");
     }
 
     dropdownDataStateHTML = `

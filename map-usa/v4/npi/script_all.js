@@ -2688,7 +2688,7 @@ const stateData = [
   {
     code: "AL",
     name: "Alabama",
-    grantAmount: 843050,
+    grantAmount: 793050,
     townsAwarded: 16,
     towns: [
       "Atmore",
@@ -2993,7 +2993,7 @@ const stateData = [
     code: "MN",
     name: "Minnesota",
     grantAmount: 418173,
-    townsAwarded: 5,
+    townsAwarded: 9,
     towns: [
       "City of Howard Lake",
       "Crookston",
@@ -3108,8 +3108,8 @@ const stateData = [
   {
     code: "NC",
     name: "North Carolina",
-    grantAmount: 1054769.8,
-    townsAwarded: 25,
+    grantAmount: 961800.5,
+    townsAwarded: 22,
     towns: [
       "Aberdeen",
       "Boiling Springs",
@@ -3363,8 +3363,8 @@ const stateData = [
   {
     code: "WI",
     name: "Wisconsin",
-    grantAmount: 522845,
-    townsAwarded: 12,
+    grantAmount: 540645,
+    townsAwarded: 13,
     towns: [
       "Amery",
       "Chippewa Falls",
@@ -3423,14 +3423,6 @@ const handleStateHighlight = (thisStateData, isHovering) => {
     mapUSA.querySelector(`rect[class*="_${code}"]`),
     mapUSA.querySelector(`text[class*="_${code}"]`),
   ];
-
-  // const targetState = mapUSA.querySelector(`path[class*="_${code}"]`);
-  // const observer = new MutationObserver((mutations) => {
-  //   mutations.forEach((mutation) => {
-  //     console.trace("class changed", mutation.target.className);
-  //   });
-  // });
-  // observer.observe(targetState, { attributes: true, attributeFilter: ["class"] });
 
   const shouldHighlight = isHovering;
 
@@ -3520,8 +3512,7 @@ window.addEventListener("keydown", (event) => {
 // Modal content
 
 const addContentToModal = (thisStateData) => {
-  let townsList =
-    "Banner Elk, Biltmore Forest, Black Mountain, Boiling Spring Lakes, Carolina Beach, Carolina Shores, Cedar Mountain, Chapel Hill, Connelly Springs, Elizabeth City, Fayetteville, Forest City, Fuquay-Varina, Hendersonville, Huntersville, Indian Trail, Jacksonville, Kernersville, Kill Devil Hills, Kings Mountain, Laurinburg, Morehead City, Morrisville, Southern Pines, Wrightsville Beach";
+  let townsList = "No towns awarded";
 
   if (thisStateData.towns) {
     townsList = thisStateData.towns.join(", ");

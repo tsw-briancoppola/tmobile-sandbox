@@ -28,6 +28,7 @@
   --color-overlay: rgba(0, 0, 0, 0.4);
   --color-input-shadow: 0px 0px 4px 0px rgba(0, 0, 0, 0.8);
   --color-outer-glow: 0px 0px 2px rgba(167, 0, 90, 0.8);
+  --color-focus-stroke: #005fcc;
 
   font-family: var(--tsw-font-main);
 
@@ -133,7 +134,6 @@ ul {
   gap: 3rem;
   padding: 2.5rem 1.5rem;
   max-width: 100rem;
-  min-height: 80rem;
   margin: 0 auto;
 }
 @media (min-width: 768px) {
@@ -174,7 +174,7 @@ ul {
 }
 
 .tsw-map-usa-container svg path,
-.tsw-map-usa-container svg rect:not(.svg-bounding-box) {
+.tsw-map-usa-container svg .sm_rect {
   cursor: pointer;
   fill: var(--color-brand-primary-400);
   transition: 0.25s;
@@ -184,7 +184,7 @@ ul {
 }
 @media (min-width: 768px) {
   .tsw-map-usa-container svg path,
-  .tsw-map-usa-container svg rect:not(.svg-bounding-box) {
+  .tsw-map-usa-container svg .sm_rect {
     stroke-width: 2px;
   }
 }
@@ -209,6 +209,16 @@ ul {
   fill: var(--color-brand-grayscale-white);
 }
 
+/* Styles for state focus stroke */
+.tsw-map-usa-container svg .tsw-focus-overlay-stroke {
+  stroke: var(--color-focus-stroke);
+  stroke-width: 0.4rem;
+  stroke-linejoin: round;
+  fill: none;
+  pointer-events: none;
+  opacity: 1;
+}
+
 /* =-=-=-=-=-=-=-=-= */
 /* Modal and overlay */
 /* =-=-=-=-=-=-=-=-= */
@@ -224,8 +234,10 @@ ul {
   width: 90%;
   max-width: 50rem;
   padding: 3rem;
+  margin: 0;
   font-size: 1.6rem;
   border: 0;
+  border-radius: 1rem;
   background-color: var(--color-brand-grayscale-white);
   z-index: 1001;
 }
@@ -264,6 +276,7 @@ ul {
   position: absolute;
   width: 5rem;
   height: 5rem;
+  padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -394,7 +407,7 @@ ul {
 .tsw-tooltip {
   text-align: left;
   position: absolute;
-  padding: 0.7rem 1.2rem;
+  padding: 0.4rem 1rem;
   border: 1px solid var(--color-brand-grayscale-700);
   border-radius: var(--tsw-usa-map-tooltip-border-radius);
   background-color: var(--color-brand-grayscale-white);
@@ -429,7 +442,7 @@ ul {
 }
 
 .tsw-tooltip p {
-  font-size: 1.7rem;
+  font-size: 1.5rem;
   font-weight: 600;
   white-space: nowrap;
 }

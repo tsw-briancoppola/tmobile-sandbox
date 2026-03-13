@@ -80,13 +80,31 @@ const handleTooltip = (thisStateData, isHovering, event) => {
 const modalOverlay = document.querySelector(".tsw-modal-overlay");
 const modal = modalOverlay.querySelector(".tsw-modal");
 const modalMain = modalOverlay.querySelector(".tsw-modal-main");
+modal.setAttribute("tabindex", "-1"); // Needed for focus trapping in Safari/Mac
 
 const closeButton = document.querySelector(".tsw-modal-close");
+closeButton.setAttribute("tabindex", "0"); // Needed for focus trapping in Safari/Mac
+
+const focusableElements = [
+  ...modal.querySelectorAll(`[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])`),
+];
+console.log(focusableElements[0]);
+const first = focusableElements[0];
+const last = focusableElements[focusableElements.length - 1];
 
 modal.addEventListener("keydown", (event) => {
-  if (event.key === "Tab") {
-    event.preventDefault();
-    closeButton.focus();
+  if (event.key !== "Tab") return;
+
+  if (event.shiftKey) {
+    if (document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    }
+  } else {
+    if (document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
   }
 });
 
@@ -109,8 +127,8 @@ const closeModal = () => {
   }
 };
 
-modalOverlay.addEventListener("click", (e) => {
-  if (e.target === e.currentTarget) {
+modalOverlay.addEventListener("click", (event) => {
+  if (event.target === event.currentTarget) {
     closeModal(); // Only runs if you click the overlay, not the modal itself
   }
 });
@@ -226,12 +244,12 @@ const initMap = () => {
   mapUSA.innerHTML = usaMapSVG;
   const usaMapSVGHTML = mapUSA.querySelector("#tsw-usa-map-svg");
 
-  const allPaths = mapUSA.querySelectorAll("path");
+  const allPaths = mapUSA.querySelectorAll("g.tsw-map-usa-state");
   const allRects = mapUSA.querySelectorAll("rect.sm_rect");
   const allMapElements = [...allPaths, ...allRects];
 
   focusOverlay = document.createElementNS("http://www.w3.org/2000/svg", "g");
-  focusOverlay.setAttribute("id", "focus-overlay");
+  focusOverlay.classList.add("tsw-focus-overlay");
   focusOverlay.setAttribute("pointer-events", "none");
   usaMapSVGHTML.appendChild(focusOverlay);
 
@@ -240,9 +258,9 @@ const initMap = () => {
     const stateCode = path.classList[1]?.split("_")[2];
     const thisStateData = stateData.find((s) => s.code === stateCode);
 
-    path.setAttribute("tabindex", 0);
-    path.setAttribute("role", "button");
-    path.setAttribute("aria-label", thisStateData?.name ?? "");
+    // path.setAttribute("tabindex", 0);
+    // path.setAttribute("role", "button");
+    // path.setAttribute("aria-label", thisStateData?.name ?? "");
   });
 
   // Set accessibility and tabbing for state rects (callout boxes)
@@ -298,17 +316,15 @@ const initMap = () => {
 
     // State element listener for focus
     state.addEventListener("focus", () => {
+      if (window.innerWidth < 768) return;
       focusOverlay.innerHTML = "";
 
       const pathClone = state.cloneNode(false);
       pathClone.removeAttribute("tabindex");
       pathClone.removeAttribute("role");
-      pathClone.style.fill = "none";
-      pathClone.style.stroke = "#005fcc";
-      pathClone.style.strokeWidth = "3";
-      pathClone.style.strokeLinejoin = "round";
-      pathClone.style.pointerEvents = "none";
-      pathClone.style.opacity = "1";
+      pathClone.removeAttribute("aria-label");
+      pathClone.classList.add("tsw-focus-overlay-stroke");
+      pathClone.classList.remove("highlight");
       focusOverlay.appendChild(pathClone);
 
       const correspondingRect = mapUSA.querySelector(`rect.sm_rect[class*=${stateCode}]`);
@@ -316,14 +332,18 @@ const initMap = () => {
         const rectClone = correspondingRect.cloneNode(false);
         rectClone.removeAttribute("tabindex");
         rectClone.removeAttribute("role");
-        rectClone.style.fill = "none";
-        rectClone.style.stroke = "#005fcc";
-        rectClone.style.strokeWidth = "3";
-        rectClone.style.pointerEvents = "none";
-        rectClone.style.opacity = "1";
+        rectClone.removeAttribute("aria-label");
+        rectClone.classList.add("tsw-focus-overlay-stroke");
+        pathClone.classList.remove("highlight");
         focusOverlay.appendChild(rectClone);
       }
     });
+  });
+
+  usaMapSVGHTML.addEventListener("focusout", (event) => {
+    if (!usaMapSVGHTML.contains(event.relatedTarget)) {
+      focusOverlay.innerHTML = "";
+    }
   });
 };
 

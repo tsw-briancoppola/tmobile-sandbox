@@ -1,7 +1,7 @@
-<div class="tsw-container">
+<div class="tsw-container" tabindex="-1">
   <!-- Map -->
-  <div class="tsw-map-usa-container">
-    <div class="tsw-map-usa"><!-- JS injects map here --></div>
+  <div class="tsw-map-usa-container" tabindex="-1">
+    <div class="tsw-map-usa" tabindex="-1"><!-- JS injects map here --></div>
     <div class="tsw-tooltip">
       <!-- JS injects state name here -->
     </div>
@@ -10,13 +10,13 @@
   <!-- State info modal -->
   <div class="tsw-modal-overlay">
     <dialog class="tsw-modal">
-      <button class="tsw-modal-close">
+      <button class="tsw-modal-close" aria-label="close">
         <svg>
           <use xlink:href="#tsw-modal-close-svg"></use>
         </svg>
       </button>
       <div class="tsw-modal-main">
-        <h3>This is a modal!</h3>
+        <!-- JS injects modal content here -->
       </div>
     </dialog>
   </div>
@@ -24,7 +24,7 @@
   <!-- Dropdown for mobile -->
   <div class="tsw-dropdown-container">
     <div class="tsw-dropdown">
-      <label aria-hidden="true" id="tsw-dropdown-select-label" for="tsw-dropdown-select">State</label>
+      <label id="tsw-dropdown-select-label" for="tsw-dropdown-select">State</label>
       <select id="tsw-dropdown-select">
         <!-- JS injects dropdown states here -->
       </select>

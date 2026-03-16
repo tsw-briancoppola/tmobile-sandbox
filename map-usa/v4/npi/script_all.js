@@ -1,6 +1,5 @@
 const usaMapSVG = `<svg
   id="tsw-usa-map-svg"
-  role="img"
   aria-label="Hometown Grants Map"
   aria-labelledby="tsw-map-usa-title"
   focusable="false"

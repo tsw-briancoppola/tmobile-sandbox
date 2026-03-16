@@ -329,7 +329,7 @@ ul {
 
 .tsw-dropdown-container {
   width: 100%;
-  max-width: 40rem;
+  max-width: 50rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -382,6 +382,7 @@ ul {
   border-radius: var(--tsw-usa-map-data-border-radius);
   /* color: var(--color-brand-grayscale-600); */
   background-color: var(--color-brand-grayscale-white);
+  box-sizing: border-box;
 }
 .tsw-dropdown-data p:not(:first-child) {
   padding-top: calc(var(--tsw-usa-map-data-padding) * 0.9);

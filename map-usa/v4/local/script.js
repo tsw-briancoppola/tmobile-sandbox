@@ -244,7 +244,7 @@ const initMap = () => {
   mapUSA.innerHTML = usaMapSVG;
   const usaMapSVGHTML = mapUSA.querySelector("#tsw-usa-map-svg");
 
-  const allPaths = mapUSA.querySelectorAll("g.tsw-map-usa-state");
+  const allPaths = mapUSA.querySelectorAll("path");
   const allRects = mapUSA.querySelectorAll("rect.sm_rect");
   const allMapElements = [...allPaths, ...allRects];
 
@@ -258,9 +258,9 @@ const initMap = () => {
     const stateCode = path.classList[1]?.split("_")[2];
     const thisStateData = stateData.find((s) => s.code === stateCode);
 
-    // path.setAttribute("tabindex", 0);
-    // path.setAttribute("role", "button");
-    // path.setAttribute("aria-label", thisStateData?.name ?? "");
+    path.setAttribute("tabindex", 0);
+    path.setAttribute("role", "button");
+    path.setAttribute("aria-label", thisStateData?.name ?? "");
   });
 
   // Set accessibility and tabbing for state rects (callout boxes)

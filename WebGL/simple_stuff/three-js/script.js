@@ -4,6 +4,10 @@
 
 const COLOR_BACKGROUND = 0x222222;
 const COLOR_CUBE = "#e20074";
+const COLOR_FLOOR = 0x334455;
+const COLOR_WALL1 = 0x999999;
+const COLOR_WALL2 = 0x667766;
+const COLOR_WALL3 = 0x445566;
 
 // =-=-=-=-=-=-=-=-=-=-=
 // Three.js render setup
@@ -31,7 +35,7 @@ scene.background = new THREE.Color(COLOR_BACKGROUND);
 
 // Load SVG for the cube sides
 const loader = new THREE.TextureLoader();
-// 1. Updated Path and Wrapper
+// Updated Path and Wrapper
 const svgPathTMobileLogo =
   "M29.2,48.1h-10v-10h10v10ZM19.2,15.2v16.9h3v-.5c0-8,4.5-13,13-13h.5v35.9c0,5-2,7-7,7h-1.5v3.5h25.9v-3.5h-1.5c-5,0-7-2-7-7V18.7h.5c8.5,0,13,5,13,13v.5h3V15.2H19.2ZM51.1,48.1h10v-10h-10v10Z";
 const svgFull = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="10 10 60 60" width="512" height="512">
@@ -43,14 +47,17 @@ const svgData = `data:image/svg+xml;base64,${btoa(svgFull)}`;
 const svgTexture = loader.load(svgData);
 
 // 3. Updated Materials
-const materials = [
-  new THREE.MeshLambertMaterial({ map: svgTexture, color: 0xffffff }),
-  new THREE.MeshLambertMaterial({ map: svgTexture, color: 0xffffff }),
-  new THREE.MeshLambertMaterial({ map: svgTexture, color: 0xffffff }),
-  new THREE.MeshLambertMaterial({ map: svgTexture, color: 0xffffff }),
-  new THREE.MeshLambertMaterial({ map: svgTexture, color: 0xffffff }),
-  new THREE.MeshLambertMaterial({ map: svgTexture, color: 0xffffff }),
-];
+const materials = Array(6)
+  .fill(null)
+  .map(
+    () =>
+      new THREE.MeshStandardMaterial({
+        map: svgTexture,
+        color: 0xffffff,
+        roughness: 0.4, // 0 is mirror-smooth, 1 is like chalk
+        metalness: 0.2, // 0 is plastic/wood, 1 is pure metal
+      }),
+  );
 
 const geometry = new THREE.BoxGeometry(1, 1, 1);
 const cube = new THREE.Mesh(geometry, materials);
@@ -74,6 +81,10 @@ const pointLight = new THREE.PointLight(0xffffff, 1.2);
 pointLight.position.set(2, 3, 0); // Position: X, Y, Z
 scene.add(pointLight);
 
+// const light = new THREE.DirectionalLight(0xffffff, 1);
+// light.position.set(5, 5, 5);
+// scene.add(light);
+
 // Add light helper shape
 const lightHelper = new THREE.PointLightHelper(pointLight, 0.5);
 scene.add(lightHelper);
@@ -84,7 +95,7 @@ scene.add(lightHelper);
 
 // 1. Create a large flat plane (width, height)
 const floorGeometry = new THREE.PlaneGeometry(20, 20);
-const floorMaterial = new THREE.MeshLambertMaterial({ color: 0xcccccc });
+const floorMaterial = new THREE.MeshStandardMaterial({ color: COLOR_FLOOR });
 const floor = new THREE.Mesh(floorGeometry, floorMaterial);
 
 // 2. Rotate it so it's flat on the ground (X-axis rotation)
@@ -99,6 +110,32 @@ cube.castShadow = true;
 
 // 2. The Light (Only certain lights cast shadows, PointLight is one of them)
 pointLight.castShadow = true;
+
+// =-=-=-=-=-=-=-
+// Render 3D wall
+// =-=-=-=-=-=-=-
+
+const createWall = (width, height, color, x, y, z, rotationY = 0, texture = null) => {
+  const wallGeometry = new THREE.PlaneGeometry(width, height);
+  const wallMaterial = new THREE.MeshStandardMaterial({
+    color: color,
+    roughness: 0.7,
+    map: texture,
+  });
+
+  const wall = new THREE.Mesh(wallGeometry, wallMaterial);
+  wall.position.set(x, y, z);
+  wall.rotation.y = rotationY;
+  wall.receiveShadow = true;
+
+  scene.add(wall);
+  return wall;
+};
+
+createWall(20, 15, COLOR_WALL1, 0, 5, -10, 0, svgTexture);
+createWall(20, 15, COLOR_WALL2, -10, 5, 0, Math.PI / 2);
+createWall(20, 15, COLOR_WALL2, 10, 5, 0, (Math.PI / 2) * -1);
+createWall(20, 15, COLOR_WALL3, 0, 5, 10, Math.PI);
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 // OrbitControls for user interaction

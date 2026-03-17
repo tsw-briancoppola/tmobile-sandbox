@@ -1,0 +1,71 @@
+<div class="tsw-container" tabindex="-1">
+  <!-- Map -->
+  <div class="tsw-map-usa-container" tabindex="-1">
+    <div class="tsw-map-usa" tabindex="-1"><!-- JS injects map here --></div>
+    <div class="tsw-tooltip">
+      <!-- JS injects state name here -->
+    </div>
+  </div>
+
+  <!-- State info modal -->
+  <div class="tsw-modal-overlay">
+    <dialog class="tsw-modal">
+      <button class="tsw-modal-close" aria-label="close">
+        <svg>
+          <use xlink:href="#tsw-modal-close-svg"></use>
+        </svg>
+      </button>
+      <div class="tsw-modal-main">
+        <!-- JS injects modal content here -->
+      </div>
+    </dialog>
+  </div>
+
+  <!-- Combo box for mobile -->
+  <div class="tsw-combobox-container">
+    <div class="tsw-combobox">
+      <label id="tsw-combobox-select-label" for="tsw-combobox-select">State</label>
+
+      <div class="tsw-combobox-field">
+        <input
+          list="tsw-combobox-datalist"
+          id="tsw-combobox-select"
+          name="tsw-combobox-select"
+          placeholder="Type or select a state"
+          aria-describedby="tsw-combobox-datalist-instructions"
+        />
+        <div class="tsw-combobox-icons">
+          <button type="button" class="tsw-combobox-close-button" aria-label="Clear">
+            <svg class="tsw-combobox-close"><use xlink:href="#tsw-combobox-close-svg"></use></svg>
+          </button>
+          <svg class="tsw-combobox-arrow"><use xlink:href="#tsw-combobox-arrow-svg"></use></svg>
+        </div>
+      </div>
+
+      <p id="tsw-combobox-datalist-instructions" class="visually-hidden">
+        As you type, a list of states will appear...
+      </p>
+
+      <datalist id="tsw-combobox-datalist">
+        <!-- JS injects states here -->
+      </datalist>
+    </div>
+
+    <div class="tsw-combobox-data tsw-combobox-data-state">
+      <!-- JS injects state data here -->
+    </div>
+  </div>
+
+  <!-- SVG icons -->
+  <div class="tsw-map-usa-svg-icons">
+    <svg id="tsw-modal-close-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+      <path d="m336-280-56-56 144-144-144-143 56-56 144 144 143-144 56 56-144 143 144 144-56 56-143-144-144 144Z" />
+    </svg>
+    <svg id="tsw-combobox-arrow-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+      <path d="M480-360 280-560h400L480-360Z" />
+    </svg>
+    <svg id="tsw-combobox-close-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+      <path d="m336-280-56-56 144-144-144-143 56-56 144 144 143-144 56 56-144 143 144 144-56 56-143-144-144 144Z" />
+    </svg>
+  </div>
+</div>

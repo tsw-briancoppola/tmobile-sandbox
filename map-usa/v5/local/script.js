@@ -43,11 +43,12 @@ const handleStateHighlight = (thisStateData, isHovering) => {
   });
 };
 
+const tooltip = document.querySelector(".tsw-tooltip");
+
 const handleTooltip = (thisStateData, isHovering, event) => {
   // Return if screen width is less than 768px
   if (window.innerWidth < 768) return;
 
-  const tooltip = document.querySelector(".tsw-tooltip");
   const { name } = thisStateData;
 
   // Build tooltip
@@ -154,11 +155,11 @@ const addContentToModal = (thisStateData) => {
 
   const modalHTML = `
     <p><span class="tsw-modal-state">${thisStateData.name}</span></p>
-    <p><span class="tsw-modal-header">Money spent:</span><br />
+    <p><span class="tsw-modal-header">Total grant amount:</span><br />
       ${formatMoney(thisStateData.grantAmount)}
     </p>
-    <p><span class="tsw-modal-header">Total towns awarded:</span><br />
-      ${thisStateData.townsAwarded}
+    <p><span class="tsw-modal-header">Total awards:</span><br />
+      ${thisStateData.totalAwards}
     </p>
     <p><span class="tsw-modal-header">Towns awarded:</span><br />
       ${townsList}
@@ -175,12 +176,13 @@ const addContentToModal = (thisStateData) => {
 const comboBoxInput = document.querySelector("#tsw-combobox-select");
 const comboBoxDatalist = document.querySelector("#tsw-combobox-datalist");
 const comboBoxDataState = document.querySelector(".tsw-combobox-data-state");
+const comboBoxDataStateIntro = `<p>Please select a state to see grant data for that state.</p>`;
 
 const renderComboBoxData = (stateName) => {
   const selectedStateData = stateData?.find((state) => state.name === stateName);
 
   // Render selected state data
-  let comboBoxDataStateHTML = `<p>Please select a state to see grant data for that state.</p>`;
+  let comboBoxDataStateHTML = comboBoxDataStateIntro;
 
   if (selectedStateData) {
     let townsList = "No towns awarded";
@@ -192,7 +194,7 @@ const renderComboBoxData = (stateName) => {
     comboBoxDataStateHTML = `
       <p><span class="tsw-combobox-data-header">State:</span><br />${selectedStateData.name}</span></p>
       <p><span class="tsw-combobox-data-header">Total grant amount:</span><br />${formatMoney(selectedStateData.grantAmount)}</p>
-      <p><span class="tsw-combobox-data-header">Total amount of towns awarded:</span><br />${selectedStateData.townsAwarded}</p>
+      <p><span class="tsw-combobox-data-header">Total awards:</span><br />${selectedStateData.totalAwards}</p>
       <p><span class="tsw-combobox-data-header">Towns awarded:</span><br />${townsList}</p>
     `;
   }
@@ -292,7 +294,7 @@ const initMap = () => {
     });
 
     // Open modal when state is clicked
-    state.addEventListener("click", () => {
+    state.addEventListener("click", (e) => {
       if (window.innerWidth < 768) return;
       if (state.tagName === "rect") {
         const correspondingPath = mapUSA.querySelector(`path[class*="_${stateCode}"]`);
@@ -302,6 +304,7 @@ const initMap = () => {
       lastFocusedState = mapUSA.querySelector(`path[class*="_${stateCode}"]`);
       openModal();
       addContentToModal(thisStateData);
+      handleTooltip(thisStateData, false, e);
     });
 
     // Open modal when focus is on state and return key is pressed
@@ -311,10 +314,11 @@ const initMap = () => {
         lastFocusedState = state;
         openModal();
         addContentToModal(thisStateData);
+        handleTooltip(thisStateData, false, e);
       }
     });
 
-    // State element listener for focus
+    // State element listener for focus - create clone of state with focus stroke
     state.addEventListener("focus", () => {
       if (window.innerWidth < 768) return;
       focusOverlay.innerHTML = "";
@@ -355,20 +359,53 @@ const initDropdown = () => {
   renderComboBox();
   renderComboBoxData();
 
-  // Dropdown element listeners
+  // Dropdown event listeners
+
   const comboBoxCloseButton = document.querySelector(".tsw-combobox-close-button");
 
   // Handle when text in input box changes
   comboBoxInput.addEventListener("input", (event) => {
-    console.log(event.target.value);
-    comboBoxCloseButton.classList.toggle("is-visible", event.target.value.length > 0);
+    const inputValue = event.target.value.toLowerCase();
+    const options = stateData.filter((state) => state.grantAmount > 0).map((state) => state.name.toLowerCase());
+
+    const hasMatch = options.some((state) => state.includes(inputValue));
+    const shouldExpand = inputValue.length > 0 && hasMatch;
+
+    comboBoxInput.setAttribute("aria-expanded", shouldExpand.toString());
+    comboBoxCloseButton.classList.toggle("is-visible", inputValue.length > 0);
   });
 
+  // Handle when input box is clicked
+  comboBoxInput.addEventListener("click", () => {
+    comboBoxInput.setAttribute("aria-expanded", "true");
+  });
+
+  // Handle when input box has focus
+  comboBoxInput.addEventListener("focus", () => {
+    if (comboBoxInput.value.length > 0) {
+      comboBoxInput.setAttribute("aria-expanded", "true");
+    }
+  });
+
+  // Handle when input box loses focus
+  comboBoxInput.addEventListener("blur", () => {
+    comboBoxInput.setAttribute("aria-expanded", "false");
+  });
+
+  // Handle when Escape key is pressed
+  document.addEventListener("keyup", (event) => {
+    if (event.key === "Escape" && document.activeElement === comboBoxInput) {
+      comboBoxInput.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  // Handle when the clear input box button is checked
   comboBoxCloseButton.addEventListener("click", () => {
-    console.log("click");
     comboBoxInput.value = ""; // Clear the text
     comboBoxInput.dispatchEvent(new Event("input")); // Trigger input event listener
     comboBoxInput.focus(); // Put the cursor back so the user can type immediately
+    mapUSA.querySelectorAll(".highlight").forEach((el) => el.classList.remove("highlight"));
+    comboBoxDataState.innerHTML = comboBoxDataStateIntro;
   });
 
   // Handle when a state is selected or return key is pressed
@@ -377,7 +414,7 @@ const initDropdown = () => {
     const selectedName = event.target.value;
     renderComboBoxData(selectedName);
 
-    console.log(selectedName);
+    comboBoxInput.setAttribute("aria-expanded", "false");
 
     const selectedStateData = stateData.find((s) => s.name === selectedName);
 

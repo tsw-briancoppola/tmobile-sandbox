@@ -2179,7 +2179,7 @@ const stateData = [
     code: "AL",
     name: "Alabama",
     grantAmount: 843050,
-    townsAwarded: 16,
+    totalAwards: 16,
     towns: [
       "Atmore",
       "Attalla",
@@ -2203,27 +2203,37 @@ const stateData = [
     code: "AK",
     name: "Alaska",
     grantAmount: 0,
-    townsAwarded: 0,
+    totalAwards: 0,
   },
   {
     code: "AZ",
     name: "Arizona",
     grantAmount: 331285,
-    townsAwarded: 6,
-    towns: ["Clarkdale", "Safford", "Superior", "Wickenburg"],
+    totalAwards: 6,
+    towns: ["Chino Valley", "Clarkdale", "Nogales", "Safford", "Superior", "Wickenburg"],
   },
   {
     code: "AR",
     name: "Arkansas",
     grantAmount: 426000,
-    townsAwarded: 9,
-    towns: ["Chino Valley", "Camden", "Clarksville", "Osceola", "Ozark", "Paris", "Russellville", "Sheridan"],
+    totalAwards: 9,
+    towns: [
+      "Camden",
+      "Clarksville",
+      "Osceola",
+      "Ozark",
+      "Paris",
+      "Pine Bluff",
+      "Russellville",
+      "Texarkana",
+      "Sheridan",
+    ],
   },
   {
     code: "CA",
     name: "California",
     grantAmount: 968286.98,
-    townsAwarded: 20,
+    totalAwards: 20,
     towns: [
       "Calexico",
       "Coalinga",
@@ -2251,34 +2261,34 @@ const stateData = [
     code: "CO",
     name: "Colorado",
     grantAmount: 153000,
-    townsAwarded: 4,
+    totalAwards: 4,
     towns: ["Evergreen", "Montrose", "Paonia", "Strasburg"],
   },
   {
     code: "CT",
     name: "Connecticut",
     grantAmount: 124192,
-    townsAwarded: 3,
+    totalAwards: 3,
     towns: ["Franklin", "Mashantucket Pequot Tribal Nation", "Newtown"],
   },
   {
     code: "DE",
     name: "Delaware",
     grantAmount: 79250,
-    townsAwarded: 2,
-    towns: ["Milford,", "Smyrna"],
+    totalAwards: 2,
+    towns: ["Milford", "Smyrna"],
   },
   {
     code: "DC",
     name: "District Of Columbia",
     grantAmount: 0,
-    townsAwarded: 0,
+    totalAwards: 0,
   },
   {
     code: "FL",
     name: "Florida",
     grantAmount: 412723,
-    townsAwarded: 9,
+    totalAwards: 9,
     towns: [
       "Alachua",
       "City of Lake Wales",
@@ -2295,7 +2305,7 @@ const stateData = [
     code: "GA",
     name: "Georgia",
     grantAmount: 749174,
-    townsAwarded: 15,
+    totalAwards: 15,
     towns: [
       "Calhoun",
       "Cedartown",
@@ -2318,21 +2328,21 @@ const stateData = [
     code: "HI",
     name: "Hawaii",
     grantAmount: 50000,
-    townsAwarded: 1,
+    totalAwards: 1,
     towns: ["Kunia Village"],
   },
   {
     code: "ID",
     name: "Idaho",
     grantAmount: 308496,
-    townsAwarded: 6,
+    totalAwards: 6,
     towns: ["Bonners Ferry", "Burley", "Fairfield", "Fruitland", "Rexburg", "Salmon"],
   },
   {
     code: "IL",
     name: "Illinois",
     grantAmount: 846855.81,
-    townsAwarded: 19,
+    totalAwards: 19,
     towns: [
       "Carbondale",
       "City of DeKalb",
@@ -2359,7 +2369,7 @@ const stateData = [
     code: "IN",
     name: "Indiana",
     grantAmount: 474967.0,
-    townsAwarded: 10,
+    totalAwards: 10,
     towns: [
       "Angola",
       "Argos",
@@ -2377,7 +2387,7 @@ const stateData = [
     code: "IA",
     name: "Iowa",
     grantAmount: 655975.5,
-    townsAwarded: 15,
+    totalAwards: 15,
     towns: [
       "Adel",
       "City of Marshalltown",
@@ -2400,7 +2410,7 @@ const stateData = [
     code: "KS",
     name: "Kansas",
     grantAmount: 623500,
-    townsAwarded: 13,
+    totalAwards: 13,
     towns: [
       "Auburn",
       "Augusta",
@@ -2408,7 +2418,7 @@ const stateData = [
       "Fort Scott",
       "Gardner",
       "Hutchinson",
-      "Iola",
+      "Lola",
       "Junction City",
       "Ottawa",
       "Parsons",
@@ -2420,7 +2430,7 @@ const stateData = [
     code: "KY",
     name: "Kentucky",
     grantAmount: 479768.3,
-    townsAwarded: 11,
+    totalAwards: 11,
     towns: [
       "Berea",
       "City of West Point",
@@ -2439,14 +2449,14 @@ const stateData = [
     code: "LA",
     name: "Louisiana",
     grantAmount: 250000.0,
-    townsAwarded: 5,
+    totalAwards: 5,
     towns: ["Hammond", "Natchitoches", "Ruston", "Slidell", "West Monroe "],
   },
   {
     code: "ME",
     name: "Maine",
     grantAmount: 526072,
-    townsAwarded: 12,
+    totalAwards: 12,
     towns: [
       "Augusta",
       "Bangor",
@@ -2465,28 +2475,28 @@ const stateData = [
     code: "MD",
     name: "Maryland",
     grantAmount: 178132,
-    townsAwarded: 5,
+    totalAwards: 5,
     towns: ["Brunswick", "Cambridge", "Cumberland", "Easton", "Hagerstown"],
   },
   {
     code: "MA",
     name: "Massachusetts",
     grantAmount: 215475,
-    townsAwarded: 5,
+    totalAwards: 5,
     towns: ["Gloucester", "Great Barrington", "Kingston", "Northampton", "Winchendon"],
   },
   {
     code: "MI",
     name: "Michigan",
     grantAmount: 247400,
-    townsAwarded: 5,
+    totalAwards: 5,
     towns: ["Chelsea", "Lake Orion", "Marine City", "Oxford", "Three Rivers"],
   },
   {
     code: "MN",
     name: "Minnesota",
     grantAmount: 468473,
-    townsAwarded: 10,
+    totalAwards: 10,
     towns: [
       "City of Howard Lake",
       "Crookston",
@@ -2504,7 +2514,7 @@ const stateData = [
     code: "MS",
     name: "Mississippi",
     grantAmount: 786294.07,
-    townsAwarded: 14,
+    totalAwards: 16,
     towns: [
       "Clarksdale",
       "Corinth",
@@ -2525,8 +2535,8 @@ const stateData = [
   {
     code: "MO",
     name: "Missouri",
-    grantAmount: 466556,
-    townsAwarded: 12,
+    grantAmount: 541077.46,
+    totalAwards: 12,
     towns: [
       "Cape Girardeau",
       "Chillicothe",
@@ -2546,42 +2556,42 @@ const stateData = [
     code: "MT",
     name: "Montana",
     grantAmount: 279351.86,
-    townsAwarded: 6,
+    totalAwards: 6,
     towns: ["Absarokee", "Choteau", "Evergreen", "Glasgow", "Laurel", "White Sulphur Springs"],
   },
   {
     code: "NE",
     name: "Nebraska",
     grantAmount: 150000.0,
-    townsAwarded: 3,
+    totalAwards: 3,
     towns: ["Columbus", "Hartington", "Norfolk"],
   },
   {
     code: "NV",
     name: "Nevada",
     grantAmount: 185000,
-    townsAwarded: 4,
+    totalAwards: 4,
     towns: ["Lovelock", "Minden", "Pahrump", "Searchlight "],
   },
   {
     code: "NH",
     name: "New Hampshire",
     grantAmount: 300000.0,
-    townsAwarded: 6,
+    totalAwards: 6,
     towns: ["Claremont", "Goffstown", "Keene", "Lebanon", "Peterborough", "Sanbornton"],
   },
   {
     code: "NJ",
     name: "New Jersey",
     grantAmount: 354121.31,
-    townsAwarded: 8,
+    totalAwards: 8,
     towns: ["Allentown", "Bound Brook", "Bridgeton", "Burlington", "Dover", "Hillsborough", "Stanhope", "Washington"],
   },
   {
     code: "NM",
     name: "New Mexico",
     grantAmount: 498010.0,
-    townsAwarded: 11,
+    totalAwards: 11,
     towns: [
       "Carlsbad",
       "Clovis",
@@ -2600,7 +2610,7 @@ const stateData = [
     code: "NY",
     name: "New York",
     grantAmount: 379103,
-    townsAwarded: 9,
+    totalAwards: 9,
     towns: [
       "Akwesasne",
       "Bath",
@@ -2616,8 +2626,8 @@ const stateData = [
   {
     code: "NC",
     name: "North Carolina",
-    grantAmount: 961800.5,
-    townsAwarded: 22,
+    grantAmount: 861800.5,
+    totalAwards: 24,
     towns: [
       "Aberdeen",
       "Boiling Springs",
@@ -2629,9 +2639,7 @@ const stateData = [
       "Goldsboro",
       "Henderson",
       "Hickory",
-      "Hickory",
       "Kings Mountain",
-      "Laurinburg",
       "Laurinburg",
       "Mars Hill",
       "Marshall",
@@ -2639,7 +2647,6 @@ const stateData = [
       "Mount Airy",
       "Murphy",
       "North Wilkesboro",
-      "Pilot Mountain",
       "Robersonville",
       "Town of Princeville",
       "Wilkesboro",
@@ -2649,21 +2656,21 @@ const stateData = [
     code: "ND",
     name: "North Dakota",
     grantAmount: 50000,
-    townsAwarded: 1,
+    totalAwards: 1,
     towns: ["Mandan"],
   },
   {
     code: "OH",
     name: "Ohio",
     grantAmount: 350340,
-    townsAwarded: 8,
+    totalAwards: 8,
     towns: ["Bowling Green", "Columbiana", "Decatur", "Lima", "Salem", "Wooster", "Chillicothe", "Wapakoneta "],
   },
   {
     code: "OK",
     name: "Oklahoma",
     grantAmount: 712862.67,
-    townsAwarded: 15,
+    totalAwards: 15,
     towns: [
       "Ada",
       "Altus",
@@ -2685,7 +2692,7 @@ const stateData = [
     code: "OR",
     name: "Oregon",
     grantAmount: 758040,
-    townsAwarded: 18,
+    totalAwards: 18,
     towns: [
       "Ashland",
       "Aumsville",
@@ -2711,7 +2718,7 @@ const stateData = [
     code: "PA",
     name: "Pennsylvania",
     grantAmount: 1122690.17,
-    townsAwarded: 25,
+    totalAwards: 25,
     towns: [
       "Beaver Falls",
       "Bradford",
@@ -2743,21 +2750,21 @@ const stateData = [
     code: "PR",
     name: "Puerto Rico",
     grantAmount: 50000,
-    townsAwarded: 1,
+    totalAwards: 1,
     towns: ["Aguas Buenas"],
   },
   {
     code: "RI",
     name: "Rhode Island",
     grantAmount: 79600.0,
-    townsAwarded: 2,
+    totalAwards: 2,
     towns: ["Bristol", "Saunderstown "],
   },
   {
     code: "SC",
     name: "South Carolina",
     grantAmount: 409695,
-    townsAwarded: 9,
+    totalAwards: 9,
     towns: [
       "Abbeville",
       "Florence",
@@ -2774,14 +2781,14 @@ const stateData = [
     code: "SD",
     name: "South Dakota",
     grantAmount: 50000,
-    townsAwarded: 1,
+    totalAwards: 1,
     towns: ["Canton"],
   },
   {
     code: "TN",
     name: "Tennessee",
     grantAmount: 520163.51,
-    townsAwarded: 12,
+    totalAwards: 12,
     towns: [
       "Bristol",
       "Brownsville",
@@ -2800,7 +2807,7 @@ const stateData = [
     code: "TX",
     name: "Texas",
     grantAmount: 868187.1,
-    townsAwarded: 19,
+    totalAwards: 19,
     towns: [
       "Brackettville",
       "City of Falfurrias",
@@ -2827,21 +2834,21 @@ const stateData = [
     code: "UT",
     name: "Utah",
     grantAmount: 294000,
-    townsAwarded: 6,
+    totalAwards: 6,
     towns: ["Ephraim", "Helper City", "Hurricane", "Payson", "Springville", "Vernal "],
   },
   {
     code: "VT",
     name: "Vermont",
     grantAmount: 182900,
-    townsAwarded: 3,
+    totalAwards: 4,
     towns: ["Brattleboro", "Burlington", "Charlotte"],
   },
   {
     code: "VA",
     name: "Virginia",
     grantAmount: 450705,
-    townsAwarded: 9,
+    totalAwards: 10,
     towns: [
       "Bristol",
       "Danville",
@@ -2858,7 +2865,7 @@ const stateData = [
     code: "WA",
     name: "Washington",
     grantAmount: 799897.7,
-    townsAwarded: 17,
+    totalAwards: 17,
     towns: [
       "Bremerton",
       "Clarkston",
@@ -2883,14 +2890,14 @@ const stateData = [
     code: "WV",
     name: "West Virginia",
     grantAmount: 306256,
-    townsAwarded: 7,
+    totalAwards: 7,
     towns: ["Charleston", "Fayetteville", "Huntington", "Kingwood", "Madison", "Saint Albans "],
   },
   {
     code: "WI",
     name: "Wisconsin",
     grantAmount: 640645,
-    townsAwarded: 15,
+    totalAwards: 15,
     towns: [
       "Amery",
       "Chippewa Falls",
@@ -2913,7 +2920,7 @@ const stateData = [
     code: "WY",
     name: "Wyoming",
     grantAmount: 150000,
-    townsAwarded: 3,
+    totalAwards: 3,
     towns: ["Cody", "Lander", "Sheridan"],
   },
 ];
@@ -2964,11 +2971,12 @@ const handleStateHighlight = (thisStateData, isHovering) => {
   });
 };
 
+const tooltip = mapUSAWrapper.querySelector(".tsw-tooltip");
+
 const handleTooltip = (thisStateData, isHovering, event) => {
   // Return if screen width is less than 768px
   if (window.innerWidth < 768) return;
 
-  const tooltip = mapUSAWrapper.querySelector(".tsw-tooltip");
   const { name } = thisStateData;
 
   // Build tooltip
@@ -3075,11 +3083,11 @@ const addContentToModal = (thisStateData) => {
 
   const modalHTML = `
     <p><span class="tsw-modal-state">${thisStateData.name}</span></p>
-    <p><span class="tsw-modal-header">Money spent:</span><br />
+    <p><span class="tsw-modal-header">Total grant amount:</span><br />
       ${formatMoney(thisStateData.grantAmount)}
     </p>
-    <p><span class="tsw-modal-header">Total towns awarded:</span><br />
-      ${thisStateData.townsAwarded}
+    <p><span class="tsw-modal-header">Total awards:</span><br />
+      ${thisStateData.totalAwards}
     </p>
     <p><span class="tsw-modal-header">Towns awarded:</span><br />
       ${townsList}
@@ -3096,12 +3104,13 @@ const addContentToModal = (thisStateData) => {
 const comboBoxInput = mapUSAWrapper.querySelector("#tsw-combobox-select");
 const comboBoxDatalist = mapUSAWrapper.querySelector("#tsw-combobox-datalist");
 const comboBoxDataState = mapUSAWrapper.querySelector(".tsw-combobox-data-state");
+const comboBoxDataStateIntro = `<p>Please select a state to see grant data for that state.</p>`;
 
 const renderComboBoxData = (stateName) => {
   const selectedStateData = stateData?.find((state) => state.name === stateName);
 
   // Render selected state data
-  let comboBoxDataStateHTML = `<p>Please select a state to see grant data for that state.</p>`;
+  let comboBoxDataStateHTML = comboBoxDataStateIntro;
 
   if (selectedStateData) {
     let townsList = "No towns awarded";
@@ -3113,7 +3122,7 @@ const renderComboBoxData = (stateName) => {
     comboBoxDataStateHTML = `
       <p><span class="tsw-combobox-data-header">State:</span><br />${selectedStateData.name}</span></p>
       <p><span class="tsw-combobox-data-header">Total grant amount:</span><br />${formatMoney(selectedStateData.grantAmount)}</p>
-      <p><span class="tsw-combobox-data-header">Total amount of towns awarded:</span><br />${selectedStateData.townsAwarded}</p>
+      <p><span class="tsw-combobox-data-header">Total awards:</span><br />${selectedStateData.totalAwards}</p>
       <p><span class="tsw-combobox-data-header">Towns awarded:</span><br />${townsList}</p>
     `;
   }
@@ -3213,7 +3222,7 @@ const initMap = () => {
     });
 
     // Open modal when state is clicked
-    state.addEventListener("click", () => {
+    state.addEventListener("click", (e) => {
       if (window.innerWidth < 768) return;
       if (state.tagName === "rect") {
         const correspondingPath = mapUSA.querySelector(`path[class*="_${stateCode}"]`);
@@ -3223,6 +3232,7 @@ const initMap = () => {
       lastFocusedState = mapUSA.querySelector(`path[class*="_${stateCode}"]`);
       openModal();
       addContentToModal(thisStateData);
+      handleTooltip(thisStateData, false, e);
     });
 
     // Open modal when focus is on state and return key is pressed
@@ -3232,10 +3242,11 @@ const initMap = () => {
         lastFocusedState = state;
         openModal();
         addContentToModal(thisStateData);
+        handleTooltip(thisStateData, false, e);
       }
     });
 
-    // State element listener for focus
+    // State element listener for focus - create clone of state with focus stroke
     state.addEventListener("focus", () => {
       if (window.innerWidth < 768) return;
       focusOverlay.innerHTML = "";
@@ -3276,20 +3287,53 @@ const initDropdown = () => {
   renderComboBox();
   renderComboBoxData();
 
-  // Dropdown element listeners
+  // Dropdown event listeners
+
   const comboBoxCloseButton = mapUSAWrapper.querySelector(".tsw-combobox-close-button");
 
   // Handle when text in input box changes
   comboBoxInput.addEventListener("input", (event) => {
-    console.log(event.target.value);
-    comboBoxCloseButton.classList.toggle("is-visible", event.target.value.length > 0);
+    const inputValue = event.target.value.toLowerCase();
+    const options = stateData.filter((state) => state.grantAmount > 0).map((state) => state.name.toLowerCase());
+
+    const hasMatch = options.some((state) => state.includes(inputValue));
+    const shouldExpand = inputValue.length > 0 && hasMatch;
+
+    comboBoxInput.setAttribute("aria-expanded", shouldExpand.toString());
+    comboBoxCloseButton.classList.toggle("is-visible", inputValue.length > 0);
   });
 
+  // Handle when input box is clicked
+  comboBoxInput.addEventListener("click", () => {
+    comboBoxInput.setAttribute("aria-expanded", "true");
+  });
+
+  // Handle when input box has focus
+  comboBoxInput.addEventListener("focus", () => {
+    if (comboBoxInput.value.length > 0) {
+      comboBoxInput.setAttribute("aria-expanded", "true");
+    }
+  });
+
+  // Handle when input box loses focus
+  comboBoxInput.addEventListener("blur", () => {
+    comboBoxInput.setAttribute("aria-expanded", "false");
+  });
+
+  // Handle when Escape key is pressed
+  document.addEventListener("keyup", (event) => {
+    if (event.key === "Escape" && document.activeElement === comboBoxInput) {
+      comboBoxInput.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  // Handle when the clear input box button is checked
   comboBoxCloseButton.addEventListener("click", () => {
-    console.log("click");
     comboBoxInput.value = ""; // Clear the text
     comboBoxInput.dispatchEvent(new Event("input")); // Trigger input event listener
     comboBoxInput.focus(); // Put the cursor back so the user can type immediately
+    mapUSA.querySelectorAll(".highlight").forEach((el) => el.classList.remove("highlight"));
+    comboBoxDataState.innerHTML = comboBoxDataStateIntro;
   });
 
   // Handle when a state is selected or return key is pressed
@@ -3298,7 +3342,7 @@ const initDropdown = () => {
     const selectedName = event.target.value;
     renderComboBoxData(selectedName);
 
-    console.log(selectedName);
+    comboBoxInput.setAttribute("aria-expanded", "false");
 
     const selectedStateData = stateData.find((s) => s.name === selectedName);
 

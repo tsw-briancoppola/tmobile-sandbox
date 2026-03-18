@@ -27,7 +27,7 @@
       <!-- State info modal -->
       <div class="tsw-modal-overlay">
         <dialog class="tsw-modal">
-          <button class="tsw-modal-close" aria-label="close">
+          <button class="tsw-modal-close" aria-label="Close">
             <svg>
               <use xlink:href="#tsw-modal-close-svg"></use>
             </svg>
@@ -45,15 +45,23 @@
 
           <div class="tsw-combobox-field">
             <input
-              list="tsw-combobox-datalist"
+              type="text"
               id="tsw-combobox-select"
+              list="tsw-combobox-datalist"
+              role="combobox"
               name="tsw-combobox-select"
               placeholder="Type or select a state"
+              aria-autocomplete="list"
+              aria-expanded="false"
+              aria-haspopup="listbox"
+              aria-controls="tsw-combobox-datalist"
               aria-describedby="tsw-combobox-datalist-instructions"
             />
             <div class="tsw-combobox-icons">
-              <button type="button" class="tsw-combobox-close-button" aria-label="Clear">
-                <svg class="tsw-combobox-close"><use xlink:href="#tsw-combobox-close-svg"></use></svg>
+              <button type="button" class="tsw-combobox-close-button" aria-label="Clear selection">
+                <svg class="tsw-combobox-close" aria-hidden="true">
+                  <use xlink:href="#tsw-combobox-close-svg" aria-hidden="true"></use>
+                </svg>
               </button>
               <svg class="tsw-combobox-arrow"><use xlink:href="#tsw-combobox-arrow-svg"></use></svg>
             </div>

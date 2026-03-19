@@ -405,6 +405,7 @@ ul {
   display: flex;
 }
 .tsw-combobox-close {
+  width: 3rem;
   height: 3rem;
 }
 

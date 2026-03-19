@@ -243,6 +243,23 @@ const disableState = (thisStateData) => {
 // Initialize map on load
 // =-=-=-=-=-=-=-=-=-=-=-
 
+const setStateFocus = () => {
+  const isMobile = window.innerWidth <= 768;
+  const allPaths = mapUSA.querySelectorAll("path");
+
+  allPaths.forEach((path) => {
+    if (isMobile) {
+      path.setAttribute("tabindex", "-1");
+      path.setAttribute("aria-hidden", "true");
+      path.removeAttribute("role");
+    } else {
+      path.setAttribute("tabindex", "0");
+      path.removeAttribute("aria-hidden");
+      path.setAttribute("role", "button");
+    }
+  });
+};
+
 const initMap = () => {
   mapUSA.innerHTML = usaMapSVG;
   const usaMapSVGHTML = mapUSA.querySelector("#tsw-usa-map-svg");
@@ -256,13 +273,14 @@ const initMap = () => {
   focusOverlay.setAttribute("pointer-events", "none");
   usaMapSVGHTML.appendChild(focusOverlay);
 
+  // Set whether states should be focusable or not based on screen width
+  setStateFocus();
+
   // Set accessibility and tabbing for state paths
   allPaths.forEach((path) => {
     const stateCode = path.classList[1]?.split("_")[2];
     const thisStateData = stateData.find((s) => s.code === stateCode);
 
-    path.setAttribute("tabindex", 0);
-    path.setAttribute("role", "button");
     path.setAttribute("aria-label", thisStateData?.name ?? "");
   });
 
@@ -434,16 +452,29 @@ const initDropdown = () => {
 // Event listener for viewport changes
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
+const debounce = (func, wait) => {
+  let timeout;
+  return function () {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, arguments), wait);
+  };
+};
+
 const breakpoint = window.matchMedia("(min-width: 768px)");
 
-breakpoint.addEventListener("change", (event) => {
-  if (event.matches) {
-    // Window is 768px or wider
-    mapUSA.querySelectorAll(".highlight").forEach((el) => el.classList.remove("highlight"));
-  } else {
-    // Window is narrower than 768px
-  }
-});
+const handleBreakpointChange = (event) => {
+  mapUSA.querySelectorAll(".highlight").forEach((el) => el.classList.remove("highlight"));
+  setStateFocus();
+
+  // if (event.matches) {
+  //   console.log("Desktop mode: Focus enabled");
+  // } else {
+  //   console.log("Mobile mode: Focus disabled");
+  // }
+};
+
+const debouncedHandleChange = debounce(handleBreakpointChange, 250);
+breakpoint.addEventListener("change", debouncedHandleChange);
 
 // =-=-=-=
 // On load

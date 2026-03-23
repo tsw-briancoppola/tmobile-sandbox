@@ -1,5 +1,5 @@
 // =-=-=-=-=-=-=-=-
-// GLobal variables
+// Global variables
 // =-=-=-=-=-=-=-=-
 
 const COLOR_BACKGROUND = 0x222222;
@@ -162,9 +162,9 @@ window.addEventListener("resize", () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
 });
 
-// =-=-=-=-=-=-=-=-=
-// Aniamate function
-// =-=-=-=-=-=-=-=-=
+// =-=-=-=-=-=-=-=-
+// Animate function
+// =-=-=-=-=-=-=-=-
 
 const animate = () => {
   requestAnimationFrame(animate);
@@ -184,4 +184,27 @@ const animate = () => {
   renderer.render(scene, camera);
 };
 
-animate();
+// =-=-=-=
+// On load
+// =-=-=-=
+
+// const loadGTLF = () => {
+//   const loader = new THREE.GLTFLoader();
+//   const gltfString = '{ "asset": { "version": "2.0" }, ... }'; // Your variable
+
+//   loader.parse(
+//     helmetGTLF,
+//     "",
+//     function (gltf) {
+//       scene.add(gltf.scene); // Add the parsed model to your scene
+//     },
+//     function (error) {
+//       console.error("An error happened during parsing", error);
+//     },
+//   );
+// };
+
+window.addEventListener("load", () => {
+  animate();
+  // loadGTLF();
+});

@@ -294,6 +294,7 @@ const initMap = () => {
   });
 
   // Map element listeners
+
   allMapElements.forEach((state) => {
     const stateCode = state.classList[1]?.split("_")[2];
     const thisStateData = stateData.find((s) => s.code === stateCode);
@@ -356,7 +357,7 @@ const initMap = () => {
         rectClone.removeAttribute("role");
         rectClone.removeAttribute("aria-label");
         rectClone.classList.add("tsw-focus-overlay-stroke");
-        pathClone.classList.remove("highlight");
+        rectClone.classList.remove("highlight");
         focusOverlay.appendChild(rectClone);
       }
     });
@@ -373,7 +374,7 @@ const initMap = () => {
 // Initialize combo box on load
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-const initDropdown = () => {
+const InitComboBox = () => {
   renderComboBox();
   renderComboBoxData();
 
@@ -481,5 +482,5 @@ breakpoint.addEventListener("change", debouncedHandleChange);
 
 window.addEventListener("load", () => {
   initMap();
-  initDropdown();
+  InitComboBox();
 });

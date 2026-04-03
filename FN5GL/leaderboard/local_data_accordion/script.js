@@ -5,12 +5,23 @@ const fn5glBrackets = document.querySelector(".tsw-fn5gl-brackets");
 const DATA_SOURCE = highSchoolData;
 const DATA_SOURCE_PREVIOUS = highSchoolDataPrevious;
 
+// Variable for schools that are grouped by region
+let schoolsGroupedByRegion = [];
+
 // Set order of how regions are rendered
 const regionsOrder = ["north", "south", "east", "west"];
 
 // Game state
 const gameState = {
   round: "semifinal",
+};
+
+// =-=-=-=-=-=-=-=-
+// Data prep functions
+// =-=-=-=-=-=-=-=-
+
+const groupAllRegions = ({ highSchools }) => {
+  schoolsGroupedByRegion = Object.groupBy(highSchools, (school) => school.region);
 };
 
 // =-=-=-=-=-=-=-=-
@@ -35,12 +46,14 @@ const renderRegion = (region, schools) => {
   const schoolsPreviousSorted = schoolsPrevious.sort((a, b) => b.votes - a.votes);
 
   const schoolRows = schoolsSorted
-    .map((school, index) => {
-      const trendValue = schoolsPreviousSorted.findIndex((s) => s.name === school.name) - index;
+    .map((school) => {
+      const currentRank = schoolsSorted.findIndex((s) => s.id === school.id);
+      const previousRank = schoolsPreviousSorted.findIndex((s) => s.id === school.id);
+      const trendValue = previousRank === -1 ? 0 : previousRank - currentRank;
 
       return `
       <li class="tsw-fn5gl-region-row">
-        <div class="tsw-fn5gl-region-rank">${index + 1}</div>
+        <div class="tsw-fn5gl-region-rank">${currentRank + 1}</div>
         <div class="tsw-fn5gl-region-info">
           <div class="tsw-fn5gl-region-school">${school.name}</div>
           <div class="tsw-fn5gl-region-location">${school.city}, ${school.state}</div>
@@ -56,21 +69,26 @@ const renderRegion = (region, schools) => {
   const capitalizedRegion = region.charAt(0).toUpperCase() + region.slice(1);
 
   return `
-    <div class="tsw-fn5gl-region">
+    <div class="tsw-fn5gl-region" data-region="${region}" data-expanded="false">
       <h3>${capitalizedRegion}</h3>
-      <ul class="tsw-fn5gl-region__list">${schoolRows}</ul>
+      <div class="tsw-fn5gl-region-accordion">
+        <ul class="tsw-fn5gl-region-accordion-inner">${schoolRows}</ul>
+      </div>
+      ${
+        schoolsSorted.length > 3
+          ? `
+        <button type="button" class="tsw-region-accordion">See more</button>
+      `
+          : ""
+      }
     </div>
   `;
 };
 
 const renderAllRegions = ({ highSchools }) => {
-  const grouped = Object.groupBy(highSchools, (school) => school.region);
-
-  console.log(grouped);
-
   const allRegionsHTML = regionsOrder
     .map((region) => {
-      return grouped[region] ? renderRegion(region, grouped[region]) : "";
+      return schoolsGroupedByRegion[region] ? renderRegion(region, schoolsGroupedByRegion[region]) : "";
     })
     .join("");
 
@@ -146,14 +164,28 @@ fn5glLeaderboard.addEventListener("click", (event) => {
   addVote(schoolId);
 });
 
+// Event listener for all accordion buttons
+fn5glLeaderboard.addEventListener("click", (event) => {
+  const accordionBtn = event.target.closest(".tsw-region-accordion");
+  if (!accordionBtn) return;
+
+  const regionDiv = accordionBtn.closest(".tsw-fn5gl-region");
+
+  if (regionDiv.dataset.expanded === "true") {
+    regionDiv.dataset.expanded = "false";
+    accordionBtn.textContent = "See more";
+  } else {
+    regionDiv.dataset.expanded = "true";
+    accordionBtn.textContent = "See less";
+  }
+});
+
 // =-=-=-=
 // On load
 // =-=-=-=
 
 const init = () => {
-  // const localStorageData = JSON.parse(localStorage.getItem("tsw-quiz-cyoa"));
-  // if (localStorageData) quizState = localStorageData;
-
+  groupAllRegions(DATA_SOURCE);
   renderAllRegions(DATA_SOURCE, DATA_SOURCE_PREVIOUS);
   renderBrackets(DATA_SOURCE);
 };

@@ -7,7 +7,7 @@ let remoteData = [];
 let isLoading = false;
 
 // Set order of how regions are rendered
-const regionsOrder = ["north", "south", "east", "west"];
+const regionsOrder = ["North", "South", "East", "West"];
 
 // Game state
 const gameState = {
@@ -37,18 +37,9 @@ const fetchData = async (url) => {
   }
 };
 
-const renderUI = () => {
-  if (isLoading) {
-    console.log("Loading data...");
-  }
-  if (!isLoading && remoteData) {
-    console.log(remoteData);
-  }
-};
-
-// =-=-=-=-=-=-=-=-
-// Render functions
-// =-=-=-=-=-=-=-=-
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-
+// Render leaderboard functions
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 const renderTrend = (trendValue) => {
   if (trendValue === 0) {
@@ -64,12 +55,14 @@ const renderTrend = (trendValue) => {
 
 const renderRegion = (region, schools) => {
   const schoolsSorted = [...schools].sort((a, b) => b.votes - a.votes);
-  const schoolsPrevious = DATA_SOURCE_PREVIOUS.highSchoolsPrevious.filter((school) => school.region === region);
-  const schoolsPreviousSorted = schoolsPrevious.sort((a, b) => b.votes - a.votes);
+  // const schoolsPrevious = DATA_SOURCE_PREVIOUS.highSchoolsPrevious.filter((school) => school.region === region);
+  // const schoolsPreviousSorted = schoolsPrevious.sort((a, b) => b.votes - a.votes);
+
+  const votes = 10000;
 
   const schoolRows = schoolsSorted
     .map((school, index) => {
-      const trendValue = schoolsPreviousSorted.findIndex((s) => s.name === school.name) - index;
+      // const trendValue = schoolsPreviousSorted.findIndex((s) => s.name === school.name) - index;
 
       return `
       <li class="tsw-fn5gl-region-row">
@@ -78,8 +71,7 @@ const renderRegion = (region, schools) => {
           <div class="tsw-fn5gl-region-school">${school.name}</div>
           <div class="tsw-fn5gl-region-location">${school.city}, ${school.state}</div>
         </div>
-        <div class="tsw-fn5gl-region-votes">${school.votes.toLocaleString("en-US")}</div>
-        <div class="tsw-fn5gl-region-trend">${renderTrend(trendValue)}</div>
+        <div class="tsw-fn5gl-region-votes">${votes.toLocaleString("en-US")}</div>
         <button type="button" class="magenta-button" data-vote-id="${school.id}">Vote</button>
       </li>
       `;
@@ -96,8 +88,10 @@ const renderRegion = (region, schools) => {
   `;
 };
 
-const renderAllRegions = ({ highSchools }) => {
+const renderAllRegions = (highSchools) => {
   const grouped = Object.groupBy(highSchools, (school) => school.region);
+
+  console.log(grouped);
 
   const allRegionsHTML = regionsOrder
     .map((region) => {
@@ -107,6 +101,10 @@ const renderAllRegions = ({ highSchools }) => {
 
   fn5glLeaderboard.innerHTML = allRegionsHTML;
 };
+
+// =-=-=-=-=-=-=-=-=-=-=-=-
+// Render bracket functions
+// =-=-=-=-=-=-=-=-=-=-=-=-
 
 const getRegionLeaders = (schools) => {
   const leaders = regionsOrder.map((region) => {
@@ -153,7 +151,7 @@ const getMatchWinner = (team1, team2) => {
 // };
 
 // =-=-=-=-=-=-=-=
-// Event functions
+// Event listeners
 // =-=-=-=-=-=-=-=
 
 const addVote = (id) => {
@@ -163,10 +161,6 @@ const addVote = (id) => {
   renderAllRegions(DATA_SOURCE, DATA_SOURCE_PREVIOUS);
   renderBrackets(DATA_SOURCE);
 };
-
-// =-=-=-=-=-=-=-=
-// Event listeners
-// =-=-=-=-=-=-=-=
 
 // Event listener for vote buttons
 fn5glLeaderboard.addEventListener("click", (event) => {
@@ -181,10 +175,18 @@ fn5glLeaderboard.addEventListener("click", (event) => {
 // On load
 // =-=-=-=
 
+const renderUI = () => {
+  if (isLoading) {
+    console.log("Loading data...");
+  }
+  if (!isLoading && remoteData) {
+    renderAllRegions(remoteData);
+  }
+};
+
 const init = () => {
   fetchData(DATA_SOURCE);
 
-  // renderAllRegions(DATA_SOURCE, DATA_SOURCE_PREVIOUS);
   // renderBrackets(DATA_SOURCE);
 };
 

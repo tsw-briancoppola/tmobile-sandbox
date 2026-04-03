@@ -1,153 +1,127 @@
-const fn5glLeaderboard = document.querySelector(".tsw-fn5gl-leaderboard");
-const fn5glBrackets = document.querySelector(".tsw-fn5gl-brackets");
-
 // Data sources
 const DATA_SOURCE = highSchoolData;
 const DATA_SOURCE_PREVIOUS = highSchoolDataPrevious;
 
-// Variable for schools that are grouped by region
-let schoolsGroupedByRegion = [];
+// DOM references
+const fn5glLeaderboard = document.querySelector(".tsw-fn5gl-leaderboard");
+const fn5glBrackets = document.querySelector(".tsw-fn5gl-brackets");
 
-// Set order of how regions are rendered
-const regionsOrder = ["north", "south", "east", "west"];
+// Region config
+const REGIONS_ORDER = ["north", "south", "east", "west"];
 
-// Game state
-const gameState = {
-  round: "semifinal",
-};
+// =-=-=-=
+// Helpers
+// =-=-=-=
 
-// =-=-=-=-=-=-=-=-
-// Data prep functions
-// =-=-=-=-=-=-=-=-
+const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 
-const groupAllRegions = ({ highSchools }) => {
-  schoolsGroupedByRegion = Object.groupBy(highSchools, (school) => school.region);
-};
+const getMatchWinner = (team1, team2) => (team1.votes >= team2.votes ? team1 : team2);
+
+// =-=-=-=-=
+// Data prep
+// =-=-=-=-=
+
+const groupAllRegions = ({ highSchools }) =>
+  Object.groupBy(highSchools, (school) => school.region);
 
 // =-=-=-=-=-=-=-=-
 // Render functions
 // =-=-=-=-=-=-=-=-
 
 const renderTrend = (trendValue) => {
-  if (trendValue === 0) {
-    return `<span class="gray">—</span>`;
-  }
-
+  if (trendValue === 0) return `<span class="gray">—</span>`;
   const isUp = trendValue > 0;
-  return `
-    <span class="${isUp ? "green" : "red"}">
-      ${isUp ? "▲" : "▼"} ${Math.abs(trendValue)}
-    </span>`;
+  return `<span class="${isUp ? "green" : "red"}">${isUp ? "▲" : "▼"} ${Math.abs(trendValue)}</span>`;
 };
 
 const renderRegion = (region, schools) => {
   const schoolsSorted = [...schools].sort((a, b) => b.votes - a.votes);
-  const schoolsPrevious = DATA_SOURCE_PREVIOUS.highSchoolsPrevious.filter((school) => school.region === region);
-  const schoolsPreviousSorted = schoolsPrevious.sort((a, b) => b.votes - a.votes);
+
+  const previousSchools = DATA_SOURCE_PREVIOUS.highSchoolsPrevious.filter(
+    (school) => school.region === region
+  );
+  const previousSorted = [...previousSchools].sort((a, b) => b.votes - a.votes);
+  const previousRankMap = new Map(previousSorted.map((school, i) => [school.id, i]));
 
   const schoolRows = schoolsSorted
-    .map((school) => {
-      const currentRank = schoolsSorted.findIndex((s) => s.id === school.id);
-      const previousRank = schoolsPreviousSorted.findIndex((s) => s.id === school.id);
-      const trendValue = previousRank === -1 ? 0 : previousRank - currentRank;
+    .map((school, currentRank) => {
+      const previousRank = previousRankMap.get(school.id) ?? currentRank;
+      const trendValue = previousRank - currentRank;
 
       return `
-      <li class="tsw-fn5gl-region-row">
-        <div class="tsw-fn5gl-region-rank">${currentRank + 1}</div>
-        <div class="tsw-fn5gl-region-info">
-          <div class="tsw-fn5gl-region-school">${school.name}</div>
-          <div class="tsw-fn5gl-region-location">${school.city}, ${school.state}</div>
-        </div>
-        <div class="tsw-fn5gl-region-votes">${school.votes.toLocaleString("en-US")}</div>
-        <div class="tsw-fn5gl-region-trend">${renderTrend(trendValue)}</div>
-        <button type="button" class="magenta-button" data-vote-id="${school.id}">Vote</button>
-      </li>
-      `;
+        <li class="tsw-fn5gl-region-row">
+          <div class="tsw-fn5gl-region-rank">${currentRank + 1}</div>
+          <div class="tsw-fn5gl-region-info">
+            <div class="tsw-fn5gl-region-school">${school.name}</div>
+            <div class="tsw-fn5gl-region-location">${school.city}, ${school.state}</div>
+          </div>
+          <div class="tsw-fn5gl-region-votes">${school.votes.toLocaleString("en-US")}</div>
+          <div class="tsw-fn5gl-region-trend">${renderTrend(trendValue)}</div>
+          <button type="button" class="magenta-button" data-vote-id="${school.id}">Vote</button>
+        </li>`;
     })
     .join("");
-
-  const capitalizedRegion = region.charAt(0).toUpperCase() + region.slice(1);
 
   return `
     <div class="tsw-fn5gl-region" data-region="${region}" data-expanded="false">
-      <h3>${capitalizedRegion}</h3>
+      <h3>${capitalize(region)}</h3>
       <div class="tsw-fn5gl-region-accordion">
         <ul class="tsw-fn5gl-region-accordion-inner">${schoolRows}</ul>
       </div>
-      ${
-        schoolsSorted.length > 3
-          ? `
-        <button type="button" class="tsw-region-accordion">See more</button>
-      `
-          : ""
-      }
-    </div>
-  `;
+      ${schoolsSorted.length > 3 ? `<button type="button" class="tsw-region-accordion">See more</button>` : ""}
+    </div>`;
 };
 
 const renderAllRegions = ({ highSchools }) => {
-  const allRegionsHTML = regionsOrder
-    .map((region) => {
-      return schoolsGroupedByRegion[region] ? renderRegion(region, schoolsGroupedByRegion[region]) : "";
-    })
-    .join("");
+  const schoolsByRegion = groupAllRegions({ highSchools });
 
-  fn5glLeaderboard.innerHTML = allRegionsHTML;
+  fn5glLeaderboard.innerHTML = REGIONS_ORDER
+    .map((region) => (schoolsByRegion[region] ? renderRegion(region, schoolsByRegion[region]) : ""))
+    .join("");
 };
 
-const getRegionLeaders = (schools) => {
-  const leaders = regionsOrder.map((region) => {
-    const regionSchools = schools.filter((school) => school.region === region);
+const getRegionLeaders = (highSchools) =>
+  REGIONS_ORDER.map((region) => {
+    const regionSchools = highSchools.filter((school) => school.region === region);
     return regionSchools.reduce((prev, current) => (prev.votes > current.votes ? prev : current));
   });
 
-  return leaders;
-};
-
-const getMatchWinner = (team1, team2) => {
-  return team1.votes >= team2.votes ? team1 : team2;
-};
-
 const renderBrackets = ({ highSchools }) => {
-  const regionLeaders = getRegionLeaders(highSchools);
+  const [north, south, east, west] = getRegionLeaders(highSchools);
 
-  const brackets = {
-    semifinal1: [regionLeaders[0], regionLeaders[1]], // North vs South
-    semifinal2: [regionLeaders[2], regionLeaders[3]], // East vs West
-    final: [getMatchWinner(regionLeaders[0], regionLeaders[1]), getMatchWinner(regionLeaders[2], regionLeaders[3])],
-  };
+  const semifinal1Winner = getMatchWinner(north, south);
+  const semifinal2Winner = getMatchWinner(east, west);
+  const finalWinner = getMatchWinner(semifinal1Winner, semifinal2Winner);
 
-  const bracketMatchups = Object.entries(brackets)
-    .map(([stage, teams]) => {
-      const winner = getMatchWinner(teams[0], teams[1]);
+  const matchups = [
+    { stage: "semifinal1", teams: [north, south], winner: semifinal1Winner },
+    { stage: "semifinal2", teams: [east, west], winner: semifinal2Winner },
+    { stage: "final", teams: [semifinal1Winner, semifinal2Winner], winner: finalWinner },
+  ];
 
-      return `
+  fn5glBrackets.innerHTML = matchups
+    .map(({ stage, teams: [team1, team2], winner }) => `
       <div class="tsw-fn5gl-brackets-matchup ${stage}">
-        <div class="tsw-fn5gl-brackets-school school1 ${teams[0] === winner ? "bold" : ""}">
-          <div>${teams[0]?.name || "TBD"}</div>
-          <div>${teams[0]?.votes || ""}</div>
+        <div class="tsw-fn5gl-brackets-school school1 ${team1 === winner ? "bold" : ""}">
+          <div>${team1?.name || "TBD"}</div>
+          <div>${team1?.votes || ""}</div>
         </div>
-        <div class="tsw-fn5gl-brackets-school school2 ${teams[1] === winner ? "bold" : ""}">
-          <div>${teams[1]?.name || "TBD"}</div>
-          <div>${teams[1]?.votes || ""}</div>
+        <div class="tsw-fn5gl-brackets-school school2 ${team2 === winner ? "bold" : ""}">
+          <div>${team2?.name || "TBD"}</div>
+          <div>${team2?.votes || ""}</div>
         </div>
-      </div>
-      `;
-    })
+      </div>`)
     .join("");
-
-  fn5glBrackets.innerHTML = bracketMatchups;
 };
 
-// =-=-=-=-=-=-=-=
-// Event functions
-// =-=-=-=-=-=-=-=
+// =-=-=-=
+// Actions
+// =-=-=-=
 
 const addVote = (id) => {
   const targetSchool = DATA_SOURCE.highSchools.find((school) => school.id === id);
   targetSchool.votes += 1000;
-
-  renderAllRegions(DATA_SOURCE, DATA_SOURCE_PREVIOUS);
+  renderAllRegions(DATA_SOURCE);
   renderBrackets(DATA_SOURCE);
 };
 
@@ -155,38 +129,28 @@ const addVote = (id) => {
 // Event listeners
 // =-=-=-=-=-=-=-=
 
-// Event listener for vote buttons
 fn5glLeaderboard.addEventListener("click", (event) => {
   const button = event.target.closest(".magenta-button");
   if (!button) return;
-
-  const schoolId = button.dataset.voteId;
-  addVote(schoolId);
+  addVote(button.dataset.voteId);
 });
 
-// Event listener for all accordion buttons
 fn5glLeaderboard.addEventListener("click", (event) => {
   const accordionBtn = event.target.closest(".tsw-region-accordion");
   if (!accordionBtn) return;
 
   const regionDiv = accordionBtn.closest(".tsw-fn5gl-region");
-
-  if (regionDiv.dataset.expanded === "true") {
-    regionDiv.dataset.expanded = "false";
-    accordionBtn.textContent = "See more";
-  } else {
-    regionDiv.dataset.expanded = "true";
-    accordionBtn.textContent = "See less";
-  }
+  const isExpanded = regionDiv.dataset.expanded === "true";
+  regionDiv.dataset.expanded = String(!isExpanded);
+  accordionBtn.textContent = isExpanded ? "See more" : "See less";
 });
 
-// =-=-=-=
-// On load
-// =-=-=-=
+// =-=-
+// Init
+// =-=-
 
 const init = () => {
-  groupAllRegions(DATA_SOURCE);
-  renderAllRegions(DATA_SOURCE, DATA_SOURCE_PREVIOUS);
+  renderAllRegions(DATA_SOURCE);
   renderBrackets(DATA_SOURCE);
 };
 

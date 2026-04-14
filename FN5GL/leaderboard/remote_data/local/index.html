@@ -11,35 +11,29 @@
   </head>
 
   <body>
-    <div class="tsw-fn5gl">
-      <div class="tsw-fn5gl-leaderboard">
+    <div class="tsw-fn5gl-container">
+      <div class="tsw-fn5gl-leaderboard fade-item">
         <!-- Leaderboard content adds to this container -->
       </div>
       <div class="tsw-fn5gl-brackets">
         <!-- Bracket content adds to this container -->
       </div>
+      <div class="tsw-fn5gl-loader fade-item">
+        <svg>
+          <use xlink:href="#tsw-fn5gl-loader-svg" />
+        </svg>
+      </div>
     </div>
 
     <div class="tsw-fn5gl-svg-icons">
-      <svg
-        id="tsw-svg-arrow-up"
-        xmlns="http://www.w3.org/2000/svg"
-        height="24px"
-        viewBox="0 -960 960 960"
-        width="24px"
-        fill="#e3e3e3"
-      >
-        <path d="m280-400 200-200 200 200H280Z" />
-      </svg>
-      <svg
-        id="tsw-svg-arrow-down"
-        xmlns="http://www.w3.org/2000/svg"
-        height="24px"
-        viewBox="0 -960 960 960"
-        width="24px"
-        fill="#e3e3e3"
-      >
-        <path d="M480-360 280-560h400L480-360Z" />
+      <svg id="tsw-fn5gl-loader-svg" xmlns="http://w3.org" width="51" height="51" viewBox="0 0 51 51" fill="none">
+        <circle cx="25.5" cy="25.5" r="24" stroke="#414141" stroke-width="3" fill="none" />
+        <path
+          d="M25.5 1.5C32.608 1.5 38.9943 4.59 43.3889 9.5"
+          stroke="#FF52A3"
+          stroke-width="4"
+          stroke-linecap="round"
+        />
       </svg>
     </div>
   </body>

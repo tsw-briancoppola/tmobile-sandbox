@@ -14,15 +14,14 @@ const REGIONS_ORDER = ["north", "south", "east", "west"];
 // =-=-=-=
 
 const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
-
 const getMatchWinner = (team1, team2) => (team1.votes >= team2.votes ? team1 : team2);
 
 // =-=-=-=-=
 // Data prep
 // =-=-=-=-=
 
-const groupAllRegions = ({ highSchools }) =>
-  Object.groupBy(highSchools, (school) => school.region);
+// Take schoool data and create object that groups all schools by region
+const groupAllRegions = ({ highSchools }) => Object.groupBy(highSchools, (school) => school.region);
 
 // =-=-=-=-=-=-=-=-
 // Render functions
@@ -37,9 +36,7 @@ const renderTrend = (trendValue) => {
 const renderRegion = (region, schools) => {
   const schoolsSorted = [...schools].sort((a, b) => b.votes - a.votes);
 
-  const previousSchools = DATA_SOURCE_PREVIOUS.highSchoolsPrevious.filter(
-    (school) => school.region === region
-  );
+  const previousSchools = DATA_SOURCE_PREVIOUS.highSchoolsPrevious.filter((school) => school.region === region);
   const previousSorted = [...previousSchools].sort((a, b) => b.votes - a.votes);
   const previousRankMap = new Map(previousSorted.map((school, i) => [school.id, i]));
 
@@ -75,9 +72,11 @@ const renderRegion = (region, schools) => {
 const renderAllRegions = ({ highSchools }) => {
   const schoolsByRegion = groupAllRegions({ highSchools });
 
-  fn5glLeaderboard.innerHTML = REGIONS_ORDER
-    .map((region) => (schoolsByRegion[region] ? renderRegion(region, schoolsByRegion[region]) : ""))
-    .join("");
+  console.log(schoolsByRegion);
+
+  fn5glLeaderboard.innerHTML = REGIONS_ORDER.map((region) =>
+    schoolsByRegion[region] ? renderRegion(region, schoolsByRegion[region]) : "",
+  ).join("");
 };
 
 const getRegionLeaders = (highSchools) =>
@@ -100,7 +99,8 @@ const renderBrackets = ({ highSchools }) => {
   ];
 
   fn5glBrackets.innerHTML = matchups
-    .map(({ stage, teams: [team1, team2], winner }) => `
+    .map(
+      ({ stage, teams: [team1, team2], winner }) => `
       <div class="tsw-fn5gl-brackets-matchup ${stage}">
         <div class="tsw-fn5gl-brackets-school school1 ${team1 === winner ? "bold" : ""}">
           <div>${team1?.name || "TBD"}</div>
@@ -110,7 +110,8 @@ const renderBrackets = ({ highSchools }) => {
           <div>${team2?.name || "TBD"}</div>
           <div>${team2?.votes || ""}</div>
         </div>
-      </div>`)
+      </div>`,
+    )
     .join("");
 };
 

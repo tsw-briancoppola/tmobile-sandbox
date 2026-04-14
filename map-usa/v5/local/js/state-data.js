@@ -102,12 +102,12 @@ const stateData = [
     totalAwards: 2,
     towns: ["Milford", "Smyrna"],
   },
-  {
-    code: "DC",
-    name: "District Of Columbia",
-    grantAmount: 0,
-    totalAwards: 0,
-  },
+  // {
+  //   code: "DC",
+  //   name: "District Of Columbia",
+  //   grantAmount: 0,
+  //   totalAwards: 0,
+  // },
   {
     code: "FL",
     name: "Florida",

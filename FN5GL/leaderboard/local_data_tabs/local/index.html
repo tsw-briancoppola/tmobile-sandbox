@@ -3,7 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- JS link -->
+    <!-- JS links -->
+    <script defer src="js/content.js"></script>
+    <script defer src="js/map.js"></script>
     <script defer src="script.js"></script>
     <!-- CSS link -->
     <link rel="stylesheet" href="styles.css" type="text/css" />
@@ -13,10 +15,23 @@
   <body>
     <div class="tsw-fn5gl-container">
       <div class="tsw-fn5gl-leaderboard fade-item">
-        <!-- Leaderboard content adds to this container -->
-      </div>
-      <div class="tsw-fn5gl-brackets">
-        <!-- Bracket content adds to this container -->
+        <div class="tsw-fn5gl-leaderboard-tablist" role="tablist" aria-label="FN5GL High School Regions">
+          <!-- Tabs will be added to this container -->
+        </div>
+
+        <div class="tsw-fn5gl-leaderboard-data">
+          <div class="tsw-fn5gl-leaderboard-regions">
+            <!-- Leaderboard content will be added to this container -->
+          </div>
+          <div class="tsw-fn5gl-usa-map-container">
+            <div class="tsw-fn5gl-usa-map fade-item">
+              <!-- USA map will be added to this container -->
+            </div>
+            <div class="tsw-tooltip">
+              <!-- JS injects state name here -->
+            </div>
+          </div>
+        </div>
       </div>
       <div class="tsw-fn5gl-loader fade-item">
         <svg>

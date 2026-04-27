@@ -177,11 +177,6 @@ ul {
   fill: var(--color-brand-primary-500);
   filter: drop-shadow(var(--color-outer-glow));
 }
-.tsw-map-usa-container svg path.disabled,
-.tsw-map-usa-container svg rect.disabled {
-  fill: var(--color-brand-grayscale-500);
-  cursor: initial;
-}
 
 .tsw-map-usa-container svg text {
   pointer-events: none;

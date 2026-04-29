@@ -1,10 +1,14 @@
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-// Page elements and global variables
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// Data sources and global variables
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-const fn5glContainer = document.querySelector("#tsw-fn5gl-test").querySelector("xpr-npi-content").shadowRoot;
+// const DATA_SOURCE = "https://test-fn5gl.teamdigital.com/api/verified-schools";
+// const DATA_SOURCE_PREVIOUS = highSchoolDataPrevious;
+let schoolData;
 
 // DOM references
+const fn5glContainer = document.querySelector("#tsw-fn5gl-test").querySelector("xpr-npi-content").shadowRoot;
+
 const fn5glLeaderboard = fn5glContainer.querySelector(".tsw-fn5gl-leaderboard");
 const fn5glRegionTabs = fn5glContainer.querySelector(".tsw-fn5gl-leaderboard-tablist");
 const fn5glRegions = fn5glContainer.querySelector(".tsw-fn5gl-leaderboard-regions");
@@ -12,12 +16,10 @@ const fn5glLoader = fn5glContainer.querySelector(".tsw-fn5gl-loader");
 const fn5glUSAMap = fn5glContainer.querySelector(".tsw-fn5gl-usa-map");
 const fn5glUSAMapRegions = fn5glContainer.querySelectorAll(".tsw-fn5gl-usa-map g");
 
-let schoolData;
-
 // Region config
 const REGIONS_ORDER = ["West", "Midwest", "South", "East"];
 
-// Tab state
+// Tab state - default
 let currentRegion = REGIONS_ORDER[0];
 
 // =-=-=-=-=
@@ -36,17 +38,34 @@ const updateSchoolData = (data) => {
 // Render leaderboard functions
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
+const renderTrend = (trendValue) => {
+  if (trendValue === 0) {
+    return `<span class="gray">—</span>`;
+  }
+
+  const isUp = trendValue > 0;
+  return `
+    <span class="${isUp ? "green" : "red"}">
+      ${isUp ? "▲" : "▼"} ${Math.abs(trendValue)}
+    </span>`;
+};
+
 const renderRegion = (region, schools) => {
   let schoolRows;
 
   if (schools) {
     const schoolsSorted = [...(schools || [])].sort((a, b) => (b.votes || 0) - (a.votes || 0));
-    // const schoolsPrevious = DATA_SOURCE_PREVIOUS.highSchoolsPrevious.filter((school) => school.region === region);
-    // const schoolsPreviousSorted = schoolsPrevious.sort((a, b) => b.votes - a.votes);
+    const schoolsPrevious = schoolDataPrevious.filter((school) => school.region === region);
+    const schoolsPreviousSorted = schoolsPrevious.sort((a, b) => b.votes - a.votes);
+
+    console.log(schoolsSorted);
+    console.log(schoolsPreviousSorted);
 
     schoolRows = schoolsSorted
       .map((school, index) => {
-        // const trendValue = schoolsPreviousSorted.findIndex((s) => s.name === school.name) - index;
+        const trendValue = schoolsPreviousSorted.findIndex((s) => s.name === school.name) - index;
+
+        console.log(trendValue);
 
         return `
         <li class="tsw-fn5gl-region-row">
@@ -56,6 +75,7 @@ const renderRegion = (region, schools) => {
             <div class="tsw-fn5gl-region-location">${school.city}, ${school.state}</div>
           </div>
           <div class="tsw-fn5gl-region-votes">${school.votes.toLocaleString("en-US")}</div>
+          <div class="tsw-fn5gl-region-trend">${renderTrend(trendValue)}</div>
           <button typ="button" class="magenta-button" data-vote-id="${school.id}">Vote</button>
         </li>
       `;
@@ -71,8 +91,8 @@ const renderRegion = (region, schools) => {
   `;
 };
 
-const renderAllRegions = (highSchools) => {
-  const grouped = Object.groupBy(highSchools, (school) => school.region);
+const renderAllRegions = () => {
+  const grouped = Object.groupBy(schoolData, (school) => school.region);
 
   // const allRegionsHTML = REGIONS_ORDER.map((region) => {
   //   return grouped[region] ? renderRegion(region, grouped[region]) : "";
@@ -107,7 +127,7 @@ const getMatchWinner = (team1, team2) => {
 // =-=-=-=-=-=-=
 
 const handleTooltip = (target, isHovering) => {
-  const tooltip = fn5glContainer.querySelector(".tsw-tooltip");
+  const tooltip = document.querySelector(".tsw-tooltip");
   const region = target.dataset.mapRegion;
 
   // Build tooltip
@@ -160,6 +180,12 @@ const setActiveRegion = (regionId) => {
   });
 };
 
+const updateRegionParam = (newRegion) => {
+  const url = new URL(window.location);
+  url.searchParams.set("region", newRegion.toLowerCase());
+  window.history.replaceState({}, "", url); // or use pushState?
+};
+
 const addVote = (id) => {
   const targetSchool = schoolData.find((school) => school.id === Number(id));
   targetSchool.votes += 1000;
@@ -186,14 +212,18 @@ fn5glRegionTabs.addEventListener("click", (event) => {
   const button = event.target.closest("button");
   if (!button || button.getAttribute("aria-selected") === "true") return;
 
-  setActiveRegion(button.getAttribute("aria-controls"));
+  const newRegion = button.getAttribute("aria-controls");
+  setActiveRegion(newRegion);
+  updateRegionParam(newRegion);
 });
 
 fn5glUSAMap.addEventListener("click", (event) => {
   const group = event.target.closest("g[data-map-region]");
   if (!group || group.dataset.mapRegion === currentRegion) return;
 
-  setActiveRegion(group.dataset.mapRegion);
+  const newRegion = group.dataset.mapRegion;
+  setActiveRegion(newRegion);
+  updateRegionParam(newRegion);
 });
 
 // Hover over tabs
@@ -230,10 +260,24 @@ fn5glUSAMap.addEventListener("mouseout", (e) => {
 // On load
 // =-=-=-=
 
+const setOnLoadRegion = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlParamsArray = Object.fromEntries(urlParams.entries());
+
+  const urlRegion = urlParamsArray.region || "west";
+  const urlRegionCapitalized = urlRegion.charAt(0).toUpperCase() + urlRegion.slice(1);
+
+  if (REGIONS_ORDER.includes(urlRegionCapitalized)) {
+    currentRegion = urlRegionCapitalized;
+  } else {
+    updateRegionParam("west");
+  }
+};
+
 const initTabs = () => {
-  const allTabs = REGIONS_ORDER.map((region, index) => {
+  const allTabs = REGIONS_ORDER.map((region) => {
     return `
-      <button role="tab" aria-selected="${index === 0}" aria-controls="${region}">${region}</button>
+      <button role="tab" aria-selected="${region === currentRegion}" aria-controls="${region}">${region}</button>
     `;
   }).join("");
 
@@ -245,7 +289,7 @@ const initMap = () => {
 
   const allMapG = fn5glUSAMap.querySelectorAll("g");
   allMapG.forEach((g) => {
-    if (g.dataset.mapRegion === REGIONS_ORDER[0]) {
+    if (g.dataset.mapRegion === currentRegion) {
       g.classList.add("active");
     }
   });
@@ -259,14 +303,18 @@ const renderUI = (isLoading) => {
   if (!isLoading && schoolData) {
     fn5glLoader.classList.add("hidden");
     fn5glLeaderboard.classList.remove("hidden");
-    renderAllRegions(schoolData);
+
+    setOnLoadRegion();
+    renderAllRegions();
     initTabs();
     initMap();
   }
 };
 
 const init = () => {
-  schoolData = highSchoolData;
+  schoolData = structuredClone(highSchoolData);
+  schoolDataPrevious = structuredClone(highSchoolData);
+
   let isLoading = true;
   setTimeout(() => {
     isLoading = false;

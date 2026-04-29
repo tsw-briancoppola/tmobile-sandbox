@@ -1220,7 +1220,7 @@ const highSchoolData = [
   {
     id: 1,
     name: "Bigtime H.S.",
-    city: "Stufftown",
+    city: "Gadgetville",
     state: "WA",
     region: "West",
     votes: 14283,
@@ -1228,45 +1228,69 @@ const highSchoolData = [
   {
     id: 2,
     name: "Badass H.S.",
-    city: "Stufftown",
+    city: "Itemburg",
     state: "WA",
     region: "West",
     votes: 17091,
   },
   {
     id: 3,
-    name: "Average H.S.",
-    city: "Stufftown",
+    name: "Standard H.S.",
+    city: "Thing Creek",
     state: "WA",
     region: "West",
-    votes: 11826,
+    votes: 10542,
   },
   {
     id: 4,
-    name: "Average H.S.",
-    city: "Stufftown",
+    name: "Typical H.S.",
+    city: "Object City",
     state: "WA",
     region: "West",
-    votes: 11826,
+    votes: 13219,
   },
   {
     id: 5,
-    name: "Average H.S.",
-    city: "Stufftown",
+    name: "Ordinary H.S.",
+    city: "Article Junction",
     state: "WA",
     region: "West",
-    votes: 11826,
+    votes: 9115,
   },
   {
     id: 6,
-    name: "Average H.S.",
-    city: "Stufftown",
+    name: "Common H.S.",
+    city: "Material Falls",
     state: "WA",
     region: "West",
-    votes: 11826,
+    votes: 12480,
   },
   {
     id: 7,
+    name: "Mediocre H.S.",
+    city: "Entity Springs",
+    state: "WA",
+    region: "West",
+    votes: 14722,
+  },
+  {
+    id: 8,
+    name: "Regular H.S.",
+    city: "Unit Village",
+    state: "WA",
+    region: "West",
+    votes: 8933,
+  },
+  {
+    id: 9,
+    name: "Normal H.S.",
+    city: "Piece Port",
+    state: "WA",
+    region: "West",
+    votes: 11674,
+  },
+  {
+    id: 10,
     name: "Dude H.S.",
     city: "Spiffytown",
     state: "MA",
@@ -1274,55 +1298,79 @@ const highSchoolData = [
     votes: 12000,
   },
   {
-    id: 8,
+    id: 11,
     name: "Spectacular H.S.",
-    city: "Spiffytown",
+    city: "Dapperburg",
     state: "MA",
     region: "East",
     votes: 14283,
   },
   {
-    id: 9,
+    id: 12,
     name: "Awesome H.S.",
-    city: "Spiffytown",
+    city: "Snazzyville",
     state: "MA",
     region: "East",
     votes: 13091,
   },
   {
-    id: 10,
-    name: "Sweet H.S.",
-    city: "Spiffytown",
-    state: "MA",
-    region: "East",
-    votes: 11826,
-  },
-  {
-    id: 11,
-    name: "Sweet H.S.",
-    city: "Spiffytown",
-    state: "MA",
-    region: "East",
-    votes: 11826,
-  },
-  {
-    id: 12,
-    name: "Sweet H.S.",
-    city: "Spiffytown",
-    state: "MA",
-    region: "East",
-    votes: 11826,
-  },
-  {
     id: 13,
-    name: "Sweet H.S.",
-    city: "Spiffytown",
+    name: "Radical H.S.",
+    city: "Posh Point",
     state: "MA",
     region: "East",
-    votes: 11826,
+    votes: 9821,
   },
   {
     id: 14,
+    name: "Excellent H.S.",
+    city: "Nifty Heights",
+    state: "MA",
+    region: "East",
+    votes: 12554,
+  },
+  {
+    id: 15,
+    name: "Tubular H.S.",
+    city: "Classy Corner",
+    state: "MA",
+    region: "East",
+    votes: 14109,
+  },
+  {
+    id: 16,
+    name: "Killer H.S.",
+    city: "Swell Side",
+    state: "MA",
+    region: "East",
+    votes: 8945,
+  },
+  {
+    id: 17,
+    name: "Gnarly H.S.",
+    city: "Flashy Field",
+    state: "MA",
+    region: "East",
+    votes: 13202,
+  },
+  {
+    id: 18,
+    name: "Superb H.S.",
+    city: "Polished Park",
+    state: "MA",
+    region: "East",
+    votes: 10776,
+  },
+  {
+    id: 19,
+    name: "Choice H.S.",
+    city: "Chic Center",
+    state: "MA",
+    region: "East",
+    votes: 12891,
+  },
+  {
+    id: 20,
     name: "Dude H.S.",
     city: "Rockintown",
     state: "MI",
@@ -1330,55 +1378,79 @@ const highSchoolData = [
     votes: 14000,
   },
   {
-    id: 15,
+    id: 21,
     name: "Sassy H.S.",
-    city: "Rockintown",
+    city: "Jammingville",
     state: "MI",
     region: "Midwest",
     votes: 14283,
   },
   {
-    id: 16,
+    id: 22,
     name: "Awesome H.S.",
-    city: "Rockintown",
+    city: "Grooveburg",
     state: "MI",
     region: "Midwest",
     votes: 13091,
   },
   {
-    id: 17,
-    name: "Sweet H.S.",
-    city: "Rockintown",
+    id: 23,
+    name: "Wicked H.S.",
+    city: "Vibe Valley",
     state: "MI",
     region: "Midwest",
-    votes: 11826,
+    votes: 11443,
   },
   {
-    id: 18,
-    name: "Sweet H.S.",
-    city: "Rockintown",
+    id: 24,
+    name: "Prime H.S.",
+    city: "Stellar Station",
     state: "MI",
     region: "Midwest",
-    votes: 11826,
+    votes: 14605,
   },
   {
-    id: 19,
-    name: "Sweet H.S.",
-    city: "Rockintown",
+    id: 25,
+    name: "Phat H.S.",
+    city: "Bumping Bend",
     state: "MI",
     region: "Midwest",
-    votes: 11826,
+    votes: 9231,
   },
   {
-    id: 20,
-    name: "Sweet H.S.",
-    city: "Rockintown",
+    id: 26,
+    name: "Top-Tier H.S.",
+    city: "Lively Lane",
     state: "MI",
     region: "Midwest",
-    votes: 11826,
+    votes: 12988,
   },
   {
-    id: 21,
+    id: 27,
+    name: "Epic H.S.",
+    city: "Electric Edge",
+    state: "MI",
+    region: "Midwest",
+    votes: 10114,
+  },
+  {
+    id: 28,
+    name: "Classic H.S.",
+    city: "Beating Bridge",
+    state: "MI",
+    region: "Midwest",
+    votes: 13540,
+  },
+  {
+    id: 29,
+    name: "Solid H.S.",
+    city: "Active Acres",
+    state: "MI",
+    region: "Midwest",
+    votes: 11002,
+  },
+  {
+    id: 30,
     name: "Dude H.S.",
     city: "Neatotown",
     state: "GA",
@@ -1386,62 +1458,90 @@ const highSchoolData = [
     votes: 12000,
   },
   {
-    id: 22,
+    id: 31,
     name: "Groovy H.S.",
-    city: "Neatotown",
+    city: "Tidyton",
     state: "GA",
     region: "South",
     votes: 14283,
   },
   {
-    id: 23,
+    id: 32,
     name: "Awesome H.S.",
-    city: "Neatotown",
+    city: "Cleanville",
     state: "GA",
     region: "South",
     votes: 13091,
   },
   {
-    id: 24,
-    name: "Sweet H.S.",
-    city: "Neatotown",
+    id: 33,
+    name: "Neat H.S.",
+    city: "Trim Terrace",
     state: "GA",
     region: "South",
-    votes: 11826,
+    votes: 14339,
   },
   {
-    id: 25,
-    name: "Sweet H.S.",
-    city: "Neatotown",
+    id: 34,
+    name: "Fly H.S.",
+    city: "Orderly Oasis",
     state: "GA",
     region: "South",
-    votes: 11826,
+    votes: 11506,
   },
   {
-    id: 26,
-    name: "Sweet H.S.",
-    city: "Neatotown",
+    id: 35,
+    name: "Sharp H.S.",
+    city: "Smart Shore",
     state: "GA",
     region: "South",
-    votes: 11826,
+    votes: 9422,
   },
   {
-    id: 27,
-    name: "Sweet H.S.",
-    city: "Neatotown",
+    id: 36,
+    name: "Dope H.S.",
+    city: "Spruce Summit",
     state: "GA",
     region: "South",
-    votes: 11826,
+    votes: 12117,
+  },
+  {
+    id: 37,
+    name: "Swell H.S.",
+    city: "Crisp Canyon",
+    state: "GA",
+    region: "South",
+    votes: 13785,
+  },
+  {
+    id: 38,
+    name: "Boss H.S.",
+    city: "Fresh Forest",
+    state: "GA",
+    region: "South",
+    votes: 10459,
+  },
+  {
+    id: 39,
+    name: "Grand H.S.",
+    city: "Prim Plains",
+    state: "GA",
+    region: "South",
+    votes: 11890,
   },
 ];
 
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
-// Page elements and global variables
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// Data sources and global variables
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-const fn5glContainer = document.querySelector("#tsw-fn5gl-test").querySelector("xpr-npi-content").shadowRoot;
+// const DATA_SOURCE = "https://test-fn5gl.teamdigital.com/api/verified-schools";
+// const DATA_SOURCE_PREVIOUS = highSchoolDataPrevious;
+let schoolData;
 
 // DOM references
+const fn5glContainer = document.querySelector("#tsw-fn5gl-test").querySelector("xpr-npi-content").shadowRoot;
+
 const fn5glLeaderboard = fn5glContainer.querySelector(".tsw-fn5gl-leaderboard");
 const fn5glRegionTabs = fn5glContainer.querySelector(".tsw-fn5gl-leaderboard-tablist");
 const fn5glRegions = fn5glContainer.querySelector(".tsw-fn5gl-leaderboard-regions");
@@ -1449,12 +1549,10 @@ const fn5glLoader = fn5glContainer.querySelector(".tsw-fn5gl-loader");
 const fn5glUSAMap = fn5glContainer.querySelector(".tsw-fn5gl-usa-map");
 const fn5glUSAMapRegions = fn5glContainer.querySelectorAll(".tsw-fn5gl-usa-map g");
 
-let schoolData;
-
 // Region config
 const REGIONS_ORDER = ["West", "Midwest", "South", "East"];
 
-// Tab state
+// Tab state - default
 let currentRegion = REGIONS_ORDER[0];
 
 // =-=-=-=-=
@@ -1473,17 +1571,34 @@ const updateSchoolData = (data) => {
 // Render leaderboard functions
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
+const renderTrend = (trendValue) => {
+  if (trendValue === 0) {
+    return `<span class="gray">—</span>`;
+  }
+
+  const isUp = trendValue > 0;
+  return `
+    <span class="${isUp ? "green" : "red"}">
+      ${isUp ? "▲" : "▼"} ${Math.abs(trendValue)}
+    </span>`;
+};
+
 const renderRegion = (region, schools) => {
   let schoolRows;
 
   if (schools) {
     const schoolsSorted = [...(schools || [])].sort((a, b) => (b.votes || 0) - (a.votes || 0));
-    // const schoolsPrevious = DATA_SOURCE_PREVIOUS.highSchoolsPrevious.filter((school) => school.region === region);
-    // const schoolsPreviousSorted = schoolsPrevious.sort((a, b) => b.votes - a.votes);
+    const schoolsPrevious = schoolDataPrevious.filter((school) => school.region === region);
+    const schoolsPreviousSorted = schoolsPrevious.sort((a, b) => b.votes - a.votes);
+
+    console.log(schoolsSorted);
+    console.log(schoolsPreviousSorted);
 
     schoolRows = schoolsSorted
       .map((school, index) => {
-        // const trendValue = schoolsPreviousSorted.findIndex((s) => s.name === school.name) - index;
+        const trendValue = schoolsPreviousSorted.findIndex((s) => s.name === school.name) - index;
+
+        console.log(trendValue);
 
         return `
         <li class="tsw-fn5gl-region-row">
@@ -1493,6 +1608,7 @@ const renderRegion = (region, schools) => {
             <div class="tsw-fn5gl-region-location">${school.city}, ${school.state}</div>
           </div>
           <div class="tsw-fn5gl-region-votes">${school.votes.toLocaleString("en-US")}</div>
+          <div class="tsw-fn5gl-region-trend">${renderTrend(trendValue)}</div>
           <button typ="button" class="magenta-button" data-vote-id="${school.id}">Vote</button>
         </li>
       `;
@@ -1508,8 +1624,8 @@ const renderRegion = (region, schools) => {
   `;
 };
 
-const renderAllRegions = (highSchools) => {
-  const grouped = Object.groupBy(highSchools, (school) => school.region);
+const renderAllRegions = () => {
+  const grouped = Object.groupBy(schoolData, (school) => school.region);
 
   // const allRegionsHTML = REGIONS_ORDER.map((region) => {
   //   return grouped[region] ? renderRegion(region, grouped[region]) : "";
@@ -1544,7 +1660,7 @@ const getMatchWinner = (team1, team2) => {
 // =-=-=-=-=-=-=
 
 const handleTooltip = (target, isHovering) => {
-  const tooltip = fn5glContainer.querySelector(".tsw-tooltip");
+  const tooltip = document.querySelector(".tsw-tooltip");
   const region = target.dataset.mapRegion;
 
   // Build tooltip
@@ -1597,6 +1713,12 @@ const setActiveRegion = (regionId) => {
   });
 };
 
+const updateRegionParam = (newRegion) => {
+  const url = new URL(window.location);
+  url.searchParams.set("region", newRegion.toLowerCase());
+  window.history.replaceState({}, "", url); // or use pushState?
+};
+
 const addVote = (id) => {
   const targetSchool = schoolData.find((school) => school.id === Number(id));
   targetSchool.votes += 1000;
@@ -1623,14 +1745,18 @@ fn5glRegionTabs.addEventListener("click", (event) => {
   const button = event.target.closest("button");
   if (!button || button.getAttribute("aria-selected") === "true") return;
 
-  setActiveRegion(button.getAttribute("aria-controls"));
+  const newRegion = button.getAttribute("aria-controls");
+  setActiveRegion(newRegion);
+  updateRegionParam(newRegion);
 });
 
 fn5glUSAMap.addEventListener("click", (event) => {
   const group = event.target.closest("g[data-map-region]");
   if (!group || group.dataset.mapRegion === currentRegion) return;
 
-  setActiveRegion(group.dataset.mapRegion);
+  const newRegion = group.dataset.mapRegion;
+  setActiveRegion(newRegion);
+  updateRegionParam(newRegion);
 });
 
 // Hover over tabs
@@ -1667,10 +1793,24 @@ fn5glUSAMap.addEventListener("mouseout", (e) => {
 // On load
 // =-=-=-=
 
+const setOnLoadRegion = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlParamsArray = Object.fromEntries(urlParams.entries());
+
+  const urlRegion = urlParamsArray.region || "west";
+  const urlRegionCapitalized = urlRegion.charAt(0).toUpperCase() + urlRegion.slice(1);
+
+  if (REGIONS_ORDER.includes(urlRegionCapitalized)) {
+    currentRegion = urlRegionCapitalized;
+  } else {
+    updateRegionParam("west");
+  }
+};
+
 const initTabs = () => {
-  const allTabs = REGIONS_ORDER.map((region, index) => {
+  const allTabs = REGIONS_ORDER.map((region) => {
     return `
-      <button role="tab" aria-selected="${index === 0}" aria-controls="${region}">${region}</button>
+      <button role="tab" aria-selected="${region === currentRegion}" aria-controls="${region}">${region}</button>
     `;
   }).join("");
 
@@ -1682,7 +1822,7 @@ const initMap = () => {
 
   const allMapG = fn5glUSAMap.querySelectorAll("g");
   allMapG.forEach((g) => {
-    if (g.dataset.mapRegion === REGIONS_ORDER[0]) {
+    if (g.dataset.mapRegion === currentRegion) {
       g.classList.add("active");
     }
   });
@@ -1696,14 +1836,18 @@ const renderUI = (isLoading) => {
   if (!isLoading && schoolData) {
     fn5glLoader.classList.add("hidden");
     fn5glLeaderboard.classList.remove("hidden");
-    renderAllRegions(schoolData);
+
+    setOnLoadRegion();
+    renderAllRegions();
     initTabs();
     initMap();
   }
 };
 
 const init = () => {
-  schoolData = highSchoolData;
+  schoolData = structuredClone(highSchoolData);
+  schoolDataPrevious = structuredClone(highSchoolData);
+
   let isLoading = true;
   setTimeout(() => {
     isLoading = false;

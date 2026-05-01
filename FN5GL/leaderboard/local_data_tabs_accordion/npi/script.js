@@ -5,15 +5,16 @@
 // const DATA_SOURCE = "https://test-fn5gl.teamdigital.com/api/verified-schools";
 // const DATA_SOURCE_PREVIOUS = highSchoolDataPrevious;
 let schoolData;
-let schoolDataPrevious;
 
 // DOM references
-const fn5glLeaderboard = document.querySelector(".tsw-fn5gl-leaderboard");
-const fn5glRegionTabs = document.querySelector(".tsw-fn5gl-leaderboard-tablist");
-const fn5glRegions = document.querySelector(".tsw-fn5gl-leaderboard-regions");
-const fn5glLoader = document.querySelector(".tsw-fn5gl-loader");
-const fn5glUSAMap = document.querySelector(".tsw-fn5gl-usa-map");
-const fn5glUSAMapRegions = document.querySelectorAll(".tsw-fn5gl-usa-map g");
+const fn5glContainer = document.querySelector("#tsw-fn5gl-test").querySelector("xpr-npi-content").shadowRoot;
+
+const fn5glLeaderboard = fn5glContainer.querySelector(".tsw-fn5gl-leaderboard");
+const fn5glRegionTabs = fn5glContainer.querySelector(".tsw-fn5gl-leaderboard-tablist");
+const fn5glRegions = fn5glContainer.querySelector(".tsw-fn5gl-leaderboard-regions");
+const fn5glLoader = fn5glContainer.querySelector(".tsw-fn5gl-loader");
+const fn5glUSAMap = fn5glContainer.querySelector(".tsw-fn5gl-usa-map");
+const fn5glUSAMapRegions = fn5glContainer.querySelectorAll(".tsw-fn5gl-usa-map g");
 
 // Region config
 const REGIONS_ORDER = ["West", "Midwest", "South", "East"];
@@ -80,7 +81,7 @@ const renderRegion = (region, schools) => {
   return `
     <div class="tsw-fn5gl-region" role="tabpanel" aria-labelledby="${region}" ${region !== currentRegion ? "hidden" : ""}>
       <h3>${region}</h3>
-      <ul class="tsw-fn5gl-region-list">${schoolRows || "No schools yet"}</ul>
+      <ul class="tsw-fn5gl-region__list">${schoolRows || "No schools yet"}</ul>
     </div>
   `;
 };

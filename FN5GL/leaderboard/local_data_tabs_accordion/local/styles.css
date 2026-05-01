@@ -172,25 +172,6 @@ a:visited {
   gap: 3rem;
 }
 
-.tsw-fn5gl-leaderboard-tablist button {
-  cursor: pointer;
-  padding: 1rem 1.4rem;
-  font-size: 1.5rem;
-  /* font-weight: 600; */
-  border: 0;
-  border-radius: 0.5rem;
-  background-color: var(--color-brand-grayscale-400);
-  transition: background-color 0.2s ease-in-out;
-}
-.tsw-fn5gl-leaderboard-tablist button[aria-selected="true"] {
-  color: var(--color-brand-grayscale-white);
-  background-color: var(--color-brand-primary-400);
-}
-.tsw-fn5gl-leaderboard-tablist button.hover {
-  color: var(--color-brand-grayscale-white);
-  background-color: var(--color-brand-primary-600);
-}
-
 .tsw-fn5gl-leaderboard-data {
   display: grid;
   gap: 4rem;
@@ -204,11 +185,33 @@ a:visited {
   flex: 1;
 }
 
-.tsw-fn5gl-region.highlighted {
+/* .tsw-fn5gl-region.highlighted {
   background-color: #f5f5dc;
+} */
+.tsw-fn5gl-region-accordion-button {
+  width: 100%;
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: left;
+  padding: 1rem 0;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  border-bottom: 1px solid var(--color-brand-grayscale-300);
 }
-.tsw-fn5gl-region h3 {
-  margin-bottom: 1.2rem;
+
+.tsw-fn5gl-region-list {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  transition: all ease-out 0.2s;
+}
+.tsw-fn5gl-region-accordion-button[aria-expanded="true"] ~ .tsw-fn5gl-region-list {
+  grid-template-rows: 1fr;
+}
+
+.tsw-fn5gl-region-list-inner {
+  min-height: 0;
 }
 
 .tsw-fn5gl-region-row {
@@ -216,7 +219,9 @@ a:visited {
   grid-template-columns: 1rem 3fr 1fr 0.5fr 1fr;
   gap: 2rem;
   padding: 1.2rem 1.4rem;
-  border-top: 1px solid var(--color-brand-grayscale-300);
+}
+.tsw-fn5gl-region-row:not(:last-child) {
+  border-bottom: 1px solid var(--color-brand-grayscale-300);
 }
 .tsw-fn5gl-region-school {
   font-weight: 700;

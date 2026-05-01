@@ -9,7 +9,6 @@ let schoolDataPrevious;
 
 // DOM references
 const fn5glLeaderboard = document.querySelector(".tsw-fn5gl-leaderboard");
-const fn5glRegionTabs = document.querySelector(".tsw-fn5gl-leaderboard-tablist");
 const fn5glRegions = document.querySelector(".tsw-fn5gl-leaderboard-regions");
 const fn5glLoader = document.querySelector(".tsw-fn5gl-loader");
 const fn5glUSAMap = document.querySelector(".tsw-fn5gl-usa-map");
@@ -78,9 +77,11 @@ const renderRegion = (region, schools) => {
   }
 
   return `
-    <div class="tsw-fn5gl-region" role="tabpanel" aria-labelledby="${region}" ${region !== currentRegion ? "hidden" : ""}>
-      <h3>${region}</h3>
-      <ul class="tsw-fn5gl-region-list">${schoolRows || "No schools yet"}</ul>
+    <div class="tsw-fn5gl-region" role="tabpanel" aria-labelledby="${region}">
+      <button type="button" class="tsw-fn5gl-region-accordion-button" aria-expanded=${region === currentRegion} data-map-region="${region.toLowerCase()}">${region}</button>
+      <div class="tsw-fn5gl-region-list">
+        <ul class="tsw-fn5gl-region-list-inner">${schoolRows || "No schools yet"}</ul>
+      </div>
     </div>
   `;
 };
@@ -146,10 +147,10 @@ const toggleRegionHighlight = (regionId, isHovering) => {
   if (regionId === currentRegion) return;
 
   const mapGroup = fn5glUSAMap.querySelector(`g[data-map-region="${regionId}"]`);
-  const tab = fn5glRegionTabs.querySelector(`button[aria-controls="${regionId}"]`);
+  // const tab = fn5glRegionTabs.querySelector(`button[aria-controls="${regionId}"]`);
 
   if (mapGroup) mapGroup.classList.toggle("hover", isHovering);
-  if (tab) tab.classList.toggle("hover", isHovering);
+  // if (tab) tab.classList.toggle("hover", isHovering);
 };
 
 const setActiveRegion = (regionId) => {
@@ -158,15 +159,16 @@ const setActiveRegion = (regionId) => {
 
   currentRegion = regionId;
 
-  const allTabs = fn5glRegionTabs.querySelectorAll('[role="tab"]');
-  allTabs.forEach((tab) => {
-    tab.setAttribute("aria-selected", tab.getAttribute("aria-controls") === regionId);
+  const fn5glRegionAccordions = document.querySelectorAll(".tsw-fn5gl-region-accordion-button");
+  fn5glRegionAccordions.forEach((accordion) => {
+    console.log(accordion);
+    accordion.setAttribute("aria-expanded", accordion.dataset.mapRegion === regionId);
   });
 
-  const allRegions = fn5glRegions.querySelectorAll('[role="tabpanel"]');
-  allRegions.forEach((panel) => {
-    panel.hidden = panel.getAttribute("aria-labelledby") !== regionId;
-  });
+  // const allRegions = fn5glRegions.querySelectorAll('[role="tabpanel"]');
+  // allRegions.forEach((panel) => {
+  //   panel.hidden = panel.getAttribute("aria-labelledby") !== regionId;
+  // });
 
   const allMapGroups = fn5glUSAMap.querySelectorAll("g[data-map-region]");
   allMapGroups.forEach((g) => {
@@ -200,16 +202,7 @@ fn5glLeaderboard.addEventListener("click", (event) => {
   addVote(schoolId);
 });
 
-// Clicking on tabs and map
-
-fn5glRegionTabs.addEventListener("click", (event) => {
-  const button = event.target.closest("button");
-  if (!button || button.getAttribute("aria-selected") === "true") return;
-
-  const newRegion = button.getAttribute("aria-controls");
-  setActiveRegion(newRegion);
-  updateRegionParam(newRegion);
-});
+// Clicking on map
 
 fn5glUSAMap.addEventListener("click", (event) => {
   const group = event.target.closest("g[data-map-region]");
@@ -218,18 +211,6 @@ fn5glUSAMap.addEventListener("click", (event) => {
   const newRegion = group.dataset.mapRegion;
   setActiveRegion(newRegion);
   updateRegionParam(newRegion);
-});
-
-// Hover over tabs
-
-fn5glRegionTabs.addEventListener("mouseover", (e) => {
-  const button = e.target.closest("button");
-  if (button) toggleRegionHighlight(button.getAttribute("aria-controls"), true);
-});
-
-fn5glRegionTabs.addEventListener("mouseout", (e) => {
-  const button = e.target.closest("button");
-  if (button) toggleRegionHighlight(button.getAttribute("aria-controls"), false);
 });
 
 // Hover over map
@@ -250,6 +231,22 @@ fn5glUSAMap.addEventListener("mouseout", (e) => {
   }
 });
 
+// Clicking on region accordions
+
+fn5glLeaderboard.addEventListener("click", (event) => {
+  const accordionBtn = event.target.closest(".tsw-fn5gl-region-accordion-button");
+  if (!accordionBtn) return;
+
+  // const isExpanded = accordionBtn.getAttribute("aria-expanded") === "true";
+  // accordionBtn.setAttribute("aria-expanded", String(!isExpanded));
+
+  const newRegion = accordionBtn.dataset.mapRegion;
+  setActiveRegion(newRegion);
+  updateRegionParam(newRegion);
+});
+
+// Hover over region accordions
+
 // =-=-=-=
 // On load
 // =-=-=-=
@@ -266,16 +263,6 @@ const setOnLoadRegion = () => {
   } else {
     updateRegionParam("west");
   }
-};
-
-const initTabs = () => {
-  const allTabs = REGIONS_ORDER.map((region) => {
-    return `
-      <button role="tab" aria-selected="${region === currentRegion}" aria-controls="${region}">${region}</button>
-    `;
-  }).join("");
-
-  fn5glRegionTabs.innerHTML = allTabs;
 };
 
 const initMap = () => {
@@ -300,7 +287,6 @@ const renderUI = (isLoading) => {
 
     setOnLoadRegion();
     renderAllRegions();
-    initTabs();
     initMap();
   }
 };

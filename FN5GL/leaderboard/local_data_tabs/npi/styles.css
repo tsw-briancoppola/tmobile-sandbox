@@ -27,9 +27,8 @@
 
   font-family: var(--tsw-font-main);
 
-  --fn5gl-text-color: var(--color-brand-grayscale-600);
-  --fn5gl-highlight-color: var(--color-brand-primary-400);
-  --fn5gl-background-color: var(--color-brand-grayscale-white);
+  --fn5gl-map-active-color: var(--color-brand-primary-400);
+  --fn5gl-map-highlight-color: var(--color-brand-primary-600);
 
   color: var(--fn5gl-text-color);
   background-color: var(--fn5gl-background-color);
@@ -221,10 +220,10 @@ a:visited {
   transition: fill 0.2s ease-in-out;
 }
 .tsw-usa-map-region.active path {
-  fill: var(--color-brand-primary-400);
+  fill: var(--fn5gl-map-active-color);
 }
 .tsw-usa-map-region.hover path {
-  fill: var(--color-brand-primary-600);
+  fill: var(--fn5gl-map-highlight-color);
 }
 
 /* fn5gl brackets styles */

@@ -5,6 +5,7 @@
 // const DATA_SOURCE = "https://test-fn5gl.teamdigital.com/api/verified-schools";
 // const DATA_SOURCE_PREVIOUS = highSchoolDataPrevious;
 let schoolData;
+let schoolDataPrevious;
 
 // DOM references
 const fn5glContainer = document.querySelector("#tsw-fn5gl-test").querySelector("xpr-npi-content").shadowRoot;
@@ -58,14 +59,9 @@ const renderRegion = (region, schools) => {
     const schoolsPrevious = schoolDataPrevious.filter((school) => school.region === region);
     const schoolsPreviousSorted = schoolsPrevious.sort((a, b) => b.votes - a.votes);
 
-    console.log(schoolsSorted);
-    console.log(schoolsPreviousSorted);
-
     schoolRows = schoolsSorted
       .map((school, index) => {
         const trendValue = schoolsPreviousSorted.findIndex((s) => s.name === school.name) - index;
-
-        console.log(trendValue);
 
         return `
         <li class="tsw-fn5gl-region-row">
@@ -86,7 +82,7 @@ const renderRegion = (region, schools) => {
   return `
     <div class="tsw-fn5gl-region" role="tabpanel" aria-labelledby="${region}" ${region !== currentRegion ? "hidden" : ""}>
       <h3>${region}</h3>
-      <ul class="tsw-fn5gl-region__list">${schoolRows || "No schools yet"}</ul>
+      <ul class="tsw-fn5gl-region-list">${schoolRows || "No schools yet"}</ul>
     </div>
   `;
 };
@@ -127,7 +123,7 @@ const getMatchWinner = (team1, team2) => {
 // =-=-=-=-=-=-=
 
 const handleTooltip = (target, isHovering) => {
-  const tooltip = document.querySelector(".tsw-tooltip");
+  const tooltip = fn5glContainer.querySelector(".tsw-tooltip");
   const region = target.dataset.mapRegion;
 
   // Build tooltip

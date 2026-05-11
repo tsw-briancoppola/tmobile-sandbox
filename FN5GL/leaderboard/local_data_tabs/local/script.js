@@ -14,6 +14,7 @@ const fn5glRegions = document.querySelector(".tsw-fn5gl-leaderboard-regions");
 const fn5glLoader = document.querySelector(".tsw-fn5gl-loader");
 const fn5glUSAMap = document.querySelector(".tsw-fn5gl-usa-map");
 const fn5glUSAMapRegions = document.querySelectorAll(".tsw-fn5gl-usa-map g");
+const fn5glTooltip = document.querySelector(".tsw-tooltip");
 
 // Region config
 const REGIONS_ORDER = ["West", "Midwest", "South", "East"];
@@ -121,21 +122,20 @@ const getMatchWinner = (team1, team2) => {
 // =-=-=-=-=-=-=
 
 const handleTooltip = (target, isHovering) => {
-  const tooltip = document.querySelector(".tsw-tooltip");
   const region = target.dataset.mapRegion;
 
   // Build tooltip
   const rect = target.getBoundingClientRect();
   const containerRect = fn5glUSAMap.getBoundingClientRect();
-  tooltip.innerHTML = `
+  fn5glTooltip.innerHTML = `
     <p class="tsw-tooltip-state">${region}</p>
   `;
 
   // Position tooltip on map
-  tooltip.style.left = `${rect.left - containerRect.left + rect.width / 2}px`;
-  tooltip.style.top = `${rect.bottom - containerRect.top - rect.height / 2}px`;
+  fn5glTooltip.style.left = `${rect.left - containerRect.left + rect.width / 2}px`;
+  fn5glTooltip.style.top = `${rect.bottom - containerRect.top - rect.height / 2}px`;
   // Determine whether tooltip should be active
-  tooltip.classList.toggle("active", isHovering);
+  fn5glTooltip.classList.toggle("active", isHovering);
 };
 
 // =-=-=-=-=-=-=-=-=-=-=-
@@ -220,6 +220,49 @@ fn5glUSAMap.addEventListener("click", (event) => {
   updateRegionParam(newRegion);
 });
 
+// Map focus
+
+fn5glUSAMap.addEventListener("focusin", (event) => {
+  const mapGroup = event.target;
+  if (mapGroup.tagName !== "g") return;
+
+  focusOverlay.innerHTML = "";
+
+  // Create clone of state group that will have focus stroke
+  const pathClone = mapGroup.cloneNode(true);
+  pathClone.removeAttribute("tabindex");
+  pathClone.removeAttribute("role");
+  pathClone.removeAttribute("aria-label");
+  pathClone.classList.add("tsw-focus-overlay-stroke");
+  pathClone.classList.remove("hover");
+  pathClone.classList.remove("highlight");
+  focusOverlay.appendChild(pathClone);
+});
+
+fn5glUSAMap.addEventListener("focusout", () => {
+  focusOverlay.innerHTML = "";
+});
+
+// Map focus + return key pressed
+
+fn5glUSAMap.addEventListener("keydown", (event) => {
+  const mapGroup = event.target;
+  if (mapGroup.tagName !== "g") return;
+
+  if (event.key === "Enter") {
+    const newRegion = mapGroup.dataset.mapRegion;
+    setActiveRegion(newRegion);
+    updateRegionParam(newRegion);
+  }
+});
+
+// Map loses focus stroke when Escape key is pressed
+fn5glUSAMap.addEventListener("keyup", (event) => {
+  if (event.key === "Escape") {
+    focusOverlay.innerHTML = "";
+  }
+});
+
 // Hover over tabs
 
 fn5glRegionTabs.addEventListener("mouseover", (e) => {
@@ -249,6 +292,27 @@ fn5glUSAMap.addEventListener("mouseout", (e) => {
     handleTooltip(group, false);
   }
 });
+
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// Event listener for viewport changes
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+const debounce = (func, wait) => {
+  let timeout;
+  return function () {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, arguments), wait);
+  };
+};
+
+const breakpoint = window.matchMedia("(min-width: 768px)");
+
+const handleBreakpointChange = (event) => {
+  fn5glTooltip.classList.remove("active");
+};
+
+const debouncedHandleChange = debounce(handleBreakpointChange, 250);
+breakpoint.addEventListener("change", debouncedHandleChange);
 
 // =-=-=-=
 // On load
@@ -280,9 +344,17 @@ const initTabs = () => {
 
 const initMap = () => {
   fn5glUSAMap.innerHTML = usaMapSVG;
+  const fn5glUSAMapSVG = fn5glUSAMap.querySelector("#tsw-fn5gl-usa-map-svg");
+
+  focusOverlay = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  focusOverlay.classList.add("tsw-focus-overlay");
+  focusOverlay.setAttribute("pointer-events", "none");
+  fn5glUSAMapSVG.appendChild(focusOverlay);
 
   const allMapG = fn5glUSAMap.querySelectorAll("g");
   allMapG.forEach((g) => {
+    g.setAttribute("tabindex", "0");
+
     if (g.dataset.mapRegion === currentRegion) {
       g.classList.add("active");
     }

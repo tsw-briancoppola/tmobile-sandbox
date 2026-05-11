@@ -19,6 +19,7 @@
   --color-brand-grayscale-900: #1c1c1c;
   --color-brand-grayscale-white: #fff;
 
+  --color-focus-stroke: #005fcc;
   --color-trend-red: #cc0000;
   --color-trend-green: #00aa00;
 
@@ -235,6 +236,16 @@ a:visited {
 .tsw-fn5gl-usa-map svg {
   width: 100%;
 }
+.tsw-fn5gl-usa-map svg g:focus {
+  outline: none;
+}
+/* Styles for state group focus stroke */
+.tsw-fn5gl-container svg .tsw-focus-overlay-stroke {
+  background-color: transparent;
+  filter: drop-shadow(2px 0 0 var(--color-focus-stroke)) drop-shadow(-2px 0 0 var(--color-focus-stroke))
+    drop-shadow(0 2px 0 var(--color-focus-stroke)) drop-shadow(0 -2px 0 var(--color-focus-stroke));
+}
+
 .tsw-fn5gl-usa-map path {
   fill: var(--color-brand-grayscale-500);
   transition: fill 0.2s ease-in-out;

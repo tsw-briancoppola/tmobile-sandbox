@@ -20,9 +20,9 @@ const REGIONS_ORDER = ["West", "Midwest", "South", "East"];
 // Tab state - default
 let currentRegion = REGIONS_ORDER[0];
 
-// =-=-=-=-=
-// Data prep
-// =-=-=-=-=
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-
+// Data prep / helper functions
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 // Add votes property to each school object
 const updateSchoolData = (data) => {
@@ -30,6 +30,10 @@ const updateSchoolData = (data) => {
     ...d,
     votes: 0,
   }));
+};
+
+const capitalize = (string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
 };
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -129,7 +133,7 @@ const handleTooltip = (target, isHovering) => {
   const rect = target.getBoundingClientRect();
   const containerRect = fn5glUSAMap.getBoundingClientRect();
   tooltip.innerHTML = `
-    <p class="tsw-tooltip-state">${region}</p>
+    <p class="tsw-tooltip-state">${capitalize(region)}</p>
   `;
 
   // Position tooltip on map
@@ -255,11 +259,10 @@ const setOnLoadRegion = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const urlParamsArray = Object.fromEntries(urlParams.entries());
 
-  const urlRegion = urlParamsArray.region || "west";
-  const urlRegionCapitalized = urlRegion.charAt(0).toUpperCase() + urlRegion.slice(1);
+  const urlRegion = capitalize(urlParamsArray.region || "west");
 
-  if (REGIONS_ORDER.includes(urlRegionCapitalized)) {
-    currentRegion = urlRegionCapitalized;
+  if (REGIONS_ORDER.includes(urlRegion)) {
+    currentRegion = urlRegion;
   } else {
     updateRegionParam("west");
   }

@@ -1,0 +1,243 @@
+.tsw-hs-list-container {
+  --tsw-font-display:
+    "TeleNeo Web", var(--phx--text-family-brand), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --tsw-font-main:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol";
+
+  --tsw-font-size: 16px;
+  --color-brand-primary-400: #e20074;
+  --color-brand-primary-600: #770141;
+  --color-brand-grayscale-100: #fbfbfb;
+  --color-brand-grayscale-200: #f5f5f5;
+  --color-brand-grayscale-300: #e6e6e6;
+  --color-brand-grayscale-400: #ccc;
+  --color-brand-grayscale-500: #8c8c8c;
+  --color-brand-grayscale-600: #6a6a6a;
+  --color-brand-grayscale-700: #414141;
+  --color-brand-grayscale-900: #1c1c1c;
+  --color-brand-grayscale-white: #fff;
+
+  --color-overlay: rgba(0, 0, 0, 0.4);
+  --color-input-shadow: 0px 0px 5px 0px rgba(226, 0, 116, 0.5);
+
+  font-family: var(--tsw-font-main);
+
+  --hs-list-text-color: var(--color-brand-grayscale-600);
+  --hs-list-highlight-color: var(--color-brand-primary-400);
+  --hs-list-background-color: var(--color-brand-grayscale-200);
+
+  color: var(--hs-list-text-color);
+  background-color: var(--hs-list-background-color);
+}
+
+.tsw-hs-list-container.dark-theme {
+  --hs-list-text-color: var(--color-brand-grayscale-white);
+  --hs-list-highlight-color: var(--color-brand-primary-400);
+  --hs-list-background-color: var(--color-brand-grayscale-900);
+}
+
+/* Reset */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-size: 1.6rem;
+  overflow-x: hidden;
+  height: 100vh;
+  margin: 0;
+  background-color: #f5f5f5;
+}
+
+ul {
+  list-style-type: none;
+}
+
+/* UI element styles */
+
+.button-magenta {
+  cursor: pointer;
+  padding: 1rem 1.5rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+  border: 0;
+  color: var(--color-brand-grayscale-white);
+  background-color: var(--color-brand-primary-400);
+  box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.5);
+}
+
+/* List container styles */
+
+.tsw-hs-list-container {
+  padding: 3rem;
+  max-width: 110rem;
+  height: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3rem;
+  background-color: var(--hs-list-background-color);
+}
+
+/* Search and pagination styles */
+
+.tsw-hs-list-search-container {
+  position: relative;
+  width: fit-content;
+  display: flex;
+  align-items: center;
+}
+.tsw-hs-list-search-container label {
+  display: none;
+}
+.tsw-hs-list-search-container input {
+  border: 1px solid rgb(140, 140, 140);
+  border-radius: 0.4rem;
+  font-size: 1.6rem;
+  line-height: 2rem;
+  min-width: 34rem;
+  padding: 1.2rem 3.2rem 1.2rem 1.2rem;
+  outline-offset: 0.2rem;
+}
+
+.tsw-hs-list-pagination {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  width: 100%;
+  max-width: 40rem;
+}
+.tsw-hs-list-pagination.is-hidden {
+  display: none;
+}
+
+.tsw-pagination-numbers {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tsw-hs-list-search-clear,
+.tsw-pagination-prev,
+.tsw-pagination-next {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 0;
+  background-color: inherit;
+  cursor: pointer;
+}
+
+.tsw-hs-list-search-clear svg,
+.tsw-pagination-prev svg,
+.tsw-pagination-next svg {
+  height: 100%;
+  width: 100%;
+}
+
+.tsw-hs-list-search-clear {
+  display: none;
+  position: absolute;
+  right: 0.7rem;
+}
+.tsw-hs-list-search-clear svg {
+  fill: var(--hs-list-text-color);
+}
+
+.tsw-pagination-prev svg,
+.tsw-pagination-next svg {
+  fill: var(--hs-list-highlight-color);
+}
+.tsw-pagination-prev:disabled svg,
+.tsw-pagination-next:disabled svg {
+  cursor: not-allowed;
+  fill: var(--hs-list-text-color);
+}
+
+.tsw-pagination-number {
+  cursor: pointer;
+  padding: 1rem 1.5rem;
+  font-size: 1.5rem;
+  border: 0;
+  border-radius: 0.5rem;
+  color: var(--button-text-color);
+  background-color: var(--button-background-color);
+}
+.tsw-pagination-number.active {
+  color: var(--color-brand-grayscale-white);
+  background-color: var(--color-brand-primary-400);
+}
+
+/* List styles */
+
+.tsw-hs-list {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  width: 100%;
+}
+
+.tsw-hs-list__row {
+  display: grid;
+  grid-template-columns: 1fr;
+  place-items: center;
+  gap: 3rem;
+  padding: 1.2rem 1.4rem;
+  border-top: 1px solid var(--color-brand-grayscale-300);
+}
+@media (min-width: 600px) {
+  .tsw-hs-list__row {
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    place-items: initial;
+  }
+}
+
+.tsw-hs-list__row:first-child {
+  border: 0;
+}
+
+.tsw-hs-list__row a {
+  text-decoration: none;
+  color: var(--hs-list-highlight-color);
+}
+
+.tsw-hs-list__row--desktop {
+  display: none;
+}
+@media (min-width: 600px) {
+  .tsw-hs-list__row--desktop {
+    display: block;
+  }
+}
+.tsw-hs-list__row--mobile {
+  display: block;
+}
+@media (min-width: 600px) {
+  .tsw-hs-list__row--mobile {
+    display: none;
+  }
+}
+
+.tsw-hs-list-empty {
+  display: none;
+  flex: 1;
+}
+.tsw-hs-list-empty.active {
+  display: block;
+}
+
+/* List svg icon styles */
+
+.tsw-hs-list-svg-icons {
+  display: none;
+}

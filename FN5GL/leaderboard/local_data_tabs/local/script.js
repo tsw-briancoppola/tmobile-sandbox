@@ -355,6 +355,9 @@ const initMap = () => {
   allMapG.forEach((g) => {
     g.setAttribute("tabindex", "0");
 
+    console.log(g.dataset.mapRegion);
+    console.log(currentRegion);
+
     if (g.dataset.mapRegion === currentRegion) {
       g.classList.add("active");
     }

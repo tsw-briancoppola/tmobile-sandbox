@@ -35,26 +35,6 @@
   background-color: var(--fn5gl-background-color);
 }
 
-/* Reset - local only (don't use in AEM) */
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  font-size: 62.5%;
-}
-
-body {
-  height: 100vh;
-  font-size: 1.6rem;
-  font-family: "Arial", sans-serif;
-  overflow-x: hidden;
-  margin: 0;
-}
-
 /* Reset */
 
 h1,
@@ -66,7 +46,7 @@ div {
   line-height: normal;
 }
 
-ul {
+ol {
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -122,7 +102,7 @@ a:visited {
 
 .tsw-fn5gl-container {
   position: relative;
-  padding: 3rem;
+  padding: 3rem 0;
   max-width: 120rem;
   min-height: 80rem;
   margin: 0 auto;
@@ -193,12 +173,18 @@ a:visited {
 }
 
 .tsw-fn5gl-leaderboard-data {
-  display: grid;
+  display: flex;
+  flex-direction: column;
+  flex-flow: column-reverse;
   gap: 4rem;
 }
 @media (min-width: 768px) {
   .tsw-fn5gl-leaderboard-data {
-    grid-template-columns: repeat(2, 1fr);
+    flex-direction: row;
+    flex-flow: row;
+  }
+  .tsw-fn5gl-leaderboard-data > div {
+    flex: 1 1 calc(33.333% - 16px);
   }
 }
 .tsw-fn5gl-leaderboard-data > div {

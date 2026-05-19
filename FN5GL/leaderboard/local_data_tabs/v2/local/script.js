@@ -3,20 +3,17 @@
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 // const DATA_SOURCE = "https://test-fn5gl.teamdigital.com/api/verified-schools";
-// const DATA_SOURCE_PREVIOUS = highSchoolDataPrevious;
 let schoolData;
 let schoolDataPrevious;
 
 // DOM references
-const fn5glContainer = document.querySelector("#tsw-fn5gl-test").querySelector("xpr-npi-content").shadowRoot;
-
-const fn5glLeaderboard = fn5glContainer.querySelector(".tsw-fn5gl-leaderboard");
-const fn5glRegionTabs = fn5glContainer.querySelector(".tsw-fn5gl-leaderboard-tablist");
-const fn5glRegions = fn5glContainer.querySelector(".tsw-fn5gl-leaderboard-regions");
-const fn5glLoader = fn5glContainer.querySelector(".tsw-fn5gl-loader");
-const fn5glUSAMap = fn5glContainer.querySelector(".tsw-fn5gl-usa-map");
-const fn5glUSAMapRegions = fn5glContainer.querySelectorAll(".tsw-fn5gl-usa-map g");
-const fn5glTooltip = fn5glContainer.querySelector(".tsw-tooltip");
+const fn5glLeaderboard = document.querySelector(".tsw-fn5gl-leaderboard");
+const fn5glRegionTabs = document.querySelector(".tsw-fn5gl-tablist-container");
+const fn5glRegions = document.querySelector(".tsw-fn5gl-leaderboard-regions");
+const fn5glLoader = document.querySelector(".tsw-fn5gl-loader");
+const fn5glUSAMap = document.querySelector(".tsw-fn5gl-usa-map");
+const fn5glUSAMapRegions = document.querySelectorAll(".tsw-fn5gl-usa-map g");
+const fn5glTooltip = document.querySelector(".tsw-tooltip");
 
 // Region config
 const REGIONS_ORDER = ["West", "Midwest", "South", "East"];
@@ -29,12 +26,12 @@ let currentRegion = REGIONS_ORDER[0];
 // =-=-=-=-=
 
 // Add votes property to each school object
-const updateSchoolData = (data) => {
-  return data.map((d) => ({
-    ...d,
-    votes: 0,
-  }));
-};
+// const updateSchoolData = (data) => {
+//   return data.map((d) => ({
+//     ...d,
+//     votes: 0,
+//   }));
+// };
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-
 // Render leaderboard functions
@@ -42,13 +39,18 @@ const updateSchoolData = (data) => {
 
 const renderTrend = (trendValue) => {
   if (trendValue === 0) {
-    return `<span class="gray">—</span>`;
+    return `<span role="status" aria-label="Rank unchanged" class="gray">—</span>`;
   }
 
   const isUp = trendValue > 0;
+  const absTrendValue = Math.abs(trendValue);
+
+  const places = absTrendValue === 1 ? "place" : "places";
+  const trendDescription = `Moved ${isUp ? "up" : "down"} ${absTrendValue} ${places}`;
+
   return `
-    <span class="${isUp ? "green" : "red"}">
-      ${isUp ? "▲" : "▼"} ${Math.abs(trendValue)}
+    <span role="status" class="${isUp ? "green" : "red"}" aria-label="${trendDescription}">
+      <span aria-hidden="true">${isUp ? "▲" : "▼"}</span> ${absTrendValue}
     </span>`;
 };
 
@@ -83,7 +85,7 @@ const renderRegion = (region, schools) => {
   return `
     <div class="tsw-fn5gl-region" role="tabpanel" aria-labelledby="${region}" ${region !== currentRegion ? "hidden" : ""}>
       <h3>${region}</h3>
-      <ul class="tsw-fn5gl-region-list">${schoolRows || "No schools yet"}</ul>
+      <ol role="list" class="tsw-fn5gl-region-list">${schoolRows || "No schools yet"}</ol>
     </div>
   `;
 };
@@ -200,6 +202,12 @@ fn5glLeaderboard.addEventListener("click", (event) => {
 
   const schoolId = button.dataset.voteId;
   addVote(schoolId);
+
+  // Restore focus to the clicked vote button
+  const newButton = fn5glLeaderboard.querySelector(`[data-vote-id="${schoolId}"]`);
+  if (newButton) {
+    newButton.focus();
+  }
 });
 
 // Clicking on tabs and map
@@ -230,7 +238,7 @@ fn5glUSAMap.addEventListener("focusin", (event) => {
 
   focusOverlay.innerHTML = "";
 
-  // Create clone of state group that will have focus stroke
+  // Create clone of state group that will render focus stroke
   const pathClone = mapGroup.cloneNode(true);
   pathClone.removeAttribute("tabindex");
   pathClone.removeAttribute("role");
@@ -341,12 +349,18 @@ const initTabs = () => {
     `;
   }).join("");
 
-  fn5glRegionTabs.innerHTML = allTabs;
+  const allTabsDiv = `
+    <div class="tsw-fn5gl-tablist" role="tablist" aria-label="Friday Night Lights 5G High School regions">${allTabs}</div>
+  `;
+
+  fn5glRegionTabs.innerHTML = allTabsDiv;
 };
 
 const initMap = () => {
   fn5glUSAMap.innerHTML = usaMapSVG;
   const fn5glUSAMapSVG = fn5glUSAMap.querySelector("#tsw-fn5gl-usa-map-svg");
+  fn5glUSAMapSVG.setAttribute("aria-hidden", "true");
+  fn5glUSAMapSVG.setAttribute("tabindex", "-1");
 
   focusOverlay = document.createElementNS("http://www.w3.org/2000/svg", "g");
   focusOverlay.classList.add("tsw-focus-overlay");
@@ -356,9 +370,6 @@ const initMap = () => {
   const allMapG = fn5glUSAMap.querySelectorAll("g");
   allMapG.forEach((g) => {
     g.setAttribute("tabindex", "0");
-
-    console.log(g.dataset.mapRegion);
-    console.log(currentRegion);
 
     if (g.dataset.mapRegion === currentRegion) {
       g.classList.add("active");

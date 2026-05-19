@@ -27,12 +27,12 @@ let currentRegion = REGIONS_ORDER[0];
 // =-=-=-=-=
 
 // Add votes property to each school object
-const updateSchoolData = (data) => {
-  return data.map((d) => ({
-    ...d,
-    votes: 0,
-  }));
-};
+// const updateSchoolData = (data) => {
+//   return data.map((d) => ({
+//     ...d,
+//     votes: 0,
+//   }));
+// };
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-
 // Render leaderboard functions
@@ -40,13 +40,18 @@ const updateSchoolData = (data) => {
 
 const renderTrend = (trendValue) => {
   if (trendValue === 0) {
-    return `<span class="gray">—</span>`;
+    return `<span role="status" aria-label="Rank unchanged" class="gray">—</span>`;
   }
 
   const isUp = trendValue > 0;
+  const absTrendValue = Math.abs(trendValue);
+
+  const places = absTrendValue === 1 ? "place" : "places";
+  const trendDescription = `Moved ${isUp ? "up" : "down"} ${absTrendValue} ${places}`;
+
   return `
-    <span class="${isUp ? "green" : "red"}">
-      ${isUp ? "▲" : "▼"} ${Math.abs(trendValue)}
+    <span role="status" class="${isUp ? "green" : "red"}" aria-label="${trendDescription}">
+      <span aria-hidden="true">${isUp ? "▲" : "▼"}</span> ${absTrendValue}
     </span>`;
 };
 
@@ -81,7 +86,7 @@ const renderRegion = (region, schools) => {
   return `
     <div class="tsw-fn5gl-region" role="tabpanel" aria-labelledby="${region}" ${region !== currentRegion ? "hidden" : ""}>
       <h3>${region}</h3>
-      <ul class="tsw-fn5gl-region-list">${schoolRows || "No schools yet"}</ul>
+      <ol role="list" class="tsw-fn5gl-region-list">${schoolRows || "No schools yet"}</ol>
     </div>
   `;
 };
@@ -198,6 +203,12 @@ fn5glLeaderboard.addEventListener("click", (event) => {
 
   const schoolId = button.dataset.voteId;
   addVote(schoolId);
+
+  // Restore focus to the clicked vote button
+  const newButton = fn5glLeaderboard.querySelector(`[data-vote-id="${schoolId}"]`);
+  if (newButton) {
+    newButton.focus();
+  }
 });
 
 // Clicking on tabs and map
@@ -354,9 +365,6 @@ const initMap = () => {
   const allMapG = fn5glUSAMap.querySelectorAll("g");
   allMapG.forEach((g) => {
     g.setAttribute("tabindex", "0");
-
-    console.log(g.dataset.mapRegion);
-    console.log(currentRegion);
 
     if (g.dataset.mapRegion === currentRegion) {
       g.classList.add("active");

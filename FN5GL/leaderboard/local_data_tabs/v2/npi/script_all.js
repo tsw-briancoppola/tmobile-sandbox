@@ -1417,7 +1417,6 @@ const highSchoolData = [
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
 // const DATA_SOURCE = "https://test-fn5gl.teamdigital.com/api/verified-schools";
-// const DATA_SOURCE_PREVIOUS = highSchoolDataPrevious;
 let schoolData;
 let schoolDataPrevious;
 
@@ -1425,7 +1424,7 @@ let schoolDataPrevious;
 const fn5glContainer = document.querySelector("#tsw-fn5gl-test").querySelector("xpr-npi-content").shadowRoot;
 
 const fn5glLeaderboard = fn5glContainer.querySelector(".tsw-fn5gl-leaderboard");
-const fn5glRegionTabs = fn5glContainer.querySelector(".tsw-fn5gl-leaderboard-tablist");
+const fn5glRegionTabs = fn5glContainer.querySelector(".tsw-fn5gl-tablist-container");
 const fn5glRegions = fn5glContainer.querySelector(".tsw-fn5gl-leaderboard-regions");
 const fn5glLoader = fn5glContainer.querySelector(".tsw-fn5gl-loader");
 const fn5glUSAMap = fn5glContainer.querySelector(".tsw-fn5gl-usa-map");
@@ -1655,7 +1654,7 @@ fn5glUSAMap.addEventListener("focusin", (event) => {
 
   focusOverlay.innerHTML = "";
 
-  // Create clone of state group that will have focus stroke
+  // Create clone of state group that will render focus stroke
   const pathClone = mapGroup.cloneNode(true);
   pathClone.removeAttribute("tabindex");
   pathClone.removeAttribute("role");
@@ -1766,12 +1765,18 @@ const initTabs = () => {
     `;
   }).join("");
 
-  fn5glRegionTabs.innerHTML = allTabs;
+  const allTabsDiv = `
+    <div class="tsw-fn5gl-tablist" role="tablist" aria-label="Friday Night Lights 5G High School regions">${allTabs}</div>
+  `;
+
+  fn5glRegionTabs.innerHTML = allTabsDiv;
 };
 
 const initMap = () => {
   fn5glUSAMap.innerHTML = usaMapSVG;
   const fn5glUSAMapSVG = fn5glUSAMap.querySelector("#tsw-fn5gl-usa-map-svg");
+  fn5glUSAMapSVG.setAttribute("aria-hidden", "true");
+  fn5glUSAMapSVG.setAttribute("tabindex", "-1");
 
   focusOverlay = document.createElementNS("http://www.w3.org/2000/svg", "g");
   focusOverlay.classList.add("tsw-focus-overlay");

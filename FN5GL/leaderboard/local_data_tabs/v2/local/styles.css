@@ -180,7 +180,7 @@ a:visited {
   border-bottom: 1px solid var(--color-brand-grayscale-400);
   background-color: transparent;
 }
-@media (min-width: 414px) {
+@media (min-width: 480px) {
   .tsw-fn5gl-tablist {
     justify-content: left;
   }
@@ -225,7 +225,7 @@ a:visited {
   display: flex;
   flex-direction: column;
   flex-flow: column-reverse;
-  gap: 4rem;
+  gap: clamp(1.5rem, 5vw, 8rem);
 }
 @media (min-width: 768px) {
   .tsw-fn5gl-leaderboard-data {

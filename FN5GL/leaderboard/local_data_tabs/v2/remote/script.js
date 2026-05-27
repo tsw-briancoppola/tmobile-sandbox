@@ -2,20 +2,18 @@
 // Data sources and global variables
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-// const DATA_SOURCE = "https://test-fn5gl.teamdigital.com/api/verified-schools";
+const DATA_SOURCE = "https://test-fn5gl.teamdigital.com/api/verified-schools";
 let schoolData;
 let schoolDataPrevious;
 
 // DOM references
-const fn5glContainer = document.querySelector("#tsw-fn5gl-test").querySelector("xpr-npi-content").shadowRoot;
-
-const fn5glLeaderboard = fn5glContainer.querySelector(".tsw-fn5gl-leaderboard");
-const fn5glRegionTabs = fn5glContainer.querySelector(".tsw-fn5gl-tablist-container");
-const fn5glRegions = fn5glContainer.querySelector(".tsw-fn5gl-leaderboard-regions");
-const fn5glLoader = fn5glContainer.querySelector(".tsw-fn5gl-loader");
-const fn5glUSAMap = fn5glContainer.querySelector(".tsw-fn5gl-usa-map");
-const fn5glUSAMapRegions = fn5glContainer.querySelectorAll(".tsw-fn5gl-usa-map g");
-const fn5glTooltip = fn5glContainer.querySelector(".tsw-tooltip");
+const fn5glLeaderboard = document.querySelector(".tsw-fn5gl-leaderboard");
+const fn5glRegionTabs = document.querySelector(".tsw-fn5gl-tablist-container");
+const fn5glRegions = document.querySelector(".tsw-fn5gl-leaderboard-regions");
+const fn5glLoader = document.querySelector(".tsw-fn5gl-loader");
+const fn5glUSAMap = document.querySelector(".tsw-fn5gl-usa-map");
+const fn5glUSAMapRegions = document.querySelectorAll(".tsw-fn5gl-usa-map g");
+const fn5glTooltip = document.querySelector(".tsw-tooltip");
 
 // Region config
 const REGIONS_ORDER = ["West", "Midwest", "South", "East"];
@@ -28,12 +26,12 @@ let currentRegion = REGIONS_ORDER[0];
 // =-=-=-=-=
 
 // Add votes property to each school object
-// const updateSchoolData = (data) => {
-//   return data.map((d) => ({
-//     ...d,
-//     votes: 0,
-//   }));
-// };
+const updateSchoolData = (data) => {
+  return data.map((d) => ({
+    ...d,
+    votes: 0,
+  }));
+};
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-
 // Render leaderboard functions
@@ -362,8 +360,7 @@ const initTabs = () => {
 const initMap = () => {
   fn5glUSAMap.innerHTML = usaMapSVG;
   const fn5glUSAMapSVG = fn5glUSAMap.querySelector("#tsw-fn5gl-usa-map-svg");
-  // Hides map from screen readers but allows child regions to be focusable
-  fn5glUSAMapSVG.setAttribute("inert", "");
+  fn5glUSAMapSVG.setAttribute("aria-hidden", "true");
   fn5glUSAMapSVG.setAttribute("tabindex", "-1");
 
   focusOverlay = document.createElementNS("http://www.w3.org/2000/svg", "g");
@@ -397,15 +394,36 @@ const renderUI = (isLoading) => {
   }
 };
 
-const init = () => {
-  schoolData = structuredClone(highSchoolData);
-  schoolDataPrevious = structuredClone(highSchoolData);
-
+// Pull data from API
+const fetchData = async (url) => {
   let isLoading = true;
-  setTimeout(() => {
-    isLoading = false;
-    renderUI(isLoading);
-  }, 1500);
+
+  try {
+    // renderUI(isLoading);
+
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const data = await response.json();
+    console.log(data);
+
+    schoolData = structuredClone(data);
+    schoolDataPrevious = structuredClone(data);
+    schoolData = updateSchoolData(schoolData);
+    schoolDataPrevious = updateSchoolData(schoolDataPrevious);
+  } catch (error) {
+    console.error("Fetch error:", error);
+  } finally {
+    setTimeout(() => {
+      isLoading = false;
+      renderUI(isLoading);
+    }, 2000);
+  }
+};
+
+const init = () => {
+  fetchData(DATA_SOURCE);
 };
 
 init();

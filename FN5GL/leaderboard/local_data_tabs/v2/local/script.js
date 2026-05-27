@@ -91,6 +91,7 @@ const renderRegion = (region, schools) => {
 };
 
 const renderAllRegions = () => {
+  // Create new object that groups the schools by region
   const grouped = Object.groupBy(schoolData, (school) => school.region);
 
   // const allRegionsHTML = REGIONS_ORDER.map((region) => {
@@ -359,7 +360,8 @@ const initTabs = () => {
 const initMap = () => {
   fn5glUSAMap.innerHTML = usaMapSVG;
   const fn5glUSAMapSVG = fn5glUSAMap.querySelector("#tsw-fn5gl-usa-map-svg");
-  fn5glUSAMapSVG.setAttribute("aria-hidden", "true");
+  // Hides map from screen readers but allows child regions to be focusable
+  fn5glUSAMapSVG.setAttribute("inert", "");
   fn5glUSAMapSVG.setAttribute("tabindex", "-1");
 
   focusOverlay = document.createElementNS("http://www.w3.org/2000/svg", "g");

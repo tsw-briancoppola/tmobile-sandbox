@@ -1424,9 +1424,10 @@ let schoolDataPrevious;
 const fn5glContainer = document.querySelector("#tsw-fn5gl-test").querySelector("xpr-npi-content").shadowRoot;
 
 const fn5glLeaderboard = fn5glContainer.querySelector(".tsw-fn5gl-leaderboard");
-const fn5glRegionTabs = fn5glContainer.querySelector(".tsw-fn5gl-tablist-container");
+const fn5glRegionTabList = fn5glContainer.querySelector(".tsw-fn5gl-tablist");
 const fn5glRegions = fn5glContainer.querySelector(".tsw-fn5gl-leaderboard-regions");
-const fn5glLoader = fn5glContainer.querySelector(".tsw-fn5gl-loader");
+const fn5glLoaders = fn5glContainer.querySelectorAll(".tsw-fn5gl-loader");
+const fn5glUSAMapContainer = fn5glContainer.querySelector(".tsw-fn5gl-usa-map-container");
 const fn5glUSAMap = fn5glContainer.querySelector(".tsw-fn5gl-usa-map");
 const fn5glUSAMapRegions = fn5glContainer.querySelectorAll(".tsw-fn5gl-usa-map g");
 const fn5glTooltip = fn5glContainer.querySelector(".tsw-tooltip");
@@ -1486,7 +1487,7 @@ const renderRegion = (region, schools) => {
         <li class="tsw-fn5gl-region-row">
           <div class="tsw-fn5gl-region-rank">${index + 1}</div>
           <div class="tsw-fn5gl-region-info">
-            <div class="tsw-fn5gl-region-school">${school.name}</div>
+            <div class="tsw-fn5gl-region-school"><a href="#">${school.name}</a></div>
             <div class="tsw-fn5gl-region-location">${school.city}, ${school.state}</div>
           </div>
           <div class="tsw-fn5gl-region-votes">${school.votes.toLocaleString("en-US")}</div>
@@ -1500,13 +1501,14 @@ const renderRegion = (region, schools) => {
 
   return `
     <div class="tsw-fn5gl-region" role="tabpanel" aria-labelledby="${region}" ${region !== currentRegion ? "hidden" : ""}>
-      <h3>${region}</h3>
+      <!-- <h3>${region}</h3> -->
       <ol role="list" class="tsw-fn5gl-region-list">${schoolRows || "No schools yet"}</ol>
     </div>
   `;
 };
 
 const renderAllRegions = () => {
+  // Create new object that groups the schools by region
   const grouped = Object.groupBy(schoolData, (school) => school.region);
 
   // const allRegionsHTML = REGIONS_ORDER.map((region) => {
@@ -1546,14 +1548,18 @@ const handleTooltip = (target, isHovering) => {
 
   // Build tooltip
   const rect = target.getBoundingClientRect();
-  const containerRect = fn5glUSAMap.getBoundingClientRect();
+  const mapRect = fn5glUSAMap.getBoundingClientRect();
+  const containerRect = fn5glUSAMapContainer.getBoundingClientRect();
   fn5glTooltip.innerHTML = `
     <p class="tsw-tooltip-state">${region}</p>
   `;
 
+  const mapOffsetTop = mapRect.top - containerRect.top;
+  const mapOffsetLeft = mapRect.left - containerRect.left;
+
   // Position tooltip on map
-  fn5glTooltip.style.left = `${rect.left - containerRect.left + rect.width / 2}px`;
-  fn5glTooltip.style.top = `${rect.bottom - containerRect.top - rect.height / 2}px`;
+  fn5glTooltip.style.left = `${rect.left - mapRect.left + rect.width / 2 + mapOffsetLeft}px`;
+  fn5glTooltip.style.top = `${rect.bottom - mapRect.top - rect.height / 2 + mapOffsetTop}px`;
   // Determine whether tooltip should be active
   fn5glTooltip.classList.toggle("active", isHovering);
 };
@@ -1566,7 +1572,7 @@ const toggleRegionHighlight = (regionId, isHovering) => {
   if (regionId === currentRegion) return;
 
   const mapGroup = fn5glUSAMap.querySelector(`g[data-map-region="${regionId}"]`);
-  const tab = fn5glRegionTabs.querySelector(`button[aria-controls="${regionId}"]`);
+  const tab = fn5glRegionTabList.querySelector(`button[aria-controls="${regionId}"]`);
 
   if (mapGroup) mapGroup.classList.toggle("hover", isHovering);
   if (tab) tab.classList.toggle("hover", isHovering);
@@ -1578,7 +1584,7 @@ const setActiveRegion = (regionId) => {
 
   currentRegion = regionId;
 
-  const allTabs = fn5glRegionTabs.querySelectorAll('[role="tab"]');
+  const allTabs = fn5glRegionTabList.querySelectorAll('[role="tab"]');
   allTabs.forEach((tab) => {
     tab.setAttribute("aria-selected", tab.getAttribute("aria-controls") === regionId);
   });
@@ -1628,7 +1634,7 @@ fn5glLeaderboard.addEventListener("click", (event) => {
 
 // Clicking on tabs and map
 
-fn5glRegionTabs.addEventListener("click", (event) => {
+fn5glRegionTabList.addEventListener("click", (event) => {
   const button = event.target.closest("button");
   if (!button || button.getAttribute("aria-selected") === "true") return;
 
@@ -1691,12 +1697,12 @@ fn5glUSAMap.addEventListener("keyup", (event) => {
 
 // Hover over tabs
 
-fn5glRegionTabs.addEventListener("mouseover", (e) => {
+fn5glRegionTabList.addEventListener("mouseover", (e) => {
   const button = e.target.closest("button");
   if (button) toggleRegionHighlight(button.getAttribute("aria-controls"), true);
 });
 
-fn5glRegionTabs.addEventListener("mouseout", (e) => {
+fn5glRegionTabList.addEventListener("mouseout", (e) => {
   const button = e.target.closest("button");
   if (button) toggleRegionHighlight(button.getAttribute("aria-controls"), false);
 });
@@ -1769,7 +1775,7 @@ const initTabs = () => {
     <div class="tsw-fn5gl-tablist" role="tablist" aria-label="Friday Night Lights 5G High School regions">${allTabs}</div>
   `;
 
-  fn5glRegionTabs.innerHTML = allTabsDiv;
+  fn5glRegionTabList.innerHTML = allTabs;
 };
 
 const initMap = () => {
@@ -1796,17 +1802,37 @@ const initMap = () => {
 
 const renderUI = (isLoading) => {
   if (isLoading) {
-    fn5glLoader.classList.remove("hidden");
-    fn5glLeaderboard.classList.add("hidden");
+    fn5glLoaders.forEach((loader) => loader.classList.remove("hidden"));
+    fn5glRegionTabList.classList.add("hidden");
+    fn5glRegions.classList.add("hidden");
+    fn5glUSAMap.classList.add("hidden");
   }
-  if (!isLoading && schoolData) {
-    fn5glLoader.classList.add("hidden");
-    fn5glLeaderboard.classList.remove("hidden");
 
+  if (!isLoading && schoolData) {
     setOnLoadRegion();
-    renderAllRegions();
-    initTabs();
-    initMap();
+
+    // Tabs first
+    setTimeout(() => {
+      initTabs();
+      fn5glRegionTabList.classList.remove("hidden");
+    }, 0);
+
+    // Regions second
+    setTimeout(() => {
+      renderAllRegions();
+      fn5glRegions.classList.remove("hidden");
+    }, 150);
+
+    // Map third
+    setTimeout(() => {
+      initMap();
+      fn5glUSAMap.classList.remove("hidden");
+    }, 300);
+
+    // Hide loaders after everything is done
+    setTimeout(() => {
+      fn5glLoaders.forEach((loader) => loader.classList.add("hidden"));
+    }, 300);
   }
 };
 
@@ -1815,6 +1841,8 @@ const init = () => {
   schoolDataPrevious = structuredClone(highSchoolData);
 
   let isLoading = true;
+  renderUI(isLoading);
+
   setTimeout(() => {
     isLoading = false;
     renderUI(isLoading);

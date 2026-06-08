@@ -386,25 +386,37 @@ const initMap = () => {
 
 const renderUI = (isLoading) => {
   if (isLoading) {
-    fn5glLoaders.forEach((loader) => {
-      loader.classList.remove("hidden");
-    });
+    fn5glLoaders.forEach((loader) => loader.classList.remove("hidden"));
     fn5glRegionTabList.classList.add("hidden");
     fn5glRegions.classList.add("hidden");
     fn5glUSAMap.classList.add("hidden");
   }
-  if (!isLoading && schoolData) {
-    fn5glLoaders.forEach((loader) => {
-      loader.classList.add("hidden");
-    });
-    fn5glRegionTabList.classList.remove("hidden");
-    fn5glRegions.classList.remove("hidden");
-    fn5glUSAMap.classList.remove("hidden");
 
+  if (!isLoading && schoolData) {
     setOnLoadRegion();
-    renderAllRegions();
-    initTabs();
-    initMap();
+
+    // Tabs first
+    setTimeout(() => {
+      initTabs();
+      fn5glRegionTabList.classList.remove("hidden");
+    }, 0);
+
+    // Regions second
+    setTimeout(() => {
+      renderAllRegions();
+      fn5glRegions.classList.remove("hidden");
+    }, 150);
+
+    // Map third
+    setTimeout(() => {
+      initMap();
+      fn5glUSAMap.classList.remove("hidden");
+    }, 300);
+
+    // Hide loaders after everything is done
+    setTimeout(() => {
+      fn5glLoaders.forEach((loader) => loader.classList.add("hidden"));
+    }, 300);
   }
 };
 

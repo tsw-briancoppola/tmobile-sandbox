@@ -11,7 +11,6 @@
 
     <!-- CSS link -->
     <link rel="stylesheet" href="styles.css" type="text/css" />
-    <!-- <link rel="stylesheet" href="@tmobile/tmobile-digital-design-system/dist/tdds.css" /> -->
 
     <title>[* FN5GL leaderboard test *]</title>
   </head>
@@ -19,14 +18,22 @@
   <body>
     <div class="tsw-fn5gl-container">
       <div class="tsw-fn5gl-leaderboard">
-        <div class="tsw-fn5gl-tablist-container">
-          <div
-            class="tsw-fn5gl-tablist fade-item"
-            role="tablist"
-            aria-label="Friday Night Lights 5G High School regions"
-          >
-            <!-- Tabs will be added to this container -->
-          </div>
+        <!-- State info modal -->
+        <div class="tsw-modal-overlay">
+          <dialog class="tsw-modal">
+            <button class="tsw-modal-close" aria-label="Close">
+              <svg>
+                <use href="#tsw-modal-close-svg"></use>
+              </svg>
+            </button>
+            <div class="tsw-modal-main">
+              <!-- JS injects modal content here -->
+            </div>
+          </dialog>
+        </div>
+
+        <div class="tsw-fn5gl-tablist fade-item" role="tablist" aria-label="Friday Night Lights 5G High School regions">
+          <!-- Tabs will be added to this container -->
         </div>
 
         <div class="tsw-fn5gl-leaderboard-data">
@@ -36,7 +43,7 @@
             </div>
             <div class="tsw-fn5gl-loader fade-item">
               <svg>
-                <use xlink:href="#tsw-fn5gl-loader-svg" />
+                <use href="#tsw-fn5gl-loader-svg" />
               </svg>
             </div>
           </div>
@@ -49,7 +56,7 @@
             </div>
             <div class="tsw-fn5gl-loader fade-item">
               <svg>
-                <use xlink:href="#tsw-fn5gl-loader-svg" />
+                <use href="#tsw-fn5gl-loader-svg" />
               </svg>
             </div>
           </div>
@@ -66,6 +73,9 @@
           stroke-width="4"
           stroke-linecap="round"
         />
+      </svg>
+      <svg id="tsw-modal-close-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+        <path d="m336-280-56-56 144-144-144-143 56-56 144 144 143-144 56 56-144 143 144 144-56 56-143-144-144 144Z" />
       </svg>
     </div>
   </body>

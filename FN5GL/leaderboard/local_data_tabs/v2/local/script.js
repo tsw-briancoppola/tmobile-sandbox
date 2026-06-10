@@ -15,15 +15,25 @@ const fn5glUSAMapContainer = document.querySelector(".tsw-fn5gl-usa-map-containe
 const fn5glUSAMap = document.querySelector(".tsw-fn5gl-usa-map");
 const fn5glTooltip = document.querySelector(".tsw-tooltip");
 
+const fn5glModal = document.querySelector(".tsw-modal");
+const fn5glModalOverlay = document.querySelector(".tsw-modal-overlay");
+const fn5glModalMain = document.querySelector(".tsw-modal-main");
+const fn5glModalClose = document.querySelector(".tsw-modal-close");
+
 // Region config
 const REGIONS_ORDER = ["West", "Midwest", "South", "East"];
 
 // Tab state - default
 let currentRegion = REGIONS_ORDER[0];
 
-// Focus overlay and state
+// Focus overlay element
 let focusOverlay = null;
-let lastFocusedLink = null;
+
+// Modal state
+let modalState = {
+  trigger: null,
+  focusableElements: [],
+};
 
 // =-=-=-=-=
 // Data prep
@@ -126,25 +136,80 @@ const renderAllRegions = () => {
 // Modal functions
 // =-=-=-=-=-=-=-=
 
-// Modal elements and focus trapping
+// Modal functions and event listeners
 
-const modalOverlay = document.querySelector(".tsw-modal-overlay");
-const modal = modalOverlay.querySelector(".tsw-modal");
-const modalMain = modalOverlay.querySelector(".tsw-modal-main");
-modal.setAttribute("tabindex", "-1"); // Needed for focus trapping in Safari/Mac
+const openModal = (schoolId, triggerElement) => {
+  const school = schoolData.find((s) => s.id === Number(schoolId));
+  if (!school) return;
 
-const closeButton = document.querySelector(".tsw-modal-close");
-closeButton.setAttribute("tabindex", "0"); // Needed for focus trapping in Safari/Mac
+  fn5glModalMain.innerHTML = `
+    <p><span class="tsw-modal-state">${school.name}</span></p>
+    <p><span class="tsw-modal-header">Total votes:</span><br />
+      ${school.votes}
+    </p>
+  `;
 
-const focusableElements = [
-  ...modal.querySelectorAll(`[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])`),
-];
+  modalState.trigger = triggerElement;
+  modalState.focusableElements = [
+    ...fn5glModal.querySelectorAll(`a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])`),
+  ];
 
-const first = focusableElements[0];
-const last = focusableElements[focusableElements.length - 1];
+  fn5glModal.show();
+  fn5glModal.classList.add("is-visible");
+  fn5glModalOverlay.classList.add("is-visible");
+  // modalState.focusableElements[0]?.focus();
+  fn5glModal.focus();
+};
 
-modal.addEventListener("keydown", (event) => {
+const closeModal = () => {
+  fn5glModal.classList.remove("is-visible");
+  fn5glModalOverlay.classList.remove("is-visible");
+
+  fn5glModalOverlay.addEventListener(
+    "transitionend",
+    () => {
+      fn5glModal.close();
+      modalState.trigger?.focus();
+      modalState = { trigger: null, focusableElements: [] };
+    },
+    { once: true },
+  );
+};
+
+fn5glModalOverlay.addEventListener("click", (event) => {
+  if (event.target === event.currentTarget) {
+    closeModal(); // Only runs if you click the overlay, not the modal itself
+  }
+});
+
+fn5glModalClose.addEventListener("click", () => {
+  closeModal();
+});
+
+// Close modal via the dialog's native cancel event
+fn5glModal.addEventListener("cancel", (event) => {
+  event.preventDefault();
+  closeModal();
+});
+
+// Modal tabbing and focus trapping
+
+fn5glModal.addEventListener("keydown", (event) => {
   if (event.key !== "Tab") return;
+
+  const { focusableElements } = modalState;
+  if (!focusableElements.length) return;
+
+  const first = focusableElements[0];
+  const last = focusableElements[focusableElements.length - 1];
+
+  // Prevent tabbing out of the modal if there's only one focusable element
+  if (first === last) {
+    if (document.activeElement === first) {
+      event.preventDefault();
+    }
+    return;
+  }
 
   if (event.shiftKey) {
     if (document.activeElement === first) {
@@ -158,54 +223,6 @@ modal.addEventListener("keydown", (event) => {
     }
   }
 });
-
-// Modal functions and event listeners
-
-const modalCloseButton = document.querySelector(".tsw-modal-close");
-
-const openModal = () => {
-  modalOverlay.classList.add("is-visible");
-  modal.focus();
-};
-
-const closeModal = () => {
-  modalOverlay.classList.remove("is-visible");
-  if (focusOverlay) focusOverlay.innerHTML = "";
-
-  if (lastFocusedLink) {
-    lastFocusedLink.focus();
-    lastFocusedLink = null;
-  }
-};
-
-modalOverlay.addEventListener("click", (event) => {
-  if (event.target === event.currentTarget) {
-    closeModal(); // Only runs if you click the overlay, not the modal itself
-  }
-});
-
-modalCloseButton.addEventListener("click", () => {
-  closeModal();
-});
-
-window.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") {
-    closeModal();
-  }
-});
-
-// Modal content
-
-const addContentToModal = (thisSchoolData) => {
-  const modalHTML = `
-    <p><span class="tsw-modal-state">${thisSchoolData.name}</span></p>
-    <p><span class="tsw-modal-header">Total votes:</span><br />
-      ${thisSchoolData.votes}
-    </p>
-  `;
-
-  modalMain.innerHTML = modalHTML;
-};
 
 // =-=-=-=-=-=-=
 // Map functions
@@ -365,28 +382,28 @@ fn5glUSAMap.addEventListener("keyup", (event) => {
 
 // Hover over tabs
 
-fn5glRegionTabList.addEventListener("mouseover", (e) => {
-  const button = e.target.closest("button");
+fn5glRegionTabList.addEventListener("mouseover", (event) => {
+  const button = event.target.closest("button");
   if (button) toggleRegionHighlight(button.getAttribute("aria-controls"), true);
 });
 
-fn5glRegionTabList.addEventListener("mouseout", (e) => {
-  const button = e.target.closest("button");
+fn5glRegionTabList.addEventListener("mouseout", (event) => {
+  const button = event.target.closest("button");
   if (button) toggleRegionHighlight(button.getAttribute("aria-controls"), false);
 });
 
 // Hover over map
 
-fn5glUSAMap.addEventListener("mouseover", (e) => {
-  const group = e.target.closest("g[data-map-region]");
+fn5glUSAMap.addEventListener("mouseover", (event) => {
+  const group = event.target.closest("g[data-map-region]");
   if (group) {
     toggleRegionHighlight(group.dataset.mapRegion, true);
     handleTooltip(group, true);
   }
 });
 
-fn5glUSAMap.addEventListener("mouseout", (e) => {
-  const group = e.target.closest("g[data-map-region]");
+fn5glUSAMap.addEventListener("mouseout", (event) => {
+  const group = event.target.closest("g[data-map-region]");
   if (group) {
     toggleRegionHighlight(group.dataset.mapRegion, false);
     handleTooltip(group, false);
@@ -395,25 +412,14 @@ fn5glUSAMap.addEventListener("mouseout", (e) => {
 
 // Open modal when high school is clicked
 
-fn5glRegions.addEventListener("click", (e) => {
-  if (e.target.tagName === "A") {
-    const thisSchoolId = Number(e.target.dataset.schoolId);
-    const thisSchoolData = schoolData.find((school) => school.id === thisSchoolId);
+fn5glLeaderboard.addEventListener("click", (event) => {
+  const link = event.target.closest(".tsw-fn5gl-region-school a");
+  if (!link) return;
 
-    lastFocusedLink = e.target;
-    addContentToModal(thisSchoolData);
-    openModal();
-  }
+  event.preventDefault();
+  const thisSchoolId = Number(event.target.dataset.schoolId);
+  openModal(thisSchoolId, link);
 });
-
-// state.addEventListener("click", (e) => {
-//   if (window.innerWidth < 768) return;
-
-//   lastFocusedLink = mapUSA.querySelector(`path[class*="_${stateCode}"]`);
-//   openModal();
-//   addContentToModal(thisStateData);
-//   handleTooltip(thisStateData, false, e);
-// });
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 // Event listener for viewport changes

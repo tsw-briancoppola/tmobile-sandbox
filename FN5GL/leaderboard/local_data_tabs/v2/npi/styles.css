@@ -20,22 +20,41 @@
   --color-brand-grayscale-white: #fff;
 
   --color-focus-stroke: #005fcc;
-  /* --color-focus-stroke: var(--color-brand-primary-600); */
   --color-trend-red: #d20d00;
   --color-trend-green: #008110;
 
   --color-border: var(--color-brand-grayscale-400);
-  /* --color-overlay: rgba(0, 0, 0, 0.4); */
   --color-input-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+  --color-overlay: rgba(0, 0, 0, 0.4);
 
   font-family: var(--tsw-font-main);
 
   --fn5gl-map-active-color: var(--color-brand-primary-400);
   --fn5gl-map-highlight-color: var(--color-brand-primary-600);
-  --fn5gl-link-color: var(--color-brand-primary-400);
+  --fn5gl-map-data-padding: 2rem;
 
-  color: var(--fn5gl-text-color);
-  background-color: var(--fn5gl-background-color);
+  --fn5gl-link-color: var(--color-brand-primary-400);
+}
+
+/* Reset - local only (don't use in AEM) */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  height: 100vh;
+  font-size: 1.6rem;
+  font-family: "Arial", sans-serif;
+  overflow-x: hidden;
+  margin: 0;
+  background-color: var(--color-brand-grayscale-200);
 }
 
 /* Reset */
@@ -79,7 +98,6 @@ a:visited {
 
 .magenta-button {
   cursor: pointer;
-  align-self: flex-start;
   padding: 0.7rem 1rem;
   font-size: 1.5rem;
   /* font-weight: 600; */
@@ -131,6 +149,8 @@ a:visited {
   flex: 1;
   top: 0;
   bottom: 0;
+  left: 50%;
+  translate: -50% 0;
 }
 .tsw-fn5gl-loader svg {
   width: 52px;
@@ -163,13 +183,11 @@ a:visited {
 
 /* fn5gl tablist styles */
 
-.tsw-fn5gl-tablist-container {
-  min-height: 5.2rem;
-}
 .tsw-fn5gl-tablist {
   display: flex;
   justify-content: space-between;
   gap: clamp(0rem, -2.143rem + 6.696vw, 3rem);
+  min-height: 5.2rem;
   position: relative;
   background-color: transparent;
 }
@@ -274,9 +292,16 @@ a:visited {
     padding: 1.2rem 1.4rem;
   }
 }
+.tsw-fn5gl-region-row-button {
+  max-width: 8rem;
+  align-self: center;
+}
 
 .tsw-fn5gl-region-school {
   margin-bottom: 0.5rem;
+}
+.tsw-fn5gl-region-school a {
+  font-weight: 700;
 }
 
 .tsw-fn5gl-region-location {
@@ -286,10 +311,14 @@ a:visited {
 /* fn5gl USA map styles */
 
 .tsw-fn5gl-usa-map-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 2rem;
   padding: 1rem;
   border: 1px solid var(--color-border);
   background-color: var(--color-brand-grayscale-300);
-  aspect-ratio: 470 / 310;
 }
 @media (min-width: 768px) {
   .tsw-fn5gl-usa-map-container {
@@ -298,10 +327,11 @@ a:visited {
 }
 
 .tsw-fn5gl-usa-map {
-  flex: 1;
+  aspect-ratio: 470 / 310;
 }
 .tsw-fn5gl-usa-map svg {
   width: 100%;
+  outline: none;
 }
 .tsw-fn5gl-usa-map svg g:focus {
   outline: none;
@@ -318,11 +348,37 @@ a:visited {
   stroke: var(--color-brand-grayscale-300);
   transition: fill 0.2s ease-in-out;
 }
-.tsw-usa-map-region.active path {
+.fn5gl-map-region.active path {
   fill: var(--fn5gl-map-active-color);
 }
-.tsw-usa-map-region.hover path {
+.fn5gl-map-region.hover path {
   fill: var(--fn5gl-map-highlight-color);
+}
+
+.tsw-fn5gl-usa-map-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.2rem;
+}
+@media (min-width: 768px) {
+  .tsw-fn5gl-usa-map-stats {
+    gap: 2rem;
+  }
+}
+.tsw-fn5gl-usa-map-stats-box {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.4rem;
+  background-color: var(--color-brand-grayscale-200);
+  border-radius: 1rem;
+}
+.tsw-fn5gl-usa-map-stats-box-stat {
+  font-size: clamp(1.6rem, 1.45rem + 0.73vw, 2rem);
+  font-weight: 600;
+}
+.tsw-fn5gl-usa-map-stats-box-text {
+  font-size: clamp(1.3rem, 1.23rem + 0.36vw, 1.5rem);
 }
 
 /* svg styles */
@@ -376,4 +432,223 @@ a:visited {
   font-size: 1.5rem;
   font-weight: 600;
   white-space: nowrap;
+}
+
+/* =-=-=-=-=-=-=-=-=-=-=-=- */
+/* Modal and overlay styles */
+/* =-=-=-=-=-=-=-=-=-=-=-=- */
+
+.tsw-modal {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 60rem;
+  padding: clamp(2rem, 1.5vw + 1rem, 3rem);
+  margin: 0;
+  font-size: 1.6rem;
+  border: 0;
+  border-radius: 1rem;
+  background-color: var(--color-brand-grayscale-white);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  overflow: visible;
+  z-index: 1001;
+  box-sizing: border-box; /* Needed for AEM */
+}
+.tsw-modal:focus-visible {
+  outline: none;
+}
+.tsw-modal.is-visible {
+  opacity: 1;
+}
+.tsw-modal:not([open]) {
+  pointer-events: none;
+}
+@media (max-width: 768px) {
+  .tsw-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+    transform: none;
+    border-radius: 0;
+    overflow-y: auto;
+  }
+}
+
+/* Modal overlay styles */
+
+.tsw-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--color-overlay);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+  z-index: 1000;
+  visibility: hidden;
+  opacity: 0;
+  transition:
+    opacity 0.5s ease,
+    visibility 0s linear 0.5s;
+}
+.tsw-modal-overlay.is-visible {
+  visibility: visible;
+  opacity: 1;
+  /* On entry, visibility should switch instantly (no delay) */
+  transition-delay: 0s;
+}
+
+.tsw-modal-close {
+  position: absolute;
+  width: 5rem;
+  height: 5rem;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--color-brand-primary-400);
+  color: var(--color-brand-grayscale-white);
+  top: -2rem;
+  right: -2rem;
+  border: 5px solid var(--color-brand-grayscale-white);
+  border-radius: 50%;
+  transition: 0.25s;
+  cursor: pointer;
+}
+.tsw-modal-close:hover,
+.tsw-modal-close:focus {
+  outline: none;
+  border: 1px solid var(--color-brand-primary-400);
+  box-shadow: var(--color-input-shadow);
+}
+@media (max-width: 768px) {
+  .tsw-modal-close {
+    top: 1rem;
+    right: 1rem;
+  }
+}
+
+.tsw-modal-close svg {
+  height: 100%;
+  width: 100%;
+  fill: var(--color-brand-grayscale-white);
+  cursor: pointer;
+}
+
+/* =-=-=-=-=-=-=-=-=-=- */
+/* Modal content styles */
+/* =-=-=-=-=-=-=-=-=-=- */
+
+.tsw-modal-main {
+  display: flex;
+  flex-direction: column;
+  gap: 3.4rem;
+  text-align: left;
+}
+
+.tsw-modal-school-location {
+  font-size: 1.5rem;
+  color: var(--color-brand-grayscale-700);
+}
+
+.tsw-modal-school-name {
+  margin-bottom: 1.4rem;
+}
+.tsw-modal-school-desc-logo {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.4rem;
+}
+@media (min-width: 480px) {
+  .tsw-modal-school-desc-logo {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.tsw-modal-school-description {
+  line-height: 2rem;
+}
+.tsw-modal-school-logo {
+  min-height: 20rem;
+  background-color: #cccccc;
+}
+
+.tsw-modal-school-stats {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.4rem;
+  border-radius: 0.5rem;
+  color: var(--color-brand-grayscale-white);
+  background-color: var(--color-brand-grayscale-900);
+}
+.tsw-modal-school-stats > div {
+  padding-inline: clamp(1rem, 1.502vw + 0.648rem, 2rem);
+}
+
+.tsw-modal-school-stat {
+  text-align: center;
+}
+.tsw-modal-school-stat:first-child {
+  border-right: 1px solid var(--color-brand-grayscale-white);
+}
+.tsw-modal-school-stat-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-brand-primary-400);
+  display: block;
+}
+.tsw-modal-school-stat-button {
+  padding: 1.2rem 1.6rem;
+}
+
+/* Modal home game styles */
+
+.tsw-modal-game {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.tsw-modal-game-title {
+  margin-bottom: 1.4rem;
+}
+
+.tsw-modal-game-details {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-content: center;
+  gap: 2rem;
+}
+@media (min-width: 480px) {
+  .tsw-modal-game-details {
+    grid-template-columns: 1fr 1fr 2fr;
+  }
+}
+
+.tsw-modal-game-detail-value {
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: var(--color-brand-primary-400);
+  display: block;
+}
+
+.tsw-modal-game-image {
+  min-height: 10rem;
+  background-color: #cccccc;
 }

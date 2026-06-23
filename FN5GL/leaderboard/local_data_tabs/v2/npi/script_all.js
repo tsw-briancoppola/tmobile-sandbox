@@ -6,7 +6,7 @@ const usaMapSVG = `<svg
   viewBox="0 0 460 290"
   preserveAspectRatio="xMinYMin"
 >
-  <g class="tsw-usa-map-region" data-map-region="West">
+  <g class="fn5gl-map-region" data-map-region="West">
     <path
       data-map-region="West"
       stroke="#ffffff"
@@ -269,7 +269,7 @@ const usaMapSVG = `<svg
     />
   </g>
 
-  <g class="tsw-usa-map-region" data-map-region="Midwest">
+  <g class="fn5gl-map-region" data-map-region="Midwest">
     <path
       data-map-region="Midwest"
       stroke="#ffffff"
@@ -512,7 +512,7 @@ const usaMapSVG = `<svg
     />
   </g>
 
-  <g class="tsw-usa-map-region" data-map-region="East">
+  <g class="fn5gl-map-region" data-map-region="East">
     <path
       data-map-region="East"
       stroke="#ffffff"
@@ -855,7 +855,7 @@ const usaMapSVG = `<svg
     />
   </g>
 
-  <g class="tsw-usa-map-region" data-map-region="South">
+  <g class="fn5gl-map-region" data-map-region="South">
     <path
       data-map-region="South"
       stroke="#ffffff"
@@ -1097,6 +1097,13 @@ const highSchoolData = [
     state: "WA",
     region: "West",
     votes: 22000,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.",
+    home_game: {
+      stadium_name: "Generic Memorial Stadium",
+      stadium_address: "100 School Rd, Stufftown, WA 98001",
+      datetime: "2026-08-28T19:00:00-07:00",
+    },
   },
   {
     id: 1,
@@ -1105,6 +1112,13 @@ const highSchoolData = [
     state: "WA",
     region: "West",
     votes: 14283,
+    description:
+      "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante.",
+    home_game: {
+      stadium_name: "Bigtime Athletic Complex",
+      stadium_address: "200 Bigtime Blvd, Gadgetville, WA 98002",
+      datetime: "2026-09-04T19:30:00-07:00",
+    },
   },
   {
     id: 2,
@@ -1113,6 +1127,13 @@ const highSchoolData = [
     state: "WA",
     region: "West",
     votes: 17091,
+    description:
+      "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec eu libero sit amet quam egestas semper aenean ultricies mi vitae est.",
+    home_game: {
+      stadium_name: "Badass Field",
+      stadium_address: "300 Warriors Way, Itemburg, WA 98003",
+      datetime: "2026-08-21T18:00:00-07:00",
+    },
   },
   {
     id: 3,
@@ -1121,6 +1142,13 @@ const highSchoolData = [
     state: "WA",
     region: "West",
     votes: 10542,
+    description:
+      "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit. Mauris placerat eleifend leo quisque sit amet est et sapien ullamcorper pharetra.",
+    home_game: {
+      stadium_name: "Standard Stadium",
+      stadium_address: "400 Panthers Dr, Thing Creek, WA 98004",
+      datetime: "2026-09-11T19:00:00-07:00",
+    },
   },
   {
     id: 4,
@@ -1129,6 +1157,13 @@ const highSchoolData = [
     state: "WA",
     region: "West",
     votes: 13219,
+    description:
+      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti. Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur. Vestibulum erat wisi condimentum sed commodo vitae ornare sit amet wisi.",
+    home_game: {
+      stadium_name: "Typical Tiger Stadium",
+      stadium_address: "500 Tigers Ln, Object City, WA 98005",
+      datetime: "2026-08-14T19:30:00-07:00",
+    },
   },
   {
     id: 5,
@@ -1137,6 +1172,13 @@ const highSchoolData = [
     state: "WA",
     region: "West",
     votes: 9115,
+    description:
+      "Nam libero tempore cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet. Aenean fermentum risus id tortor integer ornare nunc interdum vel.",
+    home_game: {
+      stadium_name: "Ordinary Eagles Field",
+      stadium_address: "600 Eagles Ave, Article Junction, WA 98006",
+      datetime: "2026-09-18T18:30:00-07:00",
+    },
   },
   {
     id: 6,
@@ -1145,6 +1187,13 @@ const highSchoolData = [
     state: "WA",
     region: "West",
     votes: 12480,
+    description:
+      "Itaque earum rerum hic tenetur a sapiente delectus, ut aut reiciendis voluptatibus maiores alias consequatur. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt. Nullam varius turpis aliquet diam elementum fermentum bibendum.",
+    home_game: {
+      stadium_name: "Common Community Stadium",
+      stadium_address: "700 Common St, Material Falls, WA 98007",
+      datetime: "2026-08-28T19:00:00-07:00",
+    },
   },
   {
     id: 7,
@@ -1153,6 +1202,13 @@ const highSchoolData = [
     state: "WA",
     region: "West",
     votes: 14722,
+    description:
+      "Ut labore et dolore magnam aliquam quaerat voluptatem enim ad minima veniam. Quis nostrum exercitationem ullam corporis suscipit laboriosam nisi ut aliquid ex ea commodi consequatur. Phasellus ultricies nulla id metus egestas ut lobortis eros aliquet.",
+    home_game: {
+      stadium_name: "Mediocre Mustangs Arena",
+      stadium_address: "800 Mustang Rd, Entity Springs, WA 98008",
+      datetime: "2026-09-04T19:30:00-07:00",
+    },
   },
   {
     id: 8,
@@ -1161,6 +1217,13 @@ const highSchoolData = [
     state: "WA",
     region: "West",
     votes: 8933,
+    description:
+      "Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur vel illum. Neque porro quisquam est qui dolorem ipsum quia dolor sit amet consectetur adipisci velit. Cras ornare tristique elit vivamus vestibulum ntulla nec ante.",
+    home_game: {
+      stadium_name: "Regular Raiders Field",
+      stadium_address: "900 Raiders Blvd, Unit Village, WA 98009",
+      datetime: "2026-08-21T18:00:00-07:00",
+    },
   },
   {
     id: 9,
@@ -1169,6 +1232,13 @@ const highSchoolData = [
     state: "WA",
     region: "West",
     votes: 11674,
+    description:
+      "Sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam quis nostrum exercitationem ullam corporis suscipit laboriosam. Praesent placerat risus quis eros fusce vehicula dolor arcu.",
+    home_game: {
+      stadium_name: "Normal Knights Stadium",
+      stadium_address: "1000 Knights Way, Piece Port, WA 98010",
+      datetime: "2026-09-11T19:00:00-07:00",
+    },
   },
   {
     id: 10,
@@ -1177,6 +1247,13 @@ const highSchoolData = [
     state: "MA",
     region: "East",
     votes: 12000,
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris. Sed molestie augue sit amet leo consequat posuere.",
+    home_game: {
+      stadium_name: "Dude Dawgs Stadium",
+      stadium_address: "100 Dawgs Dr, Spiffytown, MA 01001",
+      datetime: "2026-08-14T19:00:00-04:00",
+    },
   },
   {
     id: 11,
@@ -1185,6 +1262,13 @@ const highSchoolData = [
     state: "MA",
     region: "East",
     votes: 14283,
+    description:
+      "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum. Vestibulum ante ipsum primis in faucibus orci luctus ultrices posuere.",
+    home_game: {
+      stadium_name: "Spectacular Spartans Field",
+      stadium_address: "200 Spartans Ave, Dapperburg, MA 01002",
+      datetime: "2026-08-28T19:30:00-04:00",
+    },
   },
   {
     id: 12,
@@ -1193,6 +1277,13 @@ const highSchoolData = [
     state: "MA",
     region: "East",
     votes: 13091,
+    description:
+      "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium totam rem aperiam. Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nam pretium turpis et arcu duis ac augue lorem ipsum.",
+    home_game: {
+      stadium_name: "Awesome Falcons Arena",
+      stadium_address: "300 Falcons Rd, Snazzyville, MA 01003",
+      datetime: "2026-09-04T18:30:00-04:00",
+    },
   },
   {
     id: 13,
@@ -1201,6 +1292,13 @@ const highSchoolData = [
     state: "MA",
     region: "East",
     votes: 9821,
+    description:
+      "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit sed quia consequuntur magni dolores. Neque porro quisquam est qui dolorem ipsum quia dolor sit amet consectetur adipisci velit. Aliquam erat volutpat nam dui mi tincidunt quis accumsan porttitor.",
+    home_game: {
+      stadium_name: "Radical Rockets Stadium",
+      stadium_address: "400 Rockets Blvd, Posh Point, MA 01004",
+      datetime: "2026-08-21T19:00:00-04:00",
+    },
   },
   {
     id: 14,
@@ -1209,6 +1307,13 @@ const highSchoolData = [
     state: "MA",
     region: "East",
     votes: 12554,
+    description:
+      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti. Ut enim ad minima veniam quis nostrum exercitationem ullam corporis suscipit laboriosam nisi ut aliquid. Facilisis morbi ultricies leo risus porta sem lacinia quam ante.",
+    home_game: {
+      stadium_name: "Excellent Eagles Field",
+      stadium_address: "500 Eagles Way, Nifty Heights, MA 01005",
+      datetime: "2026-09-11T19:30:00-04:00",
+    },
   },
   {
     id: 15,
@@ -1217,6 +1322,13 @@ const highSchoolData = [
     state: "MA",
     region: "East",
     votes: 14109,
+    description:
+      "Nam libero tempore cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates. Integer vitae libero ac risus egestas placerat nulla augue.",
+    home_game: {
+      stadium_name: "Tubular Thunder Dome",
+      stadium_address: "600 Thunder Ln, Classy Corner, MA 01006",
+      datetime: "2026-08-14T18:00:00-04:00",
+    },
   },
   {
     id: 16,
@@ -1225,6 +1337,13 @@ const highSchoolData = [
     state: "MA",
     region: "East",
     votes: 8945,
+    description:
+      "Itaque earum rerum hic tenetur a sapiente delectus ut aut reiciendis voluptatibus maiores alias consequatur aut perferendis. Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore. Proin quam etiam ultrices suspendisse in justo eu magna luctus.",
+    home_game: {
+      stadium_name: "Killer Cobras Stadium",
+      stadium_address: "700 Cobras Dr, Swell Side, MA 01007",
+      datetime: "2026-09-18T19:00:00-04:00",
+    },
   },
   {
     id: 17,
@@ -1233,6 +1352,13 @@ const highSchoolData = [
     state: "MA",
     region: "East",
     votes: 13202,
+    description:
+      "Ut labore et dolore magnam aliquam quaerat voluptatem ut enim ad minima veniam quis nostrum exercitationem. Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur. Cum sociis natoque penatibus et magnis dis parturient montes nascetur.",
+    home_game: {
+      stadium_name: "Gnarly Grizzlies Field",
+      stadium_address: "800 Grizzlies Ave, Flashy Field, MA 01008",
+      datetime: "2026-08-28T19:30:00-04:00",
+    },
   },
   {
     id: 18,
@@ -1241,6 +1367,13 @@ const highSchoolData = [
     state: "MA",
     region: "East",
     votes: 10776,
+    description:
+      "Sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem. Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum. Quisque cursus etiam ultrices suspendisse commodo magna eros eu erat.",
+    home_game: {
+      stadium_name: "Superb Saints Arena",
+      stadium_address: "900 Saints Blvd, Polished Park, MA 01009",
+      datetime: "2026-09-04T18:30:00-04:00",
+    },
   },
   {
     id: 19,
@@ -1249,6 +1382,13 @@ const highSchoolData = [
     state: "MA",
     region: "East",
     votes: 12891,
+    description:
+      "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Pellentesque condimentum augue ipsum venenatis ante lobortis accumsan.",
+    home_game: {
+      stadium_name: "Choice Champions Stadium",
+      stadium_address: "1000 Champions Rd, Chic Center, MA 01010",
+      datetime: "2026-08-21T19:00:00-04:00",
+    },
   },
   {
     id: 20,
@@ -1257,6 +1397,13 @@ const highSchoolData = [
     state: "MI",
     region: "Midwest",
     votes: 14000,
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna. Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor. Duis lobortis massa imperdiet quam semper nunc justo aliquam.",
+    home_game: {
+      stadium_name: "Dude Devils Field",
+      stadium_address: "100 Devils Dr, Rockintown, MI 48001",
+      datetime: "2026-08-14T19:00:00-05:00",
+    },
   },
   {
     id: 21,
@@ -1265,6 +1412,13 @@ const highSchoolData = [
     state: "MI",
     region: "Midwest",
     votes: 14283,
+    description:
+      "Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium totam rem. Vivamus pretium ornare est quisque sit amet pede justo fringilla.",
+    home_game: {
+      stadium_name: "Sassy Stallions Stadium",
+      stadium_address: "200 Stallions Ave, Jammingville, MI 48002",
+      datetime: "2026-08-28T19:30:00-05:00",
+    },
   },
   {
     id: 22,
@@ -1273,6 +1427,13 @@ const highSchoolData = [
     state: "MI",
     region: "Midwest",
     votes: 13091,
+    description:
+      "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit sed quia consequuntur magni dolores eos. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum. Aenean in sem ac leo mollis blandit nam pretium turpis.",
+    home_game: {
+      stadium_name: "Awesome Avalanche Arena",
+      stadium_address: "300 Avalanche Blvd, Grooveburg, MI 48003",
+      datetime: "2026-09-04T18:00:00-05:00",
+    },
   },
   {
     id: 23,
@@ -1281,6 +1442,13 @@ const highSchoolData = [
     state: "MI",
     region: "Midwest",
     votes: 11443,
+    description:
+      "Nam libero tempore cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere. Itaque earum rerum hic tenetur a sapiente delectus ut aut reiciendis voluptatibus maiores alias consequatur. Morbi in sem quis dui placerat ornare pellentesque odio nisi.",
+    home_game: {
+      stadium_name: "Wicked Wolves Field",
+      stadium_address: "400 Wolves Way, Vibe Valley, MI 48004",
+      datetime: "2026-09-11T19:00:00-05:00",
+    },
   },
   {
     id: 24,
@@ -1289,6 +1457,13 @@ const highSchoolData = [
     state: "MI",
     region: "Midwest",
     votes: 14605,
+    description:
+      "Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae. Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur. Praesent dapibus neque id cursus faucibus tortor neque egestas.",
+    home_game: {
+      stadium_name: "Prime Panthers Stadium",
+      stadium_address: "500 Panthers Dr, Stellar Station, MI 48005",
+      datetime: "2026-08-21T19:30:00-05:00",
+    },
   },
   {
     id: 25,
@@ -1297,6 +1472,13 @@ const highSchoolData = [
     state: "MI",
     region: "Midwest",
     votes: 9231,
+    description:
+      "Sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem lorem ipsum. Ut enim ad minima veniam quis nostrum exercitationem ullam corporis suscipit laboriosam nisi ut aliquid ex ea. Nunc dignissim risus id metus ornare porttitor leo sapien.",
+    home_game: {
+      stadium_name: "Phat Phoenix Field",
+      stadium_address: "600 Phoenix Ln, Bumping Bend, MI 48006",
+      datetime: "2026-09-18T18:30:00-05:00",
+    },
   },
   {
     id: 26,
@@ -1305,6 +1487,13 @@ const highSchoolData = [
     state: "MI",
     region: "Midwest",
     votes: 12988,
+    description:
+      "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet consectetur adipisci velit sed quia non numquam. Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore. Etiam sit amet orci eget eros faucibus tincidunt diam.",
+    home_game: {
+      stadium_name: "Top-Tier Titans Arena",
+      stadium_address: "700 Titans Rd, Lively Lane, MI 48007",
+      datetime: "2026-08-14T19:00:00-05:00",
+    },
   },
   {
     id: 27,
@@ -1313,6 +1502,13 @@ const highSchoolData = [
     state: "MI",
     region: "Midwest",
     votes: 10114,
+    description:
+      "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint. Occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum sed ut. Duis ante orci molestie sapien vehicula consequat erat ante.",
+    home_game: {
+      stadium_name: "Epic Eagles Stadium",
+      stadium_address: "800 Eagles Blvd, Electric Edge, MI 48008",
+      datetime: "2026-08-28T19:30:00-05:00",
+    },
   },
   {
     id: 28,
@@ -1321,6 +1517,13 @@ const highSchoolData = [
     state: "MI",
     region: "Midwest",
     votes: 13540,
+    description:
+      "Perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium totam rem aperiam eaque ipsa. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit sed quia consequuntur. Fusce pellentesque suscipit nibh integer vitae libero ac risus.",
+    home_game: {
+      stadium_name: "Classic Coliseum",
+      stadium_address: "900 Classic Ave, Beating Bridge, MI 48009",
+      datetime: "2026-09-04T18:00:00-05:00",
+    },
   },
   {
     id: 29,
@@ -1329,6 +1532,13 @@ const highSchoolData = [
     state: "MI",
     region: "Midwest",
     votes: 11002,
+    description:
+      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti. Nam libero tempore cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod. Sed augue ipsum egestas nec vestibulum et volutpat ut diam.",
+    home_game: {
+      stadium_name: "Solid Steel Stadium",
+      stadium_address: "1000 Steel Way, Active Acres, MI 48010",
+      datetime: "2026-09-11T19:00:00-05:00",
+    },
   },
   {
     id: 30,
@@ -1337,6 +1547,13 @@ const highSchoolData = [
     state: "GA",
     region: "South",
     votes: 12000,
+    description:
+      "Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo. Suspendisse vel felis ut lorem egestas blandit accumsan.",
+    home_game: {
+      stadium_name: "Dude Bulldogs Field",
+      stadium_address: "100 Bulldogs Dr, Neatotown, GA 30001",
+      datetime: "2026-08-14T19:00:00-04:00",
+    },
   },
   {
     id: 31,
@@ -1345,6 +1562,13 @@ const highSchoolData = [
     state: "GA",
     region: "South",
     votes: 14283,
+    description:
+      "Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Curabitur pretium tincidunt lacus nulla mauris orci amet.",
+    home_game: {
+      stadium_name: "Groovy Gators Stadium",
+      stadium_address: "200 Gators Ave, Tidyton, GA 30002",
+      datetime: "2026-08-28T19:30:00-04:00",
+    },
   },
   {
     id: 32,
@@ -1353,6 +1577,13 @@ const highSchoolData = [
     state: "GA",
     region: "South",
     votes: 13091,
+    description:
+      "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium totam rem aperiam. Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo nemo. Integer in mauris eu nibh euismod gravida dui porta risus.",
+    home_game: {
+      stadium_name: "Awesome Armadillos Arena",
+      stadium_address: "300 Armadillos Blvd, Cleanville, GA 30003",
+      datetime: "2026-09-04T18:30:00-04:00",
+    },
   },
   {
     id: 33,
@@ -1361,6 +1592,13 @@ const highSchoolData = [
     state: "GA",
     region: "South",
     votes: 14339,
+    description:
+      "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit sed quia consequuntur magni dolores eos. Neque porro quisquam est qui dolorem ipsum quia dolor sit amet consectetur adipisci velit. Nulla consequat massa quis enim donec pede justo fringilla vel.",
+    home_game: {
+      stadium_name: "Neat Nighthawks Field",
+      stadium_address: "400 Nighthawks Rd, Trim Terrace, GA 30004",
+      datetime: "2026-08-21T19:00:00-04:00",
+    },
   },
   {
     id: 34,
@@ -1369,6 +1607,13 @@ const highSchoolData = [
     state: "GA",
     region: "South",
     votes: 11506,
+    description:
+      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae. Aliquam lorem ante dapibus in viverra quis feugiat a tellus.",
+    home_game: {
+      stadium_name: "Fly Falcons Stadium",
+      stadium_address: "500 Falcons Way, Orderly Oasis, GA 30005",
+      datetime: "2026-09-11T19:30:00-04:00",
+    },
   },
   {
     id: 35,
@@ -1377,6 +1622,13 @@ const highSchoolData = [
     state: "GA",
     region: "South",
     votes: 9422,
+    description:
+      "Nam libero tempore cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat. Itaque earum rerum hic tenetur a sapiente delectus ut aut reiciendis voluptatibus maiores alias consequatur. Phasellus viverra nulla ut metus varius laoreet quisque rutrum.",
+    home_game: {
+      stadium_name: "Sharp Sharks Arena",
+      stadium_address: "600 Sharks Ln, Smart Shore, GA 30006",
+      datetime: "2026-08-14T18:00:00-04:00",
+    },
   },
   {
     id: 36,
@@ -1385,6 +1637,13 @@ const highSchoolData = [
     state: "GA",
     region: "South",
     votes: 12117,
+    description:
+      "Sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem lorem. Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur vel. Aenean imperdiet etiam ultricies nisi vel augue curae.",
+    home_game: {
+      stadium_name: "Dope Dragons Field",
+      stadium_address: "700 Dragons Dr, Spruce Summit, GA 30007",
+      datetime: "2026-09-18T19:00:00-04:00",
+    },
   },
   {
     id: 37,
@@ -1393,6 +1652,13 @@ const highSchoolData = [
     state: "GA",
     region: "South",
     votes: 13785,
+    description:
+      "Ut enim ad minima veniam quis nostrum exercitationem ullam corporis suscipit laboriosam nisi ut aliquid ex ea commodi. Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore. Duis leo sed fringilla mauris sit amet nibh donec.",
+    home_game: {
+      stadium_name: "Swell Stallions Stadium",
+      stadium_address: "800 Stallions Ave, Crisp Canyon, GA 30008",
+      datetime: "2026-08-28T19:30:00-04:00",
+    },
   },
   {
     id: 38,
@@ -1401,6 +1667,13 @@ const highSchoolData = [
     state: "GA",
     region: "South",
     votes: 10459,
+    description:
+      "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur. Sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum. Fusce fermentum nullam varius diam elementum bibendum porttitor.",
+    home_game: {
+      stadium_name: "Boss Bears Arena",
+      stadium_address: "900 Bears Blvd, Fresh Forest, GA 30009",
+      datetime: "2026-09-04T18:00:00-04:00",
+    },
   },
   {
     id: 39,
@@ -1409,6 +1682,13 @@ const highSchoolData = [
     state: "GA",
     region: "South",
     votes: 11890,
+    description:
+      "Perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium totam rem aperiam eaque ipsa quae. At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti. Integer tincidunt cras dapibus vivamus elementum semper nisi.",
+    home_game: {
+      stadium_name: "Grand Griffins Stadium",
+      stadium_address: "1000 Griffins Way, Prim Plains, GA 30010",
+      datetime: "2026-09-11T19:00:00-04:00",
+    },
   },
 ];
 
@@ -1429,14 +1709,28 @@ const fn5glRegions = fn5glContainer.querySelector(".tsw-fn5gl-leaderboard-region
 const fn5glLoaders = fn5glContainer.querySelectorAll(".tsw-fn5gl-loader");
 const fn5glUSAMapContainer = fn5glContainer.querySelector(".tsw-fn5gl-usa-map-container");
 const fn5glUSAMap = fn5glContainer.querySelector(".tsw-fn5gl-usa-map");
-const fn5glUSAMapRegions = fn5glContainer.querySelectorAll(".tsw-fn5gl-usa-map g");
+const fn5glUSAMapStats = fn5glContainer.querySelector(".tsw-fn5gl-usa-map-stats");
 const fn5glTooltip = fn5glContainer.querySelector(".tsw-tooltip");
+
+const fn5glModal = fn5glContainer.querySelector(".tsw-modal");
+const fn5glModalOverlay = fn5glContainer.querySelector(".tsw-modal-overlay");
+const fn5glModalMain = fn5glContainer.querySelector(".tsw-modal-main");
+const fn5glModalClose = fn5glContainer.querySelector(".tsw-modal-close");
 
 // Region config
 const REGIONS_ORDER = ["West", "Midwest", "South", "East"];
 
 // Tab state - default
 let currentRegion = REGIONS_ORDER[0];
+
+// Focus overlay element
+let focusOverlay = null;
+
+// Modal state
+let modalState = {
+  trigger: null,
+  focusableElements: [],
+};
 
 // =-=-=-=-=
 // Data prep
@@ -1453,6 +1747,15 @@ let currentRegion = REGIONS_ORDER[0];
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-
 // Render leaderboard functions
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-
+
+const getSortedRegionSchools = (region, data = schoolData) => {
+  return data.filter((s) => s.region === region).sort((a, b) => (b.votes || 0) - (a.votes || 0));
+};
+
+const getSchoolRank = (schoolId) => {
+  const school = schoolData.find((s) => s.id === schoolId);
+  return getSortedRegionSchools(school.region).findIndex((s) => s.id === schoolId) + 1;
+};
 
 const renderTrend = (trendValue) => {
   if (trendValue === 0) {
@@ -1475,9 +1778,8 @@ const renderRegion = (region, schools) => {
   let schoolRows;
 
   if (schools) {
-    const schoolsSorted = [...(schools || [])].sort((a, b) => (b.votes || 0) - (a.votes || 0));
-    const schoolsPrevious = schoolDataPrevious.filter((school) => school.region === region);
-    const schoolsPreviousSorted = schoolsPrevious.sort((a, b) => b.votes - a.votes);
+    const schoolsSorted = getSortedRegionSchools(region);
+    const schoolsPreviousSorted = getSortedRegionSchools(region, schoolDataPrevious);
 
     schoolRows = schoolsSorted
       .map((school, index) => {
@@ -1487,12 +1789,12 @@ const renderRegion = (region, schools) => {
         <li class="tsw-fn5gl-region-row">
           <div class="tsw-fn5gl-region-rank">${index + 1}</div>
           <div class="tsw-fn5gl-region-info">
-            <div class="tsw-fn5gl-region-school"><a href="#">${school.name}</a></div>
+            <div class="tsw-fn5gl-region-school"><a href="#" data-school-id="${school.id}">${school.name}</a></div>
             <div class="tsw-fn5gl-region-location">${school.city}, ${school.state}</div>
           </div>
           <div class="tsw-fn5gl-region-votes">${school.votes.toLocaleString("en-US")}</div>
           <div class="tsw-fn5gl-region-trend">${renderTrend(trendValue)}</div>
-          <button typ="button" class="magenta-button" data-vote-id="${school.id}">Vote</button>
+          <button type="button" class="tsw-fn5gl-region-row-button magenta-button" data-vote-id="${school.id}">Vote</button>
         </li>
       `;
       })
@@ -1501,7 +1803,6 @@ const renderRegion = (region, schools) => {
 
   return `
     <div class="tsw-fn5gl-region" role="tabpanel" aria-labelledby="${region}" ${region !== currentRegion ? "hidden" : ""}>
-      <!-- <h3>${region}</h3> -->
       <ol role="list" class="tsw-fn5gl-region-list">${schoolRows || "No schools yet"}</ol>
     </div>
   `;
@@ -1511,12 +1812,8 @@ const renderAllRegions = () => {
   // Create new object that groups the schools by region
   const grouped = Object.groupBy(schoolData, (school) => school.region);
 
-  // const allRegionsHTML = REGIONS_ORDER.map((region) => {
-  //   return grouped[region] ? renderRegion(region, grouped[region]) : "";
-  // }).join("");
-
   const allRegionsHTML = REGIONS_ORDER.map((region) => {
-    return renderRegion(region, grouped[region]);
+    return grouped[region] ? renderRegion(region, grouped[region]) : "";
   }).join("");
 
   fn5glRegions.innerHTML = allRegionsHTML;
@@ -1526,22 +1823,223 @@ const renderAllRegions = () => {
 // Render bracket functions
 // =-=-=-=-=-=-=-=-=-=-=-=-
 
-const getRegionLeaders = (schools) => {
-  const leaders = REGIONS_ORDER.map((region) => {
-    const regionSchools = schools.filter((school) => school.region === region);
-    return regionSchools.reduce((prev, current) => (prev.votes > current.votes ? prev : current));
-  });
+// const getRegionLeaders = (schools) => {
+//   const leaders = REGIONS_ORDER.map((region) => {
+//     const regionSchools = schools.filter((school) => school.region === region);
+//     return regionSchools.reduce((prev, current) => (prev.votes > current.votes ? prev : current));
+//   });
 
-  return leaders;
+//   return leaders;
+// };
+
+// const getMatchWinner = (team1, team2) => {
+//   return team1.votes >= team2.votes ? team1 : team2;
+// };
+
+// =-=-=-=-=-=-=-=
+// Modal functions
+// =-=-=-=-=-=-=-=
+
+// Modal functions and event listeners
+
+const parseGameDateTime = (dateTimeString) => {
+  const date = new Date(dateTimeString);
+
+  const time = new Intl.DateTimeFormat("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  }).format(date);
+
+  const timeZone = new Intl.DateTimeFormat("en-US", {
+    timeZoneName: "short",
+  })
+    .format(date)
+    .split(", ")[1]; // extracts "EDT"
+
+  const formattedDate = new Intl.DateTimeFormat("en-US", {
+    month: "2-digit",
+    day: "2-digit",
+    year: "2-digit",
+  }).format(date);
+
+  return { time, timeZone, formattedDate };
 };
 
-const getMatchWinner = (team1, team2) => {
-  return team1.votes >= team2.votes ? team1 : team2;
+const parseAddress = (address) => {
+  const parts = address.split(", ");
+  const [state, zip] = parts[2].split(" ");
+  return {
+    street: parts[0],
+    cityState: `${parts[1]}, ${state}`,
+    zip,
+  };
 };
+
+const renderModal = (school) => {
+  const { time, timeZone, formattedDate } = parseGameDateTime(school.home_game.datetime);
+  const { street, cityState, zip } = parseAddress(school.home_game.stadium_address);
+
+  return `
+    <div class="tsw-modal-school-header">
+      <p class="tsw-modal-school-location">${school.city}, ${school.state}</p>
+      <h2 class="tsw-modal-school-name">${school.name}</h2>
+      <div class="tsw-modal-school-desc-logo">
+        <p class="tsw-modal-school-description">${school.description}</p>
+        <div class="tsw-modal-school-logo"></div>
+        <!-- <img src="" alt="${school.name} logo" /> -->
+      </div>
+    </div>
+
+    <div class="tsw-modal-school-stats">
+      <div class="tsw-modal-school-stat">
+        <span class="tsw-modal-school-stat-value">${getSchoolRank(school.id)}</span>
+        <span class="tsw-modal-school-stat-label">Rank</span>
+      </div>
+      <div class="tsw-modal-school-stat">
+        <span class="tsw-modal-school-stat-value">${school.votes.toLocaleString("en-US")}</span>
+        <span class="tsw-modal-school-stat-label">Total Votes</span>
+      </div>
+      <div>
+        <button type="button" class="tsw-modal-school-stat-button magenta-button" data-vote-id="${school.id}">Vote for this school</button>
+      </div>
+    </div>
+
+    <div class="tsw-modal-game">
+      <div class="tsw-modal-game-header">
+        <h3 class="tsw-modal-game-title">T-Mobile Home Game</h3>
+        <p class="tsw-modal-game-description">
+          Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur. Sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat.
+        </p>
+      </div>
+      <div class="tsw-modal-game-details">
+        <div class="tsw-modal-game-detail">
+          <span class="tsw-modal-game-detail-value">${time} ${timeZone}</span>
+          <span class="tsw-modal-game-detail-label">Time</span>
+        </div>
+        <div class="tsw-modal-game-detail">
+          <span class="tsw-modal-game-detail-value">${formattedDate}</span>
+          <span class="tsw-modal-game-detail-label">Date</span>
+        </div>
+        <div class="tsw-modal-game-detail">
+          <span class="tsw-modal-game-detail-value">${school.home_game.stadium_name}</span>
+          <span class="tsw-modal-game-detail-label">${street}<br />${cityState}<br />${zip}</span>
+        </div>
+      </div>
+      <div class="tsw-modal-game-image">
+        <!-- <img src="" alt="${school.home_game.stadium_name}" /> -->
+      </div>
+    </div>
+  `;
+};
+
+const openModal = (schoolId, triggerElement) => {
+  const school = schoolData.find((s) => s.id === Number(schoolId));
+  if (!school) return;
+
+  fn5glModalMain.innerHTML = renderModal(school);
+
+  modalState.trigger = triggerElement;
+  modalState.focusableElements = [
+    ...fn5glModal.querySelectorAll(`a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])`),
+  ];
+
+  fn5glModal.show();
+  fn5glModal.classList.add("is-visible");
+  fn5glModalOverlay.classList.add("is-visible");
+  // modalState.focusableElements[0]?.focus();
+  fn5glModal.focus();
+};
+
+const closeModal = () => {
+  fn5glModal.classList.remove("is-visible");
+  fn5glModalOverlay.classList.remove("is-visible");
+
+  fn5glModalOverlay.addEventListener(
+    "transitionend",
+    () => {
+      fn5glModal.close();
+      modalState.trigger?.focus();
+      modalState = { trigger: null, focusableElements: [] };
+    },
+    { once: true },
+  );
+};
+
+fn5glModalOverlay.addEventListener("click", (event) => {
+  if (event.target === event.currentTarget) {
+    closeModal(); // Only runs if you click the overlay, not the modal itself
+  }
+});
+
+fn5glModalClose.addEventListener("click", () => {
+  closeModal();
+});
+
+// Modal tabbing and focus trapping
+
+fn5glModal.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") closeModal();
+  if (event.key !== "Tab") return;
+
+  const { focusableElements } = modalState;
+  if (!focusableElements.length) return;
+
+  const first = focusableElements[0];
+  const last = focusableElements[focusableElements.length - 1];
+
+  // Prevent tabbing out of the modal if there's only one focusable element
+  if (first === last) {
+    if (fn5glContainer.activeElement === first) {
+      event.preventDefault();
+    }
+    return;
+  }
+
+  if (event.shiftKey) {
+    if (fn5glContainer.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    }
+  } else {
+    if (fn5glContainer.activeElement === last) {
+      console.log(last);
+
+      event.preventDefault();
+      first.focus();
+    }
+  }
+});
 
 // =-=-=-=-=-=-=
 // Map functions
 // =-=-=-=-=-=-=
+
+const renderMapStats = () => {
+  const totalVotes = schoolData.map((school) => school.votes).reduce((acc, curr) => acc + curr);
+  const stateWithMostVotes = Object.entries(
+    schoolData.reduce((acc, { state, votes }) => {
+      acc[state] = (acc[state] || 0) + votes;
+      return acc;
+    }, {}),
+  ).reduce((max, curr) => (curr[1] > max[1] ? curr : max))[0];
+
+  const totalVotesBox = `
+    <div class="tsw-fn5gl-usa-map-stats-box">
+      <div class="tsw-fn5gl-usa-map-stats-box-stat">${totalVotes.toLocaleString("en-US")}</div>
+      <div class="tsw-fn5gl-usa-map-stats-box-text">Total votes cast</div>
+    </div>
+  `;
+
+  const stateWithMostVotesBox = `
+    <div class="tsw-fn5gl-usa-map-stats-box">
+      <div class="tsw-fn5gl-usa-map-stats-box-stat">${stateWithMostVotes}</div>
+      <div class="tsw-fn5gl-usa-map-stats-box-text">Most active state</div>
+    </div>
+  `;
+
+  fn5glUSAMapStats.innerHTML = `${totalVotesBox}${stateWithMostVotesBox}`;
+};
 
 const handleTooltip = (target, isHovering) => {
   const region = target.dataset.mapRegion;
@@ -1611,26 +2109,12 @@ const addVote = (id) => {
   targetSchool.votes += 1000;
 
   renderAllRegions(schoolData);
+  renderMapStats();
 };
 
 // =-=-=-=-=-=-=-=
 // Event listeners
 // =-=-=-=-=-=-=-=
-
-// Vote buttons
-fn5glLeaderboard.addEventListener("click", (event) => {
-  const button = event.target.closest(".magenta-button");
-  if (!button) return;
-
-  const schoolId = button.dataset.voteId;
-  addVote(schoolId);
-
-  // Restore focus to the clicked vote button
-  const newButton = fn5glLeaderboard.querySelector(`[data-vote-id="${schoolId}"]`);
-  if (newButton) {
-    newButton.focus();
-  }
-});
 
 // Clicking on tabs and map
 
@@ -1697,32 +2181,63 @@ fn5glUSAMap.addEventListener("keyup", (event) => {
 
 // Hover over tabs
 
-fn5glRegionTabList.addEventListener("mouseover", (e) => {
-  const button = e.target.closest("button");
+fn5glRegionTabList.addEventListener("mouseover", (event) => {
+  const button = event.target.closest("button");
   if (button) toggleRegionHighlight(button.getAttribute("aria-controls"), true);
 });
 
-fn5glRegionTabList.addEventListener("mouseout", (e) => {
-  const button = e.target.closest("button");
+fn5glRegionTabList.addEventListener("mouseout", (event) => {
+  const button = event.target.closest("button");
   if (button) toggleRegionHighlight(button.getAttribute("aria-controls"), false);
 });
 
 // Hover over map
 
-fn5glUSAMap.addEventListener("mouseover", (e) => {
-  const group = e.target.closest("g[data-map-region]");
+fn5glUSAMap.addEventListener("mouseover", (event) => {
+  const group = event.target.closest("g[data-map-region]");
   if (group) {
     toggleRegionHighlight(group.dataset.mapRegion, true);
     handleTooltip(group, true);
   }
 });
 
-fn5glUSAMap.addEventListener("mouseout", (e) => {
-  const group = e.target.closest("g[data-map-region]");
+fn5glUSAMap.addEventListener("mouseout", (event) => {
+  const group = event.target.closest("g[data-map-region]");
   if (group) {
     toggleRegionHighlight(group.dataset.mapRegion, false);
     handleTooltip(group, false);
   }
+});
+
+// Open modal when high school name is clicked
+
+fn5glLeaderboard.addEventListener("click", (event) => {
+  const link = event.target.closest(".tsw-fn5gl-region-school a");
+  if (!link) return;
+
+  event.preventDefault();
+  const thisSchoolId = Number(event.target.dataset.schoolId);
+  openModal(thisSchoolId, link);
+});
+
+// Open modal when high school vote button is clicked
+
+fn5glRegions.addEventListener("click", (event) => {
+  const button = event.target.closest(".magenta-button");
+  if (!button) return;
+
+  const schoolId = Number(button.dataset.voteId);
+  openModal(schoolId, button);
+});
+
+// Vote for school buttons in modal
+fn5glModal.addEventListener("click", (event) => {
+  const button = event.target.closest(".magenta-button");
+  if (!button) return;
+
+  const schoolId = button.dataset.voteId;
+  addVote(schoolId);
+  closeModal();
 });
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
@@ -1752,15 +2267,11 @@ breakpoint.addEventListener("change", debouncedHandleChange);
 
 const setOnLoadRegion = () => {
   const urlParams = new URLSearchParams(window.location.search);
-  const urlParamsArray = Object.fromEntries(urlParams.entries());
+  const region = urlParams.get("region");
+  const regionCapitalized = region ? region.charAt(0).toUpperCase() + region.slice(1) : null;
 
-  const urlRegion = urlParamsArray.region || "west";
-  const urlRegionCapitalized = urlRegion.charAt(0).toUpperCase() + urlRegion.slice(1);
-
-  if (REGIONS_ORDER.includes(urlRegionCapitalized)) {
-    currentRegion = urlRegionCapitalized;
-  } else {
-    updateRegionParam("west");
+  if (regionCapitalized && REGIONS_ORDER.includes(regionCapitalized)) {
+    currentRegion = regionCapitalized;
   }
 };
 
@@ -1770,10 +2281,6 @@ const initTabs = () => {
       <button role="tab" aria-selected="${region === currentRegion}" aria-controls="${region}">${region}</button>
     `;
   }).join("");
-
-  const allTabsDiv = `
-    <div class="tsw-fn5gl-tablist" role="tablist" aria-label="Friday Night Lights 5G High School regions">${allTabs}</div>
-  `;
 
   fn5glRegionTabList.innerHTML = allTabs;
 };
@@ -1798,55 +2305,62 @@ const initMap = () => {
       g.classList.add("active");
     }
   });
+
+  renderMapStats();
 };
 
-const renderUI = (isLoading) => {
-  if (isLoading) {
+const renderUI = (phase) => {
+  if (phase === "loading") {
     fn5glLoaders.forEach((loader) => loader.classList.remove("hidden"));
     fn5glRegionTabList.classList.add("hidden");
     fn5glRegions.classList.add("hidden");
     fn5glUSAMap.classList.add("hidden");
   }
 
-  if (!isLoading && schoolData) {
-    setOnLoadRegion();
+  if (phase === "ready") {
+    const isMobile = !breakpoint.matches; // breakpoint is (min-width: 768px)
 
-    // Tabs first
-    setTimeout(() => {
-      initTabs();
-      fn5glRegionTabList.classList.remove("hidden");
-    }, 0);
+    // Stagger rendering of elements - order based on screen size
+    const steps = isMobile
+      ? [
+          { fn: initTabs, el: fn5glRegionTabList },
+          { fn: initMap, el: fn5glUSAMap },
+          { fn: renderAllRegions, el: fn5glRegions },
+        ]
+      : [
+          { fn: initTabs, el: fn5glRegionTabList },
+          { fn: renderAllRegions, el: fn5glRegions },
+          { fn: initMap, el: fn5glUSAMap },
+        ];
 
-    // Regions second
-    setTimeout(() => {
-      renderAllRegions();
-      fn5glRegions.classList.remove("hidden");
-    }, 150);
-
-    // Map third
-    setTimeout(() => {
-      initMap();
-      fn5glUSAMap.classList.remove("hidden");
-    }, 300);
+    steps.forEach(({ fn, el }, i) => {
+      setTimeout(() => {
+        fn();
+        el.classList.remove("hidden");
+      }, i * 150);
+    });
 
     // Hide loaders after everything is done
     setTimeout(() => {
       fn5glLoaders.forEach((loader) => loader.classList.add("hidden"));
-    }, 300);
+    }, 200);
   }
 };
 
-const init = () => {
-  schoolData = structuredClone(highSchoolData);
-  schoolDataPrevious = structuredClone(highSchoolData);
+const fetchData = async () => {
+  await new Promise((resolve) => setTimeout(resolve, 1500));
+  return structuredClone(highSchoolData);
+};
 
-  let isLoading = true;
-  renderUI(isLoading);
+const init = async () => {
+  renderUI("loading");
 
-  setTimeout(() => {
-    isLoading = false;
-    renderUI(isLoading);
-  }, 1500);
+  schoolData = await fetchData();
+  schoolDataPrevious = structuredClone(schoolData);
+
+  setOnLoadRegion();
+  updateRegionParam(currentRegion);
+  renderUI("ready");
 };
 
 init();

@@ -1,7 +1,7 @@
 // DOM references
-// const fn5glContainer2 = document.querySelector("#tsw-fn5gl-test-2").querySelector("xpr-npi-content").shadowRoot;
-const fn5glTickerWrapper = document.querySelectorAll(".tsw-fn5gl-ticker-wrapper");
-const fn5glTickerItems = document.querySelectorAll(".tsw-fn5gl-ticker-item");
+const fn5glContainer2 = document.querySelector("#tsw-fn5gl-test-2").querySelector("xpr-npi-content").shadowRoot;
+const fn5glTickerWrapper = fn5glContainer2.querySelectorAll(".tsw-fn5gl-ticker-wrapper");
+const fn5glTickerItems = fn5glContainer2.querySelectorAll(".tsw-fn5gl-ticker-item");
 
 // =-=-=-=-=-=-=-=-=-=-=-=
 // Check if GSAP is loaded

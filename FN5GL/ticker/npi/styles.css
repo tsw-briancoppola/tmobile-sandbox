@@ -28,26 +28,6 @@
   font-family: var(--tsw-font-main);
 }
 
-/* Reset - local only (don't use in AEM) */
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  font-size: 62.5%;
-}
-
-body {
-  height: 100vh;
-  font-family: "Arial", sans-serif;
-  overflow-x: hidden;
-  margin: 0;
-  background-color: #222222;
-}
-
 /* Reset */
 
 h1,

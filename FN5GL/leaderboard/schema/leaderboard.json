@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "leaderboard.schema.json",
+  "title": "FN5GL Leaderboard",
+  "type": "object",
+  "properties": {
+    "phase": { "type": "integer", "enum": [1, 2] },
+    "East": { "$ref": "#/$defs/region" },
+    "West": { "$ref": "#/$defs/region" },
+    "Central": { "$ref": "#/$defs/region" },
+    "South": { "$ref": "#/$defs/region" },
+    "final_four": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/final_four_entry" },
+      "minItems": 4,
+      "maxItems": 4
+    }
+  },
+  "required": ["phase", "East", "West", "Central", "South", "final_four"],
+  "$defs": {
+    "region": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/leaderboard_entry" },
+      "minItems": 10,
+      "maxItems": 10
+    },
+    "leaderboard_entry": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "integer" },
+        "name": { "type": "string" },
+        "region": { "type": "string", "enum": ["East", "West", "Central", "South"] },
+        "rank": { "type": "integer", "minimum": 1 },
+        "votes_phase_1": { "type": "integer", "minimum": 0 },
+        "votes_phase_2": { "type": "integer", "minimum": 0 },
+        "regional_winner": { "type": "boolean" }
+      },
+      "required": ["id", "name", "region", "rank", "votes_phase_1", "votes_phase_2", "regional_winner"]
+    },
+    "final_four_entry": {
+      "type": "object",
+      "properties": {
+        "id": { "type": "integer" },
+        "name": { "type": "string" },
+        "region": { "type": "string", "enum": ["East", "West", "Central", "South"] },
+        "rank": { "type": "integer", "minimum": 1 },
+        "votes_phase_1": { "type": "integer", "minimum": 0 },
+        "votes_phase_2": { "type": "integer", "minimum": 0 },
+        "winner": { "type": "boolean" }
+      },
+      "required": ["id", "name", "region", "rank", "votes_phase_1", "votes_phase_2", "winner"]
+    }
+  }
+}

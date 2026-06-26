@@ -9,22 +9,22 @@
     "West": { "$ref": "#/$defs/region" },
     "Central": { "$ref": "#/$defs/region" },
     "South": { "$ref": "#/$defs/region" },
-    "final_four": {
+    "top_four": {
       "type": "array",
-      "items": { "$ref": "#/$defs/final_four_entry" },
+      "items": { "$ref": "#/$defs/top_four_entry" },
       "minItems": 4,
       "maxItems": 4
     }
   },
-  "required": ["phase", "East", "West", "Central", "South", "final_four"],
+  "required": ["phase", "East", "West", "Central", "South", "top_four"],
   "$defs": {
     "region": {
       "type": "array",
-      "items": { "$ref": "#/$defs/leaderboard_entry" },
+      "items": { "$ref": "#/$defs/regional_entry" },
       "minItems": 10,
       "maxItems": 10
     },
-    "leaderboard_entry": {
+    "regional_entry": {
       "type": "object",
       "properties": {
         "id": { "type": "integer" },
@@ -37,7 +37,7 @@
       },
       "required": ["id", "name", "region", "rank", "votes_phase_1", "votes_phase_2", "regional_winner"]
     },
-    "final_four_entry": {
+    "top_four_entry": {
       "type": "object",
       "properties": {
         "id": { "type": "integer" },

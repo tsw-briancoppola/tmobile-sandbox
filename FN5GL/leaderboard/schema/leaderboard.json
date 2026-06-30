@@ -30,12 +30,22 @@
         "id": { "type": "integer" },
         "name": { "type": "string" },
         "region": { "type": "string", "enum": ["East", "West", "Central", "South"] },
-        "rank": { "type": "integer", "minimum": 1 },
+        "rank_current": { "type": "integer", "minimum": 1 },
+        "rank_previous": { "type": "integer", "minimum": 1 },
         "votes_phase_1": { "type": "integer", "minimum": 0 },
         "votes_phase_2": { "type": "integer", "minimum": 0 },
         "regional_winner": { "type": "boolean" }
       },
-      "required": ["id", "name", "region", "rank", "votes_phase_1", "votes_phase_2", "regional_winner"]
+      "required": [
+        "id",
+        "name",
+        "region",
+        "rank_current",
+        "rank_previous",
+        "votes_phase_1",
+        "votes_phase_2",
+        "regional_winner"
+      ]
     },
     "top_four_entry": {
       "type": "object",
@@ -43,12 +53,13 @@
         "id": { "type": "integer" },
         "name": { "type": "string" },
         "region": { "type": "string", "enum": ["East", "West", "Central", "South"] },
-        "rank": { "type": "integer", "minimum": 1 },
+        "rank_current": { "type": "integer", "minimum": 1 },
+        "rank_previous": { "type": "integer", "minimum": 1 },
         "votes_phase_1": { "type": "integer", "minimum": 0 },
         "votes_phase_2": { "type": "integer", "minimum": 0 },
         "winner": { "type": "boolean" }
       },
-      "required": ["id", "name", "region", "rank", "votes_phase_1", "votes_phase_2", "winner"]
+      "required": ["id", "name", "region", "rank_current", "rank_previous", "votes_phase_1", "votes_phase_2", "winner"]
     }
   }
 }

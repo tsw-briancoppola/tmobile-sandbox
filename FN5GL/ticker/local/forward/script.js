@@ -1,7 +1,12 @@
-// DOM references
-const fn5glContainer2 = document.querySelector("#tsw-fn5gl-test-2").querySelector("xpr-npi-content").shadowRoot;
-const fn5glTickerWrapper = fn5glContainer2.querySelectorAll(".tsw-fn5gl-ticker-wrapper");
-const fn5glTickerItems = fn5glContainer2.querySelectorAll(".tsw-fn5gl-ticker-item");
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// DOM references and global variables
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+
+// const fn5glContainer2 = document.querySelector("#tsw-fn5gl-test-2").querySelector("xpr-npi-content").shadowRoot;
+const fn5glTickerWrapper1 = document.querySelectorAll(".tsw-fn5gl-ticker-wrapper-1");
+const fn5glTickerItems1 = document.querySelectorAll(".tsw-fn5gl-ticker-item-1");
+
+const TICKER_DIRECTION = 1; // 1 = forward, -1 = reverse
 
 // =-=-=-=-=-=-=-=-=-=-=-=
 // Check if GSAP is loaded
@@ -22,19 +27,19 @@ function waitForGSAP(callback) {
 waitForGSAP(() => {
   gsap.registerPlugin(ScrollTrigger);
 
-  const items = gsap.utils.toArray(fn5glTickerItems);
+  const items = gsap.utils.toArray(fn5glTickerItems1);
   // 1. Create the seamless loop (returns a timeline)
   const loop = horizontalLoop(items, { repeat: -1, paused: true });
 
   // 2. Use ScrollTrigger to scrub the loop's progress
   ScrollTrigger.create({
-    trigger: fn5glTickerWrapper,
+    trigger: fn5glTickerWrapper1,
     start: "top bottom",
     end: `+=${window.innerHeight * 15}`, // Speed: slower > faster
     scrub: 1,
     onUpdate: (self) => {
       // Moves the playhead of our loop based on scroll progress
-      loop.progress(self.progress);
+      loop.progress(TICKER_DIRECTION === 1 ? self.progress : 1 - self.progress);
     },
   });
 

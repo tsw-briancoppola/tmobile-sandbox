@@ -7,7 +7,9 @@ let schoolData;
 let schoolDataPrevious;
 
 // DOM references
-const fn5glContainer = document.querySelector("#tsw-fn5gl-test").querySelector("xpr-npi-content").shadowRoot;
+const fn5glContainer = document
+  .querySelector("#tsw-fn5gl-test_leaderboard")
+  .querySelector("xpr-npi-content").shadowRoot;
 
 const fn5glLeaderboard = fn5glContainer.querySelector(".tsw-fn5gl-leaderboard");
 const fn5glRegionTabList = fn5glContainer.querySelector(".tsw-fn5gl-tablist");
@@ -318,6 +320,27 @@ fn5glModal.addEventListener("keydown", (event) => {
 // =-=-=-=-=-=-=
 // Map functions
 // =-=-=-=-=-=-=
+
+const animateCounter = (element, targetValue, duration = 5000) => {
+  const startTime = performance.now();
+
+  const update = (currentTime) => {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+
+    // Ease out — starts fast, slows toward the end
+    const eased = 1 - Math.pow(1 - progress, 20);
+    const currentValue = Math.round(eased * targetValue);
+
+    element.textContent = currentValue.toLocaleString("en-US");
+
+    if (progress < 1) {
+      requestAnimationFrame(update);
+    }
+  };
+
+  requestAnimationFrame(update);
+};
 
 const renderMapStats = () => {
   const totalVotes = schoolData.map((school) => school.votes).reduce((acc, curr) => acc + curr);

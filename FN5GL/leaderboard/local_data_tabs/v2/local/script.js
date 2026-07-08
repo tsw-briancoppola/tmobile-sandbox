@@ -317,6 +317,27 @@ fn5glModal.addEventListener("keydown", (event) => {
 // Map functions
 // =-=-=-=-=-=-=
 
+const animateCounter = (element, targetValue, duration = 5000) => {
+  const startTime = performance.now();
+
+  const update = (currentTime) => {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+
+    // Ease out — starts fast, slows toward the end
+    const eased = 1 - Math.pow(1 - progress, 20);
+    const currentValue = Math.round(eased * targetValue);
+
+    element.textContent = currentValue.toLocaleString("en-US");
+
+    if (progress < 1) {
+      requestAnimationFrame(update);
+    }
+  };
+
+  requestAnimationFrame(update);
+};
+
 const renderMapStats = () => {
   const totalVotes = schoolData.map((school) => school.votes).reduce((acc, curr) => acc + curr, 0);
   const stateWithMostVotes = Object.entries(
@@ -326,21 +347,21 @@ const renderMapStats = () => {
     }, {}),
   ).reduce((max, curr) => (curr[1] > max[1] ? curr : max))[0];
 
-  const totalVotesBox = `
-    <div class="tsw-fn5gl-usa-map-stats-box">
-      <div class="tsw-fn5gl-usa-map-stats-box-stat">${totalVotes.toLocaleString("en-US")}</div>
-      <div class="tsw-fn5gl-usa-map-stats-box-text">Total votes cast</div>
-    </div>
+  const boxes = fn5glUSAMapStats.querySelectorAll(".tsw-fn5gl-usa-map-stats-box");
+
+  boxes[0].innerHTML = `
+    <div class="tsw-fn5gl-usa-map-stats-box-stat">0</div>
+    <div class="tsw-fn5gl-usa-map-stats-box-text">Total votes cast</div>
   `;
 
-  const stateWithMostVotesBox = `
-    <div class="tsw-fn5gl-usa-map-stats-box">
-      <div class="tsw-fn5gl-usa-map-stats-box-stat">${stateWithMostVotes}</div>
-      <div class="tsw-fn5gl-usa-map-stats-box-text">Most active state</div>
-    </div>
+  boxes[1].innerHTML = `
+    <div class="tsw-fn5gl-usa-map-stats-box-stat">${stateWithMostVotes}</div>
+    <div class="tsw-fn5gl-usa-map-stats-box-text">Most active state</div>
   `;
 
-  fn5glUSAMapStats.innerHTML = `${totalVotesBox}${stateWithMostVotesBox}`;
+  // Animate after the element exists in the DOM
+  const totalVotesEl = boxes[0].querySelector(".tsw-fn5gl-usa-map-stats-box-stat");
+  animateCounter(totalVotesEl, totalVotes);
 };
 
 const handleTooltip = (target, isHovering) => {

@@ -1701,7 +1701,9 @@ let schoolData;
 let schoolDataPrevious;
 
 // DOM references
-const fn5glContainer = document.querySelector("#tsw-fn5gl-test").querySelector("xpr-npi-content").shadowRoot;
+const fn5glContainer = document
+  .querySelector("#tsw-fn5gl-test_leaderboard")
+  .querySelector("xpr-npi-content").shadowRoot;
 
 const fn5glLeaderboard = fn5glContainer.querySelector(".tsw-fn5gl-leaderboard");
 const fn5glRegionTabList = fn5glContainer.querySelector(".tsw-fn5gl-tablist");

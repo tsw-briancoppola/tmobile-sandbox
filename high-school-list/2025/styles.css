@@ -178,7 +178,6 @@ p {
   margin: 0 0.4rem;
   min-width: 3rem;
   text-align: center;
-  cursor: pointer;
 }
 @media (min-width: 600px) {
   .tsw-pagination_digit-container .tsw-pagination_digits .tsw-pagination_digit {
@@ -192,11 +191,14 @@ p {
   border-radius: 0.4rem;
   color: #fff;
   font-weight: 700;
-  cursor: inherit;
 }
 .tsw-pagination_digit-container .tsw-pagination_digits .tsw-pagination_digit.hidden {
   display: none;
 }
+.tsw-pagination_digit:not(.active):not(.tsw-pagination_seperator) {
+  cursor: pointer;
+}
+
 .tsw-form_container .tsw-form {
   -webkit-box-align: center;
   -ms-flex-align: center;

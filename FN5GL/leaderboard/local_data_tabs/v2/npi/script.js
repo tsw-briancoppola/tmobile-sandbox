@@ -40,17 +40,10 @@ let modalState = {
   focusableElements: [],
 };
 
-// =-=-=-=-=
-// Data prep
-// =-=-=-=-=
-
-// Add votes property to each school object
-// const updateSchoolData = (data) => {
-//   return data.map((d) => ({
-//     ...d,
-//     votes: 0,
-//   }));
-// };
+// Feature toggles
+const SHOW_VOTE_TOTALS = false;
+const SHOW_TREND = true;
+const SHOW_MODAL_IMAGE = true;
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-
 // Render leaderboard functions
@@ -82,32 +75,33 @@ const renderTrend = (trendValue) => {
     </span>`;
 };
 
-const renderRegion = (region, schools) => {
+const renderRegion = (region) => {
   let schoolRows;
 
-  if (schools) {
-    const schoolsSorted = getSortedRegionSchools(region);
-    const schoolsPreviousSorted = getSortedRegionSchools(region, schoolDataPrevious);
+  const schoolsSorted = getSortedRegionSchools(region);
+  const schoolsPreviousSorted = getSortedRegionSchools(region, schoolDataPrevious);
 
-    schoolRows = schoolsSorted
-      .map((school, index) => {
-        const trendValue = schoolsPreviousSorted.findIndex((s) => s.name === school.name) - index;
+  schoolRows = schoolsSorted
+    .map((school, index) => {
+      const trendValue = schoolsPreviousSorted.findIndex((s) => s.name === school.name) - index;
+      const rowClasses = ["tsw-fn5gl-region-row", !SHOW_VOTE_TOTALS && "no-votes", !SHOW_TREND && "no-trend"]
+        .filter(Boolean)
+        .join(" ");
 
-        return `
-        <li class="tsw-fn5gl-region-row">
+      return `
+        <li class="${rowClasses}">
           <div class="tsw-fn5gl-region-rank">${index + 1}</div>
           <div class="tsw-fn5gl-region-info">
             <div class="tsw-fn5gl-region-school"><a href="#" data-school-id="${school.id}">${school.name}</a></div>
             <div class="tsw-fn5gl-region-location">${school.city}, ${school.state}</div>
           </div>
-          <div class="tsw-fn5gl-region-votes">${school.votes.toLocaleString("en-US")}</div>
-          <div class="tsw-fn5gl-region-trend">${renderTrend(trendValue)}</div>
+          ${SHOW_VOTE_TOTALS ? `<div class="tsw-fn5gl-region-votes">${school.votes.toLocaleString("en-US")}</div>` : ""}
+          ${SHOW_TREND ? `<div class="tsw-fn5gl-region-trend">${renderTrend(trendValue)}</div>` : ""}
           <button type="button" class="tsw-fn5gl-region-row-button magenta-button" data-vote-id="${school.id}">Vote</button>
         </li>
       `;
-      })
-      .join("");
-  }
+    })
+    .join("");
 
   return `
     <div class="tsw-fn5gl-region" role="tabpanel" aria-labelledby="${region}" ${region !== currentRegion ? "hidden" : ""}>
@@ -121,7 +115,7 @@ const renderAllRegions = () => {
   const grouped = Object.groupBy(schoolData, (school) => school.region);
 
   const allRegionsHTML = REGIONS_ORDER.map((region) => {
-    return grouped[region] ? renderRegion(region, grouped[region]) : "";
+    return grouped[region] ? renderRegion(region) : "";
   }).join("");
 
   fn5glRegions.innerHTML = allRegionsHTML;
@@ -190,8 +184,10 @@ const renderModal = (school) => {
 
   return `
     <div class="tsw-modal-school-header">
-      <p class="tsw-modal-school-location">${school.city}, ${school.state}</p>
-      <h2 class="tsw-modal-school-name">${school.name}</h2>
+      <div class="tsw-modal-school-identity">
+        <p class="tsw-modal-school-location">${school.city}, ${school.state}</p>
+        <h2 class="tsw-modal-school-name">${school.name}</h2>
+      </div>
       <div class="tsw-modal-school-desc-logo">
         <p class="tsw-modal-school-description">${school.description}</p>
         <div class="tsw-modal-school-logo"></div>
@@ -234,9 +230,13 @@ const renderModal = (school) => {
           <span class="tsw-modal-game-detail-label">${street}<br />${cityState}<br />${zip}</span>
         </div>
       </div>
-      <div class="tsw-modal-game-image">
+      ${
+        SHOW_MODAL_IMAGE
+          ? `<div class="tsw-modal-game-image">
         <!-- <img src="" alt="${school.home_game.stadium_name}" /> -->
-      </div>
+      </div>`
+          : ""
+      }
     </div>
   `;
 };
@@ -255,7 +255,6 @@ const openModal = (schoolId, triggerElement) => {
   fn5glModal.show();
   fn5glModal.classList.add("is-visible");
   fn5glModalOverlay.classList.add("is-visible");
-  // modalState.focusableElements[0]?.focus();
   fn5glModal.focus();
 };
 
@@ -291,6 +290,7 @@ fn5glModal.addEventListener("keydown", (event) => {
   if (event.key !== "Tab") return;
 
   const { focusableElements } = modalState;
+
   if (!focusableElements.length) return;
 
   const first = focusableElements[0];
@@ -298,19 +298,19 @@ fn5glModal.addEventListener("keydown", (event) => {
 
   // Prevent tabbing out of the modal if there's only one focusable element
   if (first === last) {
-    if (document.activeElement === first) {
+    if (fn5glContainer.activeElement === first) {
       event.preventDefault();
     }
     return;
   }
 
   if (event.shiftKey) {
-    if (document.activeElement === first) {
+    if (fn5glContainer.activeElement === first) {
       event.preventDefault();
       last.focus();
     }
   } else {
-    if (document.activeElement === last) {
+    if (fn5glContainer.activeElement === last) {
       event.preventDefault();
       first.focus();
     }
@@ -343,7 +343,7 @@ const animateCounter = (element, targetValue, duration = 5000) => {
 };
 
 const renderMapStats = () => {
-  const totalVotes = schoolData.map((school) => school.votes).reduce((acc, curr) => acc + curr);
+  const totalVotes = schoolData.map((school) => school.votes).reduce((acc, curr) => acc + curr, 0);
   const stateWithMostVotes = Object.entries(
     schoolData.reduce((acc, { state, votes }) => {
       acc[state] = (acc[state] || 0) + votes;
@@ -351,21 +351,21 @@ const renderMapStats = () => {
     }, {}),
   ).reduce((max, curr) => (curr[1] > max[1] ? curr : max))[0];
 
-  const totalVotesBox = `
-    <div class="tsw-fn5gl-usa-map-stats-box">
-      <div class="tsw-fn5gl-usa-map-stats-box-stat">${totalVotes.toLocaleString("en-US")}</div>
-      <div class="tsw-fn5gl-usa-map-stats-box-text">Total votes cast</div>
-    </div>
+  const boxes = fn5glUSAMapStats.querySelectorAll(".tsw-fn5gl-usa-map-stats-box");
+
+  boxes[0].innerHTML = `
+    <div class="tsw-fn5gl-usa-map-stats-box-stat">0</div>
+    <div class="tsw-fn5gl-usa-map-stats-box-text">Total votes cast</div>
   `;
 
-  const stateWithMostVotesBox = `
-    <div class="tsw-fn5gl-usa-map-stats-box">
-      <div class="tsw-fn5gl-usa-map-stats-box-stat">${stateWithMostVotes}</div>
-      <div class="tsw-fn5gl-usa-map-stats-box-text">Most active state</div>
-    </div>
+  boxes[1].innerHTML = `
+    <div class="tsw-fn5gl-usa-map-stats-box-stat">${stateWithMostVotes}</div>
+    <div class="tsw-fn5gl-usa-map-stats-box-text">Most active state</div>
   `;
 
-  fn5glUSAMapStats.innerHTML = `${totalVotesBox}${stateWithMostVotesBox}`;
+  // Animate after the element exists in the DOM
+  const totalVotesEl = boxes[0].querySelector(".tsw-fn5gl-usa-map-stats-box-stat");
+  animateCounter(totalVotesEl, totalVotes);
 };
 
 const handleTooltip = (target, isHovering) => {
@@ -435,7 +435,7 @@ const addVote = (id) => {
   const targetSchool = schoolData.find((school) => school.id === Number(id));
   targetSchool.votes += 1000;
 
-  renderAllRegions(schoolData);
+  renderAllRegions();
   renderMapStats();
 };
 
@@ -632,7 +632,10 @@ const initMap = () => {
       g.classList.add("active");
     }
   });
+};
 
+const initMapAndStats = () => {
+  initMap();
   renderMapStats();
 };
 
@@ -642,6 +645,7 @@ const renderUI = (phase) => {
     fn5glRegionTabList.classList.add("hidden");
     fn5glRegions.classList.add("hidden");
     fn5glUSAMap.classList.add("hidden");
+    fn5glUSAMapStats.classList.add("hidden");
   }
 
   if (phase === "ready") {
@@ -650,20 +654,20 @@ const renderUI = (phase) => {
     // Stagger rendering of elements - order based on screen size
     const steps = isMobile
       ? [
-          { fn: initTabs, el: fn5glRegionTabList },
-          { fn: initMap, el: fn5glUSAMap },
-          { fn: renderAllRegions, el: fn5glRegions },
+          { fn: initTabs, els: [fn5glRegionTabList] },
+          { fn: initMapAndStats, els: [fn5glUSAMap, fn5glUSAMapStats] },
+          { fn: renderAllRegions, els: [fn5glRegions] },
         ]
       : [
-          { fn: initTabs, el: fn5glRegionTabList },
-          { fn: renderAllRegions, el: fn5glRegions },
-          { fn: initMap, el: fn5glUSAMap },
+          { fn: initTabs, els: [fn5glRegionTabList] },
+          { fn: renderAllRegions, els: [fn5glRegions] },
+          { fn: initMapAndStats, els: [fn5glUSAMap, fn5glUSAMapStats] },
         ];
 
-    steps.forEach(({ fn, el }, i) => {
+    steps.forEach(({ fn, els }, i) => {
       setTimeout(() => {
         fn();
-        el.classList.remove("hidden");
+        els.forEach((el) => el.classList.remove("hidden"));
       }, i * 150);
     });
 

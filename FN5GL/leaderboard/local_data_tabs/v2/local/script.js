@@ -36,17 +36,11 @@ let modalState = {
   focusableElements: [],
 };
 
-// =-=-=-=-=
-// Data prep
-// =-=-=-=-=
-
-// Add votes property to each school object
-// const updateSchoolData = (data) => {
-//   return data.map((d) => ({
-//     ...d,
-//     votes: 0,
-//   }));
-// };
+// Feature toggles
+const SHOW_VOTE_TOTALS = false;
+const SHOW_TREND = true;
+const SHOW_MODAL_IMAGE = true;
+const ANIMATE_VOTE_COUNTER = true;
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-
 // Render leaderboard functions
@@ -84,19 +78,23 @@ const renderRegion = (region) => {
   const schoolsSorted = getSortedRegionSchools(region);
   const schoolsPreviousSorted = getSortedRegionSchools(region, schoolDataPrevious);
 
+  const rowClasses = ["tsw-fn5gl-region-row", !SHOW_VOTE_TOTALS && "no-votes", !SHOW_TREND && "no-trend"]
+    .filter(Boolean)
+    .join(" ");
+
   schoolRows = schoolsSorted
     .map((school, index) => {
       const trendValue = schoolsPreviousSorted.findIndex((s) => s.name === school.name) - index;
 
       return `
-        <li class="tsw-fn5gl-region-row">
+        <li class="${rowClasses}">
           <div class="tsw-fn5gl-region-rank">${index + 1}</div>
           <div class="tsw-fn5gl-region-info">
             <div class="tsw-fn5gl-region-school"><a href="#" data-school-id="${school.id}">${school.name}</a></div>
             <div class="tsw-fn5gl-region-location">${school.city}, ${school.state}</div>
           </div>
-          <div class="tsw-fn5gl-region-votes">${school.votes.toLocaleString("en-US")}</div>
-          <div class="tsw-fn5gl-region-trend">${renderTrend(trendValue)}</div>
+          ${SHOW_VOTE_TOTALS ? `<div class="tsw-fn5gl-region-votes">${school.votes.toLocaleString("en-US")}</div>` : ""}
+          ${SHOW_TREND ? `<div class="tsw-fn5gl-region-trend">${renderTrend(trendValue)}</div>` : ""}
           <button type="button" class="tsw-fn5gl-region-row-button magenta-button" data-vote-id="${school.id}">Vote</button>
         </li>
       `;
@@ -230,9 +228,13 @@ const renderModal = (school) => {
           <span class="tsw-modal-game-detail-label">${street}<br />${cityState}<br />${zip}</span>
         </div>
       </div>
-      <div class="tsw-modal-game-image">
+      ${
+        SHOW_MODAL_IMAGE
+          ? `<div class="tsw-modal-game-image">
         <!-- <img src="" alt="${school.home_game.stadium_name}" /> -->
-      </div>
+      </div>`
+          : ""
+      }
     </div>
   `;
 };
@@ -350,7 +352,7 @@ const renderMapStats = () => {
   const boxes = fn5glUSAMapStats.querySelectorAll(".tsw-fn5gl-usa-map-stats-box");
 
   boxes[0].innerHTML = `
-    <div class="tsw-fn5gl-usa-map-stats-box-stat">0</div>
+    <div class="tsw-fn5gl-usa-map-stats-box-stat">${ANIMATE_VOTE_COUNTER ? "0" : totalVotes.toLocaleString("en-US")}</div>
     <div class="tsw-fn5gl-usa-map-stats-box-text">Total votes cast</div>
   `;
 
@@ -360,8 +362,10 @@ const renderMapStats = () => {
   `;
 
   // Animate after the element exists in the DOM
-  const totalVotesEl = boxes[0].querySelector(".tsw-fn5gl-usa-map-stats-box-stat");
-  animateCounter(totalVotesEl, totalVotes);
+  if (ANIMATE_VOTE_COUNTER) {
+    const totalVotesEl = boxes[0].querySelector(".tsw-fn5gl-usa-map-stats-box-stat");
+    animateCounter(totalVotesEl, totalVotes);
+  }
 };
 
 const handleTooltip = (target, isHovering) => {

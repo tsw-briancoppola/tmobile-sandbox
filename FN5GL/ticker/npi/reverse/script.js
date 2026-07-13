@@ -2,7 +2,7 @@
 // Global variables
 // =-=-=-=-=-=-=-=-
 
-const TICKER_DIRECTION_2 = true; // false = forward, true = reverse
+const TICKER_REVERSE_2 = true; // false = forward, true = reverse
 
 // =-=-=-=-=-=-=
 // Init ticker 2
@@ -21,5 +21,5 @@ function waitForInitTicker(callback) {
 }
 
 waitForInitTicker(() => {
-  initTicker(".tsw-fn5gl-ticker-wrapper-2", ".tsw-fn5gl-ticker-item-2", TICKER_DIRECTION_2, fn5glTickerContainer2);
+  initTicker(".tsw-fn5gl-ticker-wrapper-2", ".tsw-fn5gl-ticker-item-2", TICKER_REVERSE_2, fn5glTickerContainer2);
 });

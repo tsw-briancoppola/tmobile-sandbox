@@ -6,7 +6,7 @@ const fn5glTickerContainer1 = document
   .querySelector("#tsw-fn5gl-test_ticker-1")
   .querySelector("xpr-npi-content").shadowRoot;
 
-const TICKER_DIRECTION_1 = false; // false = forward, true = reverse
+const TICKER_REVERSE_1 = false; // false = forward, true = reverse
 
 // =-=-=-=-=-=-=-=-=-=-=-=
 // Check if GSAP is loaded
@@ -114,4 +114,4 @@ function initTicker(wrapperSelector, itemSelector, reverse = false, root = docum
 // Init ticker 1
 // =-=-=-=-=-=-=
 
-initTicker(".tsw-fn5gl-ticker-wrapper-1", ".tsw-fn5gl-ticker-item-1", TICKER_DIRECTION_1, fn5glTickerContainer1);
+initTicker(".tsw-fn5gl-ticker-wrapper-1", ".tsw-fn5gl-ticker-item-1", TICKER_REVERSE_1, fn5glTickerContainer1);

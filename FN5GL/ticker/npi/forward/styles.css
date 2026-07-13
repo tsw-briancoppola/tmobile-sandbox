@@ -28,26 +28,6 @@
   font-family: var(--tsw-font-main);
 }
 
-/* Reset - local only (don't use in AEM) */
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  font-size: 62.5%;
-}
-
-body {
-  height: 100vh;
-  font-family: "Arial", sans-serif;
-  overflow-x: hidden;
-  margin: 0;
-  background-color: #222222;
-}
-
 /* Reset */
 
 h1,
@@ -142,13 +122,13 @@ ul {
   white-space: nowrap;
   border-top: 2px solid black;
   border-bottom: 2px solid black;
-  padding: 20px 0;
+  padding-block: clamp(0.5rem, 2.254vw - 0.028rem, 2rem);
   color: var(--color-brand-grayscale-white);
   background-color: var(--color-brand-grayscale-900);
 }
 .tsw-fn5gl-ticker-item {
   display: inline-block;
-  font-size: 5rem;
+  font-size: clamp(3rem, 3.005vw + 2.296rem, 5rem);
   font-weight: 900;
   will-change: transform;
 }

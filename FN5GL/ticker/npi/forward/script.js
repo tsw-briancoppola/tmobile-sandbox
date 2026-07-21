@@ -20,9 +20,9 @@ function waitForGSAP(callback) {
   }
 }
 
-// =-=-=-=-=-=-=-=-=-=-=-=-=
+// =-=-=-=-=-=-=-=-=-=-=-
 // Shared helper function
-// =-=-=-=-=-=-=-=-=-=-=-=-=
+// =-=-=-=-=-=-=-=-=-=-=-
 
 function horizontalLoop(items, config) {
   console.log(fn5glTickerContainer1);
@@ -80,9 +80,9 @@ function horizontalLoop(items, config) {
   return tl;
 }
 
-// =-=-=-=-=-=-=-=-=
-// Ticker setup fn
-// =-=-=-=-=-=-=-=-=
+// =-=-=-=-=-=-=-=-=-=-=
+// Ticker setup function
+// =-=-=-=-=-=-=-=-=-=-=
 
 function initTicker(wrapperSelector, itemSelector, reverse = false, root = document) {
   waitForGSAP(() => {

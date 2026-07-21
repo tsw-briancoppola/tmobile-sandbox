@@ -44,6 +44,7 @@ let modalState = {
 const SHOW_VOTE_TOTALS = false;
 const SHOW_TREND = true;
 const SHOW_MODAL_IMAGE = true;
+const ANIMATE_VOTE_COUNTER = true;
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-
 // Render leaderboard functions

@@ -1,14 +1,16 @@
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-// Data sources and global variables
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+// Data source and global variables
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-// const DATA_SOURCE = "https://test-fn5gl.teamdigital.com/api/verified-schools";
+const DATA_SOURCE = "https://test-fn5gl.teamdigital.com/api/verified-schools";
 let schoolData;
 let schoolDataPrevious;
 
 // DOM references
+const fn5glIntro = document.querySelector(".tsw-fn5gl-intro");
 const fn5glLeaderboard = document.querySelector(".tsw-fn5gl-leaderboard");
 const fn5glRegionTabList = document.querySelector(".tsw-fn5gl-tablist");
+const fn5glLeaderboardRegionsContainer = document.querySelector(".tsw-fn5gl-leaderboard-regions-container");
 const fn5glRegions = document.querySelector(".tsw-fn5gl-leaderboard-regions");
 const fn5glLoaders = document.querySelectorAll(".tsw-fn5gl-loader");
 const fn5glUSAMapContainer = document.querySelector(".tsw-fn5gl-usa-map-container");
@@ -37,7 +39,7 @@ let modalState = {
 };
 
 // Feature toggles
-const LEADERBOARD_FIRST = false;
+const LEADERBOARD_FIRST = true;
 
 const SHOW_VOTE_TOTALS = false;
 const SHOW_TREND = true;
@@ -614,7 +616,12 @@ const initTabs = () => {
   fn5glRegionTabList.innerHTML = allTabs;
 };
 
+let mapInitialized = false;
+
 const initMap = () => {
+  if (mapInitialized) return;
+  mapInitialized = true;
+
   fn5glUSAMap.innerHTML = usaMapSVG;
   const fn5glUSAMapSVG = fn5glUSAMap.querySelector("#tsw-fn5gl-usa-map-svg");
   // Hides map from screen readers but allows child regions to be focusable
@@ -641,33 +648,45 @@ const initMapAndStats = () => {
   renderMapStats();
 };
 
+/* Render UI */
+
 const renderUI = (phase) => {
+  if (phase === "intro") {
+    fn5glLeaderboardRegionsContainer.classList.add("hidden");
+    fn5glUSAMapStats.classList.add("hidden");
+    fn5glRegionTabList.classList.add("hidden");
+
+    if (!LEADERBOARD_FIRST) {
+      fn5glLeaderboard.querySelector(".tsw-fn5gl-leaderboard-data").classList.add("map-first");
+    }
+
+    initMap();
+    fn5glUSAMap.classList.remove("hidden");
+  }
+
   if (phase === "loading") {
+    fn5glIntro.classList.add("hidden");
+    fn5glLeaderboardRegionsContainer.classList.remove("hidden");
     fn5glLoaders.forEach((loader) => loader.classList.remove("hidden"));
     fn5glRegionTabList.classList.add("hidden");
     fn5glRegions.classList.add("hidden");
     fn5glUSAMap.classList.add("hidden");
     fn5glUSAMapStats.classList.add("hidden");
-
-    if (!LEADERBOARD_FIRST) {
-      fn5glLeaderboard.querySelector(".tsw-fn5gl-leaderboard-data").classList.add("map-first");
-    }
   }
 
   if (phase === "ready") {
-    const isMobile = !breakpoint.matches; // breakpoint is (min-width: 768px)
+    const isMobile = !breakpoint.matches;
 
-    // Stagger rendering of elements - order based on screen size
     const steps = isMobile
       ? [
           { fn: initTabs, els: [fn5glRegionTabList] },
           { fn: initMapAndStats, els: [fn5glUSAMap, fn5glUSAMapStats] },
-          { fn: renderAllRegions, els: [fn5glRegions] },
+          { fn: renderAllRegions, els: [fn5glRegions, fn5glLeaderboardRegionsContainer] },
         ]
       : [
           { fn: initTabs, els: [fn5glRegionTabList] },
+          { fn: renderAllRegions, els: [fn5glRegions, fn5glLeaderboardRegionsContainer] },
           { fn: initMapAndStats, els: [fn5glUSAMap, fn5glUSAMapStats] },
-          { fn: renderAllRegions, els: [fn5glRegions] },
         ];
 
     steps.forEach(({ fn, els }, i) => {
@@ -689,15 +708,51 @@ const fetchData = async () => {
   return structuredClone(highSchoolData);
 };
 
-const init = async () => {
+const waitForIntroSelection = () => {
+  return new Promise((resolve) => {
+    const introEl = document.querySelector(".tsw-fn5gl-intro");
+
+    introEl.addEventListener(
+      "click",
+      (event) => {
+        const button = event.target.closest("[data-region]");
+        if (!button) return;
+
+        resolve(button.dataset.region);
+      },
+      { once: true },
+    );
+  });
+};
+
+fn5glIntro.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-region]");
+  if (!button) return;
+
+  initWithRegion(button.dataset.region);
+});
+
+const initWithRegion = async (region) => {
+  currentRegion = region;
+  updateRegionParam(region);
   renderUI("loading");
 
   schoolData = await fetchData();
   schoolDataPrevious = structuredClone(schoolData);
 
   setOnLoadRegion();
-  updateRegionParam(currentRegion);
   renderUI("ready");
+};
+
+const init = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+
+  if (urlParams.has("region")) {
+    initWithRegion(urlParams.get("region"));
+    return;
+  }
+
+  renderUI("intro");
 };
 
 init();

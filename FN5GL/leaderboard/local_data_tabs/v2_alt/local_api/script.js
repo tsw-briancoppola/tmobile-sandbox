@@ -7,6 +7,7 @@ let schoolData;
 let schoolDataPrevious;
 
 // DOM references
+const fn5glIntro = document.querySelector(".tsw-fn5gl-intro");
 const fn5glLeaderboard = document.querySelector(".tsw-fn5gl-leaderboard");
 const fn5glRegionTabList = document.querySelector(".tsw-fn5gl-tablist");
 const fn5glRegions = document.querySelector(".tsw-fn5gl-leaderboard-regions");
@@ -642,6 +643,13 @@ const initMapAndStats = () => {
 };
 
 const renderUI = (phase) => {
+  if (phase === "intro") {
+    fn5glIntro.classList.remove("hidden");
+    fn5glRegionTabList.classList.add("hidden");
+    fn5glRegions.classList.add("hidden");
+    fn5glUSAMapContainer.classList.add("hidden");
+  }
+
   if (phase === "loading") {
     fn5glLoaders.forEach((loader) => loader.classList.remove("hidden"));
     fn5glRegionTabList.classList.add("hidden");
@@ -684,20 +692,34 @@ const renderUI = (phase) => {
   }
 };
 
-const fetchData = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 1500));
-  return structuredClone(highSchoolData);
-};
-
-const init = async () => {
+const initWithRegion = async (region) => {
+  currentRegion = region;
+  updateRegionParam(region);
   renderUI("loading");
 
   schoolData = await fetchData();
   schoolDataPrevious = structuredClone(schoolData);
 
   setOnLoadRegion();
-  updateRegionParam(currentRegion);
   renderUI("ready");
+};
+
+const fetchData = async () => {
+  await new Promise((resolve) => setTimeout(resolve, 1500));
+  return structuredClone(highSchoolData);
+};
+
+const init = () => {
+  /* Check if there's a region URL param - if not, run intro */
+  const urlParams = new URLSearchParams(window.location.search);
+  const hasRegionParam = urlParams.has("region");
+
+  if (hasRegionParam) {
+    initWithRegion(urlParams.get("region"));
+    return;
+  }
+
+  renderUI("intro");
 };
 
 init();

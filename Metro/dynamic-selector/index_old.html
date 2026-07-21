@@ -1,0 +1,312 @@
+<div class="tsw-ds-container">
+  <div class="tsw-ds-phone-data">
+    <div class="tsw-ds-phone-data-row tsw-ds-phone-data-one-time">
+      <div class="tsw-ds-phone-data-type">
+        <span class="tsw-ds-phone-data-type-header">One time payment</span>
+        Samsung Galaxy A17 5G
+      </div>
+      <div class="tsw-ds-phone-data-amount">$0.00</div>
+    </div>
+    <div class="tsw-ds-phone-data-row tsw-ds-phone-data-monthly">
+      <div class="tsw-ds-phone-data-type">
+        <span class="tsw-ds-phone-data-type-header">Monthly payment</span>
+        $40/mo. Period.
+      </div>
+      <div class="tsw-ds-phone-data-amount">$40.00</div>
+    </div>
+    <div class="tsw-ds-phone-data-row tsw-ds-phone-data-total">
+      <div class="tsw-ds-phone-data-type">Due Today</div>
+      <div class="tsw-ds-phone-data-amount">$40.00</div>
+    </div>
+  </div>
+
+  <div class="tsw-ds-options"></div>
+</div>
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Metro by T-Mobile – Price Check Modal</title>
+    <style>
+      /* ── Design tokens ─────────────────────────────────────── */
+      :root {
+        --metro-purple: #6b2d8b;
+        --metro-purple-light: #8b3daf;
+        --metro-purple-faint: #f3edf7;
+        --metro-black: #1a1a1a;
+        --metro-gray-mid: #6a6a6a;
+        --metro-gray-light: #e8e8e8;
+        --metro-bg: #f0f0f0;
+        --metro-white: #ffffff;
+        --metro-strike: #9e9e9e;
+
+        --radius-card: 12px;
+        --radius-btn: 8px;
+        --radius-modal: 16px;
+
+        --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      /* ── Page scaffold (for demo only) ────────────────────── */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        font-family: var(--font-main);
+        background: var(--metro-bg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 100vh;
+        padding: 24px;
+      }
+
+      /* ── Modal overlay ─────────────────────────────────────── */
+      .tsw-ds-modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.45);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        z-index: 1000;
+      }
+
+      /* ── Container ─────────────────────────────────────────── */
+      .tsw-ds-container {
+        background: var(--metro-bg);
+        border-radius: var(--radius-modal);
+        width: 100%;
+        max-width: 420px;
+        padding: 24px 20px 28px;
+        overflow-y: auto;
+        max-height: 90vh;
+      }
+
+      /* ── Header ─────────────────────────────────────────────── */
+      .tsw-ds-header {
+      }
+
+      .tsw-ds-header__title {
+        font-size: 22px;
+        font-weight: 700;
+        color: var(--metro-black);
+        line-height: 1.2;
+        margin-bottom: 8px;
+      }
+
+      .tsw-ds-header__subtitle {
+        font-size: 15px;
+        color: var(--metro-black);
+        line-height: 1.4;
+        margin-bottom: 20px;
+      }
+
+      .tsw-ds-header__subtitle strong {
+        font-weight: 700;
+      }
+
+      /* ── Pricing card ───────────────────────────────────────── */
+      .tsw-ds-pricing-card {
+        background: var(--metro-white);
+        border-radius: var(--radius-card);
+        overflow: hidden;
+        margin-bottom: 24px;
+      }
+
+      .tsw-ds-pricing-row {
+        padding: 16px 18px;
+        border-bottom: 1px solid var(--metro-gray-light);
+      }
+
+      .tsw-ds-pricing-row:last-child {
+        border-bottom: none;
+      }
+
+      .tsw-ds-pricing-row__label {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--metro-purple);
+        margin-bottom: 4px;
+      }
+
+      .tsw-ds-pricing-row__body {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .tsw-ds-pricing-row__name {
+        font-size: 16px;
+        font-weight: 500;
+        color: var(--metro-black);
+      }
+
+      .tsw-ds-pricing-row__amount {
+        font-size: 18px;
+        font-weight: 700;
+        color: var(--metro-purple);
+        white-space: nowrap;
+      }
+
+      .tsw-ds-pricing-row__amount--strike {
+        font-size: 15px;
+        font-weight: 400;
+        color: var(--metro-strike);
+        text-decoration: line-through;
+        margin-right: 6px;
+      }
+
+      /* Due today row — slightly heavier */
+      .tsw-ds-pricing-row--due-today .tsw-ds-pricing-row__name {
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+        color: var(--metro-black);
+      }
+
+      .tsw-ds-pricing-row--due-today .tsw-ds-pricing-row__amount-wrap {
+        text-align: right;
+      }
+
+      .tsw-ds-pricing-row--due-today .tsw-ds-pricing-row__amount {
+        font-size: 26px;
+        display: block;
+        line-height: 1;
+      }
+
+      .tsw-ds-pricing-row--due-today .tsw-ds-pricing-row__tax-note {
+        font-size: 13px;
+        font-weight: 600;
+        color: var(--metro-purple);
+      }
+
+      /* ── Section heading ────────────────────────────────────── */
+      .tsw-ds-section-heading {
+        font-size: 17px;
+        font-weight: 700;
+        color: var(--metro-black);
+        margin-bottom: 12px;
+      }
+
+      /* ── Join option group ──────────────────────────────────── */
+      .tsw-ds-option-group {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 24px;
+      }
+
+      .tsw-ds-option-btn {
+        flex: 1;
+        padding: 16px 12px;
+        border: 2px solid var(--metro-gray-light);
+        border-radius: var(--radius-btn);
+        background: var(--metro-white);
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--metro-black);
+        cursor: pointer;
+        text-align: center;
+        transition:
+          border-color 0.15s,
+          background 0.15s;
+      }
+
+      .tsw-ds-option-btn:hover {
+        border-color: var(--metro-purple-light);
+      }
+
+      .tsw-ds-option-btn--selected {
+        border-color: var(--metro-black);
+        background: var(--metro-white);
+      }
+
+      /* ── Plan selector ──────────────────────────────────────── */
+      .tsw-ds-plan-group {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 28px;
+      }
+
+      .tsw-ds-plan-card {
+        flex: 1;
+        padding: 14px 12px;
+        border: 2px solid var(--metro-gray-light);
+        border-radius: var(--radius-btn);
+        background: var(--metro-white);
+        cursor: pointer;
+        text-align: left;
+        transition: border-color 0.15s;
+      }
+
+      .tsw-ds-plan-card:hover {
+        border-color: var(--metro-purple-light);
+      }
+
+      .tsw-ds-plan-card--selected {
+        border-color: var(--metro-black);
+      }
+
+      .tsw-ds-plan-card__price {
+        font-size: 16px;
+        font-weight: 700;
+        color: var(--metro-black);
+        display: block;
+        margin-bottom: 2px;
+      }
+
+      .tsw-ds-plan-card__note {
+        font-size: 12px;
+        color: var(--metro-gray-mid);
+      }
+
+      /* ── CTA button ─────────────────────────────────────────── */
+      .tsw-ds-cta-btn {
+        display: block;
+        width: 100%;
+        padding: 18px;
+        background: var(--metro-purple);
+        color: var(--metro-white);
+        font-size: 17px;
+        font-weight: 700;
+        border: none;
+        border-radius: var(--radius-btn);
+        cursor: pointer;
+        text-align: center;
+        transition: background 0.15s;
+        margin-bottom: 20px;
+      }
+
+      .tsw-ds-cta-btn:hover {
+        background: var(--metro-purple-light);
+      }
+
+      /* ── Legal ──────────────────────────────────────────────── */
+      .tsw-ds-legal {
+        font-size: 12px;
+        color: var(--metro-black);
+        line-height: 1.5;
+      }
+
+      .tsw-ds-legal__label {
+        font-weight: 700;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Modal overlay -->
+    <div class="tsw-ds-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="tsw-ds-modal-title"></div>
+    <!-- /.tsw-ds-modal-overlay -->
+  </body>
+</html>

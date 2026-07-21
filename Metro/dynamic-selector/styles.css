@@ -1,0 +1,243 @@
+.tsw-ds-container {
+  --tsw-font-display:
+    "TeleNeo Web", var(--phx--text-family-brand), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --tsw-font-main:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol";
+
+  --tsw-font-size: 16px;
+  --color-brand-metro-purple: #9646c3;
+  --color-brand-grayscale-100: #fbfbfb;
+  --color-brand-grayscale-200: #f5f5f5;
+  --color-brand-grayscale-300: #e6e6e6;
+  --color-brand-grayscale-400: #ccc;
+  --color-brand-grayscale-500: #8c8c8c;
+  --color-brand-grayscale-600: #6a6a6a;
+  --color-brand-grayscale-700: #414141;
+  --color-brand-grayscale-900: #1c1c1c;
+  --color-brand-grayscale-white: #fff;
+
+  --color-input-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+
+  font-family: var(--tsw-font-main);
+
+  /* --ds-modal-background-color: var(--color-brand-grayscale-300); */
+}
+
+/* Reset - local only (don't use in AEM) */
+
+/* * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  height: 100vh;
+  font-size: 1.6rem;
+  font-family: "Arial", sans-serif;
+  overflow-x: hidden;
+  margin: 0;
+} */
+
+/* Reset */
+
+h1,
+h2,
+h3,
+p,
+div {
+  margin: 0;
+  line-height: normal;
+}
+
+ol {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+a,
+a:visited {
+  color: var(--fn5gl-link-color);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus-stroke);
+}
+
+.tsw-ds-container h3 {
+  font-size: 1.6rem;
+  margin-bottom: 1.4rem;
+}
+
+/* UI elements */
+
+.tsw-ds-container button {
+  cursor: pointer;
+  padding: 1.7rem 1.9rem;
+  font-size: 1.3rem;
+  font-weight: 600;
+  text-align: left;
+  border: 0;
+  border-radius: 0.5rem;
+  background-color: var(--color-brand-grayscale-white);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  flex: 1;
+}
+@media (min-width: 414px) {
+  .tsw-ds-container button {
+    font-size: 1.4rem;
+  }
+}
+@media (min-width: 600px) {
+  .tsw-ds-container button {
+    font-size: 1.6rem;
+  }
+}
+.tsw-ds-container button.tsw-ds-option-btn {
+  font-weight: 400;
+}
+.tsw-ds-container button.tsw-ds-cta-btn {
+  font-size: 1.8rem;
+  text-align: center;
+  padding: 1.6rem 1.2rem;
+  color: var(--color-brand-grayscale-white);
+  background-color: var(--color-brand-metro-purple);
+}
+.tsw-ds-container button.tsw-ds-option-btn--selected,
+.tsw-ds-container button.tsw-ds-plan-btn--selected {
+  border: 2px solid var(--color-brand-grayscale-900);
+}
+
+/* =-=-=-=-=-=- */
+/* Modal styles */
+/* =-=-=-=-=-=- */
+
+.tsw-ds-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin-top: 2rem;
+}
+@media (min-width: 414px) {
+  .tsw-ds-container button {
+    font-size: 1.5rem;
+  }
+}
+@media (min-width: 600px) {
+  .tsw-ds-container {
+    font-size: 1.6rem;
+  }
+}
+
+/* Pricing card styles */
+
+.tsw-ds-pricing-card {
+  border-radius: 1rem;
+  background-color: var(--color-brand-grayscale-white);
+}
+
+.tsw-ds-pricing-row {
+  padding: 1rem 1.4rem;
+}
+.tsw-ds-pricing-row:first-child {
+  border-bottom: 1px solid var(--color-brand-grayscale-300);
+}
+.tsw-ds-pricing-row:nth-child(2) {
+  border-bottom: 2px solid var(--color-brand-grayscale-300);
+}
+
+.tsw-ds-pricing-row__label {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  color: var(--color-brand-metro-purple);
+  margin-bottom: 0.4rem;
+}
+
+.tsw-ds-pricing-row__body {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 1rem;
+  width: 100%;
+  line-height: 2.2rem;
+}
+.tsw-ds-pricing-row__body--due-today {
+  align-items: flex-start;
+}
+
+.tsw-ds-pricing-row__name--due-today {
+  text-transform: uppercase;
+}
+
+.tsw-ds-pricing-row__amount-wrap {
+  text-align: end;
+  color: var(--color-brand-grayscale-500);
+}
+.tsw-ds-pricing-row__amount {
+  color: var(--color-brand-metro-purple);
+}
+.tsw-ds-pricing-row__amount--strike {
+  color: var(--color-brand-grayscale-500);
+  text-decoration: line-through;
+  margin-right: 1rem;
+}
+
+.tsw-ds-pricing-row__amount--due-today {
+  display: block;
+  font-size: 2.5rem;
+}
+@media (min-width: 600px) {
+  .tsw-ds-pricing-row__amount--due-today {
+    font-size: 2.8rem;
+  }
+}
+.tsw-ds-pricing-row__tax-note {
+  color: var(--color-brand-metro-purple);
+}
+
+/* Button group styles */
+
+.tsw-ds-option-group,
+.tsw-ds-plan-group {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.tsw-ds-plan-btn__price {
+  font-size: 1.6rem;
+  display: block;
+}
+@media (min-width: 600px) {
+  .tsw-ds-plan-btn__price {
+    font-size: 1.8rem;
+    display: block;
+  }
+}
+
+.tsw-ds-plan-btn__note {
+  font-size: 1.4rem;
+  font-weight: 400;
+}
+
+/* Legal text styles */
+
+.tsw-ds-legal {
+  font-weight: 400;
+}
+.tsw-ds-legal__label {
+  font-weight: 600;
+}

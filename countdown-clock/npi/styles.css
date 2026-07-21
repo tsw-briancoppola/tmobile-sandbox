@@ -1,0 +1,241 @@
+.tsw-countdown-container {
+  --tsw-font-display:
+    "TeleNeo Web", var(--phx--text-family-brand), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --tsw-font-main:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol";
+
+  --tsw-font-size: 16px;
+  --color-brand-primary-400: #e20074;
+  --color-brand-primary-600: #770141;
+  --color-brand-grayscale-400: #ccc;
+  --color-brand-grayscale-500: #8c8c8c;
+  --color-brand-grayscale-600: #6a6a6a;
+  --color-brand-grayscale-700: #414141;
+  --color-brand-grayscale-900: #1c1c1c;
+  --color-brand-grayscale-white: #fff;
+
+  --color-overlay: rgba(0, 0, 0, 0.4);
+  --color-input-shadow: 0px 0px 5px 0px rgba(226, 0, 116, 0.5);
+
+  font-family: var(--tsw-font-main);
+}
+
+.tsw-countdown {
+  --countdown-text-color: var(--color-brand-grayscale-900);
+  --countdown-background-color: var(--color-brand-grayscale-white);
+  --time-unit-number-color: var(--color-brand-primary-400);
+  --time-unit-text-color: var(--color-brand-grayscale-white);
+  --time-unit-background-color: var(--color-brand-grayscale-900);
+  --status-alert-text: var(--color-brand-primary-400);
+  --button-text-color: var(--color-brand-grayscale-white);
+  --button-background-color: var(--color-brand-primary-400);
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  padding: 2rem;
+  color: var(--countdown-text-color);
+  background-color: var(--countdown-background-color);
+}
+
+.tsw-countdown.dark-theme {
+  --countdown-text-color: var(--color-brand-grayscale-white);
+  --countdown-background-color: var(--color-brand-grayscale-900);
+  --time-unit-number-color: var(--color-brand-primary-400);
+  --time-unit-text-color: var(--color-brand-grayscale-900);
+  --time-unit-background-color: var(--color-brand-grayscale-white);
+  --status-alert-text: var(--color-brand-primary-400);
+  --button-text-color: var(--color-brand-grayscale-white);
+  --button-background-color: var(--color-brand-primary-400);
+}
+
+.tsw-countdown.magenta-theme {
+  --countdown-text-color: var(--color-brand-grayscale-white);
+  --countdown-background-color: var(--color-brand-primary-400);
+  --time-unit-number-color: var(--color-brand-grayscale-900);
+  --time-unit-text-color: var(--color-brand-grayscale-900);
+  --time-unit-background-color: var(--color-brand-grayscale-white);
+  --status-alert-text: var(--color-brand-grayscale-white);
+  --button-text-color: var(--color-brand-primary-400);
+  --button-background-color: var(--color-brand-grayscale-white);
+}
+
+/* UI Elements */
+
+.tsw-countdown button {
+  cursor: pointer;
+  padding: 10px 15px;
+  font-size: 14px;
+  font-weight: 700;
+  border: 0;
+  color: var(--button-text-color);
+  background-color: var(--button-background-color);
+  box-shadow: 2px 2px 7px rgba(0, 0, 0, 0.5);
+}
+
+/* Modal and overlay */
+
+.tsw-modal {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50vw;
+  max-width: 500px;
+  padding: 4rem;
+  font-size: 16px;
+  font-weight: 700;
+  border: 0;
+  background-color: var(--color-brand-grayscale-white);
+  z-index: 1001;
+}
+
+.tsw-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--color-overlay);
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+  z-index: 1000;
+  display: none;
+}
+.tsw-modal-overlay.is-visible {
+  display: block;
+}
+
+.tsw-modal-close {
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  background: var(--color-brand-primary-400);
+  color: var(--color-brand-grayscale-white);
+  z-index: 1001;
+  top: -20px;
+  right: -20px;
+  font-weight: 900;
+  font-size: 27px;
+  border: 5px solid var(--color-brand-grayscale-white);
+  border-radius: 50%;
+  transition: 0.25s;
+  cursor: pointer;
+}
+.tsw-modal-close svg {
+  height: 100%;
+  width: 100%;
+  fill: var(--color-brand-grayscale-white);
+}
+
+.tsw-dropdown {
+  width: 100%;
+  margin: 10px 0;
+  position: relative;
+  outline: none;
+  transition: 0.25s;
+}
+
+.tsw-modal label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.tsw-modal input,
+.tsw-modal select {
+  width: 100%;
+  height: 100%;
+  padding: 15px;
+  border: 1px solid var(--color-brand-grayscale-500);
+  border-radius: 0px;
+  font-size: 16px;
+  appearance: none;
+  box-sizing: border-box;
+  position: relative;
+}
+.tsw-modal button:hover,
+.tsw-modal button:focus,
+.tsw-modal input:hover,
+.tsw-modal input:focus,
+.tsw-modal select:hover,
+.tsw-modal select:focus {
+  outline: none;
+  border: 1px solid var(--color-brand-primary-400);
+  box-shadow: var(--color-input-shadow);
+}
+
+.tsw-dropdown-caret {
+  position: absolute;
+  transform: rotate(180deg) scale(0.5) translateY(50%);
+  top: 50%;
+  right: 0.8rem;
+  filter: grayscale(100%) brightness(0%);
+  transition: 0.25s;
+  font-size: 50px;
+}
+
+.tsw-modal button,
+.tsw-modal input,
+.tsw-modal select,
+.tsw-dropdown-caret {
+  transition: 0.25s;
+}
+
+/* Clock */
+
+.tsw-countdown-clock {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr;
+  align-items: center;
+  gap: 1rem;
+}
+
+.tsw-countdown-clock .tsw-time-unit {
+  flex: 1;
+  text-align: center;
+  padding: 1rem;
+  color: var(--time-unit-text-color);
+  background-color: var(--time-unit-background-color);
+  border-radius: 0.5rem;
+}
+
+.tsw-countdown-clock .tsw-time-unit .tsw-number {
+  display: block;
+  font-size: 3rem;
+  line-height: 4rem;
+  font-weight: 700;
+  color: var(--time-unit-number-color);
+}
+
+.tsw-countdown-clock .tsw-time-colon {
+  font-size: 3rem;
+  font-weight: 800;
+}
+
+/* Status */
+
+.tsw-countdown-status {
+  display: none;
+  text-align: center;
+}
+.tsw-countdown-status .tsw-countdown-status-alert {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--status-alert-text);
+}

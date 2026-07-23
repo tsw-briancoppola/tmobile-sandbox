@@ -26,7 +26,7 @@ const plans = Object.fromEntries(
       : [`$${regular}/mo. Period.`];
 
     return [key, { monthly: formatPrice(firstMonth ?? regular), label }];
-  }),\
+  }),
 );
 
 // Selected options (and default values on load)

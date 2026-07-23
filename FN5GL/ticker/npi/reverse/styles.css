@@ -89,16 +89,14 @@ ul {
   align-items: center;
   text-align: center;
   gap: 3rem;
-  padding: 2.5rem 0;
-  max-width: 140rem;
+  width: 100dvw;
   margin: 0 auto;
-  /* height: 200vh; */
   overflow: hidden;
-}
-@media (min-width: 768px) {
-  .tsw-fn5gl-container-ticker {
-    padding: 3rem 0;
-  }
+
+  margin-inline: auto;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 /* =-=-=-=-=-=-= */
@@ -111,24 +109,18 @@ ul {
   gap: 1.4rem;
 }
 
-/* .tsw-fn5gl-ticker-wrapper {
-  font-size: 4rem;
-  font-weight: 700;
-  color: var(--color-brand-grayscale-white);
-} */
-
 .tsw-fn5gl-ticker-wrapper {
   overflow: hidden;
   white-space: nowrap;
   border-top: 2px solid black;
   border-bottom: 2px solid black;
-  padding: 20px 0;
+  padding-block: clamp(0.5rem, 2.254vw - 0.028rem, 2rem);
   color: var(--color-brand-grayscale-white);
   background-color: var(--color-brand-grayscale-900);
 }
 .tsw-fn5gl-ticker-item {
   display: inline-block;
-  font-size: 5rem;
+  font-size: clamp(3rem, 3.005vw + 2.296rem, 5rem);
   font-weight: 900;
   will-change: transform;
 }

@@ -89,16 +89,14 @@ ul {
   align-items: center;
   text-align: center;
   gap: 3rem;
-  padding: 2.5rem 0;
-  max-width: 140rem;
+  width: 100dvw;
   margin: 0 auto;
-  /* height: 200vh; */
   overflow: hidden;
-}
-@media (min-width: 768px) {
-  .tsw-fn5gl-container-ticker {
-    padding: 3rem 0;
-  }
+
+  margin-inline: auto;
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 /* =-=-=-=-=-=-= */
@@ -110,12 +108,6 @@ ul {
   flex-direction: column;
   gap: 1.4rem;
 }
-
-/* .tsw-fn5gl-ticker-wrapper {
-  font-size: 4rem;
-  font-weight: 700;
-  color: var(--color-brand-grayscale-white);
-} */
 
 .tsw-fn5gl-ticker-wrapper {
   overflow: hidden;

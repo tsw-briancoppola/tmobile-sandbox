@@ -2,9 +2,7 @@
 // DOM references and global variables
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
 
-const fn5glTickerContainer1 = document
-  .querySelector("#tsw-fn5gl-test_ticker-1")
-  .querySelector("xpr-npi-content").shadowRoot;
+const fn5glTickerContainer1 = document.querySelector("#tsw-fn5gl_ticker-1").querySelector("xpr-npi-content").shadowRoot;
 
 const TICKER_REVERSE_1 = false; // false = forward, true = reverse
 

@@ -12,6 +12,9 @@
 
   const joinButtonsiPhone = dsContaineriPhone.querySelectorAll(".tsw-ds-option-btn");
   const planButtonsiPhone = dsContaineriPhone.querySelectorAll(".tsw-ds-plan-btn");
+
+  const oneTimeStrikeiPhone = dsContaineriPhone.querySelector(".tsw-ds-pricing-row__amount--strike");
+  const oneTimeFinaliPhone = dsContaineriPhone.querySelector(".tsw-ds-pricing-row__amount--final");
   const monthlyAmountiPhone = dsContaineriPhone.querySelector(
     ".tsw-ds-pricing-row--monthly .tsw-ds-pricing-row__amount",
   );
@@ -22,14 +25,14 @@
   // Change these dollar values as needed
   const plansiPhone = {
     get: {
-      40: { oneTime: 449.99, monthly: 40, firstMonth: null, dueToday: 489.99 },
-      50: { oneTime: 299.99, monthly: 50, firstMonth: 55, dueToday: 354.99 },
-      60: { oneTime: 299.99, monthly: 60, firstMonth: 65, dueToday: 364.99 },
+      40: { oneTimeFinal: 449.99, monthly: 40, firstMonth: null, dueToday: 489.99 },
+      50: { oneTimeFinal: 299.99, monthly: 50, firstMonth: 55, dueToday: 354.99 },
+      60: { oneTimeFinal: 299.99, monthly: 60, firstMonth: 65, dueToday: 364.99 },
     },
     bring: {
-      40: { oneTime: 399.99, monthly: 40, firstMonth: null, dueToday: 439.99 },
-      50: { oneTime: 99.99, monthly: 50, firstMonth: 55, dueToday: 154.99 },
-      60: { oneTime: 99.99, monthly: 60, firstMonth: 65, dueToday: 164.99 },
+      40: { oneTimeFinal: 399.99, monthly: 40, firstMonth: null, dueToday: 439.99 },
+      50: { oneTimeFinal: 99.99, monthly: 50, firstMonth: 55, dueToday: 154.99 },
+      60: { oneTimeFinal: 99.99, monthly: 60, firstMonth: 65, dueToday: 164.99 },
     },
   };
 
@@ -44,12 +47,13 @@
   const formatPrice = (n) => `$${n.toFixed(2)}`;
 
   const renderPaymentValues = (join, plan) => {
-    const { oneTime, monthly, firstMonth, dueToday } = plansiPhone[join][plan];
+    const { oneTimeFinal, monthly, firstMonth, dueToday } = plansiPhone[join][plan];
 
     const label = firstMonth
       ? [`$${monthly}/mo. with AutoPay,`, `${formatPrice(firstMonth)} for first month`]
       : [`$${monthly}/mo. Period.`];
 
+    oneTimeFinaliPhone.textContent = formatPrice(oneTimeFinal);
     monthlyAmountiPhone.textContent = formatPrice(firstMonth ?? monthly);
     monthlyLabeliPhone.innerHTML = label.join("<br>");
     dueTodayAmountiPhone.textContent = formatPrice(dueToday);

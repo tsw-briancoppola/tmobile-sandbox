@@ -24,6 +24,7 @@
   // Plan values
   // Change these dollar values as needed
   const plansiPhone = {
+    oneTimeStrike: 599.99,
     get: {
       40: { oneTimeFinal: 449.99, monthly: 40, firstMonth: null, dueToday: 489.99 },
       50: { oneTimeFinal: 299.99, monthly: 50, firstMonth: 55, dueToday: 354.99 },
@@ -47,12 +48,14 @@
   const formatPrice = (n) => `$${n.toFixed(2)}`;
 
   const renderPaymentValues = (join, plan) => {
+    const oneTimeStrike = plansiPhone.oneTimeStrike;
     const { oneTimeFinal, monthly, firstMonth, dueToday } = plansiPhone[join][plan];
 
     const label = firstMonth
       ? [`$${monthly}/mo. with AutoPay,`, `${formatPrice(firstMonth)} for first month`]
       : [`$${monthly}/mo. Period.`];
 
+    oneTimeStrikeiPhone.textContent = formatPrice(oneTimeStrike);
     oneTimeFinaliPhone.textContent = formatPrice(oneTimeFinal);
     monthlyAmountiPhone.textContent = formatPrice(firstMonth ?? monthly);
     monthlyLabeliPhone.innerHTML = label.join("<br>");

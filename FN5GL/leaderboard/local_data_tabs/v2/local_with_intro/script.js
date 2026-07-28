@@ -7,7 +7,10 @@ let schoolData;
 let schoolDataPrevious;
 
 // DOM references
+const fn5glIntroContainer = document.querySelector(".tsw-fn5gl-intro-container");
 const fn5glIntro = document.querySelector(".tsw-fn5gl-intro");
+const fn5glIntroButtons = document.querySelector(".tsw-fn5gl-intro-buttons");
+const fn5glIntroLoader = document.querySelector(".tsw-fn5gl-intro-loader");
 const fn5glLeaderboard = document.querySelector(".tsw-fn5gl-leaderboard");
 const fn5glRegionTabList = document.querySelector(".tsw-fn5gl-tablist");
 const fn5glLeaderboardRegionsContainer = document.querySelector(".tsw-fn5gl-leaderboard-regions-container");
@@ -28,7 +31,7 @@ const fn5glModalClose = document.querySelector(".tsw-modal-close");
 const REGIONS_ORDER = ["West", "Midwest", "South", "East"];
 
 // Tab state - default
-let currentRegion = REGIONS_ORDER[0];
+let currentRegion = null;
 
 // Focus overlay element
 let focusOverlay = null;
@@ -51,14 +54,14 @@ const ANIMATE_VOTE_COUNTER = true;
 // Render intro functions
 // =-=-=-=-=-=-=-=-=-=-=-
 
-const renderIntro = () => {
+const renderIntroButtons = () => {
   const introHTML = REGIONS_ORDER.map((region) => {
     return `
-      <button type="button" data-region="${region.toLowerCase()}">${region}</button>
+      <button type="button" class="magenta-button" data-region="${region.toLowerCase()}" aria-controls="${region}">${region}</button>
     `;
   }).join("");
 
-  fn5glIntro.innerHTML = introHTML;
+  fn5glIntroButtons.innerHTML = introHTML;
 };
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -221,9 +224,11 @@ const toggleRegionHighlight = (regionId, isHovering) => {
 
   const mapGroup = fn5glUSAMap.querySelector(`g[data-map-region="${regionId}"]`);
   const tab = fn5glRegionTabList.querySelector(`button[aria-controls="${regionId}"]`);
+  const introButton = fn5glIntroButtons.querySelector(`button[aria-controls="${regionId}"]`);
 
   if (mapGroup) mapGroup.classList.toggle("hover", isHovering);
   if (tab) tab.classList.toggle("hover", isHovering);
+  if (introButton) introButton.classList.toggle("hover", isHovering);
 };
 
 const setActiveRegion = (regionId) => {
@@ -266,7 +271,20 @@ const addVote = (id) => {
 // Event listeners
 // =-=-=-=-=-=-=-=
 
-// Clicking on tabs and map
+// Clicking on intro buttons, tabs, and map
+
+/* Intro buttons event listener */
+
+fn5glIntroButtons.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-region]");
+  if (!button) return;
+
+  fn5glUSAMap.querySelectorAll("g[data-map-region]").forEach((g) => {
+    g.classList.remove("hover");
+  });
+
+  initWithRegion(button.dataset.region);
+});
 
 fn5glRegionTabList.addEventListener("click", (event) => {
   const button = event.target.closest("button");
@@ -279,9 +297,22 @@ fn5glRegionTabList.addEventListener("click", (event) => {
 
 fn5glUSAMap.addEventListener("click", (event) => {
   const group = event.target.closest("g[data-map-region]");
-  if (!group || group.dataset.mapRegion === currentRegion) return;
+  if (!group) return;
 
   const newRegion = group.dataset.mapRegion;
+  if (!schoolData) return; // data not loaded yet, ignore clicks
+
+  // Still in intro phase — treat like intro button click
+  if (fn5glLeaderboardRegionsContainer.classList.contains("hidden")) {
+    fn5glUSAMap.querySelectorAll("g[data-map-region]").forEach((g) => {
+      g.classList.remove("hover");
+    });
+    initWithRegion(newRegion);
+    return;
+  }
+
+  // Normal leaderboard phase
+  if (newRegion === currentRegion) return;
   setActiveRegion(newRegion);
   updateRegionParam(newRegion);
 });
@@ -327,6 +358,18 @@ fn5glUSAMap.addEventListener("keyup", (event) => {
   if (event.key === "Escape") {
     focusOverlay.innerHTML = "";
   }
+});
+
+// Hover over intro buttons
+
+fn5glIntroButtons.addEventListener("mouseover", (event) => {
+  const button = event.target.closest("button");
+  if (button) toggleRegionHighlight(button.getAttribute("aria-controls"), true);
+});
+
+fn5glIntroButtons.addEventListener("mouseout", (event) => {
+  const button = event.target.closest("button");
+  if (button) toggleRegionHighlight(button.getAttribute("aria-controls"), false);
 });
 
 // Hover over tabs
@@ -478,10 +521,11 @@ const initIntroData = async () => {
   schoolDataPrevious = structuredClone(schoolData);
 
   initMap();
-  updateMapActiveRegion();
   renderMapStats();
-  renderIntro();
+  renderIntroButtons();
 
+  fn5glIntro.classList.remove("hidden");
+  fn5glIntroLoader.classList.add("hidden");
   fn5glMapLoader.classList.add("hidden");
   fn5glUSAMap.classList.remove("hidden");
   fn5glUSAMapStats.classList.remove("hidden");
@@ -489,25 +533,22 @@ const initIntroData = async () => {
 
 const renderUI = (phase) => {
   if (phase === "intro") {
+    fn5glIntro.classList.add("hidden");
+    fn5glIntroLoader.classList.remove("hidden");
+    fn5glMapLoader.classList.remove("hidden");
     fn5glLeaderboardRegionsContainer.classList.add("hidden");
     // fn5glUSAMapStats.classList.add("hidden");
     fn5glRegionTabList.classList.add("hidden");
-    fn5glMapLoader.classList.remove("hidden");
 
     if (!LEADERBOARD_FIRST) {
       fn5glLeaderboard.querySelector(".tsw-fn5gl-leaderboard-data").classList.add("map-first");
     }
 
     initIntroData();
-
-    // Hide loaders after everything is done
-    // setTimeout(() => {
-    //   fn5glLeaderboardLoader.classList.add("hidden");
-    //   fn5glMapLoader.classList.add("hidden");
-    // }, 200);
   }
 
   if (phase === "loading") {
+    fn5glIntroContainer.classList.add("hidden");
     fn5glIntro.classList.add("hidden");
     fn5glLeaderboardRegionsContainer.classList.remove("hidden");
     fn5glLeaderboardLoader.classList.remove("hidden");
@@ -555,32 +596,6 @@ const fetchData = async () => {
   return structuredClone(highSchoolData);
 };
 
-const waitForIntroSelection = () => {
-  return new Promise((resolve) => {
-    const introEl = document.querySelector(".tsw-fn5gl-intro");
-
-    introEl.addEventListener(
-      "click",
-      (event) => {
-        const button = event.target.closest("[data-region]");
-        if (!button) return;
-
-        resolve(button.dataset.region);
-      },
-      { once: true },
-    );
-  });
-};
-
-/* Intro event listener */
-
-fn5glIntro.addEventListener("click", (event) => {
-  const button = event.target.closest("[data-region]");
-  if (!button) return;
-
-  initWithRegion(button.dataset.region);
-});
-
 /* Init functions */
 
 const initWithRegion = async (region) => {
@@ -601,6 +616,7 @@ const initWithRegion = async (region) => {
 
   // Coming from intro — data already loaded, just swap UI
   fn5glIntro.classList.add("hidden");
+  fn5glIntroContainer.classList.add("hidden");
   fn5glLeaderboardRegionsContainer.classList.remove("hidden");
 
   setOnLoadRegion();

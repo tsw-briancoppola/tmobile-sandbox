@@ -294,6 +294,11 @@ a:visited {
 /* =-=- */
 
 @media (min-width: 768px) {
+  .tsw-fn5gl-leaderboard-data.map-first .tsw-fn5gl-intro-container {
+    order: 2;
+    border-left: 1px solid var(--color-border);
+    border-right: 0;
+  }
   .tsw-fn5gl-leaderboard-data.map-first .tsw-fn5gl-leaderboard-regions-container {
     order: 2;
     border-left: 1px solid var(--color-border);

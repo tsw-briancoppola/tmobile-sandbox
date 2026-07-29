@@ -2,7 +2,7 @@
 // Data source and global variables
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-const DATA_SOURCE = "https://test-fn5gl.teamdigital.com/api/verified-schools";
+// const DATA_SOURCE = "https://test-fn5gl.teamdigital.com/api/verified-schools";
 let schoolData;
 let schoolDataPrevious;
 
@@ -43,7 +43,8 @@ let modalState = {
 };
 
 // Feature toggles
-const LEADERBOARD_FIRST = true;
+const LEADERBOARD_FIRST = false;
+const SHOW_MAP_STATS = false;
 
 const SHOW_VOTE_TOTALS = false;
 const SHOW_TREND = true;
@@ -167,6 +168,8 @@ const animateCounter = (element, targetValue, duration = 5000) => {
 };
 
 const renderMapStats = () => {
+  if (!SHOW_MAP_STATS) return;
+
   const totalVotes = schoolData.map((school) => school.votes).reduce((acc, curr) => acc + curr, 0);
   const stateWithMostVotes = Object.entries(
     schoolData.reduce((acc, { state, votes }) => {
@@ -540,10 +543,6 @@ const renderUI = (phase) => {
     // fn5glUSAMapStats.classList.add("hidden");
     fn5glRegionTabList.classList.add("hidden");
 
-    if (!LEADERBOARD_FIRST) {
-      fn5glLeaderboard.querySelector(".tsw-fn5gl-leaderboard-data").classList.add("map-first");
-    }
-
     initIntroData();
   }
 
@@ -641,6 +640,14 @@ const initWithRegion = async (region) => {
 };
 
 const init = () => {
+  if (!LEADERBOARD_FIRST) {
+    fn5glLeaderboard.querySelector(".tsw-fn5gl-leaderboard-data").classList.add("map-first");
+  }
+
+  if (!SHOW_MAP_STATS) {
+    fn5glUSAMapStats.style.display = "none";
+  }
+
   dataPromise = fetchData(); // start fetching immediately
 
   const urlParams = new URLSearchParams(window.location.search);

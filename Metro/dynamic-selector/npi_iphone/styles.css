@@ -47,8 +47,7 @@ ol {
   margin: 0;
   padding: 0;
 }
-
-.bold {
+a .bold {
   font-weight: 700;
 }
 
@@ -94,10 +93,13 @@ a:visited {
 .tsw-ds-container button.tsw-ds-option-btn {
   font-weight: 400;
 }
-.tsw-ds-container button.tsw-ds-cta-btn {
+.tsw-ds-container .tsw-ds-cta-btn {
   font-size: var(--ds-modal-font-size-cta-button);
   text-align: center;
+  font-weight: 700;
+  text-decoration: none;
   padding: 1.6rem 1.2rem;
+  border-radius: 0.5rem;
   color: var(--color-brand-grayscale-white);
   background-color: var(--color-brand-metro-purple);
 }

@@ -48,7 +48,7 @@ const renderPaymentValues = (join, plan) => {
 
   const label = firstMonth
     ? [`$${monthly}/mo. with AutoPay,`, `${formatPrice(firstMonth)} for first month`]
-    : [`$${monthly}/mo. Period.`];
+    : [`$${monthly}/mo.`, `Period.`];
 
   oneTimeStrikeSamsung.textContent = formatPrice(oneTimeStrike);
   oneTimeFinalSamsung.textContent = formatPrice(oneTimeFinal);

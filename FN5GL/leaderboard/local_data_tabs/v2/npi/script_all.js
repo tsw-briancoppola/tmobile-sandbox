@@ -1697,6 +1697,9 @@ const highSchoolData = [
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 const DATA_SOURCE = "https://test-fn5gl.teamdigital.com/api/verified-schools";
+// const DATA_SOURCE = "https://fn5gl.t-mobile.com/api/5k-fridays";
+const BEARER_TOKEN = "FzGJtOcibwWWQNU2";
+
 let schoolData;
 let schoolDataPrevious;
 
@@ -1741,12 +1744,30 @@ let modalState = {
 };
 
 // Feature toggles
-const LEADERBOARD_FIRST = true;
+const LEADERBOARD_FIRST = false;
+const SHOW_MAP_STATS = false;
 
-const SHOW_VOTE_TOTALS = false;
+const SHOW_VOTE_TOTALS = true;
 const SHOW_TREND = true;
 const SHOW_MODAL_IMAGE = true;
 const ANIMATE_VOTE_COUNTER = true;
+
+// =-=-=-=-=
+// Data prep
+// =-=-=-=-=
+
+// Add votes property to each school object
+const updateSchoolData = (data) => {
+  return data.map((d) => ({
+    ...d,
+    votes: 10000,
+    description: "Awesome place",
+    home_game: {
+      datetime: "2026-07-29T20:38:15.123Z",
+      address: "33 Sassy Street",
+    },
+  }));
+};
 
 // =-=-=-=-=-=-=-=-=-=-=-
 // Render intro functions
@@ -1839,6 +1860,180 @@ const renderAllRegions = () => {
   fn5glRegions.innerHTML = allRegionsHTML;
 };
 
+// =-=-=-=-=-=-=-=
+// Modal functions
+// =-=-=-=-=-=-=-=
+
+// Modal functions and event listeners
+
+const parseGameDateTime = (dateTimeString) => {
+  const date = new Date(dateTimeString);
+
+  const time = new Intl.DateTimeFormat("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  }).format(date);
+
+  const timeZone = new Intl.DateTimeFormat("en-US", {
+    timeZoneName: "short",
+  })
+    .format(date)
+    .split(", ")[1]; // extracts "EDT"
+
+  const formattedDate = new Intl.DateTimeFormat("en-US", {
+    month: "2-digit",
+    day: "2-digit",
+    year: "2-digit",
+  }).format(date);
+
+  return { time, timeZone, formattedDate };
+};
+
+const parseAddress = (address) => {
+  const parts = address.split(", ");
+  const [state, zip] = parts[2].split(" ");
+  return {
+    street: parts[0],
+    cityState: `${parts[1]}, ${state}`,
+    zip,
+  };
+};
+
+const renderModal = (school) => {
+  const { time, timeZone, formattedDate } = parseGameDateTime(school.home_game.datetime);
+  const { street, cityState, zip } = parseAddress(school.home_game.stadium_address);
+
+  return `
+    <div class="tsw-modal-school-header">
+      <p class="tsw-modal-school-location">${school.city}, ${school.state}</p>
+      <h2 class="tsw-modal-school-name">${school.name}</h2>
+      <div class="tsw-modal-school-desc-logo">
+        <p class="tsw-modal-school-description">${school.description}</p>
+        <div class="tsw-modal-school-logo"></div>
+        <!-- <img src="" alt="${school.name} logo" /> -->
+      </div>
+    </div>
+
+    <div class="tsw-modal-school-stats">
+      <div class="tsw-modal-school-stat">
+        <span class="tsw-modal-school-stat-value">${getSchoolRank(school.id)}</span>
+        <span class="tsw-modal-school-stat-label">Rank</span>
+      </div>
+      <div class="tsw-modal-school-stat">
+        <span class="tsw-modal-school-stat-value">${school.votes.toLocaleString("en-US")}</span>
+        <span class="tsw-modal-school-stat-label">Total Votes</span>
+      </div>
+      <div>
+        <button type="button" class="tsw-modal-school-stat-button magenta-button" data-vote-id="${school.id}">Vote for this school</button>
+      </div>
+    </div>
+
+    <div class="tsw-modal-game">
+      <div class="tsw-modal-game-header">
+        <h3 class="tsw-modal-game-title">T-Mobile Home Game</h3>
+        <p class="tsw-modal-game-description">
+          Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur. Sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat.
+        </p>
+      </div>
+      <div class="tsw-modal-game-details">
+        <div class="tsw-modal-game-detail">
+          <span class="tsw-modal-game-detail-value">${time} ${timeZone}</span>
+          <span class="tsw-modal-game-detail-label">Time</span>
+        </div>
+        <div class="tsw-modal-game-detail">
+          <span class="tsw-modal-game-detail-value">${formattedDate}</span>
+          <span class="tsw-modal-game-detail-label">Date</span>
+        </div>
+        <div class="tsw-modal-game-detail">
+          <span class="tsw-modal-game-detail-value">${school.home_game.stadium_name}</span>
+          <span class="tsw-modal-game-detail-label">${street}<br />${cityState}<br />${zip}</span>
+        </div>
+      </div>
+      <div class="tsw-modal-game-image">
+        <!-- <img src="" alt="${school.home_game.stadium_name}" /> -->
+      </div>
+    </div>
+  `;
+};
+
+const openModal = (schoolId, triggerElement) => {
+  const school = schoolData.find((s) => s.id === Number(schoolId));
+  if (!school) return;
+
+  fn5glModalMain.innerHTML = renderModal(school);
+
+  modalState.trigger = triggerElement;
+  modalState.focusableElements = [
+    ...fn5glModal.querySelectorAll(`a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])`),
+  ];
+
+  fn5glModal.show();
+  fn5glModal.classList.add("is-visible");
+  fn5glModalOverlay.classList.add("is-visible");
+  // modalState.focusableElements[0]?.focus();
+  fn5glModal.focus();
+};
+
+const closeModal = () => {
+  fn5glModal.classList.remove("is-visible");
+  fn5glModalOverlay.classList.remove("is-visible");
+
+  fn5glModalOverlay.addEventListener(
+    "transitionend",
+    () => {
+      fn5glModal.close();
+      modalState.trigger?.focus();
+      modalState = { trigger: null, focusableElements: [] };
+    },
+    { once: true },
+  );
+};
+
+fn5glModalOverlay.addEventListener("click", (event) => {
+  if (event.target === event.currentTarget) {
+    closeModal(); // Only runs if you click the overlay, not the modal itself
+  }
+});
+
+fn5glModalClose.addEventListener("click", () => {
+  closeModal();
+});
+
+// Modal tabbing and focus trapping
+
+fn5glModal.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") closeModal();
+  if (event.key !== "Tab") return;
+
+  const { focusableElements } = modalState;
+
+  if (!focusableElements.length) return;
+
+  const first = focusableElements[0];
+  const last = focusableElements[focusableElements.length - 1];
+
+  // Prevent tabbing out of the modal if there's only one focusable element
+  if (first === last) {
+    if (fn5glContainer.activeElement === first) {
+      event.preventDefault();
+    }
+    return;
+  }
+
+  if (event.shiftKey) {
+    if (fn5glContainer.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    }
+  } else {
+    if (fn5glContainer.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
+});
+
 // =-=-=-=-=-=-=
 // Map functions
 // =-=-=-=-=-=-=
@@ -1865,6 +2060,8 @@ const animateCounter = (element, targetValue, duration = 5000) => {
 };
 
 const renderMapStats = () => {
+  if (!SHOW_MAP_STATS) return;
+
   const totalVotes = schoolData.map((school) => school.votes).reduce((acc, curr) => acc + curr, 0);
   const stateWithMostVotes = Object.entries(
     schoolData.reduce((acc, { state, votes }) => {
@@ -2150,9 +2347,9 @@ const handleBreakpointChange = (event) => {
 const debouncedHandleChange = debounce(handleBreakpointChange, 250);
 breakpoint.addEventListener("change", debouncedHandleChange);
 
-// =-=-=-=
-// On load
-// =-=-=-=
+// =-=-=-=-=-=-=-=-=
+// On load functions
+// =-=-=-=-=-=-=-=-=
 
 const setOnLoadRegion = () => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -2216,6 +2413,10 @@ let dataPromise;
 
 const initIntroData = async () => {
   schoolData = await dataPromise;
+  if (!schoolData) {
+    console.error("Failed to load school data");
+    return;
+  }
   schoolDataPrevious = structuredClone(schoolData);
 
   initMap();
@@ -2226,7 +2427,7 @@ const initIntroData = async () => {
   fn5glIntroLoader.classList.add("hidden");
   fn5glMapLoader.classList.add("hidden");
   fn5glUSAMap.classList.remove("hidden");
-  fn5glUSAMapStats.classList.remove("hidden");
+  // fn5glUSAMapStats.classList.remove("hidden");
 };
 
 const renderUI = (phase) => {
@@ -2237,10 +2438,6 @@ const renderUI = (phase) => {
     fn5glLeaderboardRegionsContainer.classList.add("hidden");
     // fn5glUSAMapStats.classList.add("hidden");
     fn5glRegionTabList.classList.add("hidden");
-
-    if (!LEADERBOARD_FIRST) {
-      fn5glLeaderboard.querySelector(".tsw-fn5gl-leaderboard-data").classList.add("map-first");
-    }
 
     initIntroData();
   }
@@ -2254,48 +2451,94 @@ const renderUI = (phase) => {
     fn5glRegionTabList.classList.add("hidden");
     fn5glRegions.classList.add("hidden");
     fn5glUSAMap.classList.add("hidden");
-    fn5glUSAMapStats.classList.add("hidden");
+    // fn5glUSAMapStats.classList.add("hidden");
   }
 
   if (phase === "ready") {
     const isMobile = !breakpoint.matches;
 
+    const tabStep = { fn: initTabs, els: [fn5glRegionTabList] };
+    const regionsStep = { fn: renderAllRegions, els: [fn5glRegions, fn5glLeaderboardRegionsContainer] };
+    const mapStep = { fn: initMapAndStats, els: [fn5glUSAMap, fn5glUSAMapStats] };
+
     const steps = isMobile
-      ? [
-          { fn: initTabs, els: [fn5glRegionTabList] },
-          { fn: initMapAndStats, els: [fn5glUSAMap, fn5glUSAMapStats] },
-          { fn: renderAllRegions, els: [fn5glRegions, fn5glLeaderboardRegionsContainer] },
-        ]
-      : [
-          { fn: initTabs, els: [fn5glRegionTabList] },
-          { fn: renderAllRegions, els: [fn5glRegions, fn5glLeaderboardRegionsContainer] },
-          { fn: initMapAndStats, els: [fn5glUSAMap, fn5glUSAMapStats] },
-        ];
+      ? LEADERBOARD_FIRST
+        ? [tabStep, regionsStep, mapStep]
+        : [tabStep, mapStep, regionsStep]
+      : LEADERBOARD_FIRST
+        ? [tabStep, regionsStep, mapStep]
+        : [tabStep, mapStep, regionsStep];
 
     steps.forEach(({ fn, els }, i) => {
       setTimeout(() => {
         fn();
         els.forEach((el) => el.classList.remove("hidden"));
-      }, i * 150);
+      }, i * 250);
     });
 
-    // Hide loaders after all steps complete
     setTimeout(() => {
       fn5glLeaderboardLoader.classList.add("hidden");
       fn5glMapLoader.classList.add("hidden");
-    }, steps.length * 150);
+    }, steps.length * 250);
   }
 };
+
+// =-=-=-=-=-=-=-
+// Init functions
+// =-=-=-=-=-=-=-
 
 /* Fetch data */
 
 const fetchData = async () => {
-  await new Promise((resolve) => setTimeout(resolve, 1500));
-  return structuredClone(highSchoolData);
+  try {
+    const response = await fetch(DATA_SOURCE, {
+      method: "GET", // Default method
+      // headers: {
+      //   Authorization: `Bearer ${BEARER_TOKEN}`,
+      //   "Content-Type": "application/json",
+      // },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    // console.log(data);
+
+    return transformData(data);
+  } catch (error) {
+    console.error("Fetch failed:", error);
+    return null;
+  }
 };
 
-/* Init functions */
+// Filtering API data to get it to 40 and adding properties
+// Delete when the data is final.
+const transformData = (data) => {
+  return data
+    .filter(
+      (school) => {
+        const schoolsInRegion = data.filter((s) => s.region === school.region);
+        const schoolIndex = schoolsInRegion.findIndex((s) => s.name === school.name);
 
+        return schoolIndex < 10;
+      } /* your filter conditions */,
+    )
+    .map((school) => ({
+      ...school,
+      votes: 10000,
+      description: "Awesome place! It's pretty sweet.",
+      home_game: {
+        datetime: "2026-07-29T20:38:15.123Z",
+        stadium_name: "A Football Stadium",
+        stadium_address: "33 Sassy Street, Ball City, WA 98002",
+      },
+    }));
+};
+// -- End delete
+
+// Run if there's a region URL parameter set
 const initWithRegion = async (region) => {
   currentRegion = region;
   updateRegionParam(region);
@@ -2305,6 +2548,11 @@ const initWithRegion = async (region) => {
     renderUI("loading");
 
     schoolData = await dataPromise;
+    if (!schoolData) {
+      console.error("Failed to load school data");
+      return;
+    }
+
     schoolDataPrevious = structuredClone(schoolData);
 
     setOnLoadRegion();
@@ -2312,7 +2560,6 @@ const initWithRegion = async (region) => {
     return;
   }
 
-  // Coming from intro — data already loaded, just swap UI
   fn5glIntro.classList.add("hidden");
   fn5glIntroContainer.classList.add("hidden");
   fn5glLeaderboardRegionsContainer.classList.remove("hidden");
@@ -2328,19 +2575,25 @@ const initWithRegion = async (region) => {
     setTimeout(() => {
       fn();
       els.forEach((el) => el.classList.remove("hidden"));
-    }, i * 150);
+    }, i * 250);
   });
 
   setTimeout(() => {
     fn5glLeaderboardLoader.classList.add("hidden");
-  }, steps.length * 150);
+  }, steps.length * 250);
 
   updateMapActiveRegion();
 };
 
 const init = () => {
-  dataPromise = fetchData(); // start fetching immediately
+  if (!LEADERBOARD_FIRST) {
+    fn5glLeaderboard.querySelector(".tsw-fn5gl-leaderboard-data").classList.add("map-first");
+  }
+  if (!SHOW_MAP_STATS) {
+    fn5glUSAMapStats.style.display = "none";
+  }
 
+  dataPromise = fetchData(); // start fetching immediately
   const urlParams = new URLSearchParams(window.location.search);
 
   if (urlParams.has("region")) {

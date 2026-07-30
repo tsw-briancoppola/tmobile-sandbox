@@ -49,7 +49,7 @@ let modalState = {
 const LEADERBOARD_FIRST = false;
 const SHOW_MAP_STATS = false;
 
-const SHOW_VOTE_TOTALS = false;
+const SHOW_VOTE_TOTALS = true;
 const SHOW_TREND = true;
 const SHOW_MODAL_IMAGE = true;
 const ANIMATE_VOTE_COUNTER = true;

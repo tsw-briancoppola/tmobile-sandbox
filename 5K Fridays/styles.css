@@ -1,0 +1,157 @@
+.tsw-5kfriday-container {
+  --tsw-font-display:
+    "TeleNeo Web", var(--phx--text-family-brand), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --tsw-font-main:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol";
+
+  --tsw-font-size: 16px;
+  --color-brand-primary-400: #e20074;
+  --color-brand-primary-600: #770141;
+  --color-brand-grayscale-100: #fbfbfb;
+  --color-brand-grayscale-200: #f5f5f5;
+  --color-brand-grayscale-300: #e6e6e6;
+  --color-brand-grayscale-400: #ccc;
+  --color-brand-grayscale-500: #8c8c8c;
+  --color-brand-grayscale-600: #6a6a6a;
+  --color-brand-grayscale-700: #414141;
+  --color-brand-grayscale-800: #2b2b2b;
+  --color-brand-grayscale-900: #1c1c1c;
+  --color-brand-grayscale-white: #fff;
+
+  --color-border: var(--color-brand-grayscale-400);
+  --color-input-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+  --color-overlay: rgba(0, 0, 0, 0.4);
+
+  font-family: var(--tsw-font-main);
+
+  --fkfridays-width: 90rem;
+  --fkfridays-border-color: var(--color-brand-grayscale-400);
+}
+
+/* Reset - local only (don't use in AEM) */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  height: 100vh;
+  font-size: 1.6rem;
+  font-family: "Arial", sans-serif;
+  overflow-x: hidden;
+  margin: 0;
+  background-color: var(--color-brand-grayscale-200);
+}
+
+/* Reset */
+
+h1,
+h2,
+h3,
+p,
+div {
+  margin: 0;
+  line-height: normal;
+  color: var(--color-brand-grayscale-800);
+}
+
+ol {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+/* =-=-=-=-=-=-=-=-= */
+/* 5K Fridays styles */
+/* =-=-=-=-=-=-=-=-= */
+
+/* Container styles */
+
+.tsw-5kfriday-container {
+  position: relative;
+  padding: 3rem;
+  max-width: var(--fkfridays-width);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Accordion button styles */
+
+.tsw-5kfriday-accordion-button {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.7rem;
+  font-weight: 700;
+  width: 100%;
+  border: 0;
+  padding: 1.6rem 2.4rem;
+  cursor: pointer;
+  border: 1px solid var(--fkfridays-border-color);
+  color: var(--color-brand-grayscale-800);
+  background-color: var(--color-brand-grayscale-200);
+  transition: color 0.3s ease;
+}
+@media (hover: hover) {
+  .tsw-5kfriday-accordion-button:hover {
+    color: var(--color-brand-primary-400);
+  }
+}
+
+.tsw-5kfriday-accordion-button svg {
+  transition: all 0.3s ease;
+}
+@media (hover: hover) {
+  .tsw-5kfriday-accordion-button:hover svg {
+    fill: var(--color-brand-primary-400);
+  }
+}
+.tsw-5kfriday-accordion-button[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+
+/* Week list styles */
+
+.tsw-5kfriday-week-list {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  transition: grid-template-rows ease-out 0.3s;
+  margin-bottom: 1.8rem;
+  border-left: 1px solid var(--fkfridays-border-color);
+  border-right: 1px solid var(--fkfridays-border-color);
+}
+.tsw-5kfriday-accordion-button[aria-expanded="true"] ~ .tsw-5kfriday-week-list {
+  grid-template-rows: 1fr;
+  border-bottom: 1px solid var(--fkfridays-border-color);
+}
+.tsw-5kfriday-week-list-inner {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* School styles */
+
+.tsw-5kfriday-school {
+  font-size: 1.4rem;
+  padding: 1.6rem 2.4rem;
+  border-top: 1px solid var(--fkfridays-border-color);
+}
+.tsw-5kfriday-school:nth-child(-n + 2) {
+  border-top: none;
+}

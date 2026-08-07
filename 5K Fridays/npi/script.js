@@ -2,8 +2,9 @@
 // Data source and global variables
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-const DATA_SOURCE = "https://test-fn5gl.teamdigital.com/api/5k-fridays";
-// const BEARER_TOKEN = "FzGJtOcibwWWQNU2";
+// const DATA_SOURCE = "https://test-fn5gl.teamdigital.com/api/5k-fridays"; // Staging API
+const DATA_SOURCE = "https://fn5gl.t-mobile.com/api/5k-fridays"; // Prod API
+const BEARER_TOKEN = "FzGJtOcibwWWQNU2";
 
 // DOM references
 const fiveKFridaysID = document.querySelector("#tsw-5kfriday-winners").querySelector("xpr-npi-content").shadowRoot;
@@ -88,10 +89,10 @@ const fetchData = async () => {
   try {
     const response = await fetch(DATA_SOURCE, {
       method: "GET", // Default method
-      // headers: {
-      //   Authorization: `Bearer ${BEARER_TOKEN}`,
-      //   "Content-Type": "application/json",
-      // },
+      headers: {
+        Authorization: `Bearer ${BEARER_TOKEN}`,
+        "Content-Type": "application/json",
+      },
     });
 
     if (!response.ok) {

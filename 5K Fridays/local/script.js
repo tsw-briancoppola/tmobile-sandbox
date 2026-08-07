@@ -2,8 +2,9 @@
 // Data source and global variables
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-const DATA_SOURCE = "https://test-fn5gl.teamdigital.com/api/5k-fridays";
-// const BEARER_TOKEN = "FzGJtOcibwWWQNU2";
+// const DATA_SOURCE = "https://test-fn5gl.teamdigital.com/api/5k-fridays"; // Staging API
+const DATA_SOURCE = "https://fn5gl.t-mobile.com/api/5k-fridays"; // Prod API
+const BEARER_TOKEN = "FzGJtOcibwWWQNU2";
 
 // DOM references
 const fiveKFridaysContainer = document.querySelector(".tsw-5kfriday-container");
@@ -86,10 +87,10 @@ const fetchData = async () => {
   try {
     const response = await fetch(DATA_SOURCE, {
       method: "GET", // Default method
-      // headers: {
-      //   Authorization: `Bearer ${BEARER_TOKEN}`,
-      //   "Content-Type": "application/json",
-      // },
+      headers: {
+        Authorization: `Bearer ${BEARER_TOKEN}`,
+        "Content-Type": "application/json",
+      },
     });
 
     if (!response.ok) {
@@ -107,7 +108,8 @@ const fetchData = async () => {
 const init = async () => {
   const APIData = await fetchData();
 
-  // console.log(APIData);
+  console.log(APIData);
+  console.log("xxx");
 
   renderAllWeeks(APIData);
 };

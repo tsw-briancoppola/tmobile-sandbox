@@ -97,6 +97,7 @@ ul {
   position: relative;
   left: 50%;
   transform: translateX(-50%);
+  z-index: 1;
 }
 
 /* =-=-=-=-=-=-= */
@@ -117,7 +118,7 @@ ul {
   padding-block: clamp(0.5rem, 2.254vw - 0.028rem, 2rem);
   color: var(--color-brand-grayscale-white);
   background-color: var(--color-brand-grayscale-900);
-  background-image: url("/content/dam/digx/tmobile/us/en/sandbox/courtney/11043950_fn5gl-2026/phase-2/hp/11768679_fn5gl_bg_blk-texture01-v1.jpg");
+  background-image: url("/content/dam/digx/tmobile/us/en/specific-use/friday-night-5g-lights/11768679_fn5gl_bg_blk-texture01-v1.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;

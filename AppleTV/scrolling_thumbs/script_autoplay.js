@@ -18,7 +18,7 @@ const NUMBER_OF_ROWS = 2;
 const colors = ["blue", "green", "red", "orange", "magenta", "purple"];
 
 const numberOfRows = 2;
-const rowLength = 14;
+const rowLength = 8;
 const rowSpeeds = [0.4, 0.3];
 
 const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.5);
@@ -80,7 +80,7 @@ init();
 // =-=-=-=-=-=-=-=-=-=-=-=
 
 function waitForGSAP(callback) {
-  if (typeof gsap !== "undefined" && typeof ScrollTrigger !== "undefined") {
+  if (typeof gsap !== "undefined") {
     callback();
   } else {
     setTimeout(() => waitForGSAP(callback), 100);
@@ -92,27 +92,17 @@ function waitForGSAP(callback) {
 // =-=-=-=-=
 
 waitForGSAP(() => {
-  gsap.registerPlugin(ScrollTrigger);
-
   const rows = document.querySelectorAll(".tsw-appletv-scroll-row");
-  // 1. Create the seamless loop (returns a timeline)
-  const loops = Array.from(rows).map((row) => {
-    const items = gsap.utils.toArray(row.querySelectorAll(".tsw-appletv-scroll-box"));
-    return horizontalLoop(items, { repeat: -1, paused: true });
-  });
 
-  // 2. Use ScrollTrigger to scrub the loop's progress
-  ScrollTrigger.create({
-    trigger: appletvScroll,
-    start: "top bottom",
-    end: `+=${window.innerHeight * 2}`, // Speed: slower > faster
-    scrub: 1,
-    onUpdate: (self) => {
-      const p = TICKER_DIRECTION === 1 ? self.progress : 1 - self.progress;
-      loops.forEach((loop, i) => {
-        loop.progress((p * rowSpeeds[i]) % 1);
-      });
-    },
+  const loops = Array.from(rows).map((row, i) => {
+    const items = gsap.utils.toArray(row.querySelectorAll(".tsw-appletv-scroll-box"));
+    const gap = parseFloat(getComputedStyle(row).gap); //
+    return horizontalLoop(items, {
+      repeat: -1,
+      paused: false,
+      speed: rowSpeeds[i] ?? 1,
+      paddingRight: gap,
+    });
   });
 
   // --- GSAP's Official Helper Function (Simplified for Tickers) ---

@@ -109,7 +109,6 @@ const init = async () => {
   const APIData = await fetchData();
 
   console.log(APIData);
-  console.log("xxx");
 
   renderAllWeeks(APIData);
 };

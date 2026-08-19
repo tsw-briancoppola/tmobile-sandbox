@@ -2,67 +2,122 @@
 // Data source and global variables
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-// const DATA_SOURCE = "https://test-fn5gl.teamdigital.com/api/verified-schools";
-// const BEARER_TOKEN = "FzGJtOcibwWWQNU2";
-
+// DOM references
 const appletvScrollContainerID = document
   .querySelector("#tsw-appletv-scroll")
   .querySelector("xpr-npi-content").shadowRoot;
 
-// DOM references
 const appletvScrollContainer = appletvScrollContainerID.querySelector(".tsw-appletv-scroll-container");
 const appletvScroll = appletvScrollContainerID.querySelector(".tsw-appletv-scroll");
 const appletvPlayButton = appletvScrollContainerID.querySelector(".tsw-appletv-play-button");
 
+// Image paths
+const basePath =
+  "/content/dam/digx/tmobile/us/en/creative_assethandoff/2026/q3/12705250_apple-tv-streaming-lp-redesign/carousel-tiles/v1/";
+
+const appletvImages = [
+  {
+    name: "Your Friends and Neighbors",
+    path: "12705250_fg_appletv-carousel-YFN_16x9.jpg",
+  },
+  {
+    name: "Widow's Bay",
+    path: "12705250_fg_appletv-carousel-WIDOWS_16x9.jpg",
+  },
+  {
+    name: "Silo",
+    path: "12705250_fg_appletv-carousel-SILO_16x9.jpg",
+  },
+  {
+    name: "Pluribus",
+    path: "12705250_fg_appletv-carousel-PLURIBUS_16x9.jpg",
+  },
+  {
+    name: "Maximum Pleasure Guaranteed",
+    path: "12705250_fg_appletv-carousel-MPG_16x9.jpg",
+  },
+  {
+    name: "Lucky",
+    path: "12705250_fg_appletv-carousel-LUCKY_16x9.jpg",
+  },
+  {
+    name: "Ted Lasso",
+    path: "12705250_fg_appletv-carousel-LASSO_16x9.jpg",
+  },
+  {
+    name: "Slow Horses",
+    path: "12705250_fg_appletv-carousel-HORSES_16x9.jpg",
+  },
+  {
+    name: "Dark Matter",
+    path: "12705250_fg_appletv-carousel-DM_16x9.jpg",
+  },
+  {
+    name: "The Dink",
+    path: "12705250_fg_appletv-carousel-DINK_16x9.jpg",
+  },
+];
+
 // Global variable settings
-const NUMBER_OF_ROWS = 2;
-const colors = ["blue", "green", "red", "orange", "magenta", "purple"];
 
 // Speed: Higher number = faster
 // Direction: -1 = to the left, 1 = to the right
 const rowValues = [
-  { speed: 0.5, direction: 1 },
-  { speed: 0.8, direction: 1 },
+  { speed: 0.5, direction: -1 },
+  { speed: 0.8, direction: -1 },
 ];
+const numberOfRows = 2;
 const rowLength = 10; // Number of boxes per row
-
-// Create rows
-const shuffle = (arr) => [...arr].sort(() => Math.random() - 0.5);
-
-const rowColors = Array.from({ length: NUMBER_OF_ROWS }, () => {
-  const row = [];
-  while (row.length < rowLength) {
-    let shuffled = shuffle(colors);
-    if (row.length > 0 && shuffled[0] === row[row.length - 1]) {
-      shuffled.push(shuffled.shift()); // move first element to end
-    }
-    row.push(...shuffled);
-  }
-  return row.slice(0, rowLength);
-});
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 // Render scrolling thumb row functions
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-const renderRow = (colors) => {
-  const scrollRow = colors
-    .map((color, index) => {
+const splitImages = () => {
+  const chunkSize = Math.ceil(appletvImages.length / numberOfRows);
+  const chunkedArray = [];
+
+  for (let i = 0; i < appletvImages.length; i += chunkSize) {
+    chunkedArray.push(appletvImages.slice(i, i + chunkSize));
+  }
+
+  return chunkedArray;
+};
+
+const generateRow = (imageChunk) => {
+  return Array.from({ length: rowLength }, (_, i) => {
+    return {
+      bgImage: imageChunk.length ? imageChunk[i % imageChunk.length] : "",
+    };
+  });
+};
+
+const renderRow = (boxes) => {
+  const scrollRow = boxes
+    .map((box) => {
+      const dataBg = box.bgImage ? `data-bg="${basePath}${box.bgImage.path}"` : "";
+      const loadingClass = box.bgImage ? "is-loading" : "";
+
       return `
-        <div class="tsw-appletv-scroll-box box-color-${color} gradient-overlay">Box ${index}</div>
+        <li class="tsw-appletv-scroll-box ${loadingClass}" role="img" aria-label="${box.bgImage?.name ?? ""}" ${dataBg}>
+          ${box.bgImage ? `<span class="tsw-appletv-scroll-image"></span>` : ""}
+        </li>
       `;
     })
     .join("");
 
   return `
-    <div class="tsw-appletv-scroll-row">${scrollRow}</div>
+    <ul class="tsw-appletv-scroll-row">${scrollRow}</ul>
   `;
 };
 
 const renderAllRows = () => {
-  const allRowsHTML = rowColors
-    .map((colors) => {
-      return renderRow(colors);
+  const imageChunks = splitImages();
+
+  const allRowsHTML = Array.from({ length: numberOfRows })
+    .map((_, index) => {
+      const row = generateRow(imageChunks[index] ?? []);
+      return renderRow(row);
     })
     .join("");
 
@@ -87,49 +142,32 @@ appletvPlayButton.addEventListener("click", () => {
   renderPlayButton(appletvScrollContainer.animIsPaused());
 });
 
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-// Settings functions - DELETE WHEN FINISHED
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-
-const appletvSettings = appletvScrollContainerID.querySelector(".tsw-appletv-settings");
-
-const renderSettings = () => {
-  appletvSettings.innerHTML = `
-    <div class="tsw-appletv-settings-row">
-      <label class="toggle" for="tsw-appletv-settings-row-toggle">
-        <span class="toggle__label">Light</span>
-        <input type="checkbox" id="tsw-appletv-settings-row-toggle" class="toggle__input">
-        <span class="toggle__track">
-          <span class="toggle__thumb"></span>
-        </span>            
-        <span class="toggle__label">Dark</span>
-      </label>
-    </div>
-  `;
-};
-
-appletvSettings.addEventListener("click", (e) => {
-  const toggle = e.target.closest("#tsw-appletv-settings-row-toggle");
-  if (!toggle) return;
-
-  const newTheme = toggle.checked ? "dark" : "light";
-
-  [...appletvScrollContainer.classList]
-    .filter((c) => c.startsWith("tsw-appletv-theme-"))
-    .forEach((c) => appletvScrollContainer.classList.remove(c));
-
-  appletvScrollContainer.classList.add(`tsw-appletv-theme-${newTheme}`);
-});
-
 // =-=-=-=-=-=-=-
 // Init functions
 // =-=-=-=-=-=-=-
 
+const loadImages = () => {
+  const boxes = appletvScrollContainerID.querySelectorAll(".tsw-appletv-scroll-box[data-bg]");
+
+  boxes.forEach((box) => {
+    const src = box.dataset.bg;
+    const img = new Image();
+
+    img.onload = () => {
+      const imageLayer = box.querySelector(".tsw-appletv-scroll-image");
+      imageLayer.style.backgroundImage = `url('${src}')`;
+      imageLayer.classList.add("is-loaded");
+      box.classList.remove("is-loading");
+    };
+    img.onerror = () => box.classList.remove("is-loading");
+    img.src = src;
+  });
+};
+
 const init = () => {
   renderAllRows();
   renderPlayButton(false);
-  renderSettings(); // DELETE WHEN FINISHED
-  // applyTheme(appletvSettingsRows[0].options[0]); // DELETE WHEN FINISHED
+  loadImages();
 };
 
 init();
@@ -238,6 +276,8 @@ waitForGSAP(() => {
 
     loops.forEach((tl) => tl.kill());
 
+    appletvScroll.classList.add("is-loaded");
+
     loops = Array.from(rows).map((row, i) => {
       const items = gsap.utils.toArray(row.querySelectorAll(".tsw-appletv-scroll-box"));
       return horizontalLoop(items, {
@@ -254,7 +294,11 @@ waitForGSAP(() => {
     requestAnimationFrame(() => {
       initAnimation();
 
-      new ResizeObserver(() => initAnimation()).observe(appletvScrollContainer);
+      let resizeTimer;
+      new ResizeObserver(() => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(initAnimation, 100);
+      }).observe(appletvScrollContainer);
 
       // Respect isPaused so IntersectionObserver doesn't override a manual pause
       new IntersectionObserver(

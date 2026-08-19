@@ -2,46 +2,14 @@
 // Data source and global variables
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-// DOM references
-const appletvScrollContainer = document.querySelector(".tsw-appletv-scroll-container");
-const appletvScroll = document.querySelector(".tsw-appletv-scroll");
-const appletvPlayButton = document.querySelector(".tsw-appletv-play-button");
+const appletvScrollContainerID = document
+  .querySelector("#tsw-appletv-scroll")
+  .querySelector("xpr-npi-content").shadowRoot;
 
-// Image paths
-const appletvImages = [
-  {
-    name: "Dark Matter",
-    path: "images/AppleTV_DarkMatter_378x212.jpg",
-  },
-  {
-    name: "Foundation",
-    path: "images/AppleTV_Foundation_756x425.jpg",
-  },
-  {
-    name: "Stick",
-    path: "images/AppleTV_Stick_756x425.jpg",
-  },
-  {
-    name: "Your Friends and Neighbors",
-    path: "images/AppleTV_YourFriends_756x425.jpg",
-  },
-  {
-    name: "Imperfect Women",
-    path: "images/AppleTV_ImperfectWomen_756x425.jpg",
-  },
-  {
-    name: "The Family Plan 2",
-    path: "images/AppleTV_TheFamilyPlan2_378x212.jpg",
-  },
-  {
-    name: "Murderbot",
-    path: "images/AppleTV_Murderbot_756x425.jpg",
-  },
-  {
-    name: "The Gorge",
-    path: "images/AppleTV_TheGorge_756x425.jpg",
-  },
-];
+// DOM references
+const appletvScrollContainer = appletvScrollContainerID.querySelector(".tsw-appletv-scroll-container");
+const appletvScroll = appletvScrollContainerID.querySelector(".tsw-appletv-scroll");
+const appletvPlayButton = appletvScrollContainerID.querySelector(".tsw-appletv-play-button");
 
 // Global variable settings
 const NUMBER_OF_ROWS = 2;
@@ -60,13 +28,10 @@ const rowLength = 10; // Number of boxes per row
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 const generateRow = () => {
-  // Shuffle a copy so originals stay intact
-  const shuffled = [...appletvImages].sort(() => Math.random() - 0.5);
-
   return Array.from({ length: rowLength }, (_, i) => {
     return {
       color: colors[Math.floor(Math.random() * colors.length)],
-      bgImage: shuffled[i] ?? "",
+      bgImage: "",
     };
   });
 };
@@ -117,40 +82,6 @@ appletvPlayButton.addEventListener("click", () => {
   renderPlayButton(appletvScrollContainer.animIsPaused());
 });
 
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-// Settings functions - DELETE WHEN FINISHED
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-
-const appletvSettings = document.querySelector(".tsw-appletv-settings");
-
-const renderSettings = () => {
-  appletvSettings.innerHTML = `
-    <div class="tsw-appletv-settings-row">
-      <label class="toggle" for="tsw-appletv-settings-row-toggle">
-        <span class="toggle__label">Light</span>
-        <input type="checkbox" id="tsw-appletv-settings-row-toggle" class="toggle__input">
-        <span class="toggle__track">
-          <span class="toggle__thumb"></span>
-        </span>            
-        <span class="toggle__label">Dark</span>
-      </label>
-    </div>
-  `;
-};
-
-appletvSettings.addEventListener("click", (e) => {
-  const toggle = e.target.closest("#tsw-appletv-settings-row-toggle");
-  if (!toggle) return;
-
-  const newTheme = toggle.checked ? "dark" : "light";
-
-  [...appletvScrollContainer.classList]
-    .filter((c) => c.startsWith("tsw-appletv-theme-"))
-    .forEach((c) => appletvScrollContainer.classList.remove(c));
-
-  appletvScrollContainer.classList.add(`tsw-appletv-theme-${newTheme}`);
-});
-
 // =-=-=-=-=-=-=-
 // Init functions
 // =-=-=-=-=-=-=-
@@ -158,8 +89,6 @@ appletvSettings.addEventListener("click", (e) => {
 const init = () => {
   renderAllRows();
   renderPlayButton(false);
-  renderSettings(); // DELETE WHEN FINISHED
-  // applyTheme(appletvSettingsRows[0].options[0]); // DELETE WHEN FINISHED
 };
 
 init();
@@ -258,7 +187,7 @@ waitForGSAP(() => {
   }
 
   function initAnimation() {
-    const rows = document.querySelectorAll(".tsw-appletv-scroll-row");
+    const rows = appletvScrollContainerID.querySelectorAll(".tsw-appletv-scroll-row");
     const firstItem = rows[0]?.querySelector(".tsw-appletv-scroll-box");
     if (!firstItem || firstItem.offsetWidth === 0) return;
 

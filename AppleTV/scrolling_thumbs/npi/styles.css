@@ -7,7 +7,7 @@
     "Segoe UI Emoji", "Segoe UI Symbol";
 
   --tsw-font-size: 16px;
-  --color-brand-primary-400: hsl(329, 100%, 44%);
+  --color-brand-primary-400: #e20074;
   --color-brand-primary-600: #770141;
   --color-brand-grayscale-100: #fbfbfb;
   --color-brand-grayscale-200: #f5f5f5;
@@ -18,6 +18,7 @@
   --color-brand-grayscale-700: #414141;
   --color-brand-grayscale-900: #1c1c1c;
   --color-brand-grayscale-white: #fff;
+  --color-brand-grayscale-black: #1a1a1a;
 
   --color-border: var(--color-brand-grayscale-400);
   --color-input-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
@@ -32,21 +33,18 @@
 
   font-family: var(--tsw-font-main);
 
-  --appletv-box-width-desktop: 30rem;
-  --appletv-box-width-mobile: 15rem;
+  --appletv-box-width-desktop: 32rem;
+  --appletv-box-width-mobile: 20rem;
+  --appletv-box-height-mobile: 11.25rem; /* 20rem × 9/16 */
+  --appletv-box-height-desktop: 18rem; /* 32rem × 9/16 */
+
+  --appletv-box-aspect-ratio: 16 / 9;
   --appletv-scroll-gap-desktop: 2rem;
   --appletv-scroll-gap-mobile: 1.4rem;
-  --appletv-box-aspect-ratio: 20 / 9;
-}
 
-.tsw-appletv-scroll-container.tsw-appletv-theme-light {
-  --appletv-text-color: var(--color-brand-grayscale-900);
-  --appletv-background-color: var(--color-brand-grayscale-100);
-}
-
-.tsw-appletv-scroll-container.tsw-appletv-theme-dark {
   --appletv-text-color: var(--color-brand-grayscale-100);
-  --appletv-background-color: var(--color-brand-grayscale-900);
+  --appletv-background-color: var(--color-brand-grayscale-black);
+  --appletv-play-button: var(--color-brand-grayscale-white);
 }
 
 /* Reset */
@@ -60,6 +58,7 @@ div {
   line-height: normal;
 }
 
+ul,
 ol {
   list-style-type: none;
   margin: 0;
@@ -89,9 +88,9 @@ ol {
   background-color: var(--appletv-box-color-purple);
 }
 
-.gradient-overlay {
+/* .gradient-overlay {
   background-image: radial-gradient(circle at top center, transparent, rgba(0, 0, 0, 0.35));
-}
+} */
 
 /* Spacer */
 
@@ -124,21 +123,8 @@ ol {
 .tsw-appletv-play-button svg {
   width: 100%;
   height: 100%;
-  fill: var(--color-brand-grayscale-700);
-}
-
-/* UI elements */
-
-.magenta-button {
-  cursor: pointer;
-  padding: 0.7rem 1rem;
-  font-size: 1.5rem;
-  /* font-weight: 600; */
-  border: 0;
-  border-radius: 0.5rem;
-  color: var(--color-brand-grayscale-white);
-  background-color: var(--color-brand-primary-400);
-  transition: background-color 0.4s ease-in-out;
+  fill: var(--appletv-play-button);
+  transition: fill 0.3s;
 }
 
 /* =-=-=-=-=-=-=-=-=-=-=-= */
@@ -156,20 +142,89 @@ ol {
   transform: translateX(-50%);
   color: var(--appletv-text-color);
   background-color: var(--appletv-background-color);
+  transition:
+    color 0.3s,
+    background-color 0.3s;
+  box-sizing: border-box;
+  min-height: calc(
+    (2 * var(--appletv-box-height-mobile)) + (1 * var(--appletv-scroll-gap-mobile)) + 5rem
+      /* button bar: 1.4rem padding + 40px button + breathing room */
+  );
+}
+@media (min-width: 1000px) {
+  .tsw-appletv-scroll {
+    gap: var(--appletv-scroll-gap-desktop);
+    min-height: calc(
+      (2 * var(--appletv-box-height-desktop)) + (1 * var(--appletv-scroll-gap-desktop)) + 6rem
+        /* button bar at desktop size */
+    );
+  }
 }
 
+/* AppleTV scroller styles */
+
 .tsw-appletv-scroll {
+  opacity: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: var(--appletv-scroll-gap-mobile);
+  transition: opacity 0.3s ease;
+  min-height: calc((2 * var(--appletv-box-height-mobile)) + (1 * var(--appletv-scroll-gap-mobile)));
 }
 @media (min-width: 1000px) {
   .tsw-appletv-scroll {
     gap: var(--appletv-scroll-gap-desktop);
+    min-height: calc((2 * var(--appletv-box-height-desktop)) + (1 * var(--appletv-scroll-gap-desktop)));
   }
 }
+.tsw-appletv-scroll.is-loaded {
+  opacity: 1;
+}
+
+/* AppleTV loading shimmer styles */
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+/* Gradient sits above the image layer */
+.tsw-appletv-scroll-box::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top center, transparent, rgba(0, 0, 0, 0.35));
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* Shimmer overrides the gradient while loading (higher specificity wins) */
+.tsw-appletv-scroll-box.is-loading::after {
+  background: linear-gradient(90deg, transparent 25%, rgba(255, 255, 255, 0.12) 50%, transparent 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+/* */
+
+.tsw-appletv-scroll-image {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.tsw-appletv-scroll-image.is-loaded {
+  opacity: 1;
+}
+
+/* AppleTV scroll row styles */
 
 .tsw-appletv-scroll-row {
   display: grid;
@@ -182,6 +237,8 @@ ol {
   }
 }
 
+/* AppleTV scroll box styles */
+
 .tsw-appletv-scroll-box {
   width: var(--appletv-box-width-mobile);
   aspect-ratio: var(--appletv-box-aspect-ratio);
@@ -191,69 +248,15 @@ ol {
   font-weight: 700;
   padding: 2rem;
   background-size: cover;
+  background-color: #2a2a2a;
   border-radius: 1rem;
   will-change: transform; /* Needed for smoother animation */
+  backface-visibility: hidden; /* Needed for smoother animation */
+  box-sizing: border-box;
 }
 @media (min-width: 1000px) {
   .tsw-appletv-scroll-box {
     width: var(--appletv-box-width-desktop);
     font-size: 1.8rem;
   }
-}
-
-/* Settings styles - DELETE WHEN FINISHED */
-
-.tsw-appletv-settings {
-  display: flex;
-  justify-content: center;
-  padding: 3rem;
-}
-
-.toggle {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  cursor: pointer;
-}
-
-.toggle__input {
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.toggle__track {
-  position: relative;
-  width: 4rem;
-  height: 2rem;
-  background: #ccc;
-  border-radius: 100vw;
-  transition: background 0.2s;
-}
-
-.toggle__thumb {
-  position: absolute;
-  top: 0.2rem;
-  left: 0.2rem;
-  width: 1.6rem;
-  height: 1.6rem;
-  background: white;
-  border-radius: 50%;
-  transition: transform 0.2s;
-}
-
-/* Checked state */
-.toggle__input:checked + .toggle__track {
-  background: #e20074;
-}
-
-.toggle__input:checked + .toggle__track .toggle__thumb {
-  transform: translateX(1.8rem);
-}
-
-/* Focus ring for accessibility */
-.toggle__input:focus-visible + .toggle__track {
-  outline: 2px solid #e20074;
-  outline-offset: 2px;
 }

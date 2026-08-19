@@ -2,18 +2,63 @@
 // Data source and global variables
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
+// DOM references
 const appletvScrollContainerID = document
   .querySelector("#tsw-appletv-scroll")
   .querySelector("xpr-npi-content").shadowRoot;
 
-// DOM references
 const appletvScrollContainer = appletvScrollContainerID.querySelector(".tsw-appletv-scroll-container");
 const appletvScroll = appletvScrollContainerID.querySelector(".tsw-appletv-scroll");
 const appletvPlayButton = appletvScrollContainerID.querySelector(".tsw-appletv-play-button");
 
+// Image paths
+const basePath =
+  "/content/dam/digx/tmobile/us/en/creative_assethandoff/2026/q3/12705250_apple-tv-streaming-lp-redesign/carousel-tiles/v2/";
+
+const appletvImages = [
+  {
+    name: "Your Friends and Neighbors",
+    path: "12705250_fg_appletv-carousel-YFN_750.jpg",
+  },
+  {
+    name: "Widow's Bay",
+    path: "12705250_fg_appletv-carousel-WIDOWS_750.jpg",
+  },
+  {
+    name: "Silo",
+    path: "12705250_fg_appletv-carousel-SILO_750.jpg",
+  },
+  {
+    name: "Pluribus",
+    path: "12705250_fg_appletv-carousel-PLURIBUS_750.jpg",
+  },
+  {
+    name: "Maximum Pleasure Guaranteed",
+    path: "12705250_fg_appletv-carousel-MPG_750.jpg",
+  },
+  {
+    name: "Lucky",
+    path: "12705250_fg_appletv-carousel-LUCKY_750.jpg",
+  },
+  {
+    name: "Ted Lasso",
+    path: "12705250_fg_appletv-carousel-LASSO_750.jpg",
+  },
+  {
+    name: "Slow Horses",
+    path: "12705250_fg_appletv-carousel-HORSES_750.jpg",
+  },
+  {
+    name: "Dark Matter",
+    path: "12705250_fg_appletv-carousel-DM_750.jpg",
+  },
+  {
+    name: "The Dink",
+    path: "12705250_fg_appletv-carousel-DINK_750.jpg",
+  },
+];
+
 // Global variable settings
-const NUMBER_OF_ROWS = 2;
-const colors = ["blue", "green", "red", "orange", "magenta", "purple"];
 
 // Speed: Higher number = faster
 // Direction: -1 = to the left, 1 = to the right
@@ -21,29 +66,48 @@ const rowValues = [
   { speed: 0.5, direction: -1 },
   { speed: 0.8, direction: -1 },
 ];
+const numberOfRows = 2;
 const rowLength = 10; // Number of boxes per row
+
+// How long we'll wait for images to load/decode before starting the
+// GSAP loop anyway. Keeps a slow network from delaying the animation
+// indefinitely, while still avoiding the case where decode work for
+// ~20 images lands in the same frames as the loop starting up.
+const IMAGE_READY_TIMEOUT_MS = 1200;
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 // Render scrolling thumb row functions
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-const generateRow = () => {
+const splitImages = () => {
+  const chunkSize = Math.ceil(appletvImages.length / numberOfRows);
+  const chunkedArray = [];
+
+  for (let i = 0; i < appletvImages.length; i += chunkSize) {
+    chunkedArray.push(appletvImages.slice(i, i + chunkSize));
+  }
+
+  return chunkedArray;
+};
+
+const generateRow = (imageChunk) => {
   return Array.from({ length: rowLength }, (_, i) => {
     return {
-      color: colors[Math.floor(Math.random() * colors.length)],
-      bgImage: "",
+      bgImage: imageChunk.length ? imageChunk[i % imageChunk.length] : "",
     };
   });
 };
 
 const renderRow = (boxes) => {
   const scrollRow = boxes
-    .map((box, index) => {
-      // Add bg image if it exists in the rowData object, otherwise render the color
-      const backgroundImage = box.bgImage ? `style="background-image: url('${box.bgImage.path}');"` : "";
+    .map((box) => {
+      const dataBg = box.bgImage ? `data-bg="${basePath}${box.bgImage.path}"` : "";
+      const loadingClass = box.bgImage ? "is-loading" : "";
 
       return `
-        <li class="tsw-appletv-scroll-box box-color-${box.color} gradient-overlay" role="img" aria-label="${box.bgImage?.name ?? ""}" ${backgroundImage}>Box ${index}</li>
+        <li class="tsw-appletv-scroll-box ${loadingClass}" role="img" aria-label="${box.bgImage?.name ?? ""}" ${dataBg}>
+          ${box.bgImage ? `<span class="tsw-appletv-scroll-image"></span>` : ""}
+        </li>
       `;
     })
     .join("");
@@ -54,9 +118,11 @@ const renderRow = (boxes) => {
 };
 
 const renderAllRows = () => {
-  const allRowsHTML = Array.from({ length: NUMBER_OF_ROWS })
-    .map((_) => {
-      const row = generateRow();
+  const imageChunks = splitImages();
+
+  const allRowsHTML = Array.from({ length: numberOfRows })
+    .map((_, index) => {
+      const row = generateRow(imageChunks[index] ?? []);
       return renderRow(row);
     })
     .join("");
@@ -86,12 +152,63 @@ appletvPlayButton.addEventListener("click", () => {
 // Init functions
 // =-=-=-=-=-=-=-
 
+// Loads each box's background image and resolves once every box has
+// either loaded+decoded or errored out. Decoding here (off the initial
+// render path, via img.decode()) keeps the browser's async decode work
+// from landing in the same frames as the GSAP loop kicking off.
+const loadImages = () => {
+  const boxes = appletvScrollContainerID.querySelectorAll(".tsw-appletv-scroll-box[data-bg]");
+
+  const loadPromises = Array.from(boxes).map((box) => {
+    return new Promise((resolve) => {
+      const src = box.dataset.bg;
+      const img = new Image();
+
+      const markLoaded = () => {
+        box.classList.remove("is-loading");
+        resolve();
+      };
+
+      img.onload = () => {
+        const imageLayer = box.querySelector(".tsw-appletv-scroll-image");
+        imageLayer.style.backgroundImage = `url('${src}')`;
+
+        const finishLoad = () => {
+          imageLayer.classList.add("is-loaded");
+          markLoaded();
+        };
+
+        // Prefer async decode so the (potentially heavy) JPEG decode
+        // isn't forced onto the main thread synchronously with paint.
+        if (img.decode) {
+          img.decode().then(finishLoad).catch(finishLoad);
+        } else {
+          finishLoad();
+        }
+      };
+
+      img.onerror = markLoaded;
+      img.src = src;
+    });
+  });
+
+  // Race against a timeout so a slow/broken image can't hold up the
+  // animation start indefinitely.
+  return Promise.race([
+    Promise.all(loadPromises),
+    new Promise((resolve) => setTimeout(resolve, IMAGE_READY_TIMEOUT_MS)),
+  ]);
+};
+
 const init = () => {
   renderAllRows();
   renderPlayButton(false);
+  return loadImages();
 };
 
-init();
+// Resolves once images are loaded/decoded (or the timeout above hits).
+// The GSAP block below waits on this before actually starting the loop.
+const imagesReadyPromise = init();
 
 // =-=-=-=-=
 // GSAP code
@@ -113,6 +230,12 @@ waitForGSAP(() => {
   let loops = [];
   let lastBoxWidth = 0;
   let isPaused = false;
+
+  // Gate: the loop is built paused on its very first run and only
+  // starts moving once images are ready (loaded+decoded, or timed out).
+  // This keeps the initial image-decode burst from overlapping with
+  // the first few seconds of the transform animation.
+  let readyToPlay = false;
 
   function pause() {
     isPaused = true;
@@ -197,11 +320,16 @@ waitForGSAP(() => {
 
     loops.forEach((tl) => tl.kill());
 
+    appletvScroll.classList.add("is-loaded");
+
     loops = Array.from(rows).map((row, i) => {
       const items = gsap.utils.toArray(row.querySelectorAll(".tsw-appletv-scroll-box"));
       return horizontalLoop(items, {
         repeat: -1,
-        paused: isPaused,
+        // Stay paused until images are ready on the very first build;
+        // later rebuilds (from ResizeObserver) respect the current
+        // manual pause state instead.
+        paused: isPaused || !readyToPlay,
         speed: rowValues[i].speed ?? 1,
         direction: rowValues[i].direction ?? 1,
         snap: false,
@@ -213,7 +341,16 @@ waitForGSAP(() => {
     requestAnimationFrame(() => {
       initAnimation();
 
-      new ResizeObserver(() => initAnimation()).observe(appletvScrollContainer);
+      imagesReadyPromise.then(() => {
+        readyToPlay = true;
+        if (!isPaused) play();
+      });
+
+      let resizeTimer;
+      new ResizeObserver(() => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(initAnimation, 100);
+      }).observe(appletvScrollContainer);
 
       // Respect isPaused so IntersectionObserver doesn't override a manual pause
       new IntersectionObserver(

@@ -13,48 +13,48 @@ const appletvPlayButton = appletvScrollContainerID.querySelector(".tsw-appletv-p
 
 // Image paths
 const basePath =
-  "/content/dam/digx/tmobile/us/en/creative_assethandoff/2026/q3/12705250_apple-tv-streaming-lp-redesign/carousel-tiles/v1/";
+  "/content/dam/digx/tmobile/us/en/creative_assethandoff/2026/q3/12705250_apple-tv-streaming-lp-redesign/carousel-tiles/v2/";
 
 const appletvImages = [
   {
     name: "Your Friends and Neighbors",
-    path: "12705250_fg_appletv-carousel-YFN_16x9.jpg",
+    path: "12705250_fg_appletv-carousel-YFN_750.jpg",
   },
   {
     name: "Widow's Bay",
-    path: "12705250_fg_appletv-carousel-WIDOWS_16x9.jpg",
+    path: "12705250_fg_appletv-carousel-WIDOWS_750.jpg",
   },
   {
     name: "Silo",
-    path: "12705250_fg_appletv-carousel-SILO_16x9.jpg",
+    path: "12705250_fg_appletv-carousel-SILO_750.jpg",
   },
   {
     name: "Pluribus",
-    path: "12705250_fg_appletv-carousel-PLURIBUS_16x9.jpg",
+    path: "12705250_fg_appletv-carousel-PLURIBUS_750.jpg",
   },
   {
     name: "Maximum Pleasure Guaranteed",
-    path: "12705250_fg_appletv-carousel-MPG_16x9.jpg",
+    path: "12705250_fg_appletv-carousel-MPG_750.jpg",
   },
   {
     name: "Lucky",
-    path: "12705250_fg_appletv-carousel-LUCKY_16x9.jpg",
+    path: "12705250_fg_appletv-carousel-LUCKY_750.jpg",
   },
   {
     name: "Ted Lasso",
-    path: "12705250_fg_appletv-carousel-LASSO_16x9.jpg",
+    path: "12705250_fg_appletv-carousel-LASSO_750.jpg",
   },
   {
     name: "Slow Horses",
-    path: "12705250_fg_appletv-carousel-HORSES_16x9.jpg",
+    path: "12705250_fg_appletv-carousel-HORSES_750.jpg",
   },
   {
     name: "Dark Matter",
-    path: "12705250_fg_appletv-carousel-DM_16x9.jpg",
+    path: "12705250_fg_appletv-carousel-DM_750.jpg",
   },
   {
     name: "The Dink",
-    path: "12705250_fg_appletv-carousel-DINK_16x9.jpg",
+    path: "12705250_fg_appletv-carousel-DINK_750.jpg",
   },
 ];
 

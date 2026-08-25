@@ -134,7 +134,7 @@ ol {
 /* AppleTV container styles */
 
 .tsw-appletv-scroll-container {
-  width: 100dvw;
+  width: 100vw;
   overflow: hidden;
   margin-inline: auto;
   position: relative;

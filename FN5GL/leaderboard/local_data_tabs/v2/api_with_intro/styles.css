@@ -31,7 +31,7 @@
 
   --fn5gl-map-active-color: var(--color-brand-primary-400);
   --fn5gl-map-highlight-color: var(--color-brand-primary-600);
-  --fn5gl-map-container-padding: 1rem;
+  /* --fn5gl-map-container-padding: 1rem; */
 
   --fn5gl-link-color: var(--color-brand-primary-400);
 }
@@ -144,6 +144,9 @@ a:visited {
   align-items: center;
   gap: 4rem;
 }
+.tsw-fn5gl-container.no-transition * {
+  transition: none !important;
+}
 
 /* fn5gl loader styles */
 
@@ -255,7 +258,9 @@ a:visited {
 
 .tsw-fn5gl-intro-container {
   position: relative;
-  min-height: 65rem; /* matches the leaderboard container min-height */
+  /* min-height: 65rem;  matches the leaderboard container min-height */
+  display: flex;
+  align-items: center;
 }
 
 .tsw-fn5gl-intro {
@@ -265,7 +270,7 @@ a:visited {
   align-items: center;
   gap: 1rem;
   flex: 1;
-  min-height: 65rem; /* matches the leaderboard container min-height */
+  /* min-height: 65rem;  matches the leaderboard container min-height */
 }
 
 .tsw-fn5gl-intro button.hover {
@@ -365,7 +370,6 @@ a:visited {
 }
 @media (min-width: 768px) {
   .tsw-fn5gl-usa-map-container {
-    /* border-left: 1px solid var(--color-border); */
     border: 0;
     padding: 0;
   }
@@ -374,8 +378,6 @@ a:visited {
 .tsw-fn5gl-usa-map {
   width: 100%;
   aspect-ratio: 470 / 310;
-  display: flex;
-  align-items: center;
 }
 .tsw-fn5gl-usa-map svg {
   width: 100%;

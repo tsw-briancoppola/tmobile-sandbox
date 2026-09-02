@@ -10,7 +10,7 @@ class CountDownClock {
     placementArg,
     themeArg,
     urgencyIntervalArg,
-    a11yAlertIntervalArg
+    a11yAlertIntervalArg,
   ) {
     this.countDownDOM = containerDOMArg; // Specific container for this instance
     this.countDownEl = containerDOMArg.querySelector(".tsw-countdown");
@@ -104,7 +104,7 @@ class CountDownClock {
     if (statusWrapper && dys < this.urgencyInterval) {
       statusWrapper.style.display = "block";
       const daysText = this.urgencyInterval === 1 ? "day" : "days";
-      statusAlert.textContent = `Less than ${this.urgencyInterval} ${daysText} to go!`;
+      statusAlert.textContent = `Less than ${dys + 1} ${daysText} to go!`;
     } else if (statusWrapper) {
       statusWrapper.style.display = "none";
       statusAlert.textContent = "";

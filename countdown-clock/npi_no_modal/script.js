@@ -5,12 +5,13 @@
 class CountDownClock {
   constructor(
     containerDOMArg,
-    selectedDateArg,
+    targetDateArg,
     timeZoneArg,
     placementArg,
     themeArg,
     urgencyIntervalArg,
     a11yAlertIntervalArg,
+    endMessage,
   ) {
     this.countDownDOM = containerDOMArg; // Specific container for this instance
     this.countDownEl = containerDOMArg.querySelector(".tsw-countdown");
@@ -27,7 +28,8 @@ class CountDownClock {
     this.theme = themeArg || "light";
     this.urgencyInterval = urgencyIntervalArg !== undefined ? urgencyIntervalArg : 1;
     this.a11yAlertInterval = a11yAlertIntervalArg !== undefined ? a11yAlertIntervalArg : 10;
-    this.selectedDate = selectedDateArg;
+    this.targetDate = targetDateArg;
+    this.endMessage = endMessage;
 
     this.init();
   }
@@ -38,7 +40,7 @@ class CountDownClock {
     }
 
     this.setPlacement(this.placement);
-    this.countDownToThisTime = this.setTimeZoneForTarget(this.selectedDate);
+    this.countDownToThisTime = this.setTimeZoneForTarget(this.targetDate);
     this.setTheme(this.theme);
     this.countDown = this.startCountDown();
   }
@@ -101,9 +103,12 @@ class CountDownClock {
       a11yAlert.textContent = "";
     }
 
-    if (statusWrapper && dys < this.urgencyInterval) {
+    if (seconds < 0) {
       statusWrapper.style.display = "block";
-      const daysText = this.urgencyInterval === 1 ? "day" : "days";
+      statusAlert.innerHTML = this.endMessage;
+    } else if (statusWrapper && dys < this.urgencyInterval) {
+      statusWrapper.style.display = "block";
+      const daysText = dys + 1 === 1 ? "day" : "days";
       statusAlert.textContent = `Less than ${dys + 1} ${daysText} to go!`;
     } else if (statusWrapper) {
       statusWrapper.style.display = "none";
@@ -112,8 +117,14 @@ class CountDownClock {
   }
 
   stopClock() {
+    const countdownClock = this.countDownEl.querySelector(".tsw-countdown-clock");
+
     clearInterval(this.countDown);
     this.countDownToThisTime = null;
+
+    // Hide the countdown clock
+    countdownClock.classList.add("hidden");
+
     console.log("Clock stopped for container:", this.countDownDOM.id);
   }
 }
@@ -122,6 +133,10 @@ class CountDownClock {
 // Start instance of clock on page load
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
+const TARGET_TIME_ZONE = "local";
+const URGENCY_INTERVAL = 7; // Number of days
+const END_MESSAGE = "Applications are now closed. Check&#160;back Oct. 8 for the 40 Division&#160;Finalists!";
+
 const countdownWrapper = document.querySelector("#tsw-countdown-id").querySelector("xpr-npi-content").shadowRoot;
 const clockInstanceDOM = countdownWrapper.querySelector("#container--1");
 let clockInstance = null;
@@ -129,120 +144,29 @@ let clockInstance = null;
 window.addEventListener("load", () => {
   // Generate default ISO string for 24 hours from now with Luxon DateTime object
   const today = luxon.DateTime.local();
-  const tomorrow = today.plus({ days: 1 });
+  const tomorrow = today.plus({ days: 4 });
   const formattedResult = tomorrow.toFormat("yyyy-MM-dd'T'HH:mm");
 
   // Create instance of clock
-  clockInstance = new CountDownClock(clockInstanceDOM, formattedResult, "local", "card", "light", 1, 30);
+  clockInstance = new CountDownClock(
+    clockInstanceDOM,
+    formattedResult,
+    TARGET_TIME_ZONE,
+    "card",
+    "light",
+    URGENCY_INTERVAL,
+    URGENCY_INTERVAL,
+    END_MESSAGE,
+  );
 });
 
-// =-=-=-=-=-=-=-=-=-=-
-// Modal focus trapping
-// =-=-=-=-=-=-=-=-=-=-
-
-const modal = clockInstanceDOM.querySelector(".tsw-modal");
-const modalFocusableElements = modal.querySelectorAll("button, input, select");
-
-const modalFirstElement = modalFocusableElements[0];
-const modalSecondElement = modalFocusableElements[1];
-const modalLastElement = modalFocusableElements[modalFocusableElements.length - 1];
-
-modal.addEventListener("keydown", (event) => {
-  if (event.key === "Tab") {
-    if (event.shiftKey) {
-      if (countdownWrapper.activeElement === modalFirstElement) {
-        modalLastElement.focus();
-        event.preventDefault();
-      }
-    } else {
-      if (countdownWrapper.activeElement === modalLastElement) {
-        modalFirstElement.focus();
-        event.preventDefault();
-      }
-    }
-  }
-});
-
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-// Modal and overlay event listeners
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=
-
-const countdownEditButton = clockInstanceDOM.querySelector(".tsw-countdown-edit");
-const modalOverlay = clockInstanceDOM.querySelector(".tsw-modal-overlay");
-const modalClose = clockInstanceDOM.querySelector(".tsw-modal-close");
-const dateTimeInput = clockInstanceDOM.querySelector(".tsw-countdown-date");
-const dropdownPlacement = clockInstanceDOM.querySelector(".tsw-dropdown-placement");
-const dropdownTimeZone = clockInstanceDOM.querySelector(".tsw-dropdown-time-zone");
-const dropdownTheme = clockInstanceDOM.querySelector(".tsw-dropdown-theme");
-
-// Open modal
-countdownEditButton.addEventListener("click", () => {
-  // Pre-populate modal fields and dropdowns with current clock state
-  dateTimeInput.value = clockInstance.selectedDate;
-  dropdownTheme.value = clockInstance.theme;
-  dropdownTimeZone.value = clockInstance.timeZoneForTarget;
-  // Open modal
-  modalOverlay.classList.add("is-visible");
-  // Add focus to first element in modal
-  modalSecondElement.focus();
-  console.log(modalFocusableElements);
-});
-
-// Close modal by clicking close button
-modalClose.addEventListener("click", () => {
-  modalOverlay.classList.remove("is-visible");
-});
-
-// Close modal by clicking overlay
-modalOverlay.addEventListener("click", (event) => {
-  if (event.target === modalOverlay) {
-    modalOverlay.classList.remove("is-visible");
-  }
-});
-
-// Close modal with Esc key
-countdownWrapper.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") {
-    modalOverlay.classList.remove("is-visible");
-  }
-});
-
-// Change placement
-dropdownPlacement.addEventListener("change", (event) => {
-  clockInstance.placement = event.target.value;
-  clockInstance.setPlacement(event.target.value);
-});
-
-// Change target date
-dateTimeInput.addEventListener("change", (event) => {
-  const newDateTime = event.target.value;
-
-  if (!newDateTime) return;
-
-  const selectedTime = clockInstance.setTimeZoneForTarget(newDateTime);
-  if (selectedTime < Date.now()) {
-    alert("Please select a future date and time");
-    dateTimeInput.value = clockInstance.selectedDate;
-    return;
-  }
-
-  clearInterval(clockInstance.countDown);
-  clockInstance.selectedDate = newDateTime;
-  clockInstance.countDownToThisTime = selectedTime;
-
-  clockInstance.countDown = clockInstance.startCountDown();
-});
-
-// Change time zone
-dropdownTimeZone.addEventListener("change", (event) => {
-  clockInstance.timeZoneForTarget = event.target.value;
-  clearInterval(clockInstance.countDown);
-  clockInstance.countDownToThisTime = clockInstance.setTimeZoneForTarget(clockInstance.selectedDate);
-  clockInstance.startCountDown();
-});
-
-// Change theme
-dropdownTheme.addEventListener("change", (event) => {
-  clockInstance.theme = event.target.value;
-  clockInstance.setTheme(event.target.value);
-});
+// CountDownClock parameters:
+//
+// 1) The DOM of the clock instance
+// 2) The formatted target date and time
+// 3) Set target time to fixed time or relative to user time zone (local, eastern, etc.)
+// 4) Placement of clock (default is card)
+// 5) Color theme of clock (light, dark, magebta)
+// 6) Urgency interval in days
+// 7) A11y alert interval in days (only seen with screen readers)
+// 8) The message that displays when the clock reaches 0.

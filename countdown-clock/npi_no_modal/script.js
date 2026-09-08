@@ -11,7 +11,8 @@ class CountDownClock {
     themeArg,
     urgencyIntervalArg,
     a11yAlertIntervalArg,
-    endMessage,
+    headerMessage,
+    headerEndMessage,
   ) {
     this.countDownDOM = containerDOMArg; // Specific container for this instance
     this.countDownEl = containerDOMArg.querySelector(".tsw-countdown");
@@ -29,7 +30,8 @@ class CountDownClock {
     this.urgencyInterval = urgencyIntervalArg !== undefined ? urgencyIntervalArg : 1;
     this.a11yAlertInterval = a11yAlertIntervalArg !== undefined ? a11yAlertIntervalArg : 10;
     this.targetDate = targetDateArg;
-    this.endMessage = endMessage;
+    this.headerMessage = headerMessage;
+    this.headerEndMessage = headerEndMessage;
 
     this.init();
   }
@@ -51,8 +53,14 @@ class CountDownClock {
 
   setTimeZoneForTarget(date) {
     // Set time zone of input date/time using Luxon DateTime object
-    if (this.timeZoneForTarget === "eastern" && typeof luxon !== "undefined") {
-      const overrideZone = luxon.DateTime.fromISO(date, { zone: "America/New_York" });
+    const zoneMap = {
+      eastern: "America/New_York",
+      pacific: "America/Los_Angeles",
+    };
+    const zone = zoneMap[this.timeZoneForTarget];
+
+    if (zone && typeof luxon !== "undefined") {
+      const overrideZone = luxon.DateTime.fromISO(date, { zone });
       return overrideZone.toJSDate();
     } else {
       return new Date(date);
@@ -79,12 +87,12 @@ class CountDownClock {
 
   setView(seconds) {
     // Use the instance's specific countDownEl to find children
+    const headerText = this.countDownEl.querySelector(".tsw-countdown-header");
     const displayDays = this.countDownEl.querySelector(".tsw-countdown-days");
     const displayHours = this.countDownEl.querySelector(".tsw-countdown-hours");
     const displayMinutes = this.countDownEl.querySelector(".tsw-countdown-minutes");
     const displaySeconds = this.countDownEl.querySelector(".tsw-countdown-seconds");
-    const statusWrapper = this.countDownEl.querySelector(".tsw-countdown-status");
-    const statusAlert = this.countDownEl.querySelector(".tsw-countdown-status-alert");
+    const urgencyAlert = this.countDownEl.querySelector(".tsw-countdown-urgency-alert");
     const a11yAlert = this.countDownEl.querySelector("#tsw-countdown-a11y-alert");
 
     const secs = Math.floor(seconds % 60);
@@ -104,15 +112,22 @@ class CountDownClock {
     }
 
     if (seconds < 0) {
-      statusWrapper.style.display = "block";
-      statusAlert.innerHTML = this.endMessage;
-    } else if (statusWrapper && dys < this.urgencyInterval) {
-      statusWrapper.style.display = "block";
+      headerText.innerHTML = this.headerEndMessage;
+      urgencyAlert.style.display = "none";
+    } else if (urgencyAlert && dys < this.urgencyInterval) {
+      headerText.innerHTML = this.headerMessage;
+      urgencyAlert.style.display = "block";
       const daysText = dys + 1 === 1 ? "day" : "days";
-      statusAlert.textContent = `Less than ${dys + 1} ${daysText} to go!`;
-    } else if (statusWrapper) {
-      statusWrapper.style.display = "none";
-      statusAlert.textContent = "";
+      const hoursText = hrs + 1 === 1 ? "hour" : "hours";
+      if (dys < 1) {
+        urgencyAlert.textContent = `Less than ${hrs + 1} ${hoursText} to go!`;
+      } else {
+        urgencyAlert.textContent = `Less than ${dys + 1} ${daysText} to go!`;
+      }
+    } else if (urgencyAlert) {
+      headerText.innerHTML = this.headerMessage;
+      urgencyAlert.style.display = "none";
+      urgencyAlert.textContent = "";
     }
   }
 
@@ -122,9 +137,6 @@ class CountDownClock {
     clearInterval(this.countDown);
     this.countDownToThisTime = null;
 
-    // Hide the countdown clock
-    countdownClock.classList.add("hidden");
-
     console.log("Clock stopped for container:", this.countDownDOM.id);
   }
 }
@@ -133,9 +145,11 @@ class CountDownClock {
 // Start instance of clock on page load
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-const TARGET_TIME_ZONE = "local";
-const URGENCY_INTERVAL = 7; // Number of days
-const END_MESSAGE = "Applications are now closed. Check&#160;back Oct. 8 for the 40 Division&#160;Finalists!";
+const TARGET_TIME_ZONE = "pacific";
+const TARGET_DATE = "2026-09-18T23:59"; // Fixed target date/time, ISO format (yyyy-MM-dd'T'HH:mm)
+const URGENCY_INTERVAL = 7; // Number of days to target date/time
+const HEADER_MESSAGE = "Don't wait! The application period ends Sept.&#160;18.";
+const HEADER_END_MESSAGE = "Applications are now closed. Check&#160;back Oct. 8 for the 40 Division&#160;Finalists!";
 
 const countdownWrapper = document.querySelector("#tsw-countdown-id").querySelector("xpr-npi-content").shadowRoot;
 const clockInstanceDOM = countdownWrapper.querySelector("#container--1");
@@ -143,20 +157,21 @@ let clockInstance = null;
 
 window.addEventListener("load", () => {
   // Generate default ISO string for 24 hours from now with Luxon DateTime object
-  const today = luxon.DateTime.local();
-  const tomorrow = today.plus({ days: 4 });
-  const formattedResult = tomorrow.toFormat("yyyy-MM-dd'T'HH:mm");
+  // const today = luxon.DateTime.local();
+  // const tomorrow = today.plus({ days: 4 });
+  // const formattedResult = tomorrow.toFormat("yyyy-MM-dd'T'HH:mm");
 
   // Create instance of clock
   clockInstance = new CountDownClock(
     clockInstanceDOM,
-    formattedResult,
+    TARGET_DATE,
     TARGET_TIME_ZONE,
     "card",
     "light",
     URGENCY_INTERVAL,
     URGENCY_INTERVAL,
-    END_MESSAGE,
+    HEADER_MESSAGE,
+    HEADER_END_MESSAGE,
   );
 });
 

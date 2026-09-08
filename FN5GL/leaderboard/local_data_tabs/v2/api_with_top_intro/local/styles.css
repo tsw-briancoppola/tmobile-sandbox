@@ -226,9 +226,8 @@ a:visited {
   min-height: 0; /* required for grid trick */
   display: flex;
   flex-direction: column;
-  /* move all existing flex properties here from leaderboard-data */
 }
-@media (min-width: 600px) {
+@media (min-width: 1024px) {
   .tsw-fn5gl-leaderboard-data-inner {
     flex-direction: row;
     /* flex-flow: row; */
@@ -338,12 +337,32 @@ a:visited {
   flex: 1;
 }
 
+.tsw-fn5gl-leaderboard-regions-header,
+.tsw-fn5gl-region-row {
+  font-size: 1.2rem;
+  gap: 1rem;
+  padding: 1.2rem 0.8rem;
+}
+@media (min-width: 414px) {
+  .tsw-fn5gl-leaderboard-regions-header,
+  .tsw-fn5gl-region-row {
+    font-size: 1.4rem;
+    gap: 2rem;
+    padding: 1.2rem 1.4rem;
+  }
+}
+@media (min-width: 600px) {
+  .tsw-fn5gl-leaderboard-regions-header,
+  .tsw-fn5gl-region-row {
+    font-size: 1.5rem;
+    gap: 2rem;
+    padding: 1.2rem 1.4rem;
+  }
+}
+
 .tsw-fn5gl-leaderboard-regions-header {
   display: grid;
   grid-template-columns: 3rem 3fr 0.7fr 1fr;
-  gap: 2rem;
-  padding: 1.2rem 1.4rem;
-  font-size: 1.5rem;
   font-weight: bold;
   color: var(--color-brand-grayscale-800);
   border-bottom: 1px solid var(--color-border);
@@ -352,9 +371,6 @@ a:visited {
 .tsw-fn5gl-region-row {
   display: grid;
   grid-template-columns: 1rem 3fr 1fr 0.5fr 1fr;
-  gap: 1rem;
-  font-size: 1.5rem;
-  padding: 1.2rem 0.8rem;
   color: var(--color-brand-grayscale-900);
 }
 .tsw-fn5gl-region-row.no-votes {
@@ -369,13 +385,7 @@ a:visited {
 .tsw-fn5gl-region-row:not(:first-child) {
   border-top: 1px solid var(--color-border);
 }
-@media (min-width: 480px) {
-  .tsw-fn5gl-region-row {
-    font-size: 1.6rem;
-    gap: 2rem;
-    padding: 1.2rem 1.4rem;
-  }
-}
+
 .tsw-fn5gl-region-row-button {
   max-width: 8rem;
   align-self: center;
@@ -388,14 +398,10 @@ a:visited {
   font-weight: 700;
 }
 
-.tsw-fn5gl-region-location {
-  font-size: 1.4rem;
-}
 .tsw-fn5gl-region-rank {
   text-align: center;
 }
 .tsw-fn5gl-region-votes {
-  font-size: 1.7rem;
   font-weight: 600;
   align-self: center;
 }

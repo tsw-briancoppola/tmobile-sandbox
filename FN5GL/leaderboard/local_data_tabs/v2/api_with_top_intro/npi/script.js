@@ -132,6 +132,12 @@ const renderRegion = (region) => {
 
   return `
     <div class="tsw-fn5gl-region" role="tabpanel" aria-labelledby="${region}" ${region !== currentRegion ? "hidden" : ""}>
+      <div class="tsw-fn5gl-leaderboard-regions-header">
+        <span>Rank</span>
+        <span>School</span>
+        <span>Votes</span>
+        <span></span>
+      </div>
       <ol role="list" class="tsw-fn5gl-region-list">${schoolRows || "No schools yet"}</ol>
     </div>
   `;

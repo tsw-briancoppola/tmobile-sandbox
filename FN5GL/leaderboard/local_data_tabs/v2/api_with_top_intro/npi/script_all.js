@@ -1223,6 +1223,12 @@ const renderRegion = (region) => {
 
   return `
     <div class="tsw-fn5gl-region" role="tabpanel" aria-labelledby="${region}" ${region !== currentRegion ? "hidden" : ""}>
+      <div class="tsw-fn5gl-leaderboard-regions-header">
+        <span>Rank</span>
+        <span>School</span>
+        <span>Votes</span>
+        <span></span>
+      </div>
       <ol role="list" class="tsw-fn5gl-region-list">${schoolRows || "No schools yet"}</ol>
     </div>
   `;
@@ -1875,7 +1881,8 @@ const transformData = (data) => {
     .map((school) => ({
       ...school,
       votes: 10000,
-      description: "Awesome place! It's pretty sweet.",
+      description:
+        "Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur. Sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat.",
       home_game: {
         datetime: "2026-07-29T20:38:15.123Z",
         stadium_name: "A Football Stadium",

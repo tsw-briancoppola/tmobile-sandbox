@@ -20,6 +20,7 @@ const fn5glLeaderboardLoader = document.querySelector(".tsw-fn5gl-leaderboard-lo
 const fn5glMapLoader = document.querySelector(".tsw-fn5gl-map-loader");
 const fn5glUSAMapContainer = document.querySelector(".tsw-fn5gl-usa-map-container");
 const fn5glUSAMap = document.querySelector(".tsw-fn5gl-usa-map");
+const fn5glUSAMapStats = document.querySelector(".tsw-fn5gl-usa-map-stats");
 const fn5glTooltip = document.querySelector(".tsw-tooltip");
 
 const fn5glModal = document.querySelector(".tsw-modal");
@@ -45,25 +46,25 @@ let modalState = {
 // Feature toggles
 const VOTING_ACTIVE = true;
 
+const SHOW_MAP_STATS = false;
+const ANIMATE_VOTE_COUNTER = true;
+
 const SHOW_VOTE_TOTALS = true;
 const SHOW_TREND = false;
+const SHOW_MODAL_IMAGE = true;
 
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-
-// functions
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-
+// =-=-=-=-=-=-=-=-=-=-=-
+// Render intro functions
+// =-=-=-=-=-=-=-=-=-=-=-
 
-const generateGroupClone = () => {
-  const clone = (clone.innerHTML = "");
+const renderIntroButtons = () => {
+  const introHTML = REGIONS_ORDER.map((region) => {
+    return `
+      <button type="button" class="hollow-button" data-region="${region.toLowerCase()}" aria-controls="${region}">${region}</button>
+    `;
+  }).join("");
 
-  // Create clone of state group that will render focus stroke
-  const pathClone = mapGroup.cloneNode(true);
-  pathClone.removeAttribute("tabindex");
-  pathClone.removeAttribute("role");
-  pathClone.removeAttribute("aria-label");
-  pathClone.classList.add("tsw-focus-overlay-stroke");
-  pathClone.classList.remove("hover");
-  pathClone.classList.remove("highlight");
-  focusOverlay.appendChild(pathClone);
+  fn5glIntroButtons.innerHTML = introHTML;
 };
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -189,8 +190,6 @@ const parseAddress = (address) => {
   };
 };
 
-const schoolImagePath = "img/fpo-magenta-mascot.png";
-
 const renderModal = (school) => {
   const { time, timeZone, formattedDate } = parseGameDateTime(school.home_game.datetime);
   const { street, cityState, zip } = parseAddress(school.home_game.stadium_address);
@@ -201,9 +200,8 @@ const renderModal = (school) => {
       <h2 class="tsw-modal-school-name">${school.name}</h2>
       <div class="tsw-modal-school-desc-logo">
         <p class="tsw-modal-school-description">${school.description}</p>
-        <div class="tsw-modal-school-logo">
-          <img src="${schoolImagePath}" alt="${school.name} logo" />
-        </div>
+        <div class="tsw-modal-school-logo"></div>
+        <!-- <img src="" alt="${school.name} logo" /> -->
       </div>
     </div>
 
@@ -241,6 +239,9 @@ const renderModal = (school) => {
           <span class="tsw-modal-game-detail-value">${school.home_game.stadium_name}</span>
           <span class="tsw-modal-game-detail-label">${street}<br />${cityState}<br />${zip}</span>
         </div>
+      </div>
+      <div class="tsw-modal-game-image">
+        <!-- <img src="" alt="${school.home_game.stadium_name}" /> -->
       </div>
     </div>
   `;
@@ -327,6 +328,57 @@ fn5glModal.addEventListener("keydown", (event) => {
 // Map functions
 // =-=-=-=-=-=-=
 
+const animateCounter = (element, targetValue, duration = 5000) => {
+  const startTime = performance.now();
+
+  const update = (currentTime) => {
+    const elapsed = currentTime - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+
+    // Ease out — starts fast, slows toward the end
+    const eased = 1 - Math.pow(1 - progress, 20);
+    const currentValue = Math.round(eased * targetValue);
+
+    element.textContent = currentValue.toLocaleString("en-US");
+
+    if (progress < 1) {
+      requestAnimationFrame(update);
+    }
+  };
+
+  requestAnimationFrame(update);
+};
+
+const renderMapStats = () => {
+  if (!SHOW_MAP_STATS) return;
+
+  const totalVotes = schoolData.map((school) => school.votes).reduce((acc, curr) => acc + curr, 0);
+  const stateWithMostVotes = Object.entries(
+    schoolData.reduce((acc, { state, votes }) => {
+      acc[state] = (acc[state] || 0) + votes;
+      return acc;
+    }, {}),
+  ).reduce((max, curr) => (curr[1] > max[1] ? curr : max))[0];
+
+  const boxes = fn5glUSAMapStats.querySelectorAll(".tsw-fn5gl-usa-map-stats-box");
+
+  boxes[0].innerHTML = `
+    <div class="tsw-fn5gl-usa-map-stats-box-stat">${ANIMATE_VOTE_COUNTER ? "0" : totalVotes.toLocaleString("en-US")}</div>
+    <div class="tsw-fn5gl-usa-map-stats-box-text">Total votes cast</div>
+  `;
+
+  boxes[1].innerHTML = `
+    <div class="tsw-fn5gl-usa-map-stats-box-stat">${stateWithMostVotes}</div>
+    <div class="tsw-fn5gl-usa-map-stats-box-text">Most active state</div>
+  `;
+
+  // Animate after the element exists in the DOM
+  if (ANIMATE_VOTE_COUNTER) {
+    const totalVotesEl = boxes[0].querySelector(".tsw-fn5gl-usa-map-stats-box-stat");
+    animateCounter(totalVotesEl, totalVotes);
+  }
+};
+
 const handleTooltip = (target, isHovering) => {
   const region = target.dataset.mapRegion;
 
@@ -385,7 +437,7 @@ const setActiveRegion = (regionId) => {
 
   const allIntroButtons = fn5glIntroButtons.querySelectorAll("[data-region]");
   allIntroButtons.forEach((button) => {
-    button.classList.toggle("active", button.dataset.region === regionId);
+    button.classList.toggle("active", button.dataset.region === regionId.toLowerCase());
   });
 };
 
@@ -400,6 +452,7 @@ const addVote = (id) => {
   targetSchool.votes += 1000;
 
   renderAllRegions();
+  renderMapStats();
 };
 
 // =-=-=-=-=-=-=-=
@@ -408,7 +461,7 @@ const addVote = (id) => {
 
 // Clicking on intro buttons, tabs, and map
 
-// Intro buttons event listener
+/* Intro buttons event listener */
 
 fn5glIntroButtons.addEventListener("click", (event) => {
   const button = event.target.closest("[data-region]");
@@ -418,17 +471,8 @@ fn5glIntroButtons.addEventListener("click", (event) => {
     g.classList.remove("hover");
   });
 
-  if (!fn5glLeaderboardData.classList.contains("is-open")) {
-    // Still in intro phase
-    initWithRegion(button.dataset.region);
-    return;
-  }
-
-  setActiveRegion(button.dataset.region);
-  updateRegionParam(button.dataset.region);
+  initWithRegion(button.dataset.region);
 });
-
-// Map event listener
 
 fn5glUSAMap.addEventListener("click", (event) => {
   const group = event.target.closest("g[data-map-region]");
@@ -437,6 +481,16 @@ fn5glUSAMap.addEventListener("click", (event) => {
   const newRegion = group.dataset.mapRegion;
   if (!schoolData) return; // data not loaded yet, ignore clicks
 
+  if (!fn5glIntroContainer.classList.contains("hidden")) {
+    // Still in intro phase
+    fn5glUSAMap.querySelectorAll("g[data-map-region]").forEach((g) => {
+      g.classList.remove("hover");
+    });
+    initWithRegion(newRegion);
+    return;
+  }
+
+  // Normal leaderboard phase
   if (newRegion === currentRegion) return;
   setActiveRegion(newRegion);
   updateRegionParam(newRegion);
@@ -612,6 +666,7 @@ const updateMapActiveRegion = () => {
 const initMapAndStats = () => {
   initMap();
   updateMapActiveRegion();
+  renderMapStats();
 };
 
 /* Render UI */
@@ -627,6 +682,7 @@ const initIntroData = async () => {
   schoolDataPrevious = structuredClone(schoolData);
 
   initMap();
+  renderMapStats();
 
   fn5glIntro.classList.remove("hidden");
 };
@@ -651,6 +707,7 @@ const renderUI = (phase) => {
     fn5glMapLoader.classList.remove("hidden"); // if map is also re-initializing
     fn5glRegions.classList.add("hidden");
     // fn5glUSAMap.classList.add("hidden");
+    // fn5glUSAMapStats.classList.add("hidden");
   }
 
   if (phase === "ready") {
@@ -666,9 +723,11 @@ const renderUI = (phase) => {
     });
 
     const regionsStep = { fn: renderAllRegions, els: [fn5glRegions, fn5glLeaderboardRegionsContainer] };
-    const mapStep = { fn: initMapAndStats, els: [fn5glUSAMap] };
+    const mapStep = { fn: initMapAndStats, els: [fn5glUSAMap, fn5glUSAMapStats] };
 
     const steps = [mapStep, regionsStep];
+
+    console.log("Yess");
 
     steps.forEach(({ fn, els }, i) => {
       setTimeout(() => {
@@ -729,8 +788,7 @@ const transformData = (data) => {
     .map((school) => ({
       ...school,
       votes: 10000,
-      description:
-        "Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur. Sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat.",
+      description: "Awesome place! It's pretty sweet.",
       home_game: {
         datetime: "2026-07-29T20:38:15.123Z",
         stadium_name: "A Football Stadium",
@@ -742,8 +800,6 @@ const transformData = (data) => {
 
 // Run if there's a region URL parameter set
 const initWithRegion = async (region) => {
-  console.log("initWithRegion called with:", region, "schoolData:", schoolData);
-
   currentRegion = region;
   updateRegionParam(region);
 
@@ -794,6 +850,12 @@ const initWithRegion = async (region) => {
 };
 
 const init = () => {
+  renderIntroButtons();
+
+  if (!SHOW_MAP_STATS) {
+    fn5glUSAMapStats.style.display = "none";
+  }
+
   dataPromise = fetchData();
   const urlParams = new URLSearchParams(window.location.search);
 

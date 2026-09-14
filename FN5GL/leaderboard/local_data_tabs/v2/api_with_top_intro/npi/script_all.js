@@ -1115,7 +1115,6 @@ const fn5glLeaderboardLoader = fn5glContainer.querySelector(".tsw-fn5gl-leaderbo
 const fn5glMapLoader = fn5glContainer.querySelector(".tsw-fn5gl-map-loader");
 const fn5glUSAMapContainer = fn5glContainer.querySelector(".tsw-fn5gl-usa-map-container");
 const fn5glUSAMap = fn5glContainer.querySelector(".tsw-fn5gl-usa-map");
-const fn5glUSAMapStats = fn5glContainer.querySelector(".tsw-fn5gl-usa-map-stats");
 const fn5glTooltip = fn5glContainer.querySelector(".tsw-tooltip");
 
 const fn5glModal = fn5glContainer.querySelector(".tsw-modal");
@@ -1141,25 +1140,25 @@ let modalState = {
 // Feature toggles
 const VOTING_ACTIVE = true;
 
-const SHOW_MAP_STATS = false;
-const ANIMATE_VOTE_COUNTER = true;
-
 const SHOW_VOTE_TOTALS = true;
 const SHOW_TREND = false;
-const SHOW_MODAL_IMAGE = true;
 
-// =-=-=-=-=-=-=-=-=-=-=-
-// Render intro functions
-// =-=-=-=-=-=-=-=-=-=-=-
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-
+// functions
+// =-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-const renderIntroButtons = () => {
-  const introHTML = REGIONS_ORDER.map((region) => {
-    return `
-      <button type="button" class="hollow-button" data-region="${region.toLowerCase()}" aria-controls="${region}">${region}</button>
-    `;
-  }).join("");
+const generateGroupClone = () => {
+  const clone = (clone.innerHTML = "");
 
-  fn5glIntroButtons.innerHTML = introHTML;
+  // Create clone of state group that will render focus stroke
+  const pathClone = mapGroup.cloneNode(true);
+  pathClone.removeAttribute("tabindex");
+  pathClone.removeAttribute("role");
+  pathClone.removeAttribute("aria-label");
+  pathClone.classList.add("tsw-focus-overlay-stroke");
+  pathClone.classList.remove("hover");
+  pathClone.classList.remove("highlight");
+  focusOverlay.appendChild(pathClone);
 };
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -1285,6 +1284,8 @@ const parseAddress = (address) => {
   };
 };
 
+const schoolImagePath = "/content/dam/digx/tmobile/us/en/sandbox/alex-park/fn5gl/phase-2/fpo-magenta-mascot.png";
+
 const renderModal = (school) => {
   const { time, timeZone, formattedDate } = parseGameDateTime(school.home_game.datetime);
   const { street, cityState, zip } = parseAddress(school.home_game.stadium_address);
@@ -1295,8 +1296,9 @@ const renderModal = (school) => {
       <h2 class="tsw-modal-school-name">${school.name}</h2>
       <div class="tsw-modal-school-desc-logo">
         <p class="tsw-modal-school-description">${school.description}</p>
-        <div class="tsw-modal-school-logo"></div>
-        <!-- <img src="" alt="${school.name} logo" /> -->
+        <div class="tsw-modal-school-logo">
+          <img src="${schoolImagePath}" alt="${school.name} logo" />
+        </div>
       </div>
     </div>
 
@@ -1334,9 +1336,6 @@ const renderModal = (school) => {
           <span class="tsw-modal-game-detail-value">${school.home_game.stadium_name}</span>
           <span class="tsw-modal-game-detail-label">${street}<br />${cityState}<br />${zip}</span>
         </div>
-      </div>
-      <div class="tsw-modal-game-image">
-        <!-- <img src="" alt="${school.home_game.stadium_name}" /> -->
       </div>
     </div>
   `;
@@ -1423,57 +1422,6 @@ fn5glModal.addEventListener("keydown", (event) => {
 // Map functions
 // =-=-=-=-=-=-=
 
-const animateCounter = (element, targetValue, duration = 5000) => {
-  const startTime = performance.now();
-
-  const update = (currentTime) => {
-    const elapsed = currentTime - startTime;
-    const progress = Math.min(elapsed / duration, 1);
-
-    // Ease out — starts fast, slows toward the end
-    const eased = 1 - Math.pow(1 - progress, 20);
-    const currentValue = Math.round(eased * targetValue);
-
-    element.textContent = currentValue.toLocaleString("en-US");
-
-    if (progress < 1) {
-      requestAnimationFrame(update);
-    }
-  };
-
-  requestAnimationFrame(update);
-};
-
-const renderMapStats = () => {
-  if (!SHOW_MAP_STATS) return;
-
-  const totalVotes = schoolData.map((school) => school.votes).reduce((acc, curr) => acc + curr, 0);
-  const stateWithMostVotes = Object.entries(
-    schoolData.reduce((acc, { state, votes }) => {
-      acc[state] = (acc[state] || 0) + votes;
-      return acc;
-    }, {}),
-  ).reduce((max, curr) => (curr[1] > max[1] ? curr : max))[0];
-
-  const boxes = fn5glUSAMapStats.querySelectorAll(".tsw-fn5gl-usa-map-stats-box");
-
-  boxes[0].innerHTML = `
-    <div class="tsw-fn5gl-usa-map-stats-box-stat">${ANIMATE_VOTE_COUNTER ? "0" : totalVotes.toLocaleString("en-US")}</div>
-    <div class="tsw-fn5gl-usa-map-stats-box-text">Total votes cast</div>
-  `;
-
-  boxes[1].innerHTML = `
-    <div class="tsw-fn5gl-usa-map-stats-box-stat">${stateWithMostVotes}</div>
-    <div class="tsw-fn5gl-usa-map-stats-box-text">Most active state</div>
-  `;
-
-  // Animate after the element exists in the DOM
-  if (ANIMATE_VOTE_COUNTER) {
-    const totalVotesEl = boxes[0].querySelector(".tsw-fn5gl-usa-map-stats-box-stat");
-    animateCounter(totalVotesEl, totalVotes);
-  }
-};
-
 const handleTooltip = (target, isHovering) => {
   const region = target.dataset.mapRegion;
 
@@ -1532,7 +1480,7 @@ const setActiveRegion = (regionId) => {
 
   const allIntroButtons = fn5glIntroButtons.querySelectorAll("[data-region]");
   allIntroButtons.forEach((button) => {
-    button.classList.toggle("active", button.dataset.region === regionId.toLowerCase());
+    button.classList.toggle("active", button.dataset.region === regionId);
   });
 };
 
@@ -1547,7 +1495,6 @@ const addVote = (id) => {
   targetSchool.votes += 1000;
 
   renderAllRegions();
-  renderMapStats();
 };
 
 // =-=-=-=-=-=-=-=
@@ -1556,7 +1503,7 @@ const addVote = (id) => {
 
 // Clicking on intro buttons, tabs, and map
 
-/* Intro buttons event listener */
+// Intro buttons event listener
 
 fn5glIntroButtons.addEventListener("click", (event) => {
   const button = event.target.closest("[data-region]");
@@ -1566,8 +1513,17 @@ fn5glIntroButtons.addEventListener("click", (event) => {
     g.classList.remove("hover");
   });
 
-  initWithRegion(button.dataset.region);
+  if (!fn5glLeaderboardData.classList.contains("is-open")) {
+    // Still in intro phase
+    initWithRegion(button.dataset.region);
+    return;
+  }
+
+  setActiveRegion(button.dataset.region);
+  updateRegionParam(button.dataset.region);
 });
+
+// Map event listener
 
 fn5glUSAMap.addEventListener("click", (event) => {
   const group = event.target.closest("g[data-map-region]");
@@ -1576,16 +1532,6 @@ fn5glUSAMap.addEventListener("click", (event) => {
   const newRegion = group.dataset.mapRegion;
   if (!schoolData) return; // data not loaded yet, ignore clicks
 
-  if (!fn5glIntroContainer.classList.contains("hidden")) {
-    // Still in intro phase
-    fn5glUSAMap.querySelectorAll("g[data-map-region]").forEach((g) => {
-      g.classList.remove("hover");
-    });
-    initWithRegion(newRegion);
-    return;
-  }
-
-  // Normal leaderboard phase
   if (newRegion === currentRegion) return;
   setActiveRegion(newRegion);
   updateRegionParam(newRegion);
@@ -1740,7 +1686,7 @@ const initMap = () => {
   fn5glUSAMapSVG.setAttribute("inert", "");
   fn5glUSAMapSVG.setAttribute("tabindex", "-1");
 
-  focusOverlay = fn5glContainer.createElementNS("http://www.w3.org/2000/svg", "g");
+  focusOverlay = document.createElementNS("http://www.w3.org/2000/svg", "g");
   focusOverlay.classList.add("tsw-focus-overlay");
   focusOverlay.setAttribute("pointer-events", "none");
   fn5glUSAMapSVG.appendChild(focusOverlay);
@@ -1761,7 +1707,6 @@ const updateMapActiveRegion = () => {
 const initMapAndStats = () => {
   initMap();
   updateMapActiveRegion();
-  renderMapStats();
 };
 
 /* Render UI */
@@ -1777,7 +1722,6 @@ const initIntroData = async () => {
   schoolDataPrevious = structuredClone(schoolData);
 
   initMap();
-  renderMapStats();
 
   fn5glIntro.classList.remove("hidden");
 };
@@ -1802,7 +1746,6 @@ const renderUI = (phase) => {
     fn5glMapLoader.classList.remove("hidden"); // if map is also re-initializing
     fn5glRegions.classList.add("hidden");
     // fn5glUSAMap.classList.add("hidden");
-    // fn5glUSAMapStats.classList.add("hidden");
   }
 
   if (phase === "ready") {
@@ -1818,7 +1761,7 @@ const renderUI = (phase) => {
     });
 
     const regionsStep = { fn: renderAllRegions, els: [fn5glRegions, fn5glLeaderboardRegionsContainer] };
-    const mapStep = { fn: initMapAndStats, els: [fn5glUSAMap, fn5glUSAMapStats] };
+    const mapStep = { fn: initMapAndStats, els: [fn5glUSAMap] };
 
     const steps = [mapStep, regionsStep];
 
@@ -1894,58 +1837,58 @@ const transformData = (data) => {
 
 // Run if there's a region URL parameter set
 const initWithRegion = async (region) => {
+  console.log("initWithRegion called with:", region, "schoolData:", schoolData);
+
   currentRegion = region;
   updateRegionParam(region);
 
-  if (!breakpoint.matches) {
-    fn5glLeaderboardRegionsContainer.classList.remove("hidden");
-    fn5glUSAMapContainer.classList.remove("hidden");
-  }
-
   if (!schoolData) {
+    // URL param path
     renderUI("loading");
-
     schoolData = await dataPromise;
     if (!schoolData) {
       console.error("Failed to load school data");
       return;
     }
-
     schoolDataPrevious = structuredClone(schoolData);
-
     setOnLoadRegion();
     renderUI("ready");
-    setActiveRegion(currentRegion); // after ready so panels exist
+    setActiveRegion(currentRegion);
     return;
   }
 
-  setOnLoadRegion();
+  // Intro path — expand container first, then render after transition
   fn5glLeaderboardData.classList.add("is-open");
-  setActiveRegion(currentRegion);
 
-  const steps = [{ fn: renderAllRegions, els: [fn5glRegions] }];
+  const onLeaderboardExpanded = (event) => {
+    if (event.target !== fn5glLeaderboardData) return;
+    if (event.propertyName !== "grid-template-rows") return;
 
-  steps.forEach(({ fn, els }, i) => {
+    fn5glLeaderboardData.removeEventListener("transitionend", onLeaderboardExpanded);
+
+    setOnLoadRegion();
+    setActiveRegion(currentRegion);
+
+    const steps = [{ fn: renderAllRegions, els: [fn5glRegions] }];
+
+    steps.forEach(({ fn, els }, i) => {
+      setTimeout(() => {
+        fn();
+        els.forEach((el) => el.classList.remove("hidden"));
+      }, i * 250);
+    });
+
     setTimeout(() => {
-      fn();
-      els.forEach((el) => el.classList.remove("hidden"));
-    }, i * 250);
-  });
+      fn5glLeaderboardLoader.classList.add("hidden");
+    }, steps.length * 250);
 
-  setTimeout(() => {
-    fn5glLeaderboardLoader.classList.add("hidden");
-  }, steps.length * 250);
+    updateMapActiveRegion();
+  };
 
-  updateMapActiveRegion();
+  fn5glLeaderboardData.addEventListener("transitionend", onLeaderboardExpanded);
 };
 
 const init = () => {
-  renderIntroButtons();
-
-  if (!SHOW_MAP_STATS) {
-    fn5glUSAMapStats.style.display = "none";
-  }
-
   dataPromise = fetchData();
   const urlParams = new URLSearchParams(window.location.search);
 

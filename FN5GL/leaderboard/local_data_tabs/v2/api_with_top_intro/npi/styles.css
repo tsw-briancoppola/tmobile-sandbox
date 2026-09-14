@@ -13,7 +13,9 @@
   --color-brand-grayscale-200: #f5f5f5;
   --color-brand-grayscale-300: #e6e6e6;
   --color-brand-grayscale-400: #ccc;
+  --color-brand-grayscale-450: #aaaaaa;
   --color-brand-grayscale-500: #8c8c8c;
+  --color-brand-grayscale-550: #727272;
   --color-brand-grayscale-600: #6a6a6a;
   --color-brand-grayscale-700: #414141;
   --color-brand-grayscale-900: #1c1c1c;
@@ -64,6 +66,9 @@ ol {
 .green {
   color: var(--color-trend-green);
 }
+.magenta {
+  color: var(--color-brand-primary-400);
+}
 
 a,
 a:visited {
@@ -79,8 +84,7 @@ a:visited {
 .magenta-button {
   cursor: pointer;
   padding: 0.7rem 1rem;
-  font-size: 1.5rem;
-  /* font-weight: 600; */
+  font-size: 1.3rem;
   border: 0;
   border-radius: 0.5rem;
   color: var(--color-brand-grayscale-white);
@@ -91,6 +95,11 @@ a:visited {
   color: var(--color-brand-grayscale-600);
   background-color: var(--color-brand-grayscale-400);
   cursor: not-allowed;
+}
+@media (min-width: 600px) {
+  .magenta-button {
+    font-size: 1.5rem;
+  }
 }
 
 .hollow-button {
@@ -205,7 +214,6 @@ a:visited {
   min-height: 0; /* required for grid trick */
   display: flex;
   flex-direction: column;
-  /* move all existing flex properties here from leaderboard-data */
 }
 @media (min-width: 1024px) {
   .tsw-fn5gl-leaderboard-data-inner {
@@ -225,7 +233,7 @@ a:visited {
   align-items: center;
   /* z-index: 10; */
   min-height: 30rem;
-  padding: 2rem;
+  padding: 3rem 2rem 3.5rem 3rem;
   background-color: var(--color-brand-grayscale-white);
   color: var(--color-brand-grayscale-white);
   background: url("/content/dam/digx/tmobile/us/en/sandbox/courtney/11043950_fn5gl-2026/phase-3/hp/FN5GL_football_players_mobile.jpg")
@@ -246,29 +254,39 @@ a:visited {
   justify-content: center;
   align-items: center;
   text-align: center;
-  gap: 1.8rem;
+  gap: 3rem;
   flex: 1;
-  max-width: 45rem;
+  max-width: 70rem;
   /* min-height: 65rem;  matches the leaderboard container min-height */
 }
 .tsw-fn5gl-intro img {
   width: 100%;
 }
 .tsw-fn5gl-intro h3 {
-  font-size: 1.8rem;
+  font-size: 2.2rem;
 }
 @media (min-width: 600px) {
   .tsw-fn5gl-intro h3 {
-    font-size: 2rem;
+    font-size: 2.4rem;
   }
 }
 .tsw-fn5gl-intro h4 {
-  font-size: 1.4rem;
-  font-weight: 400;
+  font-size: 1.5rem;
+  /* font-weight: 400; */
 }
 @media (min-width: 600px) {
   .tsw-fn5gl-intro h4 {
     font-size: 1.7rem;
+  }
+}
+.tsw-fn5gl-intro p {
+  font-size: 1.3rem;
+  line-height: 1.8rem;
+}
+@media (min-width: 600px) {
+  .tsw-fn5gl-intro p {
+    font-size: 1.5rem;
+    line-height: 1.9rem;
   }
 }
 
@@ -279,6 +297,12 @@ a:visited {
   text-align: center;
   gap: 1.4rem;
   width: 100%;
+  max-width: 34rem;
+}
+@media (min-width: 600px) {
+  .tsw-fn5gl-intro-choose-region {
+    max-width: 44rem;
+  }
 }
 
 .tsw-fn5gl-intro-buttons {
@@ -414,6 +438,11 @@ a:visited {
   width: 100%;
   outline: none;
 }
+.tsw-fn5gl-usa-map svg g {
+  filter: drop-shadow(1px 0px 0px var(--color-brand-grayscale-300))
+    drop-shadow(-1px 0px 0px var(--color-brand-grayscale-300)) drop-shadow(0px 1px 0px var(--color-brand-grayscale-300))
+    drop-shadow(0px -1px 0px var(--color-brand-grayscale-300));
+}
 .tsw-fn5gl-usa-map svg g:focus {
   outline: none;
 }
@@ -425,42 +454,27 @@ a:visited {
 }
 
 .tsw-fn5gl-usa-map path {
-  fill: var(--color-brand-grayscale-500);
   stroke: var(--color-brand-grayscale-300);
   transition: fill 0.2s ease-in-out;
+  fill: var(--color-brand-grayscale-500);
+}
+.fn5gl-map-region[data-map-region="West"] path {
+  fill: var(--color-brand-grayscale-550);
+}
+.fn5gl-map-region[data-map-region="Midwest"] path {
+  fill: var(--color-brand-grayscale-500);
+}
+.fn5gl-map-region[data-map-region="South"] path {
+  fill: var(--color-brand-grayscale-450);
+}
+.fn5gl-map-region[data-map-region="East"] path {
+  fill: var(--color-brand-grayscale-600);
 }
 .fn5gl-map-region.active path {
   fill: var(--fn5gl-map-active-color);
 }
 .fn5gl-map-region.hover path {
   fill: var(--fn5gl-map-highlight-color);
-}
-
-.tsw-fn5gl-usa-map-stats {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.2rem;
-  margin: 0 1rem;
-}
-@media (min-width: 768px) {
-  .tsw-fn5gl-usa-map-stats {
-    gap: 2rem;
-  }
-}
-.tsw-fn5gl-usa-map-stats-box {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  padding: 1.4rem;
-  background-color: var(--color-brand-grayscale-200);
-  border-radius: 1rem;
-}
-.tsw-fn5gl-usa-map-stats-box-stat {
-  font-size: clamp(1.6rem, 1.45rem + 0.73vw, 2rem);
-  font-weight: 600;
-}
-.tsw-fn5gl-usa-map-stats-box-text {
-  font-size: clamp(1.3rem, 1.23rem + 0.36vw, 1.5rem);
 }
 
 /* svg styles */
@@ -673,7 +687,9 @@ a:visited {
 }
 .tsw-modal-school-logo {
   min-height: 20rem;
-  background-color: #cccccc;
+}
+.tsw-modal-school-logo img {
+  width: 100%;
 }
 
 .tsw-modal-school-stats {
@@ -736,9 +752,4 @@ a:visited {
   font-weight: 700;
   color: var(--color-brand-primary-400);
   display: block;
-}
-
-.tsw-modal-game-image {
-  min-height: 10rem;
-  background-color: #cccccc;
 }

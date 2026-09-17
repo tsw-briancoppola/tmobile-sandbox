@@ -17,7 +17,7 @@ const fn5glLeaderboardData = document.querySelector(".tsw-fn5gl-leaderboard-data
 const fn5glLeaderboardRegionsContainer = document.querySelector(".tsw-fn5gl-leaderboard-regions-container");
 const fn5glRegions = document.querySelector(".tsw-fn5gl-leaderboard-regions");
 const fn5glLeaderboardLoader = document.querySelector(".tsw-fn5gl-leaderboard-loader");
-const fn5glMapLoader = document.querySelector(".tsw-fn5gl-map-loader");
+// const fn5glMapLoader = document.querySelector(".tsw-fn5gl-map-loader");
 const fn5glUSAMapContainer = document.querySelector(".tsw-fn5gl-usa-map-container");
 const fn5glUSAMap = document.querySelector(".tsw-fn5gl-usa-map");
 const fn5glTooltip = document.querySelector(".tsw-tooltip");
@@ -363,6 +363,8 @@ const toggleRegionHighlight = (regionId, isHovering) => {
 };
 
 const setActiveRegion = (regionId) => {
+  console.log(regionId);
+
   // Clear hover from all map groups and intro buttons
   fn5glUSAMap.querySelectorAll("g[data-map-region]").forEach((g) => {
     g.classList.remove("hover");
@@ -626,8 +628,6 @@ const initIntroData = async () => {
   }
   schoolDataPrevious = structuredClone(schoolData);
 
-  initMap();
-
   fn5glIntro.classList.remove("hidden");
 };
 
@@ -648,7 +648,7 @@ const renderUI = (phase) => {
     fn5glIntro.classList.add("hidden");
     fn5glLeaderboardRegionsContainer.classList.remove("hidden");
     fn5glLeaderboardLoader.classList.remove("hidden");
-    fn5glMapLoader.classList.remove("hidden"); // if map is also re-initializing
+    // fn5glMapLoader.classList.remove("hidden"); // if map is also re-initializing
     fn5glRegions.classList.add("hidden");
     // fn5glUSAMap.classList.add("hidden");
   }
@@ -679,7 +679,7 @@ const renderUI = (phase) => {
 
     setTimeout(() => {
       fn5glLeaderboardLoader.classList.add("hidden");
-      fn5glMapLoader.classList.add("hidden");
+      // fn5glMapLoader.classList.add("hidden");
     }, steps.length * 250);
   }
 };
@@ -742,8 +742,6 @@ const transformData = (data) => {
 
 // Run if there's a region URL parameter set
 const initWithRegion = async (region) => {
-  console.log("initWithRegion called with:", region, "schoolData:", schoolData);
-
   currentRegion = region;
   updateRegionParam(region);
 
@@ -762,19 +760,20 @@ const initWithRegion = async (region) => {
     return;
   }
 
-  // Intro path — expand container first, then render after transition
   fn5glLeaderboardData.classList.add("is-open");
+  fn5glUSAMapContainer.classList.remove("hidden");
+  // fn5glMapLoader.classList.remove("hidden");
 
-  const onLeaderboardExpanded = (event) => {
-    if (event.target !== fn5glLeaderboardData) return;
-    if (event.propertyName !== "grid-template-rows") return;
-
-    fn5glLeaderboardData.removeEventListener("transitionend", onLeaderboardExpanded);
-
+  setTimeout(() => {
+    initMap();
+    updateMapActiveRegion();
     setOnLoadRegion();
     setActiveRegion(currentRegion);
 
-    const steps = [{ fn: renderAllRegions, els: [fn5glRegions] }];
+    const steps = [
+      { fn: () => {}, els: [fn5glUSAMap] },
+      { fn: renderAllRegions, els: [fn5glRegions, fn5glLeaderboardRegionsContainer] },
+    ];
 
     steps.forEach(({ fn, els }, i) => {
       setTimeout(() => {
@@ -785,12 +784,9 @@ const initWithRegion = async (region) => {
 
     setTimeout(() => {
       fn5glLeaderboardLoader.classList.add("hidden");
+      // fn5glMapLoader.classList.add("hidden");
     }, steps.length * 250);
-
-    updateMapActiveRegion();
-  };
-
-  fn5glLeaderboardData.addEventListener("transitionend", onLeaderboardExpanded);
+  }, 400); // Set delay to match
 };
 
 const init = () => {

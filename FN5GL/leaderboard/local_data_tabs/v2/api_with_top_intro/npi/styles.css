@@ -669,6 +669,11 @@ a:visited {
   gap: 1.4rem;
 }
 .tsw-modal-school-location {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.tsw-modal-school-city-state {
   font-size: 1.5rem;
   color: var(--color-brand-grayscale-700);
 }
@@ -687,10 +692,16 @@ a:visited {
   line-height: 2rem;
 }
 .tsw-modal-school-logo {
+  text-align: center;
   min-height: 20rem;
 }
 .tsw-modal-school-logo img {
-  width: 100%;
+  width: 85%;
+}
+@media (min-width: 480px) {
+  .tsw-modal-school-logo img {
+    width: 100%;
+  }
 }
 
 .tsw-modal-school-stats {

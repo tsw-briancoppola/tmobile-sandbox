@@ -201,8 +201,10 @@ const renderModal = (school) => {
 
   return `
     <div class="tsw-modal-school-header">
-      <p class="tsw-modal-school-location">${school.city}, ${school.state}</p>
-      <h2 class="tsw-modal-school-name">${school.name}</h2>
+      <div class="tsw-modal-school-location">
+        <p class="tsw-modal-school-city-state">${school.city}, ${school.state}</p>
+        <h2 class="tsw-modal-school-name">${school.name}</h2>
+      </div>
       <div class="tsw-modal-school-desc-logo">
         <p class="tsw-modal-school-description">${school.description}</p>
         <div class="tsw-modal-school-logo">

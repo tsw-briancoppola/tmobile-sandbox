@@ -104,7 +104,7 @@ a:visited {
 
 .magenta-button {
   cursor: pointer;
-  padding: 0.7rem 1rem;
+  padding: 0.5rem 0.8rem;
   font-size: 1.3rem;
   border: 0;
   border-radius: 0.5rem;
@@ -119,6 +119,7 @@ a:visited {
 }
 @media (min-width: 600px) {
   .magenta-button {
+    padding: 0.7rem 1rem;
     font-size: 1.5rem;
   }
 }
@@ -720,6 +721,11 @@ a:visited {
   gap: 1.4rem;
 }
 .tsw-modal-school-location {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.tsw-modal-school-city-state {
   font-size: 1.5rem;
   color: var(--color-brand-grayscale-700);
 }
@@ -738,10 +744,16 @@ a:visited {
   line-height: 2rem;
 }
 .tsw-modal-school-logo {
+  text-align: center;
   min-height: 20rem;
 }
 .tsw-modal-school-logo img {
-  width: 100%;
+  width: 85%;
+}
+@media (min-width: 480px) {
+  .tsw-modal-school-logo img {
+    width: 100%;
+  }
 }
 
 .tsw-modal-school-stats {
@@ -764,13 +776,33 @@ a:visited {
   border-right: 1px solid var(--color-brand-grayscale-white);
 }
 .tsw-modal-school-stat-value {
-  font-size: 2rem;
+  font-size: 1.8rem;
   font-weight: 700;
   color: var(--color-brand-primary-400);
   display: block;
 }
+@media (min-width: 480px) {
+  .tsw-modal-school-stat-value {
+    font-size: 2rem;
+  }
+}
+.tsw-modal-school-stat-label {
+  font-size: 1.5rem;
+}
+@media (min-width: 480px) {
+  .tsw-modal-school-stat-label {
+    font-size: 1.8rem;
+  }
+}
+
 .tsw-modal-school-stat-button {
-  padding: 1.2rem 1.6rem;
+  padding: 0.8rem 1.1rem;
+  font-size: 1.4rem;
+}
+@media (min-width: 480px) {
+  .tsw-modal-school-stat-button {
+    padding: 1.2rem 1.6rem;
+  }
 }
 
 /* Modal home game styles */

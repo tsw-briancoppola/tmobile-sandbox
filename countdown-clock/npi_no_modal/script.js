@@ -145,7 +145,7 @@ class CountDownClock {
 // Start instance of clock on page load
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-const TARGET_TIME_ZONE = "pacific";
+const TARGET_TIME_ZONE = "pacific"; // Name of time zone or 'local'
 const TARGET_DATE = "2026-09-18T23:59"; // Fixed target date/time, ISO format (yyyy-MM-dd'T'HH:mm)
 const URGENCY_INTERVAL = 7; // Number of days to target date/time
 const HEADER_MESSAGE = "Don't wait! The application period ends Sept.&#160;18.";

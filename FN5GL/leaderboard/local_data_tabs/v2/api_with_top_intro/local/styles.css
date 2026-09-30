@@ -100,6 +100,13 @@ a:visited {
   outline: 2px solid var(--color-focus-stroke);
 }
 
+.center-align {
+  text-align: center;
+}
+.right-align {
+  text-align: right;
+}
+
 /* UI elements */
 
 .magenta-button {
@@ -164,7 +171,7 @@ a:visited {
 
 .tsw-fn5gl-container {
   position: relative;
-  padding: 3rem;
+  /* padding: 3rem; */
   max-width: 140rem;
   /* min-height: 80rem; */
   margin: 0 auto;
@@ -213,6 +220,7 @@ a:visited {
   width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: center;
   /* gap: 3rem; */
 }
 
@@ -221,12 +229,14 @@ a:visited {
 .tsw-fn5gl-leaderboard-data {
   display: grid;
   grid-template-rows: 0fr;
+  width: 100%;
+  max-width: 160rem;
   transition: grid-template-rows 0.4s ease-out;
   overflow: hidden;
-  border: 1px solid var(--color-border);
 }
 .tsw-fn5gl-leaderboard-data.is-open {
   grid-template-rows: 1fr;
+  border: 1px solid var(--color-border);
 }
 .tsw-fn5gl-leaderboard-data.no-transition {
   transition: none;
@@ -254,6 +264,7 @@ a:visited {
   justify-content: center;
   align-items: center;
   /* z-index: 10; */
+  width: 100%;
   min-height: 30rem;
   padding: 3rem 2rem 3.5rem 3rem;
   background-color: var(--color-brand-grayscale-white);
@@ -366,17 +377,9 @@ a:visited {
 
 .tsw-fn5gl-leaderboard-regions-header,
 .tsw-fn5gl-region-row {
-  font-size: 1.2rem;
-  gap: 1rem;
+  font-size: 1.4rem;
+  gap: 1.2rem;
   padding: 1.2rem 0.8rem;
-}
-@media (min-width: 414px) {
-  .tsw-fn5gl-leaderboard-regions-header,
-  .tsw-fn5gl-region-row {
-    font-size: 1.4rem;
-    gap: 2rem;
-    padding: 1.2rem 1.4rem;
-  }
 }
 @media (min-width: 600px) {
   .tsw-fn5gl-leaderboard-regions-header,
@@ -389,33 +392,68 @@ a:visited {
 
 .tsw-fn5gl-leaderboard-regions-header {
   display: grid;
-  grid-template-columns: 3rem 3fr 0.7fr 1fr;
+  grid-template-columns: 3rem 3fr 1fr;
   font-weight: bold;
   color: var(--color-brand-grayscale-800);
   border-bottom: 1px solid var(--color-border);
 }
+@media (min-width: 480px) {
+  .tsw-fn5gl-leaderboard-regions-header {
+    grid-template-columns: 3rem 3fr 0.7fr 1fr;
+  }
+}
 
 .tsw-fn5gl-region-row {
   display: grid;
-  grid-template-columns: 1rem 3fr 1fr 0.5fr 1fr;
+  grid-template-columns: 3rem 3fr 1fr;
   color: var(--color-brand-grayscale-900);
 }
-.tsw-fn5gl-region-row.no-votes {
-  grid-template-columns: 1rem 3fr 0.5fr 1fr;
-}
-.tsw-fn5gl-region-row.no-trend {
-  grid-template-columns: 3rem 3fr 0.7fr 1fr;
-}
-.tsw-fn5gl-region-row.no-votes.no-trend {
-  grid-template-columns: 1rem 3fr 1fr;
+@media (min-width: 480px) {
+  .tsw-fn5gl-region-row {
+    grid-template-columns: 3rem 3fr 0.7fr 1fr;
+  }
 }
 .tsw-fn5gl-region-row:not(:first-child) {
   border-top: 1px solid var(--color-border);
 }
 
+.tsw-fn5gl-region-votes-mobile {
+  font-size: 1.2rem;
+  margin-top: 1.2rem;
+}
+@media (min-width: 480px) {
+  .tsw-fn5gl-region-votes-mobile {
+    display: none;
+  }
+}
+.tsw-fn5gl-region-votes-mobile .bold {
+  font-size: 1.5rem;
+}
+
+.tsw-fn5gl-leaderboard-regions-header .votes-column,
+.tsw-fn5gl-region-row .votes-column {
+  display: none;
+  text-align: right;
+}
+@media (min-width: 480px) {
+  .tsw-fn5gl-leaderboard-regions-header .votes-column,
+  .tsw-fn5gl-region-row .votes-column {
+    display: block;
+  }
+}
+
 .tsw-fn5gl-region-row-button {
+  text-decoration: none;
+  text-align: center;
   max-width: 8rem;
+  justify-self: center;
   align-self: center;
+  padding: 0.7rem 1.4rem;
+}
+@media (min-width: 600px) {
+  .tsw-fn5gl-region-row-button {
+    padding: 0.7rem 2rem;
+  }
 }
 
 .tsw-fn5gl-region-school {
@@ -429,8 +467,15 @@ a:visited {
   text-align: center;
 }
 .tsw-fn5gl-region-votes {
+  font-size: 1.5rem;
   font-weight: 600;
   align-self: center;
+  text-align: right;
+}
+@media (min-width: 600px) {
+  .tsw-fn5gl-region-votes {
+    font-size: 1.8rem;
+  }
 }
 
 /* fn5gl USA map styles */
@@ -454,6 +499,9 @@ a:visited {
 .tsw-fn5gl-usa-map {
   width: 100%;
   aspect-ratio: 470 / 310;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .tsw-fn5gl-usa-map svg {
   width: 100%;
@@ -498,37 +546,13 @@ a:visited {
   fill: var(--fn5gl-map-highlight-color);
 }
 
-/* .tsw-fn5gl-usa-map svg g[data-map-region] path {
-  paint-order: stroke fill;
-  stroke-width: 3px;
-} */
-
-/* .tsw-fn5gl-usa-map-stats {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.2rem;
-  margin: 0 1rem;
+.tsw-fn5gl-usa-map-dot {
+  fill: var(--color-brand-grayscale-300);
+  /* stroke: var(--color-brand-grayscale-500);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke; */
+  /* filter: drop-shadow(0px 2px 4px rgba(0, 0, 0, 0.3)); */
 }
-@media (min-width: 768px) {
-  .tsw-fn5gl-usa-map-stats {
-    gap: 2rem;
-  }
-}
-.tsw-fn5gl-usa-map-stats-box {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  padding: 1.4rem;
-  background-color: var(--color-brand-grayscale-200);
-  border-radius: 1rem;
-}
-.tsw-fn5gl-usa-map-stats-box-stat {
-  font-size: clamp(1.6rem, 1.45rem + 0.73vw, 2rem);
-  font-weight: 600;
-}
-.tsw-fn5gl-usa-map-stats-box-text {
-  font-size: clamp(1.3rem, 1.23rem + 0.36vw, 1.5rem);
-} */
 
 /* svg styles */
 
@@ -724,6 +748,7 @@ a:visited {
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
+  margin-right: 4rem;
 }
 .tsw-modal-school-city-state {
   font-size: 1.5rem;
@@ -758,15 +783,25 @@ a:visited {
 
 .tsw-modal-school-stats {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  text-align: center;
   padding: 1.4rem;
   border-radius: 0.5rem;
   color: var(--color-brand-grayscale-white);
   background-color: var(--color-brand-grayscale-900);
 }
 .tsw-modal-school-stats > div {
-  padding-inline: clamp(1rem, 1.502vw + 0.648rem, 2rem);
+  padding-inline: clamp(0.8rem, 1.667vw + 0.467rem, 1.8rem);
+}
+.tsw-modal-school-stats > :nth-child(3) {
+  flex-basis: 100%; /* mobile default: wraps to new line */
+}
+@media (min-width: 480px) {
+  .tsw-modal-school-stats > :nth-child(3) {
+    flex-basis: auto; /* desktop: back to normal flex sizing */
+  }
 }
 
 .tsw-modal-school-stat {
@@ -776,32 +811,30 @@ a:visited {
   border-right: 1px solid var(--color-brand-grayscale-white);
 }
 .tsw-modal-school-stat-value {
-  font-size: 1.8rem;
+  font-size: 2.2rem;
   font-weight: 700;
   color: var(--color-brand-primary-400);
   display: block;
 }
-@media (min-width: 480px) {
-  .tsw-modal-school-stat-value {
-    font-size: 2rem;
-  }
-}
 .tsw-modal-school-stat-label {
   font-size: 1.5rem;
 }
-@media (min-width: 480px) {
-  .tsw-modal-school-stat-label {
-    font-size: 1.8rem;
-  }
-}
 
 .tsw-modal-school-stat-button {
+  text-decoration: none;
   padding: 0.8rem 1.1rem;
+  margin-top: 1.7rem;
   font-size: 1.4rem;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 @media (min-width: 480px) {
   .tsw-modal-school-stat-button {
     padding: 1.2rem 1.6rem;
+    margin: 0;
   }
 }
 

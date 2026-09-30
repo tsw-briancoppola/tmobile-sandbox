@@ -267,6 +267,18 @@ const usaMapSVG = `<svg
       "
       fill-opacity="1"
     />
+      <!-- West Region dots -->
+
+      <circle cx="81" cy="26" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Washington-1" />
+      <circle cx="87" cy="30" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Idaho-1" />
+      <circle cx="64" cy="35" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Washington-2" />
+      <circle cx="53" cy="55" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Oregon-1" />
+      <circle cx="115" cy="79" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Idaho-2" />
+      <circle cx="38" cy="135" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="California-1" />
+      <circle cx="59" cy="170" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="California-2" />
+      <circle cx="75" cy="186" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Arizona-1" />
+      <circle cx="117" cy="122" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Utah-1" />
+      <circle cx="164" cy="121" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Colorado-1" />
   </g>
 
   <g class="fn5gl-map-region" data-map-region="Midwest">
@@ -510,6 +522,19 @@ const usaMapSVG = `<svg
       "
       fill-opacity="1"
     />
+
+    <!-- Midwest Region dots -->
+
+    <circle cx="228" cy="90" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="South Dakota-1" />
+    <circle cx="252" cy="72" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Minnesota-1" />
+    <circle cx="252" cy="106" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Iowa-1" />
+    <circle cx="294" cy="80" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Wisconsin-1" />
+    <circle cx="327" cy="85" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Michigan-1" />
+    <circle cx="287" cy="116" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Illinois-1" />
+    <circle cx="242" cy="138" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Kansas-1" />
+    <circle cx="257" cy="153" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Missouri-1" />
+    <circle cx="314" cy="107" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Indiana-1" />
+    <circle cx="337" cy="124" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Ohio-1" />
   </g>
 
   <g class="fn5gl-map-region" data-map-region="East">
@@ -853,6 +878,19 @@ const usaMapSVG = `<svg
       "
       fill-opacity="1"
     />
+
+    <!-- East Region dots -->
+
+    <circle cx="325" cy="172" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Tennessee-1" />
+    <circle cx="346" cy="163" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Tennessee-2" />
+    <circle cx="361" cy="160" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="North Carolina-1" />
+    <circle cx="376" cy="153" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="North Carolina-2" />
+    <circle cx="378" cy="180" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="South Carolina-1" />
+    <circle cx="375" cy="133" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Virginia-1" />
+    <circle cx="387" cy="129" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Virginia-2" />
+    <circle cx="369" cy="109" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Pennsylvania-1" />
+    <circle cx="398" cy="100" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Pennsylvania-1" />
+    <circle cx="419" cy="79" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Massachusetts-1" />
   </g>
 
   <g class="fn5gl-map-region" data-map-region="South">
@@ -1016,6 +1054,19 @@ const usaMapSVG = `<svg
       "
       fill-opacity="1"
     />
+
+    <!-- South Region dots -->
+
+    <circle cx="220" cy="212" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Texas-1" />
+    <circle cx="252" cy="233" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Texas-2" />
+    <circle cx="278" cy="212" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Louisiana-1" />
+    <circle cx="289" cy="224" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Louisiana-2" />
+    <circle cx="300" cy="224" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Mississippi-1" />
+    <circle cx="315" cy="190" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Alabama-1" />
+    <circle cx="329" cy="200" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Alabama-2" />
+    <circle cx="322" cy="222" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Florida-1" />
+    <circle cx="351" cy="210" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Georgia-1" />
+    <circle cx="359" cy="223" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Florida-2" />
   </g>
 
   <path
@@ -1039,51 +1090,6 @@ const usaMapSVG = `<svg
     fill-opacity="1"
   />
 
-  <circle
-    cx="0"
-    cy="0"
-    r="0"
-    fill="none"
-    stroke="#000"
-    style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0)"
-    stroke-width="1"
-  />
-  <circle
-    cx="0"
-    cy="0"
-    r="0"
-    fill="none"
-    stroke="#000"
-    style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0)"
-    stroke-width="1"
-  />
-  <circle
-    cx="0"
-    cy="0"
-    r="0"
-    fill="none"
-    stroke="#000"
-    style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0)"
-    stroke-width="1"
-  />
-  <circle
-    cx="0"
-    cy="0"
-    r="0"
-    fill="none"
-    stroke="#000"
-    style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0)"
-    stroke-width="1"
-  />
-  <circle
-    cx="0"
-    cy="0"
-    r="0"
-    fill="none"
-    stroke="#000"
-    style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0)"
-    stroke-width="1"
-  />
   <desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0)"></desc>
   <defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0)" />
 </svg>

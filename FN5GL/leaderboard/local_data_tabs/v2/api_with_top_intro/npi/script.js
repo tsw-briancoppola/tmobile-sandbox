@@ -2,34 +2,34 @@
 // Data source and global variables
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-const DATA_SOURCE = "https://test-fn5gl.teamdigital.com/api/verified-schools";
-// const BEARER_TOKEN = "FzGJtOcibwWWQNU2";
+// const DATA_SOURCE = "https://test-fn5gl.teamdigital.com/api/finalists/leaderboard";
+const DATA_SOURCE = "https://fn5gl.t-mobile.com/api/finalists/leaderboard";
+const BEARER_TOKEN = "BRwrayCz7H1z3XJwMOpmnd9j";
 
 let schoolData;
 let schoolDataPrevious;
 
 // DOM references
-const fn5glContainer = document
-  .querySelector("#tsw-fn5gl-test_leaderboard")
-  .querySelector("xpr-npi-content").shadowRoot;
+const fn5glContainerAEM = document.querySelector("#tsw-fn5gl-leaderboard").querySelector("xpr-npi-content").shadowRoot;
 
-const fn5glIntroContainer = fn5glContainer.querySelector(".tsw-fn5gl-intro-container");
-const fn5glIntro = fn5glContainer.querySelector(".tsw-fn5gl-intro");
-const fn5glIntroButtons = fn5glContainer.querySelector(".tsw-fn5gl-intro-buttons");
-const fn5glLeaderboard = fn5glContainer.querySelector(".tsw-fn5gl-leaderboard");
-const fn5glLeaderboardData = fn5glContainer.querySelector(".tsw-fn5gl-leaderboard-data");
-const fn5glLeaderboardRegionsContainer = fn5glContainer.querySelector(".tsw-fn5gl-leaderboard-regions-container");
-const fn5glRegions = fn5glContainer.querySelector(".tsw-fn5gl-leaderboard-regions");
-const fn5glLeaderboardLoader = fn5glContainer.querySelector(".tsw-fn5gl-leaderboard-loader");
-// const fn5glMapLoader = fn5glContainer.querySelector(".tsw-fn5gl-map-loader");
-const fn5glUSAMapContainer = fn5glContainer.querySelector(".tsw-fn5gl-usa-map-container");
-const fn5glUSAMap = fn5glContainer.querySelector(".tsw-fn5gl-usa-map");
-const fn5glTooltip = fn5glContainer.querySelector(".tsw-tooltip");
+const fn5glContainer = fn5glContainerAEM.querySelector(".tsw-fn5gl-container");
+const fn5glIntroContainer = fn5glContainerAEM.querySelector(".tsw-fn5gl-intro-container");
+const fn5glIntro = fn5glContainerAEM.querySelector(".tsw-fn5gl-intro");
+const fn5glIntroButtons = fn5glContainerAEM.querySelector(".tsw-fn5gl-intro-buttons");
+const fn5glLeaderboard = fn5glContainerAEM.querySelector(".tsw-fn5gl-leaderboard");
+const fn5glLeaderboardData = fn5glContainerAEM.querySelector(".tsw-fn5gl-leaderboard-data");
+const fn5glLeaderboardRegionsContainer = fn5glContainerAEM.querySelector(".tsw-fn5gl-leaderboard-regions-container");
+const fn5glRegions = fn5glContainerAEM.querySelector(".tsw-fn5gl-leaderboard-regions");
+const fn5glLeaderboardLoader = fn5glContainerAEM.querySelector(".tsw-fn5gl-leaderboard-loader");
+// const fn5glMapLoader = fn5glContainerAEM.querySelector(".tsw-fn5gl-map-loader");
+const fn5glUSAMapContainer = fn5glContainerAEM.querySelector(".tsw-fn5gl-usa-map-container");
+const fn5glUSAMap = fn5glContainerAEM.querySelector(".tsw-fn5gl-usa-map");
+const fn5glTooltip = fn5glContainerAEM.querySelector(".tsw-tooltip");
 
-const fn5glModal = fn5glContainer.querySelector(".tsw-modal");
-const fn5glModalOverlay = fn5glContainer.querySelector(".tsw-modal-overlay");
-const fn5glModalMain = fn5glContainer.querySelector(".tsw-modal-main");
-const fn5glModalClose = fn5glContainer.querySelector(".tsw-modal-close");
+const fn5glModal = fn5glContainerAEM.querySelector(".tsw-modal");
+const fn5glModalOverlay = fn5glContainerAEM.querySelector(".tsw-modal-overlay");
+const fn5glModalMain = fn5glContainerAEM.querySelector(".tsw-modal-main");
+const fn5glModalClose = fn5glContainerAEM.querySelector(".tsw-modal-close");
 
 // Region config
 const REGIONS_ORDER = ["West", "Midwest", "South", "East"];
@@ -48,9 +48,7 @@ let modalState = {
 
 // Feature toggles
 const VOTING_ACTIVE = true;
-
-const SHOW_VOTE_TOTALS = true;
-const SHOW_TREND = false;
+const SHOW_VOTES_IN_MOBILE = true;
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-
 // functions
@@ -75,11 +73,17 @@ const generateGroupClone = () => {
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 const getSortedRegionSchools = (region, data = schoolData) => {
-  return data.filter((s) => s.region === region).sort((a, b) => (b.votes || 0) - (a.votes || 0));
+  return data[region].sort((a, b) => (b.votes_phase_1 || 0) - (a.votes_phase_1 || 0));
+};
+
+const findSchoolById = (schoolId) => {
+  const schoolDataFlat = Object.values(schoolData).flat();
+  return schoolDataFlat.find((s) => s.id === schoolId);
 };
 
 const getSchoolRank = (schoolId) => {
-  const school = schoolData.find((s) => s.id === schoolId);
+  const schoolDataFlat = Object.values(schoolData).flat();
+  const school = schoolDataFlat.find((s) => s.id === schoolId);
   return getSortedRegionSchools(school.region).findIndex((s) => s.id === schoolId) + 1;
 };
 
@@ -104,26 +108,23 @@ const renderRegion = (region) => {
   let schoolRows;
 
   const schoolsSorted = getSortedRegionSchools(region);
-  const schoolsPreviousSorted = getSortedRegionSchools(region, schoolDataPrevious);
 
-  const rowClasses = ["tsw-fn5gl-region-row", !SHOW_VOTE_TOTALS && "no-votes", !SHOW_TREND && "no-trend"]
-    .filter(Boolean)
-    .join(" ");
+  // const rowClasses = ["tsw-fn5gl-region-row", !SHOW_VOTE_TOTALS && "no-votes", !SHOW_TREND && "no-trend"]
+  //   .filter(Boolean)
+  //   .join(" ");
 
   schoolRows = schoolsSorted
     .map((school, index) => {
-      const trendValue = schoolsPreviousSorted.findIndex((s) => s.name === school.name) - index;
-
       return `
-        <li class="${rowClasses}">
+        <li class="tsw-fn5gl-region-row">
           <div class="tsw-fn5gl-region-rank">${index + 1}</div>
           <div class="tsw-fn5gl-region-info">
             <div class="tsw-fn5gl-region-school"><a href="#" data-school-id="${school.id}">${school.name}</a></div>
             <div class="tsw-fn5gl-region-location">${school.city}, ${school.state}</div>
+            ${SHOW_VOTES_IN_MOBILE ? `<div class="tsw-fn5gl-region-votes-mobile">Votes: <span class="bold">${school.votes_phase_1.toLocaleString("en-US")}</span></div>` : ""}
           </div>
-          ${SHOW_VOTE_TOTALS ? `<div class="tsw-fn5gl-region-votes">${school.votes.toLocaleString("en-US")}</div>` : ""}
-          ${SHOW_TREND ? `<div class="tsw-fn5gl-region-trend">${renderTrend(trendValue)}</div>` : ""}
-          <button type="button" class="tsw-fn5gl-region-row-button magenta-button" data-vote-id="${school.id}" ${VOTING_ACTIVE ? "" : "disabled"}>Vote</button>
+          <div class="tsw-fn5gl-region-votes votes-column">${school.votes_phase_1.toLocaleString("en-US")}</div>
+          <a href="${school.voting_page_url}" class="tsw-fn5gl-region-row-button magenta-button" ${!VOTING_ACTIVE ? 'aria-disabled="true" tabindex="-1"' : ""}>Vote</a>
         </li>
       `;
     })
@@ -134,7 +135,7 @@ const renderRegion = (region) => {
       <div class="tsw-fn5gl-leaderboard-regions-header">
         <span>Rank</span>
         <span>School</span>
-        <span>Votes</span>
+        <span class="votes-column">Votes</span>
         <span></span>
       </div>
       <ol role="list" class="tsw-fn5gl-region-list">${schoolRows || "No schools yet"}</ol>
@@ -144,10 +145,8 @@ const renderRegion = (region) => {
 
 const renderAllRegions = () => {
   // Create new object that groups the schools by region
-  const grouped = Object.groupBy(schoolData, (school) => school.region);
-
   const allRegionsHTML = REGIONS_ORDER.map((region) => {
-    return grouped[region] ? renderRegion(region) : "";
+    return schoolData[region] ? renderRegion(region) : "";
   }).join("");
 
   fn5glRegions.innerHTML = allRegionsHTML;
@@ -168,36 +167,25 @@ const parseGameDateTime = (dateTimeString) => {
     hour12: true,
   }).format(date);
 
-  const timeZone = new Intl.DateTimeFormat("en-US", {
-    timeZoneName: "short",
-  })
-    .format(date)
-    .split(", ")[1]; // extracts "EDT"
-
   const formattedDate = new Intl.DateTimeFormat("en-US", {
     month: "2-digit",
     day: "2-digit",
     year: "2-digit",
   }).format(date);
 
-  return { time, timeZone, formattedDate };
+  return { time, formattedDate };
 };
-
-const parseAddress = (address) => {
-  const parts = address.split(", ");
-  const [state, zip] = parts[2].split(" ");
-  return {
-    street: parts[0],
-    cityState: `${parts[1]}, ${state}`,
-    zip,
-  };
-};
-
-const schoolImagePath = "/content/dam/digx/tmobile/us/en/sandbox/alex-park/fn5gl/phase-2/fpo-magenta-mascot.png";
 
 const renderModal = (school) => {
-  const { time, timeZone, formattedDate } = parseGameDateTime(school.home_game.datetime);
-  const { street, cityState, zip } = parseAddress(school.home_game.stadium_address);
+  const { stadium_name, stadium_address, stadium_city, stadium_state, stadium_zip, datetime, timezone } =
+    school.home_game;
+  const cityState = `${stadium_city}, ${stadium_state}`;
+  const { time, formattedDate } = parseGameDateTime(datetime);
+
+  const schoolImageBasePath =
+    "/content/dam/digx/tmobile/us/en/sandbox/alex-park/fn5gl/testing-and-reserve/top-40-logos-testing/";
+  const schoolImageName = `FN5GL_${school.region}_${school.id}_${school.state}_logo.png`;
+  const schoolImageFullPath = schoolImageBasePath + schoolImageName;
 
   return `
     <div class="tsw-modal-school-header">
@@ -208,7 +196,7 @@ const renderModal = (school) => {
       <div class="tsw-modal-school-desc-logo">
         <p class="tsw-modal-school-description">${school.description}</p>
         <div class="tsw-modal-school-logo">
-          <img src="${schoolImagePath}" alt="${school.name} logo" />
+          <img src="${schoolImageFullPath}" alt="${school.name} logo" />
         </div>
       </div>
     </div>
@@ -219,11 +207,11 @@ const renderModal = (school) => {
         <span class="tsw-modal-school-stat-label">Rank</span>
       </div>
       <div class="tsw-modal-school-stat">
-        <span class="tsw-modal-school-stat-value">${school.votes.toLocaleString("en-US")}</span>
+        <span class="tsw-modal-school-stat-value">${school.votes_phase_1.toLocaleString("en-US")}</span>
         <span class="tsw-modal-school-stat-label">Total Votes</span>
       </div>
       <div>
-        <button type="button" class="tsw-modal-school-stat-button magenta-button" data-vote-id="${school.id}" ${VOTING_ACTIVE ? "" : "disabled"}>Vote for this school</button>
+        <a href="${school.voting_page_url}" class="tsw-modal-school-stat-button magenta-button" ${!VOTING_ACTIVE ? 'aria-disabled="true" tabindex="-1"' : ""}>Vote for this school</a>
       </div>
     </div>
 
@@ -236,16 +224,16 @@ const renderModal = (school) => {
       </div>
       <div class="tsw-modal-game-details">
         <div class="tsw-modal-game-detail">
-          <span class="tsw-modal-game-detail-value">${time} ${timeZone}</span>
+          <span class="tsw-modal-game-detail-value">${time} ${timezone || ""}</span>
           <span class="tsw-modal-game-detail-label">Time</span>
         </div>
         <div class="tsw-modal-game-detail">
-          <span class="tsw-modal-game-detail-value">${formattedDate}</span>
+          <span class="tsw-modal-game-detail-value">${formattedDate || TBD}</span>
           <span class="tsw-modal-game-detail-label">Date</span>
         </div>
         <div class="tsw-modal-game-detail">
-          <span class="tsw-modal-game-detail-value">${school.home_game.stadium_name}</span>
-          <span class="tsw-modal-game-detail-label">${street}<br />${cityState}<br />${zip}</span>
+          <span class="tsw-modal-game-detail-value">${stadium_name || "Location TBD"}</span>
+          ${stadium_name ? `<span class="tsw-modal-game-detail-label">${stadium_address}<br />${cityState}<br />${stadium_zip}</span>` : ""}
         </div>
       </div>
     </div>
@@ -253,7 +241,8 @@ const renderModal = (school) => {
 };
 
 const openModal = (schoolId, triggerElement) => {
-  const school = schoolData.find((s) => s.id === Number(schoolId));
+  const schoolDataFlat = Object.values(schoolData).flat();
+  const school = schoolDataFlat.find((s) => s.id === schoolId);
   if (!school) return;
 
   fn5glModalMain.innerHTML = renderModal(school);
@@ -266,7 +255,6 @@ const openModal = (schoolId, triggerElement) => {
   fn5glModal.show();
   fn5glModal.classList.add("is-visible");
   fn5glModalOverlay.classList.add("is-visible");
-  // modalState.focusableElements[0]?.focus();
   fn5glModal.focus();
 };
 
@@ -310,19 +298,19 @@ fn5glModal.addEventListener("keydown", (event) => {
 
   // Prevent tabbing out of the modal if there's only one focusable element
   if (first === last) {
-    if (fn5glContainer.activeElement === first) {
+    if (fn5glContainerAEM.activeElement === first) {
       event.preventDefault();
     }
     return;
   }
 
   if (event.shiftKey) {
-    if (fn5glContainer.activeElement === first) {
+    if (fn5glContainerAEM.activeElement === first) {
       event.preventDefault();
       last.focus();
     }
   } else {
-    if (fn5glContainer.activeElement === last) {
+    if (fn5glContainerAEM.activeElement === last) {
       event.preventDefault();
       first.focus();
     }
@@ -369,8 +357,6 @@ const toggleRegionHighlight = (regionId, isHovering) => {
 };
 
 const setActiveRegion = (regionId) => {
-  console.log(regionId);
-
   // Clear hover from all map groups and intro buttons
   fn5glUSAMap.querySelectorAll("g[data-map-region]").forEach((g) => {
     g.classList.remove("hover");
@@ -401,13 +387,6 @@ const updateRegionParam = (newRegion) => {
   const url = new URL(window.location);
   url.searchParams.set("region", newRegion.toLowerCase());
   window.history.replaceState({}, "", url); // or use pushState?
-};
-
-const addVote = (id) => {
-  const targetSchool = schoolData.find((school) => school.id === Number(id));
-  targetSchool.votes += 1000;
-
-  renderAllRegions();
 };
 
 // =-=-=-=-=-=-=-=
@@ -530,29 +509,29 @@ fn5glLeaderboard.addEventListener("click", (event) => {
   if (!link) return;
 
   event.preventDefault();
-  const thisSchoolId = Number(event.target.dataset.schoolId);
+  const thisSchoolId = event.target.dataset.schoolId;
   openModal(thisSchoolId, link);
 });
 
 // Open modal when high school vote button is clicked
 
-fn5glRegions.addEventListener("click", (event) => {
-  const button = event.target.closest(".magenta-button");
-  if (!button) return;
+// fn5glRegions.addEventListener("click", (event) => {
+//   const button = event.target.closest(".magenta-button");
+//   if (!button) return;
 
-  const schoolId = Number(button.dataset.voteId);
-  openModal(schoolId, button);
-});
+//   const schoolId = Number(button.dataset.voteId);
+//   openModal(schoolId, button);
+// });
 
-// Vote for school buttons in modal
-fn5glModal.addEventListener("click", (event) => {
-  const button = event.target.closest(".magenta-button");
-  if (!button) return;
+// // Vote for school buttons in modal
+// fn5glModal.addEventListener("click", (event) => {
+//   const button = event.target.closest(".magenta-button");
+//   if (!button) return;
 
-  const schoolId = button.dataset.voteId;
-  addVote(schoolId);
-  closeModal();
-});
+//   const schoolId = button.dataset.voteId;
+//   addVote(schoolId);
+//   closeModal();
+// });
 
 // Event listener for viewport changes
 
@@ -700,10 +679,10 @@ const fetchData = async () => {
   try {
     const response = await fetch(DATA_SOURCE, {
       method: "GET", // Default method
-      // headers: {
-      //   Authorization: `Bearer ${BEARER_TOKEN}`,
-      //   "Content-Type": "application/json",
-      // },
+      headers: {
+        Authorization: `Bearer ${BEARER_TOKEN}`,
+        "Content-Type": "application/json",
+      },
     });
 
     if (!response.ok) {
@@ -711,7 +690,6 @@ const fetchData = async () => {
     }
 
     const data = await response.json();
-    // console.log(data);
 
     return transformData(data);
   } catch (error) {
@@ -720,31 +698,14 @@ const fetchData = async () => {
   }
 };
 
-// Filtering API data to get it to 40 and adding properties
-// Delete when the data is final.
 const transformData = (data) => {
-  return data
-    .filter(
-      (school) => {
-        const schoolsInRegion = data.filter((s) => s.region === school.region);
-        const schoolIndex = schoolsInRegion.findIndex((s) => s.name === school.name);
+  const { phase, ...regions } = data; // destructure phase out
 
-        return schoolIndex < 10;
-      } /* your filter conditions */,
-    )
-    .map((school) => ({
-      ...school,
-      votes: 10000,
-      description:
-        "Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur. Sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat.",
-      home_game: {
-        datetime: "2026-07-29T20:38:15.123Z",
-        stadium_name: "A Football Stadium",
-        stadium_address: "33 Sassy Street, Ball City, WA 98002",
-      },
-    }));
+  // store phase if needed
+  // gamePhase = phase;
+
+  return regions;
 };
-// -- End delete
 
 // Run if there's a region URL parameter set
 const initWithRegion = async (region) => {
@@ -768,7 +729,6 @@ const initWithRegion = async (region) => {
 
   fn5glLeaderboardData.classList.add("is-open");
   fn5glUSAMapContainer.classList.remove("hidden");
-  // fn5glMapLoader.classList.remove("hidden");
 
   setTimeout(() => {
     initMap();
@@ -790,12 +750,21 @@ const initWithRegion = async (region) => {
 
     setTimeout(() => {
       fn5glLeaderboardLoader.classList.add("hidden");
-      // fn5glMapLoader.classList.add("hidden");
     }, steps.length * 250);
   }, 400); // Set delay to match
 };
 
+const initModal = () => {
+  const svgDefs = fn5glContainerAEM.querySelector(".tsw-fn5gl-svg-icons");
+  if (svgDefs) document.body.appendChild(svgDefs.cloneNode(true));
+
+  document.body.appendChild(fn5glModalOverlay);
+  document.body.appendChild(fn5glModal);
+};
+
 const init = () => {
+  initModal(); // move modal and overlay to body first
+
   dataPromise = fetchData();
   const urlParams = new URLSearchParams(window.location.search);
 

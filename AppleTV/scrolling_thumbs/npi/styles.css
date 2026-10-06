@@ -33,12 +33,12 @@
 
   font-family: var(--tsw-font-main);
 
-  --appletv-box-width-desktop: 32rem;
-  --appletv-box-width-mobile: 20rem;
-  --appletv-box-height-mobile: 11.25rem; /* 20rem × 9/16 */
-  --appletv-box-height-desktop: 18rem; /* 32rem × 9/16 */
-
-  --appletv-box-aspect-ratio: 16 / 9;
+  --appletv-box-width-rectangle-desktop: 35rem;
+  --appletv-box-width-rectangle-mobile: 20rem;
+  --appletv-box-width-square-desktop: 20rem;
+  --appletv-box-width-square-mobile: 11.2rem;
+  --appletv-box-aspect-ratio-rectangle: 16 / 9;
+  --appletv-box-aspect-ratio-square: 1 / 1;
   --appletv-scroll-gap-desktop: 2rem;
   --appletv-scroll-gap-mobile: 1.4rem;
 
@@ -139,6 +139,7 @@ ol {
   margin-inline: auto;
   position: relative;
   left: 50%;
+  padding: 5rem 0 3.5rem 0;
   transform: translateX(-50%);
   color: var(--appletv-text-color);
   background-color: var(--appletv-background-color);
@@ -146,42 +147,27 @@ ol {
     color 0.3s,
     background-color 0.3s;
   box-sizing: border-box;
-  min-height: calc(
-    (2 * var(--appletv-box-height-mobile)) + (1 * var(--appletv-scroll-gap-mobile)) + 5rem
-      /* button bar: 1.4rem padding + 40px button + breathing room */
-  );
-}
-@media (min-width: 1000px) {
-  .tsw-appletv-scroll {
-    gap: var(--appletv-scroll-gap-desktop);
-    min-height: calc(
-      (2 * var(--appletv-box-height-desktop)) + (1 * var(--appletv-scroll-gap-desktop)) + 6rem
-        /* button bar at desktop size */
-    );
-  }
 }
 
 /* AppleTV scroller styles */
 
 .tsw-appletv-scroll {
-  opacity: 0;
+  /* opacity: 0; */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: var(--appletv-scroll-gap-mobile);
-  transition: opacity 0.3s ease;
-  min-height: calc((2 * var(--appletv-box-height-mobile)) + (1 * var(--appletv-scroll-gap-mobile)));
+  /* transition: opacity 0.3s ease; */
 }
 @media (min-width: 1000px) {
   .tsw-appletv-scroll {
     gap: var(--appletv-scroll-gap-desktop);
-    min-height: calc((2 * var(--appletv-box-height-desktop)) + (1 * var(--appletv-scroll-gap-desktop)));
   }
 }
-.tsw-appletv-scroll.is-loaded {
+/* .tsw-appletv-scroll.is-loaded {
   opacity: 1;
-}
+} */
 
 /* AppleTV loading shimmer styles */
 
@@ -254,9 +240,25 @@ ol {
   backface-visibility: hidden; /* Needed for smoother animation */
   box-sizing: border-box;
 }
+
+.tsw-appletv-scroll-box.rectangle {
+  width: var(--appletv-box-width-rectangle-mobile);
+  aspect-ratio: var(--appletv-box-aspect-ratio-rectangle);
+}
+.tsw-appletv-scroll-box.square {
+  width: var(--appletv-box-width-square-mobile);
+  aspect-ratio: var(--appletv-box-aspect-ratio-square);
+}
 @media (min-width: 1000px) {
   .tsw-appletv-scroll-box {
     width: var(--appletv-box-width-desktop);
     font-size: 1.8rem;
+  }
+  .tsw-appletv-scroll-box.rectangle {
+    width: var(--appletv-box-width-rectangle-desktop);
+  }
+  .tsw-appletv-scroll-box.square {
+    width: var(--appletv-box-width-square-desktop);
+    aspect-ratio: var(--appletv-box-aspect-ratio-square);
   }
 }

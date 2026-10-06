@@ -32,9 +32,12 @@
 
   font-family: var(--tsw-font-main);
 
-  --appletv-box-width-desktop: 35rem;
-  --appletv-box-width-mobile: 20rem;
-  --appletv-box-aspect-ratio: 16 / 9;
+  --appletv-box-width-rectangle-desktop: 35rem;
+  --appletv-box-width-rectangle-mobile: 20rem;
+  --appletv-box-width-square-desktop: 20rem;
+  --appletv-box-width-square-mobile: 11.2rem;
+  --appletv-box-aspect-ratio-rectangle: 16 / 9;
+  --appletv-box-aspect-ratio-square: 1 / 1;
   --appletv-scroll-gap-desktop: 2rem;
   --appletv-scroll-gap-mobile: 1.4rem;
 }
@@ -197,8 +200,6 @@ ol {
 }
 
 .tsw-appletv-scroll-box {
-  width: var(--appletv-box-width-mobile);
-  aspect-ratio: var(--appletv-box-aspect-ratio);
   position: relative;
   color: var(--color-brand-grayscale-white);
   font-size: 1.5rem;
@@ -208,10 +209,24 @@ ol {
   border-radius: 1rem;
   will-change: transform; /* Needed for smoother animation */
 }
+.tsw-appletv-scroll-box.rectangle {
+  width: var(--appletv-box-width-rectangle-mobile);
+  aspect-ratio: var(--appletv-box-aspect-ratio-rectangle);
+}
+.tsw-appletv-scroll-box.square {
+  width: var(--appletv-box-width-square-mobile);
+  aspect-ratio: var(--appletv-box-aspect-ratio-square);
+}
 @media (min-width: 1000px) {
   .tsw-appletv-scroll-box {
-    width: var(--appletv-box-width-desktop);
     font-size: 1.8rem;
+  }
+  .tsw-appletv-scroll-box.rectangle {
+    width: var(--appletv-box-width-rectangle-desktop);
+  }
+  .tsw-appletv-scroll-box.square {
+    width: var(--appletv-box-width-square-desktop);
+    aspect-ratio: var(--appletv-box-aspect-ratio-square);
   }
 }
 

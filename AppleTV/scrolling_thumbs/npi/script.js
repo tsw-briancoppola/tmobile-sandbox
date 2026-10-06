@@ -11,70 +11,86 @@ const appletvScrollContainer = appletvScrollContainerID.querySelector(".tsw-appl
 const appletvScroll = appletvScrollContainerID.querySelector(".tsw-appletv-scroll");
 const appletvPlayButton = appletvScrollContainerID.querySelector(".tsw-appletv-play-button");
 
+// Computing widths of scrolling boxes
+let containerWidth = appletvScrollContainer.offsetWidth;
+const rootFontSize = parseFloat(window.getComputedStyle(document.documentElement).fontSize);
+const rootStyles = window.getComputedStyle(appletvScrollContainer);
+
+const remVar = (name) => parseFloat(rootStyles.getPropertyValue(`--appletv-${name}`)) * rootFontSize;
+
+const widths = {
+  rectangle: { desktop: remVar("box-width-rectangle-desktop"), mobile: remVar("box-width-rectangle-mobile") },
+  square: { desktop: remVar("box-width-square-desktop"), mobile: remVar("box-width-square-mobile") },
+  gap: { desktop: remVar("scroll-gap-desktop"), mobile: remVar("scroll-gap-mobile") },
+};
+
+let breakpoint = window.matchMedia("(min-width: 1000px)").matches ? "desktop" : "mobile";
+
 // Image paths
-const basePath =
-  "/content/dam/digx/tmobile/us/en/creative_assethandoff/2026/q3/12705250_apple-tv-streaming-lp-redesign/carousel-tiles/v2/";
+const baseImagePath = "/content/dam/digx/tmobile/us/en/sandbox/brianc/appletv/";
 
 const appletvImages = [
   {
-    name: "Your Friends and Neighbors",
-    path: "12705250_fg_appletv-carousel-YFN_750.jpg",
-  },
-  {
-    name: "Widow's Bay",
-    path: "12705250_fg_appletv-carousel-WIDOWS_750.jpg",
-  },
-  {
-    name: "Silo",
-    path: "12705250_fg_appletv-carousel-SILO_750.jpg",
-  },
-  {
-    name: "Pluribus",
-    path: "12705250_fg_appletv-carousel-PLURIBUS_750.jpg",
-  },
-  {
-    name: "Maximum Pleasure Guaranteed",
-    path: "12705250_fg_appletv-carousel-MPG_750.jpg",
-  },
-  {
-    name: "Lucky",
-    path: "12705250_fg_appletv-carousel-LUCKY_750.jpg",
-  },
-  {
-    name: "Ted Lasso",
-    path: "12705250_fg_appletv-carousel-LASSO_750.jpg",
-  },
-  {
-    name: "Slow Horses",
-    path: "12705250_fg_appletv-carousel-HORSES_750.jpg",
-  },
-  {
     name: "Dark Matter",
-    path: "12705250_fg_appletv-carousel-DM_750.jpg",
+    path: "AppleTV_DarkMatter_378x212.jpg",
+  },
+  {
+    name: "Foundation",
+    path: "AppleTV_Foundation_756x425.jpg",
+  },
+  {
+    name: "Stick",
+    path: "AppleTV_Stick_756x425.jpg",
+  },
+  {
+    name: "Your Friends and Neighbors",
+    path: "AppleTV_YourFriends_756x425.jpg",
+  },
+  {
+    name: "Imperfect Women",
+    path: "AppleTV_ImperfectWomen_756x425.jpg",
+  },
+  {
+    name: "The Family Plan 2",
+    path: "AppleTV_TheFamilyPlan2_378x212.jpg",
+  },
+  {
+    name: "Murderbot",
+    path: "AppleTV_Murderbot_756x425.jpg",
+  },
+  {
+    name: "The Gorge",
+    path: "AppleTV_TheGorge_756x425.jpg",
   },
   {
     name: "The Dink",
-    path: "12705250_fg_appletv-carousel-DINK_750.jpg",
+    path: "AppleTV_TheDink_378x212.jpg",
+  },
+  {
+    name: "Silo",
+    path: "AppleTV_Silo_378x212.jpg",
   },
 ];
 
 // Global variable settings
 
-// Speed: Higher number = faster
-// Direction: -1 = to the left, 1 = to the right
+// speed: Higher number = faster
+// direction: -1 = to the left, 1 = to the right
+// aspectRatio: Set to 'rectangle' (16:9) or 'square' (1:1)
+// active: A 'true' value will render the row in the page, 'false' will hide it
+
 const rowValues = [
-  { speed: 0.5, direction: -1 },
-  { speed: 0.8, direction: -1 },
+  { speed: 0.5, direction: -1, aspectRatio: "rectangle", active: true },
+  { speed: 0.8, direction: -1, aspectRatio: "square", active: true },
 ];
-const numberOfRows = 2;
-const rowLength = 10; // Number of boxes per row
+const activeRowValues = rowValues.filter((row) => row.active === true);
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 // Render scrolling thumb row functions
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 const splitImages = () => {
-  const chunkSize = Math.ceil(appletvImages.length / numberOfRows);
+  const chunkSize = Math.ceil(appletvImages.length / activeRowValues.length);
   const chunkedArray = [];
 
   for (let i = 0; i < appletvImages.length; i += chunkSize) {
@@ -84,7 +100,7 @@ const splitImages = () => {
   return chunkedArray;
 };
 
-const generateRow = (imageChunk) => {
+const generateRow = (imageChunk, rowLength) => {
   return Array.from({ length: rowLength }, (_, i) => {
     return {
       bgImage: imageChunk.length ? imageChunk[i % imageChunk.length] : "",
@@ -92,16 +108,17 @@ const generateRow = (imageChunk) => {
   });
 };
 
-const renderRow = (boxes) => {
+const renderRow = (boxes, index) => {
+  const aspectRatioClass = activeRowValues[index].aspectRatio || "rectangle";
+
   const scrollRow = boxes
-    .map((box) => {
-      const dataBg = box.bgImage ? `data-bg="${basePath}${box.bgImage.path}"` : "";
-      const loadingClass = box.bgImage ? "is-loading" : "";
+    .map((box, index) => {
+      const fullImagePath = baseImagePath + box.bgImage.path;
+      // Add bg image if it exists in the rowData object, otherwise render the color
+      const backgroundImage = box.bgImage ? `style="background-image: url('${fullImagePath}');"` : "";
 
       return `
-        <li class="tsw-appletv-scroll-box ${loadingClass}" role="img" aria-label="${box.bgImage?.name ?? ""}" ${dataBg}>
-          ${box.bgImage ? `<span class="tsw-appletv-scroll-image"></span>` : ""}
-        </li>
+        <li class="tsw-appletv-scroll-box ${aspectRatioClass} box-color-${box.color} gradient-overlay" role="img" aria-label="${box.bgImage?.name ?? ""}" ${backgroundImage}>Box ${index}</li>
       `;
     })
     .join("");
@@ -111,17 +128,31 @@ const renderRow = (boxes) => {
   `;
 };
 
+const getRowLength = (rowConfig, chunkSize) => {
+  const tileWidth = widths[rowConfig.aspectRatio][breakpoint];
+  const gap = widths.gap[breakpoint];
+  const needed = Math.ceil(containerWidth / (tileWidth + gap)) + 2;
+  return Math.ceil(needed / chunkSize) * chunkSize; // evenly divisible by chunk
+};
+
+let renderedLengths = [];
+
+// Returns true if it re-rendered
 const renderAllRows = () => {
   const imageChunks = splitImages();
+  const lengths = activeRowValues.map((row, i) => getRowLength(row, imageChunks[i]?.length || 1));
 
-  const allRowsHTML = Array.from({ length: numberOfRows })
-    .map((_, index) => {
-      const row = generateRow(imageChunks[index] ?? []);
-      return renderRow(row);
-    })
+  // Skip if every row already has enough tiles
+  if (!lengths.some((len, i) => len > (renderedLengths[i] ?? 0))) return false;
+  renderedLengths = lengths;
+
+  console.log(activeRowValues);
+
+  appletvScroll.innerHTML = activeRowValues
+    .map((_, i) => renderRow(generateRow(imageChunks[i] ?? [], lengths[i]), i))
     .join("");
 
-  appletvScroll.innerHTML = allRowsHTML;
+  return true;
 };
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -146,28 +177,9 @@ appletvPlayButton.addEventListener("click", () => {
 // Init functions
 // =-=-=-=-=-=-=-
 
-const loadImages = () => {
-  const boxes = appletvScrollContainerID.querySelectorAll(".tsw-appletv-scroll-box[data-bg]");
-
-  boxes.forEach((box) => {
-    const src = box.dataset.bg;
-    const img = new Image();
-
-    img.onload = () => {
-      const imageLayer = box.querySelector(".tsw-appletv-scroll-image");
-      imageLayer.style.backgroundImage = `url('${src}')`;
-      imageLayer.classList.add("is-loaded");
-      box.classList.remove("is-loading");
-    };
-    img.onerror = () => box.classList.remove("is-loading");
-    img.src = src;
-  });
-};
-
 const init = () => {
   renderAllRows();
   renderPlayButton(false);
-  loadImages();
 };
 
 init();
@@ -276,42 +288,46 @@ waitForGSAP(() => {
 
     loops.forEach((tl) => tl.kill());
 
-    appletvScroll.classList.add("is-loaded");
-
     loops = Array.from(rows).map((row, i) => {
       const items = gsap.utils.toArray(row.querySelectorAll(".tsw-appletv-scroll-box"));
       return horizontalLoop(items, {
         repeat: -1,
         paused: isPaused,
-        speed: rowValues[i].speed ?? 1,
-        direction: rowValues[i].direction ?? 1,
+        speed: activeRowValues[i].speed ?? 1,
+        direction: activeRowValues[i].direction ?? 1,
         snap: false,
       });
     });
   }
 
+  const updateLayout = () => {
+    containerWidth = appletvScrollContainer.offsetWidth;
+    breakpoint = window.matchMedia("(min-width: 1000px)").matches ? "desktop" : "mobile";
+
+    // New DOM means the old timelines are bound to detached elements, so force a rebuild
+    if (renderAllRows()) lastBoxWidth = 0;
+
+    initAnimation();
+  };
+
   requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      initAnimation();
+    updateLayout();
 
-      let resizeTimer;
-      new ResizeObserver(() => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(initAnimation, 100);
-      }).observe(appletvScrollContainer);
+    new ResizeObserver(() => {
+      updateLayout();
+    }).observe(appletvScrollContainer);
 
-      // Respect isPaused so IntersectionObserver doesn't override a manual pause
-      new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            loops.forEach((tl) => {
-              if (entry.isIntersecting && !isPaused) tl.play();
-              else if (!entry.isIntersecting) tl.pause();
-            });
+    // Respect isPaused so IntersectionObserver doesn't override a manual pause
+    new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          loops.forEach((tl) => {
+            if (entry.isIntersecting && !isPaused) tl.play();
+            else if (!entry.isIntersecting) tl.pause();
           });
-        },
-        { threshold: 0 },
-      ).observe(appletvScrollContainer);
-    });
+        });
+      },
+      { threshold: 0 },
+    ).observe(appletvScrollContainer);
   });
 });

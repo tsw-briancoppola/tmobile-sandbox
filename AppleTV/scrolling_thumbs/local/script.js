@@ -7,6 +7,21 @@ const appletvScrollContainer = document.querySelector(".tsw-appletv-scroll-conta
 const appletvScroll = document.querySelector(".tsw-appletv-scroll");
 const appletvPlayButton = document.querySelector(".tsw-appletv-play-button");
 
+// Computing widths of scrolling boxes
+let containerWidth = appletvScrollContainer.offsetWidth;
+const rootFontSize = parseFloat(window.getComputedStyle(document.documentElement).fontSize);
+const rootStyles = window.getComputedStyle(appletvScrollContainer);
+
+const remVar = (name) => parseFloat(rootStyles.getPropertyValue(`--appletv-${name}`)) * rootFontSize;
+
+const widths = {
+  rectangle: { desktop: remVar("box-width-rectangle-desktop"), mobile: remVar("box-width-rectangle-mobile") },
+  square: { desktop: remVar("box-width-square-desktop"), mobile: remVar("box-width-square-mobile") },
+  gap: { desktop: remVar("scroll-gap-desktop"), mobile: remVar("scroll-gap-mobile") },
+};
+
+let breakpoint = window.matchMedia("(min-width: 1000px)").matches ? "desktop" : "mobile";
+
 // Image paths
 const appletvImages = [
   {
@@ -41,44 +56,62 @@ const appletvImages = [
     name: "The Gorge",
     path: "images/AppleTV_TheGorge_756x425.jpg",
   },
+  {
+    name: "The Dink",
+    path: "images/AppleTV_TheDink_378x212.jpg",
+  },
+  {
+    name: "Silo",
+    path: "images/AppleTV_Silo_378x212.jpg",
+  },
 ];
 
 // Global variable settings
-const NUMBER_OF_ROWS = 2;
-const colors = ["blue", "green", "red", "orange", "magenta", "purple"];
 
-// Speed: Higher number = faster
-// Direction: -1 = to the left, 1 = to the right
+// speed: Higher number = faster
+// direction: -1 = to the left, 1 = to the right
+// aspectRatio: Set to 'rectangle' (16:9) or 'square' (1:1)
+// active: A 'true' value will render the row in the page, 'false' will hide it
+
 const rowValues = [
-  { speed: 0.5, direction: -1 },
-  { speed: 0.8, direction: -1 },
+  { speed: 0.5, direction: -1, aspectRatio: "rectangle", active: true },
+  { speed: 0.8, direction: -1, aspectRatio: "square", active: true },
 ];
-const rowLength = 10; // Number of boxes per row
+const activeRowValues = rowValues.filter((row) => row.active === true);
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 // Render scrolling thumb row functions
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-const generateRow = () => {
-  // Shuffle a copy so originals stay intact
-  const shuffled = [...appletvImages].sort(() => Math.random() - 0.5);
+const splitImages = () => {
+  const chunkSize = Math.ceil(appletvImages.length / activeRowValues.length);
+  const chunkedArray = [];
 
+  for (let i = 0; i < appletvImages.length; i += chunkSize) {
+    chunkedArray.push(appletvImages.slice(i, i + chunkSize));
+  }
+
+  return chunkedArray;
+};
+
+const generateRow = (imageChunk, rowLength) => {
   return Array.from({ length: rowLength }, (_, i) => {
     return {
-      color: colors[Math.floor(Math.random() * colors.length)],
-      bgImage: shuffled[i] ?? "",
+      bgImage: imageChunk.length ? imageChunk[i % imageChunk.length] : "",
     };
   });
 };
 
-const renderRow = (boxes) => {
+const renderRow = (boxes, index) => {
+  const aspectRatioClass = activeRowValues[index].aspectRatio || "rectangle";
+
   const scrollRow = boxes
     .map((box, index) => {
       // Add bg image if it exists in the rowData object, otherwise render the color
       const backgroundImage = box.bgImage ? `style="background-image: url('${box.bgImage.path}');"` : "";
 
       return `
-        <li class="tsw-appletv-scroll-box box-color-${box.color} gradient-overlay" role="img" aria-label="${box.bgImage?.name ?? ""}" ${backgroundImage}>Box ${index}</li>
+        <li class="tsw-appletv-scroll-box ${aspectRatioClass} box-color-${box.color} gradient-overlay" role="img" aria-label="${box.bgImage?.name ?? ""}" ${backgroundImage}>Box ${index}</li>
       `;
     })
     .join("");
@@ -88,15 +121,29 @@ const renderRow = (boxes) => {
   `;
 };
 
+const getRowLength = (rowConfig, chunkSize) => {
+  const tileWidth = widths[rowConfig.aspectRatio][breakpoint];
+  const gap = widths.gap[breakpoint];
+  const needed = Math.ceil(containerWidth / (tileWidth + gap)) + 2;
+  return Math.ceil(needed / chunkSize) * chunkSize; // evenly divisible by chunk
+};
+
+let renderedLengths = [];
+
+// Returns true if it re-rendered
 const renderAllRows = () => {
-  const allRowsHTML = Array.from({ length: NUMBER_OF_ROWS })
-    .map((_) => {
-      const row = generateRow();
-      return renderRow(row);
-    })
+  const imageChunks = splitImages();
+  const lengths = activeRowValues.map((row, i) => getRowLength(row, imageChunks[i]?.length || 1));
+
+  // Skip if every row already has enough tiles
+  if (!lengths.some((len, i) => len > (renderedLengths[i] ?? 0))) return false;
+  renderedLengths = lengths;
+
+  appletvScroll.innerHTML = activeRowValues
+    .map((_, i) => renderRow(generateRow(imageChunks[i] ?? [], lengths[i]), i))
     .join("");
 
-  appletvScroll.innerHTML = allRowsHTML;
+  return true;
 };
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -273,31 +320,41 @@ waitForGSAP(() => {
       return horizontalLoop(items, {
         repeat: -1,
         paused: isPaused,
-        speed: rowValues[i].speed ?? 1,
-        direction: rowValues[i].direction ?? 1,
+        speed: activeRowValues[i].speed ?? 1,
+        direction: activeRowValues[i].direction ?? 1,
         snap: false,
       });
     });
   }
 
+  const updateLayout = () => {
+    containerWidth = appletvScrollContainer.offsetWidth;
+    breakpoint = window.matchMedia("(min-width: 1000px)").matches ? "desktop" : "mobile";
+
+    // New DOM means the old timelines are bound to detached elements, so force a rebuild
+    if (renderAllRows()) lastBoxWidth = 0;
+
+    initAnimation();
+  };
+
   requestAnimationFrame(() => {
-    requestAnimationFrame(() => {
-      initAnimation();
+    updateLayout();
 
-      new ResizeObserver(() => initAnimation()).observe(appletvScrollContainer);
+    new ResizeObserver(() => {
+      updateLayout();
+    }).observe(appletvScrollContainer);
 
-      // Respect isPaused so IntersectionObserver doesn't override a manual pause
-      new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            loops.forEach((tl) => {
-              if (entry.isIntersecting && !isPaused) tl.play();
-              else if (!entry.isIntersecting) tl.pause();
-            });
+    // Respect isPaused so IntersectionObserver doesn't override a manual pause
+    new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          loops.forEach((tl) => {
+            if (entry.isIntersecting && !isPaused) tl.play();
+            else if (!entry.isIntersecting) tl.pause();
           });
-        },
-        { threshold: 0 },
-      ).observe(appletvScrollContainer);
-    });
+        });
+      },
+      { threshold: 0 },
+    ).observe(appletvScrollContainer);
   });
 });

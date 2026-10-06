@@ -36,6 +36,7 @@
   /* --fn5gl-map-container-padding: 1rem; */
 
   --fn5gl-link-color: var(--color-brand-primary-400);
+  --fn5gl-link-color-white: var(--color-brand-grayscale-white);
 }
 
 /* Reset */
@@ -97,6 +98,9 @@ a:visited {
   color: var(--color-brand-grayscale-white);
   background-color: var(--color-brand-primary-400);
   transition: background-color 0.2s ease-in-out;
+}
+.magenta-button:visited {
+  color: var(--fn5gl-link-color-white);
 }
 .magenta-button:disabled {
   color: var(--color-brand-grayscale-600);
@@ -253,14 +257,14 @@ a:visited {
   padding: 3rem 2rem 3.5rem 3rem;
   background-color: var(--color-brand-grayscale-white);
   color: var(--color-brand-grayscale-white);
-  background: url("/content/dam/digx/tmobile/us/en/sandbox/courtney/11043950_fn5gl-2026/phase-3/hp/FN5GL_football_players_mobile.jpg")
+  background: url("/content/dam/digx/tmobile/us/en/creative_assethandoff/2026/q1/11043950_fn5gl-2026/phase-3/leaderboard/12429481_FN5GL-football-players-mobile.jpg")
     no-repeat center / cover;
   /* background: radial-gradient(circle at top center, var(--color-brand-grayscale-700), var(--color-brand-grayscale-900)); */
   box-sizing: border-box;
 }
 @media (min-width: 600px) {
   .tsw-fn5gl-intro-container {
-    background: url("/content/dam/digx/tmobile/us/en/sandbox/courtney/11043950_fn5gl-2026/phase-3/hp/FN5GL_football_players_desktop.jpg")
+    background: url("/content/dam/digx/tmobile/us/en/creative_assethandoff/2026/q1/11043950_fn5gl-2026/phase-3/leaderboard/12429481_FN5GL-football-players-mobile.jpg")
       no-repeat center / cover;
   }
 }

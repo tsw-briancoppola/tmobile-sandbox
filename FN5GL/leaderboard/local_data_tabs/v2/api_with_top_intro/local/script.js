@@ -2,8 +2,8 @@
 // Data source and global variables
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-const DATA_SOURCE = "https://test-fn5gl.teamdigital.com/api/finalists/leaderboard";
-// const DATA_SOURCE = "https://fn5gl.t-mobile.com/api/finalists/leaderboard";
+// const DATA_SOURCE = "https://test-fn5gl.teamdigital.com/api/finalists/leaderboard";
+const DATA_SOURCE = "https://fn5gl.t-mobile.com/api/finalists/leaderboard";
 const BEARER_TOKEN = "BRwrayCz7H1z3XJwMOpmnd9j";
 
 let schoolData;
@@ -179,10 +179,11 @@ const renderModal = (school) => {
   const cityState = `${stadium_city}, ${stadium_state}`;
   const { time, formattedDate } = parseGameDateTime(datetime);
 
-  const schoolImageBasePath =
-    "/content/dam/digx/tmobile/us/en/sandbox/alex-park/fn5gl/testing-and-reserve/top-40-logos-testing/";
-  const schoolImageName = `FN5GL_${school.region}_${school.id}_${school.state}_logo.png`;
-  const schoolImageFullPath = schoolImageBasePath + schoolImageName;
+  const fallbackImagePath = `/content/dam/digx/tmobile/us/en/creative_assethandoff/2026/q1/11043950_fn5gl-2026/phase-3/school-logos/`;
+  const fallbackImageFilename = `FN5GL_${school.region}_${school.id}_${school.state}_logo.png`;
+  const fallbackImageFullPath = fallbackImagePath + fallbackImageFilename;
+
+  // school.primary_logo ? school.primary_logo : fallbackImageFullPath
 
   return `
     <div class="tsw-modal-school-header">
@@ -193,7 +194,7 @@ const renderModal = (school) => {
       <div class="tsw-modal-school-desc-logo">
         <p class="tsw-modal-school-description">${school.description}</p>
         <div class="tsw-modal-school-logo">
-          <img src="${schoolImageFullPath}" alt="${school.name} logo" />
+          <img src="${school.primary_logo ? school.primary_logo : fallbackImageFullPath}" alt="${school.name} logo" />
         </div>
       </div>
     </div>
@@ -677,10 +678,10 @@ const fetchData = async () => {
   try {
     const response = await fetch(DATA_SOURCE, {
       method: "GET", // Default method
-      // headers: {
-      //   Authorization: `Bearer ${BEARER_TOKEN}`,
-      //   "Content-Type": "application/json",
-      // },
+      headers: {
+        Authorization: `Bearer ${BEARER_TOKEN}`,
+        "Content-Type": "application/json",
+      },
     });
 
     if (!response.ok) {
@@ -688,6 +689,8 @@ const fetchData = async () => {
     }
 
     const data = await response.json();
+
+    console.log(data);
 
     return transformData(data);
   } catch (error) {

@@ -277,7 +277,7 @@ const usaMapSVG = `<svg
       <circle cx="38" cy="135" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="California-1" />
       <circle cx="59" cy="170" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="California-2" />
       <circle cx="75" cy="186" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Arizona-1" />
-      <circle cx="117" cy="118" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Utah-1" />
+      <circle cx="117" cy="122" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Utah-1" />
       <circle cx="164" cy="121" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Colorado-1" />
   </g>
 
@@ -889,7 +889,7 @@ const usaMapSVG = `<svg
     <circle cx="375" cy="133" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Virginia-1" />
     <circle cx="387" cy="129" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Virginia-2" />
     <circle cx="369" cy="109" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Pennsylvania-1" />
-    <circle cx="398" cy="100" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Pennsylvania-1" />
+    <circle cx="407" cy="98" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="New Jersey-1" />
     <circle cx="419" cy="79" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Massachusetts-1" />
   </g>
 
@@ -1145,7 +1145,7 @@ let modalState = {
 
 // Feature toggles
 const VOTING_ACTIVE = true;
-const SHOW_VOTES_IN_MOBILE = false;
+const SHOW_VOTES_IN_MOBILE = true;
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-
 // functions
@@ -1279,10 +1279,11 @@ const renderModal = (school) => {
   const cityState = `${stadium_city}, ${stadium_state}`;
   const { time, formattedDate } = parseGameDateTime(datetime);
 
-  const schoolImageBasePath =
-    "/content/dam/digx/tmobile/us/en/sandbox/alex-park/fn5gl/testing-and-reserve/top-40-logos-testing/";
-  const schoolImageName = `FN5GL_${school.region}_${school.id}_${school.state}_logo.png`;
-  const schoolImageFullPath = schoolImageBasePath + schoolImageName;
+  const fallbackImagePath = `/content/dam/digx/tmobile/us/en/creative_assethandoff/2026/q1/11043950_fn5gl-2026/phase-3/school-logos/`;
+  const fallbackImageFilename = `FN5GL_${school.region}_${school.id}_${school.state}_logo.png`;
+  const fallbackImageFullPath = fallbackImagePath + fallbackImageFilename;
+
+  // school.primary_logo ? school.primary_logo : fallbackImageFullPath
 
   return `
     <div class="tsw-modal-school-header">
@@ -1293,7 +1294,7 @@ const renderModal = (school) => {
       <div class="tsw-modal-school-desc-logo">
         <p class="tsw-modal-school-description">${school.description}</p>
         <div class="tsw-modal-school-logo">
-          <img src="${schoolImageFullPath}" alt="${school.name} logo" />
+          <img src="${school.primary_logo ? school.primary_logo : fallbackImageFullPath}" alt="${school.name} logo" />
         </div>
       </div>
     </div>
@@ -1329,7 +1330,7 @@ const renderModal = (school) => {
           <span class="tsw-modal-game-detail-label">Date</span>
         </div>
         <div class="tsw-modal-game-detail">
-          <span class="tsw-modal-game-detail-value">${stadium_name || "Stadium: TBD"}</span>
+          <span class="tsw-modal-game-detail-value">${stadium_name || "Location TBD"}</span>
           ${stadium_name ? `<span class="tsw-modal-game-detail-label">${stadium_address}<br />${cityState}<br />${stadium_zip}</span>` : ""}
         </div>
       </div>

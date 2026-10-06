@@ -31,6 +31,7 @@
   font-family: var(--tsw-font-main);
 
   --fn5gl-link-color: var(--color-brand-primary-400);
+  --fn5gl-link-color-white: var(--color-brand-grayscale-white);
 }
 
 /* Reset */
@@ -66,7 +67,7 @@
 
 a,
 .tsw-modal a:visited {
-  color: var(--fn5gl-link-color);
+  color: var(--fn5gl-link-color-white);
 }
 
 .tsw-modal :focus-visible {
@@ -88,6 +89,9 @@ a,
   color: var(--color-brand-grayscale-white);
   background-color: var(--color-brand-primary-400);
   transition: background-color 0.2s ease-in-out;
+}
+.magenta-button:visited {
+  color: var(--fn5gl-link-color-white);
 }
 .tsw-modal .magenta-button:disabled {
   color: var(--color-brand-grayscale-600);

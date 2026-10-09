@@ -114,10 +114,10 @@ const renderRegion = (region) => {
   //   .join(" ");
 
   schoolRows = schoolsSorted
-    .map((school, index) => {
+    .map((school) => {
       return `
         <li class="tsw-fn5gl-region-row">
-          <div class="tsw-fn5gl-region-rank">${index + 1}</div>
+          <div class="tsw-fn5gl-region-rank">${school.rank_current}</div>
           <div class="tsw-fn5gl-region-info">
             <div class="tsw-fn5gl-region-school"><a href="#" data-school-id="${school.id}">${school.name}</a></div>
             <div class="tsw-fn5gl-region-location">${school.city}, ${school.state}</div>
@@ -159,25 +159,28 @@ const renderAllRegions = () => {
 // Modal functions and event listeners
 
 const parseGameDateTime = (dateTimeString) => {
-  const date = new Date(dateTimeString);
+  if (!dateTimeString) {
+    return { time: null, formattedDate: null, hasTime: false };
+  }
 
-  const time = new Intl.DateTimeFormat("en-US", {
-    hour: "numeric",
-    minute: "2-digit",
-    hour12: true,
-  }).format(date);
+  const [datePart, timePart] = dateTimeString.split(" ");
+  const [year, month, day] = datePart.split("-");
 
-  const formattedDate = new Intl.DateTimeFormat("en-US", {
-    month: "2-digit",
-    day: "2-digit",
-    year: "2-digit",
-  }).format(date);
+  const formattedDate = `${month}/${day}/${year.slice(-2)}`;
 
-  return { time, formattedDate };
+  if (!timePart) {
+    return { time: null, formattedDate, hasTime: false };
+  }
+
+  const [hour, minute] = timePart.split(":");
+  const h = Number(hour);
+  const time = `${h % 12 || 12}:${minute} ${h >= 12 ? "PM" : "AM"}`;
+
+  return { time, formattedDate, hasTime: true };
 };
 
 const renderModal = (school) => {
-  const { stadium_name, stadium_address, stadium_city, stadium_state, stadium_zip, datetime, timezone } =
+  const { stadium_name, stadium_address, stadium_city, stadium_state, stadium_zip, datetime, timezone, description } =
     school.home_game;
   const cityState = `${stadium_city}, ${stadium_state}`;
   const { time, formattedDate } = parseGameDateTime(datetime);
@@ -186,7 +189,7 @@ const renderModal = (school) => {
   const fallbackImageFilename = `FN5GL_${school.region}_${school.id}_${school.state}_logo.png`;
   const fallbackImageFullPath = fallbackImagePath + fallbackImageFilename;
 
-  // school.primary_logo ? school.primary_logo : fallbackImageFullPath
+  const renderHomeGame = school.id !== "riley-high-school";
 
   return `
     <div class="tsw-modal-school-header">
@@ -204,7 +207,7 @@ const renderModal = (school) => {
 
     <div class="tsw-modal-school-stats">
       <div class="tsw-modal-school-stat">
-        <span class="tsw-modal-school-stat-value">${getSchoolRank(school.id)}</span>
+        <span class="tsw-modal-school-stat-value">${school.rank_current}</span>
         <span class="tsw-modal-school-stat-label">Rank</span>
       </div>
       <div class="tsw-modal-school-stat">
@@ -220,16 +223,16 @@ const renderModal = (school) => {
       <div class="tsw-modal-game-header">
         <h3 class="tsw-modal-game-title">T-Mobile Home Game</h3>
         <p class="tsw-modal-game-description">
-          Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil molestiae consequatur. Sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat.
+          ${description}
         </p>
       </div>
       <div class="tsw-modal-game-details">
         <div class="tsw-modal-game-detail">
-          <span class="tsw-modal-game-detail-value">${time} ${timezone || ""}</span>
+          <span class="tsw-modal-game-detail-value">${time ? `${time} ${timezone}` : "TBD"}</span>
           <span class="tsw-modal-game-detail-label">Time</span>
         </div>
         <div class="tsw-modal-game-detail">
-          <span class="tsw-modal-game-detail-value">${formattedDate || TBD}</span>
+          <span class="tsw-modal-game-detail-value">${datetime ? formattedDate : "TBD"}</span>
           <span class="tsw-modal-game-detail-label">Date</span>
         </div>
         <div class="tsw-modal-game-detail">

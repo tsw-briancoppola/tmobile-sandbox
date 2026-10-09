@@ -887,8 +887,8 @@ const usaMapSVG = `<svg
     <circle cx="376" cy="153" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="North Carolina-2" />
     <circle cx="378" cy="180" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="South Carolina-1" />
     <circle cx="375" cy="133" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Virginia-1" />
-    <circle cx="387" cy="129" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Virginia-2" />
-    <circle cx="369" cy="109" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Pennsylvania-1" />
+    <circle cx="400" cy="100" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Pennsylvania-1" />
+    <circle cx="369" cy="109" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Pennsylvania-2" />
     <circle cx="407" cy="98" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="New Jersey-1" />
     <circle cx="419" cy="79" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Massachusetts-1" />
   </g>
@@ -1059,7 +1059,7 @@ const usaMapSVG = `<svg
 
     <circle cx="220" cy="212" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Texas-1" />
     <circle cx="252" cy="233" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Texas-2" />
-    <circle cx="278" cy="212" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Louisiana-1" />
+    <circle cx="283" cy="212" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Louisiana-1" />
     <circle cx="289" cy="224" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Louisiana-2" />
     <circle cx="300" cy="224" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Mississippi-1" />
     <circle cx="315" cy="190" r="2" class="tsw-fn5gl-usa-map-dot" pointer-events="none" data-location="Alabama-1" />

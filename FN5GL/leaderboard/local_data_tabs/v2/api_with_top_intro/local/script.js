@@ -513,26 +513,6 @@ fn5glLeaderboard.addEventListener("click", (event) => {
   openModal(thisSchoolId, link);
 });
 
-// Open modal when high school vote button is clicked
-
-// fn5glRegions.addEventListener("click", (event) => {
-//   const button = event.target.closest(".magenta-button");
-//   if (!button) return;
-
-//   const schoolId = Number(button.dataset.voteId);
-//   openModal(schoolId, button);
-// });
-
-// // Vote for school buttons in modal
-// fn5glModal.addEventListener("click", (event) => {
-//   const button = event.target.closest(".magenta-button");
-//   if (!button) return;
-
-//   const schoolId = button.dataset.voteId;
-//   addVote(schoolId);
-//   closeModal();
-// });
-
 // Event listener for viewport changes
 
 const debounce = (func, wait) => {

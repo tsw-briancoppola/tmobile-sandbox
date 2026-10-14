@@ -1,0 +1,257 @@
+.tsw-fn5gl-container {
+  --tsw-font-display:
+    "TeleNeo Web", var(--phx--text-family-brand), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --tsw-font-main:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol";
+
+  --tsw-font-size: 16px;
+  --color-brand-primary-400: #e20074;
+  --color-brand-primary-600: #770141;
+  --color-brand-grayscale-100: #fbfbfb;
+  --color-brand-grayscale-200: #f5f5f5;
+  --color-brand-grayscale-300: #e6e6e6;
+  --color-brand-grayscale-400: #ccc;
+  --color-brand-grayscale-450: #aaaaaa;
+  --color-brand-grayscale-500: #8c8c8c;
+  --color-brand-grayscale-550: #727272;
+  --color-brand-grayscale-600: #6a6a6a;
+  --color-brand-grayscale-700: #414141;
+  --color-brand-grayscale-900: #1c1c1c;
+  --color-brand-grayscale-white: #fff;
+
+  --color-focus-stroke: #005fcc;
+  --color-trend-red: #d20d00;
+  --color-trend-green: #008110;
+
+  --color-border: var(--color-brand-grayscale-400);
+  --color-input-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+  --color-overlay: rgba(0, 0, 0, 0.4);
+
+  font-family: var(--tsw-font-main);
+
+  --fn5gl-map-active-color: var(--color-brand-primary-400);
+  --fn5gl-map-highlight-color: var(--color-brand-primary-600);
+  /* --fn5gl-map-container-padding: 1rem; */
+
+  --fn5gl-link-color: var(--color-brand-primary-400);
+}
+
+/* Reset - local only (don't use in AEM) */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  height: 100vh;
+  font-size: 1.6rem;
+  font-family: "Arial", sans-serif;
+  overflow-x: hidden;
+  margin: 0;
+  background-color: var(--color-brand-grayscale-200);
+}
+
+/* Reset */
+
+h1,
+h2,
+h3,
+h4,
+p,
+div {
+  margin: 0;
+  line-height: normal;
+}
+
+ol {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.magenta {
+  color: var(--color-brand-primary-400);
+}
+
+.tsw-modal p,
+.tsw-modal span {
+  line-height: 2rem;
+}
+
+a,
+a:visited {
+  color: var(--fn5gl-link-color);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus-stroke);
+}
+
+.center-align {
+  text-align: center;
+}
+.right-align {
+  text-align: right;
+}
+
+/* UI elements */
+
+.magenta-button {
+  cursor: pointer;
+  padding: 0.8rem 1.2rem;
+  font-size: 1.4rem;
+  border: 0;
+  border-radius: 0.5rem;
+  color: var(--color-brand-grayscale-white);
+  background-color: var(--color-brand-primary-400);
+  align-self: center;
+}
+.magenta-button:disabled {
+  color: var(--color-brand-grayscale-600);
+  background-color: var(--color-brand-grayscale-400);
+  cursor: not-allowed;
+}
+@media (min-width: 600px) {
+  .magenta-button {
+    font-size: 1.5rem;
+  }
+}
+
+/* =-=-=-=-=-=- */
+/* fn5gl styles */
+/* =-=-=-=-=-=- */
+
+/* fn5gl container styles */
+
+.tsw-fn5gl-container {
+  position: relative;
+  padding: 3rem;
+  max-width: 160rem;
+  /* min-height: 80rem; */
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem;
+  color: var(--color-brand-grayscale-white);
+  background-color: var(--color-brand-grayscale-900);
+}
+
+.tsw-fn5gl-finalfour {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 4rem;
+  width: 100%;
+}
+@media (min-width: 600px) {
+  .tsw-fn5gl-finalfour {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1100px) {
+  .tsw-fn5gl-finalfour {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.tsw-fn5gl-finalfour-region {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4rem;
+  padding: 1rem;
+}
+
+.tsw-fn5gl-finalfour-region-header {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+}
+.tsw-fn5gl-finalfour-region-header h2 {
+  font-size: 3rem;
+  text-align: center;
+}
+.tsw-fn5gl-finalfour-region-header h2 span {
+  display: block;
+  font-size: 1.8rem;
+  color: var(--color-brand-primary-400);
+}
+.tsw-fn5gl-finalfour-region-header img {
+  width: 100%;
+}
+
+.tsw-fn5gl-finalfour-region-schools {
+  width: 100%;
+}
+
+.tsw-fn5gl-accordion-button {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.6rem;
+  font-weight: 600;
+  padding: 0.2rem 0;
+  margin-bottom: 1.4rem;
+  border: 0;
+  color: var(--color-brand-grayscale-white);
+  background-color: transparent;
+  cursor: pointer;
+}
+.tsw-fn5gl-accordion-button svg {
+  transition: all 0.3s ease;
+  fill: var(--color-brand-grayscale-white);
+}
+@media (hover: hover) {
+  .tsw-fn5gl-accordion-button:hover svg {
+    fill: var(--color-brand-primary-400);
+  }
+}
+.tsw-fn5gl-accordion-button[aria-expanded="true"] svg {
+  transform: rotate(180deg);
+}
+
+.tsw-fn5gl-finalfour-region-school-names {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  transition: grid-template-rows ease-out 0.3s;
+  font-size: 1.4rem;
+}
+.tsw-fn5gl-accordion-button[aria-expanded="true"] ~ .tsw-fn5gl-finalfour-region-school-names {
+  grid-template-rows: 1fr;
+}
+
+.tsw-fn5gl-finalfour-region-school-names-inner {
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.tsw-fn5gl-finalfour-region-school-names-inner li {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.2rem;
+}
+.tsw-fn5gl-finalfour-region-school-names li div:nth-child(2) {
+  font-size: 1.2rem;
+  color: var(--color-brand-grayscale-450);
+}

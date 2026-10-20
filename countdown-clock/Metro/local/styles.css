@@ -33,6 +33,15 @@
   color: var(--countdown-text-color);
   line-height: normal;
 
+  width: 100dvw;
+  /* margin: 0 auto; */
+  /* overflow: hidden; */
+
+  margin-inline: auto;
+  /* position: relative; */
+  left: 50%;
+  transform: translateX(-50%);
+
   background-image: url("img/bg_trees.png");
   background-repeat: no-repeat;
   background-position: bottom;
@@ -178,6 +187,9 @@ ol {
     font-size: 3rem;
     line-height: 3.7rem;
   }
+}
+.tsw-countdown-clock .tsw-time-unit .tsw-time-unit-name {
+  font-family: var(--tsw-font-main);
 }
 
 .tsw-countdown-clock .tsw-time-colon {

@@ -1,14 +1,18 @@
+#container--1 {
+  width: 100%;
+}
+
 .tsw-countdown-container {
   --tsw-font-display:
-    "TeleNeo Web", var(--phx--text-family-brand), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
-    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+    "TT Norms", var(--phx--text-family-brand), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   --tsw-font-main:
     -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji",
     "Segoe UI Emoji", "Segoe UI Symbol";
 
   --tsw-font-size: 16px;
-  --color-brand-primary-400: #e20074;
-  --color-brand-primary-600: #770141;
+  --color-brand-metro-purple-light: #9646c3;
+  --color-brand-metro-purple-dark: #24022f;
   --color-brand-grayscale-400: #ccc;
   --color-brand-grayscale-500: #8c8c8c;
   --color-brand-grayscale-600: #6a6a6a;
@@ -16,27 +20,26 @@
   --color-brand-grayscale-900: #1c1c1c;
   --color-brand-grayscale-white: #fff;
 
-  --color-overlay: rgba(0, 0, 0, 0.4);
-  --color-input-shadow: 0px 0px 5px 0px rgba(226, 0, 116, 0.5);
+  font-family: var(--tsw-font-display);
 
-  font-family: var(--tsw-font-main);
-
-  /* Styles needed to render at full width in NPI component */
   width: 100dvw;
+  margin-inline: auto;
   position: relative;
   left: 50%;
   transform: translateX(-50%);
+
+  /* background-color: var(--color-brand-metro-purple-dark); */
+
+  /* background-image: url("img/bg_trees.png");
+  background-repeat: no-repeat;
+  background-position: bottom;
+  background-size: cover; */
 }
 
 .tsw-countdown {
-  --countdown-text-color: var(--color-brand-grayscale-900);
-  --countdown-background-color: var(--color-brand-grayscale-white);
+  --countdown-text-color: var(--color-brand-grayscale-white);
   --time-unit-number-color: var(--color-brand-primary-400);
-  --time-unit-text-color: var(--color-brand-grayscale-white);
-  --time-unit-background-color: var(--color-brand-grayscale-900);
   --status-alert-text: var(--color-brand-primary-400);
-  --button-text-color: var(--color-brand-grayscale-white);
-  --button-background-color: var(--color-brand-primary-400);
 
   display: flex;
   flex-direction: column;
@@ -45,50 +48,44 @@
   gap: 2rem;
   padding: 2.4rem 2.4rem 3rem 2.4rem;
   color: var(--countdown-text-color);
-  background-color: var(--countdown-background-color);
-  background-image: url("/content/dam/digx/tmobile/us/en/lifestyle/events/spotlight-schools/FN5GL_BG_texture_1.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
+  line-height: normal;
 }
 @media (min-width: 600px) {
   .tsw-countdown {
-    padding: 3rem 3rem 3.6rem 3rem;
+    padding: 3rem 3rem 1rem 3rem;
   }
 }
 
-.tsw-countdown.dark-theme {
-  --countdown-text-color: var(--color-brand-grayscale-white);
-  --countdown-background-color: var(--color-brand-grayscale-900);
-  --time-unit-number-color: var(--color-brand-primary-400);
-  --time-unit-text-color: var(--color-brand-grayscale-900);
-  --time-unit-background-color: var(--color-brand-grayscale-white);
-  --status-alert-text: var(--color-brand-primary-400);
-  --button-text-color: var(--color-brand-grayscale-white);
-  --button-background-color: var(--color-brand-primary-400);
+/* Reset */
+
+h1,
+h2,
+h3,
+h4,
+p,
+div {
+  margin: 0;
+  line-height: normal;
 }
 
-.tsw-countdown.magenta-theme {
-  --countdown-text-color: var(--color-brand-grayscale-white);
-  --countdown-background-color: var(--color-brand-primary-400);
-  --time-unit-number-color: var(--color-brand-grayscale-900);
-  --time-unit-text-color: var(--color-brand-grayscale-900);
-  --time-unit-background-color: var(--color-brand-grayscale-white);
-  --status-alert-text: var(--color-brand-grayscale-white);
-  --button-text-color: var(--color-brand-primary-400);
-  --button-background-color: var(--color-brand-grayscale-white);
+ol {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.bold {
+  font-weight: 700;
 }
 
 /* Clock */
 
-.tsw-countdown-header {
+.tsw-countdown-header-text {
   font-size: 18px;
   font-weight: 600;
-  text-align: center;
-  line-height: 22px;
 }
 @media (min-width: 600px) {
-  .tsw-countdown-header {
+  .tsw-countdown-header-text {
     font-size: 20px;
   }
 }
@@ -113,31 +110,51 @@
 .tsw-countdown-clock .tsw-time-unit {
   flex: 1;
   text-align: center;
-  font-size: 1.1rem;
+  font-size: 1rem;
   padding: 0.7rem;
-  color: var(--time-unit-text-color);
-  background-color: var(--time-unit-background-color);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  /* border: none; */
   border-radius: 0.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(5px) saturate(160%); /* Safari */
+  backdrop-filter: blur(5px) saturate(160%);
+  color: var(--color-brand-metro-purple-dark);
+  background-color: var(--color-brand-grayscale-white);
 }
 @media (min-width: 414px) {
   .tsw-countdown-clock .tsw-time-unit {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     padding: 0.8rem;
   }
 }
 
 .tsw-countdown-clock .tsw-time-unit .tsw-number {
   display: block;
-  font-size: 2.7rem;
+  font-size: 2.8rem;
   line-height: 3rem;
   font-weight: 700;
-  color: var(--time-unit-number-color);
+  /* filter: drop-shadow(2px 2px 2px rgb(from var(--color-brand-metro-purple-dark) r g b / 0.7)); */
+  /* filter: drop-shadow(1px 1px 1px rgb(var(--shadow-color-rgb) / 0.7)); */
 }
 @media (min-width: 600px) {
   .tsw-countdown-clock .tsw-time-unit .tsw-number {
     font-size: 3rem;
     line-height: 3.7rem;
   }
+}
+.tsw-countdown-clock .tsw-time-unit .tsw-time-unit-name {
+  font-family: var(--tsw-font-main);
+  text-transform: uppercase;
+}
+
+/* Last hour styles */
+
+.tsw-countdown-clock.last-hour .tsw-time-unit {
+  color: var(--color-brand-metro-purple-dark);
+  background-color: var(--color-brand-grayscale-white);
+}
+.tsw-countdown-clock.last-hour .tsw-time-unit .tsw-number {
+  filter: none;
 }
 
 .tsw-countdown-clock .tsw-time-colon {

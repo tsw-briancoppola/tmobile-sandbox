@@ -2,14 +2,12 @@
 // Data source and global variables
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-const DATA_SOURCE = "https://fn5gl.t-mobile.com/api/finalists/leaderboard";
+const DATA_SOURCE = "https://test-fn5gl.teamdigital.com/api/finalists/leaderboard/final_4";
 const BEARER_TOKEN = "BRwrayCz7H1z3XJwMOpmnd9j";
 
 // DOM references
 const fn5glContainer = document.querySelector(".tsw-fn5gl-container");
 const fn5glFinalFour = document.querySelector(".tsw-fn5gl-finalfour");
-// const fiveKFridays = document.querySelector(".tsw-5kfriday");
-// const fiveKFridaysAccordionButtons = document.querySelectorAll(".tsw-5kfriday-accordion-button");
 
 // Global variables
 const REGIONS_ORDER = ["West", "Midwest", "South", "East"];
@@ -18,25 +16,41 @@ const REGIONS_ORDER = ["West", "Midwest", "South", "East"];
 // Render Final Four school lists
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-const renderRegion = (region, regionName) => {
+const renderRegion = (region, apiData, regionName) => {
   const schools = region
-    .map((school) => {
+    .map((school, index) => {
       return `
-      <li class="">
-        <div>${school.name}</div>
-        <div>${school.city}, ${school.state}</div>
+      <li class="school-name">
+        <div class="school-name-rank">${school.rank_current}</div>
+        <div class="school-name-text">
+          <div>${school.name}</div>
+          <div class="gray">${school.city}, ${school.state}</div>
+          <div class="gray">Total Votes: ${school.votes_phase_1}</div>
+        </div>
+
       </li>
     `;
     })
     .join("");
 
-  const regionLockup = `img/lockup_${regionName.toLowerCase()}.png`;
+  const regionChampion = apiData.finalists.find((school) => school.region === regionName);
+  const schoolName = regionChampion.name.replace(/High School/g, "H.S.");
+  const schoolLockup = `img/lockup_${regionName.toLowerCase()}.png`;
 
   return `
     <div class="tsw-fn5gl-finalfour-region">
       <div class="tsw-fn5gl-finalfour-region-header">
         <h2>${regionName} <span class="subhead">Division</span></h2>
-        <img src="${regionLockup}" alt="" />
+
+        <div class="tsw-region-champion-lockup">
+          <img src="${schoolLockup}" alt="${schoolName}" />
+          <div class="tsw-region-champion-lockup-text">
+            <h4>${schoolName}</h4>
+            <p>${regionChampion.city}, ${regionChampion.state}</p>
+          </div>
+        </div>
+
+        <div class="tsw-region-champion-votes">Total Votes: ${regionChampion.votes_phase_2}</div>        
         <button type="button" class="magenta-button">Vote for this school</button>
       </div>
 
@@ -55,10 +69,15 @@ const renderRegion = (region, regionName) => {
   `;
 };
 
-const renderAllRegions = (schoolData) => {
+const sortRegion = (regionData) => {
+  return regionData.sort((a, b) => (b.votes_phase_1 || 0) - (a.votes_phase_1 || 0));
+};
+
+const renderAllRegions = (apiData, accordionData) => {
   // Create new object that groups the schools by region
   const allRegionsHTML = REGIONS_ORDER.map((region) => {
-    return schoolData[region] ? renderRegion(schoolData[region], region) : "";
+    const sortedRegion = sortRegion(accordionData[region]);
+    return sortedRegion ? renderRegion(sortedRegion, apiData, region) : "";
   }).join("");
 
   fn5glFinalFour.innerHTML = allRegionsHTML;
@@ -88,10 +107,10 @@ const fetchData = async () => {
   try {
     const response = await fetch(DATA_SOURCE, {
       method: "GET", // Default method
-      headers: {
-        Authorization: `Bearer ${BEARER_TOKEN}`,
-        "Content-Type": "application/json",
-      },
+      // headers: {
+      //   Authorization: `Bearer ${BEARER_TOKEN}`,
+      //   "Content-Type": "application/json",
+      // },
     });
 
     if (!response.ok) {
@@ -99,6 +118,7 @@ const fetchData = async () => {
     }
 
     const data = await response.json();
+
     return data;
   } catch (error) {
     console.error("Fetch failed:", error);
@@ -107,11 +127,9 @@ const fetchData = async () => {
 };
 
 const init = async () => {
-  const APIData = await fetchData();
+  const apiData = await fetchData();
 
-  // console.log(APIData);
-
-  renderAllRegions(APIData);
+  renderAllRegions(apiData, accordionSchoolData);
 };
 
 init();

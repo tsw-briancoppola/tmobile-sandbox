@@ -1095,6 +1095,11 @@ const usaMapSVG = `<svg
 </svg>
 `;
 
+const introHeaderCopy = `The schools with the most votes in each division will advance to the <span class="magenta">championship round.</span>`;
+const introParagraphCopy = `Vote every day through October 25 to help your favorite school climb the bracket! Vote totals are a combination of votes submitted through the website and bonus votes earned by the finalists through social media challenges. Rankings are updated Monday&#8211;Friday and votes from the Spirit Week social challenges will be added every&#160;Friday.`;
+const introHeaderCopyEnd = `Here's what's ahead for the next voting period.`;
+const introParagraphCopyEnd = `Thanks for showing up to support our 40 Division Finalists! The schools with the most votes in each division will be crowned Division Champions, each scoring $250,000, a Gronk Fitness Gym, and "The Big Deal" Student Leadership&#160;Award.<br /><br />Check back October 29 to kick off the final round of voting that will decide who takes home the $1 million grand&#160;prize.`;
+
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 // Data source and global variables
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -1112,7 +1117,11 @@ const fn5glContainerAEM = document.querySelector("#tsw-fn5gl-leaderboard").query
 const fn5glContainer = fn5glContainerAEM.querySelector(".tsw-fn5gl-container");
 const fn5glIntroContainer = fn5glContainerAEM.querySelector(".tsw-fn5gl-intro-container");
 const fn5glIntro = fn5glContainerAEM.querySelector(".tsw-fn5gl-intro");
+const fn5glIntroHeader = fn5glContainerAEM.querySelector(".tsw-fn5gl-intro h3");
+const fn5glIntroParagraph = fn5glContainerAEM.querySelector(".tsw-fn5gl-intro p");
 const fn5glIntroButtons = fn5glContainerAEM.querySelector(".tsw-fn5gl-intro-buttons");
+const fn5glIntroChooseRegion = fn5glContainerAEM.querySelector(".tsw-fn5gl-intro-choose-region");
+
 const fn5glLeaderboard = fn5glContainerAEM.querySelector(".tsw-fn5gl-leaderboard");
 const fn5glLeaderboardData = fn5glContainerAEM.querySelector(".tsw-fn5gl-leaderboard-data");
 const fn5glLeaderboardRegionsContainer = fn5glContainerAEM.querySelector(".tsw-fn5gl-leaderboard-regions-container");
@@ -1147,9 +1156,9 @@ let modalState = {
 const VOTING_ACTIVE = true;
 const SHOW_VOTES_IN_MOBILE = true;
 
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-
-// functions
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-
+// =-=-=-=-=-=-=-=-
+// Helper functions
+// =-=-=-=-=-=-=-=-
 
 const generateGroupClone = () => {
   const clone = (clone.innerHTML = "");
@@ -1163,6 +1172,20 @@ const generateGroupClone = () => {
   pathClone.classList.remove("hover");
   pathClone.classList.remove("highlight");
   focusOverlay.appendChild(pathClone);
+};
+
+// =-=-=-=-=-=-=-=-=-=-=-
+// Render intro functions
+// =-=-=-=-=-=-=-=-=-=-=-
+
+const renderIntroCopy = (status) => {
+  if (status === "active") {
+    fn5glIntroHeader.innerHTML = introHeaderCopy;
+    fn5glIntroParagraph.innerHTML = introParagraphCopy;
+  } else {
+    fn5glIntroHeader.innerHTML = introHeaderCopyEnd;
+    fn5glIntroParagraph.innerHTML = introParagraphCopyEnd;
+  }
 };
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -1341,8 +1364,6 @@ const renderModal = (school) => {
   `;
 };
 
-const FOCUSABLE = `a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])`;
-
 const openModal = (schoolId, triggerElement) => {
   const schoolDataFlat = Object.values(schoolData).flat();
   const school = schoolDataFlat.find((s) => s.id === schoolId);
@@ -1351,16 +1372,14 @@ const openModal = (schoolId, triggerElement) => {
   fn5glModalMain.innerHTML = renderModal(school);
 
   modalState.trigger = triggerElement;
+  modalState.focusableElements = [
+    ...fn5glModal.querySelectorAll(`a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])`),
+  ];
 
   fn5glModal.show();
   fn5glModal.classList.add("is-visible");
   fn5glModalOverlay.classList.add("is-visible");
-
-  requestAnimationFrame(() => {
-    // Build after the modal is visible so hidden elements can be filtered out
-    modalState.focusableElements = [...fn5glModal.querySelectorAll(FOCUSABLE)].filter((el) => el.offsetParent !== null);
-    fn5glModal.focus({ preventScroll: true });
-  });
+  fn5glModal.focus();
 };
 
 const closeModal = () => {
@@ -1391,26 +1410,35 @@ fn5glModalClose.addEventListener("click", () => {
 // Modal tabbing and focus trapping
 
 fn5glModal.addEventListener("keydown", (event) => {
-  if (event.key === "Escape") {
-    closeModal();
-    return;
-  }
+  if (event.key === "Escape") closeModal();
   if (event.key !== "Tab") return;
 
-  const focusable = modalState.focusableElements;
-  event.preventDefault();
-  if (!focusable.length) return;
+  const { focusableElements } = modalState;
 
-  const active = fn5glModal.getRootNode().activeElement;
-  const index = focusable.indexOf(active);
+  if (!focusableElements.length) return;
 
-  let next;
-  if (event.shiftKey) {
-    next = index <= 0 ? focusable.length - 1 : index - 1;
-  } else {
-    next = index === -1 || index === focusable.length - 1 ? 0 : index + 1;
+  const first = focusableElements[0];
+  const last = focusableElements[focusableElements.length - 1];
+
+  // Prevent tabbing out of the modal if there's only one focusable element
+  if (first === last) {
+    if (fn5glContainerAEM.activeElement === first) {
+      event.preventDefault();
+    }
+    return;
   }
-  focusable[next].focus();
+
+  if (event.shiftKey) {
+    if (fn5glContainerAEM.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    }
+  } else {
+    if (fn5glContainerAEM.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  }
 });
 
 // =-=-=-=-=-=-=
@@ -1859,17 +1887,27 @@ const initModal = () => {
 };
 
 const init = () => {
-  initModal(); // move modal and overlay to body first
+  const CUTOFF = new Date("2026-10-26T00:00:00-07:00"); // Midnight PST
 
-  dataPromise = fetchData();
-  const urlParams = new URLSearchParams(window.location.search);
+  if (Date.now() < CUTOFF.getTime()) {
+    renderIntroCopy("active");
+    initModal(); // move modal and overlay to body first
 
-  if (urlParams.has("region")) {
-    initWithRegion(urlParams.get("region"));
-    return;
+    dataPromise = fetchData();
+    const urlParams = new URLSearchParams(window.location.search);
+
+    if (urlParams.has("region")) {
+      initWithRegion(urlParams.get("region"));
+      return;
+    }
+
+    renderUI("intro");
+  } else {
+    renderIntroCopy("end");
+    fn5glIntroChooseRegion.remove();
+    fn5glModal.remove();
+    fn5glModalOverlay.remove();
   }
-
-  renderUI("intro");
 };
 
 init();

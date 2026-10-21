@@ -21,21 +21,7 @@
   --color-brand-grayscale-900: #1c1c1c;
   --color-brand-grayscale-white: #fff;
 
-  --color-focus-stroke: #005fcc;
-  --color-trend-red: #d20d00;
-  --color-trend-green: #008110;
-
-  --color-border: var(--color-brand-grayscale-400);
-  --color-input-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
-  --color-overlay: rgba(0, 0, 0, 0.4);
-
   font-family: var(--tsw-font-main);
-
-  --fn5gl-map-active-color: var(--color-brand-primary-400);
-  --fn5gl-map-highlight-color: var(--color-brand-primary-600);
-  /* --fn5gl-map-container-padding: 1rem; */
-
-  --fn5gl-link-color: var(--color-brand-primary-400);
 }
 
 /* Reset - local only (don't use in AEM) */
@@ -92,7 +78,7 @@ ol {
 
 a,
 a:visited {
-  color: var(--fn5gl-link-color);
+  color: var(--color-brand-grayscale-white);
 }
 
 :focus-visible {
@@ -118,11 +104,6 @@ a:visited {
   background-color: var(--color-brand-primary-400);
   align-self: center;
 }
-.magenta-button:disabled {
-  color: var(--color-brand-grayscale-600);
-  background-color: var(--color-brand-grayscale-400);
-  cursor: not-allowed;
-}
 @media (min-width: 600px) {
   .magenta-button {
     font-size: 1.5rem;
@@ -133,13 +114,12 @@ a:visited {
 /* fn5gl styles */
 /* =-=-=-=-=-=- */
 
-/* fn5gl container styles */
+/* Container styles */
 
 .tsw-fn5gl-container {
   position: relative;
   padding: 3rem;
   max-width: 160rem;
-  /* min-height: 80rem; */
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -149,12 +129,14 @@ a:visited {
   background-color: var(--color-brand-grayscale-900);
 }
 
+/* Final four styles */
+
 .tsw-fn5gl-finalfour {
   display: grid;
   grid-template-columns: repeat(1, 1fr);
   justify-content: space-between;
   align-items: baseline;
-  gap: 4rem;
+  gap: 5rem;
   width: 100%;
 }
 @media (min-width: 600px) {
@@ -168,13 +150,15 @@ a:visited {
   }
 }
 
+/* Final four region styles */
+
 .tsw-fn5gl-finalfour-region {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   gap: 4rem;
-  padding: 1rem;
+  /* padding: 1rem; */
 }
 
 .tsw-fn5gl-finalfour-region-header {
@@ -185,6 +169,7 @@ a:visited {
 }
 .tsw-fn5gl-finalfour-region-header h2 {
   font-size: 3rem;
+  font-family: var(--tsw-font-display);
   text-align: center;
 }
 .tsw-fn5gl-finalfour-region-header h2 span {
@@ -226,6 +211,8 @@ a:visited {
   width: 100%;
 }
 
+/* Accordion styles */
+
 .tsw-fn5gl-accordion-button {
   width: 100%;
   display: flex;
@@ -253,6 +240,8 @@ a:visited {
   transform: rotate(180deg);
 }
 
+/* School names styles */
+
 .tsw-fn5gl-finalfour-region-school-names {
   display: grid;
   grid-template-rows: 0fr;
@@ -266,9 +255,6 @@ a:visited {
 
 .tsw-fn5gl-finalfour-region-school-names-inner {
   min-height: 0;
-  /* display: flex;
-  flex-direction: column;
-  gap: 1.2rem; */
 }
 
 .tsw-fn5gl-finalfour-region-school-names-inner .school-name {

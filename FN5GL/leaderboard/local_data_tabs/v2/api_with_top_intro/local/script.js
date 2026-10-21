@@ -1,3 +1,8 @@
+const introHeaderCopy = `The schools with the most votes in each division will advance to the <span class="magenta">championship round.</span>`;
+const introParagraphCopy = `Vote every day through October 25 to help your favorite school climb the bracket! Vote totals are a combination of votes submitted through the website and bonus votes earned by the finalists through social media challenges. Rankings are updated Monday&#8211;Friday and votes from the Spirit Week social challenges will be added every&#160;Friday.`;
+const introHeaderCopyEnd = `Here's what's ahead for the next voting period.`;
+const introParagraphCopyEnd = `Thanks for showing up to support our 40 Division Finalists! The schools with the most votes in each division will be crowned Division Champions, each scoring $250,000, a Gronk Fitness Gym, and "The Big Deal" Student Leadership&#160;Award.<br /><br />Check back October 29 to kick off the final round of voting that will decide who takes home the $1 million grand&#160;prize.`;
+
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 // Data source and global variables
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -10,9 +15,14 @@ let schoolData;
 let schoolDataPrevious;
 
 // DOM references
+const fn5glContainer = document.querySelector(".tsw-fn5gl-container");
 const fn5glIntroContainer = document.querySelector(".tsw-fn5gl-intro-container");
 const fn5glIntro = document.querySelector(".tsw-fn5gl-intro");
+const fn5glIntroHeader = document.querySelector(".tsw-fn5gl-intro h3");
+const fn5glIntroParagraph = document.querySelector(".tsw-fn5gl-intro p");
 const fn5glIntroButtons = document.querySelector(".tsw-fn5gl-intro-buttons");
+const fn5glIntroChooseRegion = document.querySelector(".tsw-fn5gl-intro-choose-region");
+
 const fn5glLeaderboard = document.querySelector(".tsw-fn5gl-leaderboard");
 const fn5glLeaderboardData = document.querySelector(".tsw-fn5gl-leaderboard-data");
 const fn5glLeaderboardRegionsContainer = document.querySelector(".tsw-fn5gl-leaderboard-regions-container");
@@ -47,9 +57,9 @@ let modalState = {
 const VOTING_ACTIVE = true;
 const SHOW_VOTES_IN_MOBILE = true;
 
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-
-// functions
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-
+// =-=-=-=-=-=-=-=-
+// Helper functions
+// =-=-=-=-=-=-=-=-
 
 const generateGroupClone = () => {
   const clone = (clone.innerHTML = "");
@@ -63,6 +73,20 @@ const generateGroupClone = () => {
   pathClone.classList.remove("hover");
   pathClone.classList.remove("highlight");
   focusOverlay.appendChild(pathClone);
+};
+
+// =-=-=-=-=-=-=-=-=-=-=-
+// Render intro functions
+// =-=-=-=-=-=-=-=-=-=-=-
+
+const renderIntroCopy = (status) => {
+  if (status === "active") {
+    fn5glIntroHeader.innerHTML = introHeaderCopy;
+    fn5glIntroParagraph.innerHTML = introParagraphCopy;
+  } else {
+    fn5glIntroHeader.innerHTML = introHeaderCopyEnd;
+    fn5glIntroParagraph.innerHTML = introParagraphCopyEnd;
+  }
 };
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -739,15 +763,25 @@ const initWithRegion = async (region) => {
 };
 
 const init = () => {
-  dataPromise = fetchData();
-  const urlParams = new URLSearchParams(window.location.search);
+  const CUTOFF = new Date("2026-10-26T00:00:00-07:00"); // Midnight PST
 
-  if (urlParams.has("region")) {
-    initWithRegion(urlParams.get("region"));
-    return;
+  if (Date.now() < CUTOFF.getTime()) {
+    renderIntroCopy("active");
+    dataPromise = fetchData();
+    const urlParams = new URLSearchParams(window.location.search);
+
+    if (urlParams.has("region")) {
+      initWithRegion(urlParams.get("region"));
+      return;
+    }
+
+    renderUI("intro");
+  } else {
+    renderIntroCopy("end");
+    fn5glIntroChooseRegion.remove();
+    fn5glModal.remove();
+    fn5glModalOverlay.remove();
   }
-
-  renderUI("intro");
 };
 
 init();

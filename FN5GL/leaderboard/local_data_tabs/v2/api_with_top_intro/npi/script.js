@@ -15,7 +15,11 @@ const fn5glContainerAEM = document.querySelector("#tsw-fn5gl-leaderboard").query
 const fn5glContainer = fn5glContainerAEM.querySelector(".tsw-fn5gl-container");
 const fn5glIntroContainer = fn5glContainerAEM.querySelector(".tsw-fn5gl-intro-container");
 const fn5glIntro = fn5glContainerAEM.querySelector(".tsw-fn5gl-intro");
+const fn5glIntroHeader = fn5glContainerAEM.querySelector(".tsw-fn5gl-intro h3");
+const fn5glIntroParagraph = fn5glContainerAEM.querySelector(".tsw-fn5gl-intro p");
 const fn5glIntroButtons = fn5glContainerAEM.querySelector(".tsw-fn5gl-intro-buttons");
+const fn5glIntroChooseRegion = fn5glContainerAEM.querySelector(".tsw-fn5gl-intro-choose-region");
+
 const fn5glLeaderboard = fn5glContainerAEM.querySelector(".tsw-fn5gl-leaderboard");
 const fn5glLeaderboardData = fn5glContainerAEM.querySelector(".tsw-fn5gl-leaderboard-data");
 const fn5glLeaderboardRegionsContainer = fn5glContainerAEM.querySelector(".tsw-fn5gl-leaderboard-regions-container");
@@ -50,9 +54,9 @@ let modalState = {
 const VOTING_ACTIVE = true;
 const SHOW_VOTES_IN_MOBILE = true;
 
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-
-// functions
-// =-=-=-=-=-=-=-=-=-=-=-=-=-=-
+// =-=-=-=-=-=-=-=-
+// Helper functions
+// =-=-=-=-=-=-=-=-
 
 const generateGroupClone = () => {
   const clone = (clone.innerHTML = "");
@@ -66,6 +70,20 @@ const generateGroupClone = () => {
   pathClone.classList.remove("hover");
   pathClone.classList.remove("highlight");
   focusOverlay.appendChild(pathClone);
+};
+
+// =-=-=-=-=-=-=-=-=-=-=-
+// Render intro functions
+// =-=-=-=-=-=-=-=-=-=-=-
+
+const renderIntroCopy = (status) => {
+  if (status === "active") {
+    fn5glIntroHeader.innerHTML = introHeaderCopy;
+    fn5glIntroParagraph.innerHTML = introParagraphCopy;
+  } else {
+    fn5glIntroHeader.innerHTML = introHeaderCopyEnd;
+    fn5glIntroParagraph.innerHTML = introParagraphCopyEnd;
+  }
 };
 
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-
@@ -767,17 +785,27 @@ const initModal = () => {
 };
 
 const init = () => {
-  initModal(); // move modal and overlay to body first
+  const CUTOFF = new Date("2026-10-26T00:00:00-07:00"); // Midnight PST
 
-  dataPromise = fetchData();
-  const urlParams = new URLSearchParams(window.location.search);
+  if (Date.now() < CUTOFF.getTime()) {
+    renderIntroCopy("active");
+    initModal(); // move modal and overlay to body first
 
-  if (urlParams.has("region")) {
-    initWithRegion(urlParams.get("region"));
-    return;
+    dataPromise = fetchData();
+    const urlParams = new URLSearchParams(window.location.search);
+
+    if (urlParams.has("region")) {
+      initWithRegion(urlParams.get("region"));
+      return;
+    }
+
+    renderUI("intro");
+  } else {
+    renderIntroCopy("end");
+    fn5glIntroChooseRegion.remove();
+    fn5glModal.remove();
+    fn5glModalOverlay.remove();
   }
-
-  renderUI("intro");
 };
 
 init();

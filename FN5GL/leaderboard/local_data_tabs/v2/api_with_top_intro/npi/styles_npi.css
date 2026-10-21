@@ -284,11 +284,12 @@ a:visited {
   width: 100%;
 }
 .tsw-fn5gl-intro h3 {
-  font-size: 2.2rem;
+  font-size: 2.4rem;
+  font-family: var(--tsw-font-display);
 }
 @media (min-width: 600px) {
   .tsw-fn5gl-intro h3 {
-    font-size: 2.4rem;
+    font-size: 3rem;
   }
 }
 .tsw-fn5gl-intro h4 {

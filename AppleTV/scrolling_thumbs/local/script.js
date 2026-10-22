@@ -73,6 +73,7 @@ const appletvImages = [
 // aspectRatio: Set to 'rectangle' (16:9) or 'square' (1:1)
 // active: A 'true' value will render the row in the page, 'false' will hide it
 
+// Rows will populate automatically and split images in appletvImages between the rows
 const rowValues = [
   { speed: 0.5, direction: -1, aspectRatio: "rectangle", active: true },
   { speed: 0.8, direction: -1, aspectRatio: "square", active: true },

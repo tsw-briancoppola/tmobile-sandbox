@@ -29,6 +29,7 @@ let breakpoint = window.matchMedia("(min-width: 1000px)").matches ? "desktop" : 
 // Image paths
 const baseImagePath = "/content/dam/digx/tmobile/us/en/sandbox/brianc/appletv/";
 
+// The name property is necessary for accessibility
 const appletvImages = [
   {
     name: "Dark Matter",
@@ -79,6 +80,7 @@ const appletvImages = [
 // aspectRatio: Set to 'rectangle' (16:9) or 'square' (1:1)
 // active: A 'true' value will render the row in the page, 'false' will hide it
 
+// Rows will populate automatically and split images in appletvImages between the rows
 const rowValues = [
   { speed: 0.5, direction: -1, aspectRatio: "rectangle", active: true },
   { speed: 0.8, direction: -1, aspectRatio: "square", active: true },
@@ -145,8 +147,6 @@ const renderAllRows = () => {
   // Skip if every row already has enough tiles
   if (!lengths.some((len, i) => len > (renderedLengths[i] ?? 0))) return false;
   renderedLengths = lengths;
-
-  console.log(activeRowValues);
 
   appletvScroll.innerHTML = activeRowValues
     .map((_, i) => renderRow(generateRow(imageChunks[i] ?? [], lengths[i]), i))

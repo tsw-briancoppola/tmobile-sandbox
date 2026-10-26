@@ -374,9 +374,3 @@ a,
   color: var(--color-brand-primary-400);
   display: block;
 }
-
-/* svg styles */
-
-.tsw-fn5gl-svg-icons {
-  display: none;
-}

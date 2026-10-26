@@ -16,6 +16,19 @@
 
   <body>
     <div class="tsw-fn5gl-container">
+      <!-- School info modal -->
+      <div class="tsw-modal-overlay"></div>
+      <dialog class="tsw-modal" tabindex="-1">
+        <button class="tsw-modal-close" aria-label="Close">
+          <svg>
+            <use href="#tsw-modal-close-svg"></use>
+          </svg>
+        </button>
+        <div class="tsw-modal-main">
+          <!-- JS injects modal content here -->
+        </div>
+      </dialog>
+
       <!-- Leaderboard -->
       <div class="tsw-fn5gl-finalfour"></div>
     </div>
@@ -26,6 +39,9 @@
         <symbol id="tsw-fn5gl-caret-svg" viewBox="0 -960 960 960">
           <path d="M480-528 296-344l-56-56 240-240 240 240-56 56-184-184Z" />
         </symbol>
+      </svg>
+      <svg id="tsw-modal-close-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+        <path d="m336-280-56-56 144-144-144-143 56-56 144 144 143-144 56 56-144 143 144 144-56 56-143-144-144 144Z" />
       </svg>
     </div>
   </body>

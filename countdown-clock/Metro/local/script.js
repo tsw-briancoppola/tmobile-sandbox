@@ -45,6 +45,7 @@ class CountDownClock {
     // Set time zone of input date/time using Luxon DateTime object
     const zoneMap = {
       eastern: "America/New_York",
+      central: "America/Chicago",
       pacific: "America/Los_Angeles",
     };
     const zone = zoneMap[this.timeZoneForTarget];
@@ -118,7 +119,7 @@ class CountDownClock {
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
 const TARGET_TIME_ZONE = "pacific"; // Name of time zone or 'local'
-const TARGET_DATE = "2026-10-07T15:37"; // Fixed target date/time, ISO format (yyyy-MM-dd'T'HH:mm)
+const TARGET_DATE = "2026-11-05T00:00"; // Fixed target date/time, ISO format (yyyy-MM-dd'T'HH:mm)
 
 const HEADER_DATES = "November 24 - December 7";
 const HEADER_MESSAGES = [
@@ -146,12 +147,8 @@ let clockInstance = null;
 window.addEventListener("DOMContentLoaded", () => {
   // Create instance of clock
   clockInstance = new CountDownClock(clockInstanceDOM, TARGET_DATE, TARGET_TIME_ZONE, HEADER_DATES, HEADER_MESSAGES);
-});
 
-// CountDownClock parameters:
-//
-// 1) The DOM of the clock instance
-// 2) The formatted target date and time
-// 3) Set target time to fixed time or relative to user time zone (local, eastern, etc.)
-// 4) Text for date range in header
-// 5) Array of objects that contain the main header message and time interval
+  console.log(typeof luxon); // should be "object"
+  console.log(clockInstance.countDownToThisTime.toISOString()); // should be 2026-11-05T06:00:00.000Z
+  console.log(clockInstance.countDownToThisTime.getTime() - new Date("2026-11-05T06:00:00Z").getTime());
+});

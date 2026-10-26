@@ -3,27 +3,19 @@
 // =-=-=-=-=-=-=-=-=-=-=
 
 class CountDownClock {
-  constructor(
-    containerDOMArg,
-    targetDateArg,
-    timeZoneArg,
-    // urgencyIntervalArg,
-    // a11yAlertIntervalArg,
-    headerMessages,
-  ) {
+  constructor(containerDOMArg, targetDateArg, timeZoneArg, headerMessages) {
     this.countDownDOM = containerDOMArg; // Specific container for this instance
     this.countDownEl = containerDOMArg.querySelector(".tsw-countdown");
 
     if (!this.countDownEl) {
-      console.error("Countdown element not found within this container:", containerEl);
+      console.error("Countdown element not found within this container:", containerDOMArg);
       return;
     }
 
     this.countDownToThisTime = null;
     this.countDown = null;
     this.timeZoneForTarget = timeZoneArg || "local";
-    // this.urgencyInterval = urgencyIntervalArg !== undefined ? urgencyIntervalArg : 1;
-    // this.a11yAlertInterval = a11yAlertIntervalArg !== undefined ? a11yAlertIntervalArg : 10;
+
     this.targetDate = targetDateArg;
     this.headerMessages = headerMessages;
 
@@ -31,18 +23,18 @@ class CountDownClock {
   }
 
   init() {
-    // if (!Number.isInteger(this.a11yAlertInterval)) {
-    //   throw new Error("a11yAlertInterval is not a number");
-    // }
-
     this.countDownToThisTime = this.setTimeZoneForTarget(this.targetDate);
     this.countDown = this.startCountDown();
+
+    console.log("luxon loaded:", typeof luxon !== "undefined");
+    console.log("target (UTC):", this.countDownToThisTime.toISOString());
   }
 
   setTimeZoneForTarget(date) {
     // Set time zone of input date/time using Luxon DateTime object
     const zoneMap = {
       eastern: "America/New_York",
+      central: "America/Chicago",
       pacific: "America/Los_Angeles",
     };
     const zone = zoneMap[this.timeZoneForTarget];
@@ -68,13 +60,10 @@ class CountDownClock {
   setView(seconds) {
     // Use the instance's specific countDownEl to find children
     const headerMessageText = this.countDownEl.querySelector(".tsw-countdown-header-text");
-    // const countdownClock = this.countDownEl.querySelector(".tsw-countdown-clock");
     const displayDays = this.countDownEl.querySelector(".tsw-countdown-days");
     const displayHours = this.countDownEl.querySelector(".tsw-countdown-hours");
     const displayMinutes = this.countDownEl.querySelector(".tsw-countdown-minutes");
     const displaySeconds = this.countDownEl.querySelector(".tsw-countdown-seconds");
-    // const urgencyAlert = this.countDownEl.querySelector(".tsw-countdown-urgency-alert");
-    // const a11yAlert = this.countDownEl.querySelector("#tsw-countdown-a11y-alert");
 
     const secs = Math.floor(seconds % 60);
     const mins = Math.floor((seconds / 60) % 60);
@@ -97,13 +86,9 @@ class CountDownClock {
     } else {
       headerMessageText.innerHTML = this.headerMessages.find((header) => header.interval === "start").message;
     }
-
-    headerDatesText.innerHTML = this.headerDates;
   }
 
   stopClock() {
-    const countdownClock = this.countDownEl.querySelector(".tsw-countdown-clock");
-
     clearInterval(this.countDown);
     this.countDownToThisTime = null;
 
@@ -115,7 +100,7 @@ class CountDownClock {
 // Start instance of clock on page load
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-const TARGET_TIME_ZONE = "pacific"; // Name of time zone or 'local'
+const TARGET_TIME_ZONE = "central"; // Name of time zone or 'local'
 const TARGET_DATE = "2026-11-05T00:00"; // Fixed target date/time, ISO format (yyyy-MM-dd'T'HH:mm)
 
 const HEADER_MESSAGES = [
@@ -139,9 +124,36 @@ const HEADER_MESSAGES = [
 
 const countdownWrapper = document.querySelector("#tsw-metro-countdown-id").querySelector("xpr-npi-content").shadowRoot;
 const clockInstanceDOM = countdownWrapper.querySelector("#container--1");
+
+// Wait for Luxon to be loaded
+
+function waitFor(testFn, { interval = 100, timeout = 10000 } = {}) {
+  return new Promise((resolve, reject) => {
+    const start = Date.now();
+    (function check() {
+      const result = testFn();
+      if (result) return resolve(result);
+      if (Date.now() - start > timeout) return reject(new Error("Timed out waiting"));
+      setTimeout(check, interval);
+    })();
+  });
+}
+
 let clockInstance = null;
 
-window.addEventListener("DOMContentLoaded", () => {
-  // Create instance of clock
-  clockInstance = new CountDownClock(clockInstanceDOM, TARGET_DATE, TARGET_TIME_ZONE, HEADER_MESSAGES);
+window.addEventListener("DOMContentLoaded", async () => {
+  try {
+    // Wait for Luxon and for the shadow DOM container
+    await waitFor(() => window.luxon);
+    const dom = await waitFor(() =>
+      document
+        .querySelector("#tsw-metro-countdown-id")
+        ?.querySelector("xpr-npi-content")
+        ?.shadowRoot?.querySelector("#container--1"),
+    );
+
+    clockInstance = new CountDownClock(dom, TARGET_DATE, TARGET_TIME_ZONE, HEADER_MESSAGES);
+  } catch (err) {
+    console.error("Countdown failed to start:", err.message);
+  }
 });

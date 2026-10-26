@@ -40,7 +40,7 @@
   margin-inline: auto;
   /* position: relative; */
   left: 50%;
-  transform: translateX(-50%);
+  /* transform: translateX(-50%); */
 
   background-image: url("img/bg_trees.png");
   background-repeat: no-repeat;

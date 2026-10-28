@@ -1,4 +1,106 @@
 const accordionSchoolData = {
+  East: [
+    {
+      id: "buffalo-gap-high-school",
+      name: "Buffalo Gap High School",
+      region: "East",
+      city: "Swoope",
+      state: "VA",
+      rank_current: 1,
+      votes_phase_1: 195656,
+      votes_phase_2: 0,
+    },
+    {
+      id: "sussex-county-technical-school",
+      name: "Sussex County Technical School",
+      region: "East",
+      city: "Sparta",
+      state: "NJ",
+      rank_current: 2,
+      votes_phase_1: 156086,
+      votes_phase_2: 0,
+    },
+    {
+      id: "dalton-mcmichael-high-school",
+      name: "Dalton McMichael High School",
+      region: "East",
+      city: "Mayodan",
+      state: "NC",
+      rank_current: 3,
+      votes_phase_1: 121040,
+      votes_phase_2: 0,
+    },
+    {
+      id: "homer-center-jrsr-high-school",
+      name: "Homer-Center Jr/Sr High School",
+      region: "East",
+      city: "Homer City",
+      state: "PA",
+      rank_current: 4,
+      votes_phase_1: 68083,
+      votes_phase_2: 0,
+    },
+    {
+      id: "south-caldwell-high-school",
+      name: "South Caldwell High School",
+      region: "East",
+      city: "Hudson",
+      state: "NC",
+      rank_current: 5,
+      votes_phase_1: 58950,
+      votes_phase_2: 0,
+    },
+    {
+      id: "cosby-high-school",
+      name: "Cosby High School",
+      region: "East",
+      city: "Cosby",
+      state: "TN",
+      rank_current: 6,
+      votes_phase_1: 40558,
+      votes_phase_2: 0,
+    },
+    {
+      id: "smith-vocational-agricultural-high-school",
+      name: "Smith Vocational & Agricultural High School",
+      region: "East",
+      city: "Northampton",
+      state: "MA",
+      rank_current: 7,
+      votes_phase_1: 30631,
+      votes_phase_2: 0,
+    },
+    {
+      id: "south-pittsburg-high-school",
+      name: "South Pittsburg High School",
+      region: "East",
+      city: "South Pittsburg",
+      state: "TN",
+      rank_current: 8,
+      votes_phase_1: 26278,
+      votes_phase_2: 0,
+    },
+    {
+      id: "pleasant-valley-high-school",
+      name: "Pleasant Valley High School",
+      region: "East",
+      city: "Brodheadsville",
+      state: "PA",
+      rank_current: 9,
+      votes_phase_1: 21517,
+      votes_phase_2: 0,
+    },
+    {
+      id: "kingstree-high-school",
+      name: "Kingstree High School",
+      region: "East",
+      city: "Kingstree",
+      state: "SC",
+      rank_current: 10,
+      votes_phase_1: 10912,
+      votes_phase_2: 0,
+    },
+  ],
   West: [
     {
       id: "lakeside-high-school",
@@ -7,17 +109,7 @@ const accordionSchoolData = {
       city: "Nine Mile Falls",
       state: "WA",
       rank_current: 1,
-      votes_phase_1: 71114,
-      votes_phase_2: 0,
-    },
-    {
-      id: "hanford-high-school",
-      name: "Hanford High School",
-      region: "West",
-      city: "Richland",
-      state: "WA",
-      rank_current: 2,
-      votes_phase_1: 49332,
+      votes_phase_1: 123100,
       votes_phase_2: 0,
     },
     {
@@ -26,8 +118,18 @@ const accordionSchoolData = {
       region: "West",
       city: "Price",
       state: "UT",
+      rank_current: 2,
+      votes_phase_1: 90506,
+      votes_phase_2: 0,
+    },
+    {
+      id: "hanford-high-school",
+      name: "Hanford High School",
+      region: "West",
+      city: "Richland",
+      state: "WA",
       rank_current: 3,
-      votes_phase_1: 46717,
+      votes_phase_1: 60098,
       votes_phase_2: 0,
     },
     {
@@ -37,7 +139,7 @@ const accordionSchoolData = {
       city: "Yuma",
       state: "AZ",
       rank_current: 4,
-      votes_phase_1: 22649,
+      votes_phase_1: 36833,
       votes_phase_2: 0,
     },
     {
@@ -47,17 +149,7 @@ const accordionSchoolData = {
       city: "Rathdrum",
       state: "ID",
       rank_current: 5,
-      votes_phase_1: 20406,
-      votes_phase_2: 0,
-    },
-    {
-      id: "la-quinta-high-school",
-      name: "La Quinta High School",
-      region: "West",
-      city: "La Quinta",
-      state: "CA",
-      rank_current: 6,
-      votes_phase_1: 10440,
+      votes_phase_1: 35358,
       votes_phase_2: 0,
     },
     {
@@ -66,8 +158,18 @@ const accordionSchoolData = {
       region: "West",
       city: "Loveland",
       state: "CO",
+      rank_current: 6,
+      votes_phase_1: 21474,
+      votes_phase_2: 0,
+    },
+    {
+      id: "la-quinta-high-school",
+      name: "La Quinta High School",
+      region: "West",
+      city: "La Quinta",
+      state: "CA",
       rank_current: 7,
-      votes_phase_1: 9893,
+      votes_phase_1: 11328,
       votes_phase_2: 0,
     },
     {
@@ -77,7 +179,7 @@ const accordionSchoolData = {
       city: "Idaho Falls",
       state: "ID",
       rank_current: 8,
-      votes_phase_1: 7729,
+      votes_phase_1: 10906,
       votes_phase_2: 0,
     },
     {
@@ -87,7 +189,7 @@ const accordionSchoolData = {
       city: "Visalia",
       state: "CA",
       rank_current: 9,
-      votes_phase_1: 7433,
+      votes_phase_1: 9320,
       votes_phase_2: 0,
     },
     {
@@ -97,29 +199,29 @@ const accordionSchoolData = {
       city: "Redmond",
       state: "OR",
       rank_current: 10,
-      votes_phase_1: 3780,
+      votes_phase_1: 4532,
       votes_phase_2: 0,
     },
   ],
   Midwest: [
-    {
-      id: "mcclain-high-school",
-      name: "McClain High School",
-      region: "Midwest",
-      city: "Greenfield",
-      state: "OH",
-      rank_current: 1,
-      votes_phase_1: 137901,
-      votes_phase_2: 0,
-    },
     {
       id: "menasha-high-school",
       name: "Menasha High School",
       region: "Midwest",
       city: "Menasha",
       state: "WI",
+      rank_current: 1,
+      votes_phase_1: 422583,
+      votes_phase_2: 0,
+    },
+    {
+      id: "mcclain-high-school",
+      name: "McClain High School",
+      region: "Midwest",
+      city: "Greenfield",
+      state: "OH",
       rank_current: 2,
-      votes_phase_1: 120463,
+      votes_phase_1: 314412,
       votes_phase_2: 0,
     },
     {
@@ -129,7 +231,7 @@ const accordionSchoolData = {
       city: "Baldwin City",
       state: "KS",
       rank_current: 3,
-      votes_phase_1: 94620,
+      votes_phase_1: 148732,
       votes_phase_2: 0,
     },
     {
@@ -139,7 +241,7 @@ const accordionSchoolData = {
       city: "Lennox",
       state: "SD",
       rank_current: 4,
-      votes_phase_1: 51974,
+      votes_phase_1: 61596,
       votes_phase_2: 0,
     },
     {
@@ -149,7 +251,7 @@ const accordionSchoolData = {
       city: "Perry",
       state: "IA",
       rank_current: 5,
-      votes_phase_1: 32469,
+      votes_phase_1: 49352,
       votes_phase_2: 0,
     },
     {
@@ -159,17 +261,7 @@ const accordionSchoolData = {
       city: "Ash Grove",
       state: "MO",
       rank_current: 6,
-      votes_phase_1: 18829,
-      votes_phase_2: 0,
-    },
-    {
-      id: "maple-lake-high-school",
-      name: "Maple Lake High School",
-      region: "Midwest",
-      city: "Maple Lake",
-      state: "MN",
-      rank_current: 7,
-      votes_phase_1: 18264,
+      votes_phase_1: 33048,
       votes_phase_2: 0,
     },
     {
@@ -178,8 +270,18 @@ const accordionSchoolData = {
       region: "Midwest",
       city: "Princeville",
       state: "IL",
+      rank_current: 7,
+      votes_phase_1: 33011,
+      votes_phase_2: 0,
+    },
+    {
+      id: "maple-lake-high-school",
+      name: "Maple Lake High School",
+      region: "Midwest",
+      city: "Maple Lake",
+      state: "MN",
       rank_current: 8,
-      votes_phase_1: 17967,
+      votes_phase_1: 32815,
       votes_phase_2: 0,
     },
     {
@@ -189,7 +291,7 @@ const accordionSchoolData = {
       city: "South Bend",
       state: "IN",
       rank_current: 9,
-      votes_phase_1: 12283,
+      votes_phase_1: 23673,
       votes_phase_2: 0,
     },
     {
@@ -199,7 +301,7 @@ const accordionSchoolData = {
       city: "Bridgeport",
       state: "MI",
       rank_current: 10,
-      votes_phase_1: 2359,
+      votes_phase_1: 2897,
       votes_phase_2: 0,
     },
   ],
@@ -211,7 +313,7 @@ const accordionSchoolData = {
       city: "Covington",
       state: "LA",
       rank_current: 1,
-      votes_phase_1: 118820,
+      votes_phase_1: 197957,
       votes_phase_2: 0,
     },
     {
@@ -221,7 +323,7 @@ const accordionSchoolData = {
       city: "Lake City",
       state: "FL",
       rank_current: 2,
-      votes_phase_1: 61393,
+      votes_phase_1: 101889,
       votes_phase_2: 0,
     },
     {
@@ -231,7 +333,7 @@ const accordionSchoolData = {
       city: "Natchez",
       state: "MS",
       rank_current: 3,
-      votes_phase_1: 37351,
+      votes_phase_1: 50588,
       votes_phase_2: 0,
     },
     {
@@ -241,7 +343,7 @@ const accordionSchoolData = {
       city: "Nashville",
       state: "GA",
       rank_current: 4,
-      votes_phase_1: 27055,
+      votes_phase_1: 44583,
       votes_phase_2: 0,
     },
     {
@@ -251,17 +353,7 @@ const accordionSchoolData = {
       city: "Long Beach",
       state: "MS",
       rank_current: 5,
-      votes_phase_1: 22749,
-      votes_phase_2: 0,
-    },
-    {
-      id: "hamshire-fannett-high-school",
-      name: "Hamshire-Fannett High School",
-      region: "South",
-      city: "Hamshire",
-      state: "TX",
-      rank_current: 6,
-      votes_phase_1: 20003,
+      votes_phase_1: 38510,
       votes_phase_2: 0,
     },
     {
@@ -270,18 +362,18 @@ const accordionSchoolData = {
       region: "South",
       city: "Dora",
       state: "AL",
-      rank_current: 7,
-      votes_phase_1: 19004,
+      rank_current: 6,
+      votes_phase_1: 36405,
       votes_phase_2: 0,
     },
     {
-      id: "booker-t-washington-high-school",
-      name: "Booker T. Washington High School",
+      id: "hamshire-fannett-high-school",
+      name: "Hamshire-Fannett High School",
       region: "South",
-      city: "Pensacola",
-      state: "FL",
-      rank_current: 8,
-      votes_phase_1: 6968,
+      city: "Hamshire",
+      state: "TX",
+      rank_current: 7,
+      votes_phase_1: 36069,
       votes_phase_2: 0,
     },
     {
@@ -290,8 +382,18 @@ const accordionSchoolData = {
       region: "South",
       city: "Auburn",
       state: "AL",
+      rank_current: 8,
+      votes_phase_1: 17267,
+      votes_phase_2: 0,
+    },
+    {
+      id: "booker-t-washington-high-school",
+      name: "Booker T. Washington High School",
+      region: "South",
+      city: "Pensacola",
+      state: "FL",
       rank_current: 9,
-      votes_phase_1: 6952,
+      votes_phase_1: 7461,
       votes_phase_2: 0,
     },
     {
@@ -301,109 +403,7 @@ const accordionSchoolData = {
       city: "Waco",
       state: "TX",
       rank_current: 10,
-      votes_phase_1: 2034,
-      votes_phase_2: 0,
-    },
-  ],
-  East: [
-    {
-      id: "buffalo-gap-high-school",
-      name: "Buffalo Gap High School",
-      region: "East",
-      city: "Swoope",
-      state: "VA",
-      rank_current: 1,
-      votes_phase_1: 95213,
-      votes_phase_2: 0,
-    },
-    {
-      id: "sussex-county-technical-school",
-      name: "Sussex County Technical School",
-      region: "East",
-      city: "Sparta",
-      state: "NJ",
-      rank_current: 2,
-      votes_phase_1: 77251,
-      votes_phase_2: 0,
-    },
-    {
-      id: "dalton-mcmichael-high-school",
-      name: "Dalton McMichael High School",
-      region: "East",
-      city: "Mayodan",
-      state: "NC",
-      rank_current: 3,
-      votes_phase_1: 61915,
-      votes_phase_2: 0,
-    },
-    {
-      id: "homer-center-jrsr-high-school",
-      name: "Homer-Center Jr/Sr High School",
-      region: "East",
-      city: "Homer City",
-      state: "PA",
-      rank_current: 4,
-      votes_phase_1: 41493,
-      votes_phase_2: 0,
-    },
-    {
-      id: "south-caldwell-high-school",
-      name: "South Caldwell High School",
-      region: "East",
-      city: "Hudson",
-      state: "NC",
-      rank_current: 5,
-      votes_phase_1: 34592,
-      votes_phase_2: 0,
-    },
-    {
-      id: "cosby-high-school",
-      name: "Cosby High School",
-      region: "East",
-      city: "Cosby",
-      state: "TN",
-      rank_current: 6,
-      votes_phase_1: 25639,
-      votes_phase_2: 0,
-    },
-    {
-      id: "smith-vocational-agricultural-high-school",
-      name: "Smith Vocational & Agricultural High School",
-      region: "East",
-      city: "Northampton",
-      state: "MA",
-      rank_current: 7,
-      votes_phase_1: 15209,
-      votes_phase_2: 0,
-    },
-    {
-      id: "south-pittsburg-high-school",
-      name: "South Pittsburg High School",
-      region: "East",
-      city: "South Pittsburg",
-      state: "TN",
-      rank_current: 8,
-      votes_phase_1: 14374,
-      votes_phase_2: 0,
-    },
-    {
-      id: "kingstree-high-school",
-      name: "Kingstree High School",
-      region: "East",
-      city: "Kingstree",
-      state: "SC",
-      rank_current: 9,
-      votes_phase_1: 10013,
-      votes_phase_2: 0,
-    },
-    {
-      id: "pleasant-valley-high-school",
-      name: "Pleasant Valley High School",
-      region: "East",
-      city: "Brodheadsville",
-      state: "PA",
-      rank_current: 10,
-      votes_phase_1: 9818,
+      votes_phase_1: 2932,
       votes_phase_2: 0,
     },
   ],
@@ -413,7 +413,8 @@ const accordionSchoolData = {
 // Data source and global variables
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-const DATA_SOURCE = "https://test-fn5gl.teamdigital.com/api/finalists/leaderboard/final_4";
+// const DATA_SOURCE = "https://test-fn5gl.teamdigital.com/api/finalists/leaderboard/final_4";
+const DATA_SOURCE = "https://fn5gl.t-mobile.com/api/finalists/leaderboard/final_4";
 const BEARER_TOKEN = "BRwrayCz7H1z3XJwMOpmnd9j";
 
 // DOM references
@@ -443,18 +444,19 @@ let modalState = {
 // Render final four school lists
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-const imagesBasePath = "/content/dam/digx/tmobile/us/en/sandbox/brianc/fn5gl/finalfour";
+const imagesBasePath =
+  "/content/dam/digx/tmobile/us/en/creative_assethandoff/2026/q1/11043950_fn5gl-2026/phase-4/top4-leaderboard";
 
 const renderRegion = (region, apiData, regionName) => {
   const schools = region
-    .map((school, index) => {
+    .map((school) => {
       return `
       <li class="school-name">
         <div class="school-name-rank">${school.rank_current}</div>
         <div class="school-name-text">
           <div>${school.name}</div>
           <div class="gray">${school.city}, ${school.state}</div>
-          <div class="gray">Total Votes: ${school.votes_phase_1}</div>
+          <div class="gray">Total Votes: ${school.votes_phase_1.toLocaleString("en-US")}</div>
         </div>
 
       </li>
@@ -464,7 +466,7 @@ const renderRegion = (region, apiData, regionName) => {
 
   const regionChampion = apiData.finalists.find((school) => school.region === regionName);
   const schoolName = regionChampion.name.replace(/High School/g, "H.S.");
-  const schoolBadge = `${imagesBasePath}/badge_${regionName.toLowerCase()}.png`;
+  const schoolBadge = `${imagesBasePath}/13460000-fg-badge_${regionName.toLowerCase()}.png`;
 
   return `
     <div class="tsw-fn5gl-finalfour-region">
@@ -480,11 +482,11 @@ const renderRegion = (region, apiData, regionName) => {
         </button>
 
         <div class="tsw-region-champion-votes">Total Votes: ${regionChampion.votes_phase_2}</div>        
-        <button type="button" class="magenta-button">Vote for this school</button>
+        <a href="${regionChampion.voting_page_url}" class="tsw-region-champion-row-button magenta-button">Vote for this school</a>
       </div>
 
       <div class="tsw-fn5gl-finalfour-region-schools">
-        <button type="button" class="tsw-fn5gl-accordion-button" aria-expanded="true">
+        <button type="button" class="tsw-fn5gl-accordion-button" aria-expanded="false">
           <span>${regionName} Division Finalists</span>
           <svg width="24" height="24" aria-hidden="true">
             <use href="#tsw-fn5gl-caret-svg"></use>
@@ -577,27 +579,8 @@ const renderModal = (school) => {
       </div>
     </div>
 
-    <div class="tsw-modal-game">
-      <div class="tsw-modal-game-header">
-        <h3 class="tsw-modal-game-title">T-Mobile Home Game</h3>
-        <p class="tsw-modal-game-description">
-          ${description}
-        </p>
-      </div>
-      <div class="tsw-modal-game-details">
-        <div class="tsw-modal-game-detail">
-          <span class="tsw-modal-game-detail-value">${time ? `${time} ${timezone}` : "TBD"}</span>
-          <span class="tsw-modal-game-detail-label">Time</span>
-        </div>
-        <div class="tsw-modal-game-detail">
-          <span class="tsw-modal-game-detail-value">${datetime ? formattedDate : "TBD"}</span>
-          <span class="tsw-modal-game-detail-label">Date</span>
-        </div>
-        <div class="tsw-modal-game-detail">
-          <span class="tsw-modal-game-detail-value">${stadium_name || "Location TBD"}</span>
-          ${stadium_name ? `<span class="tsw-modal-game-detail-label">${stadium_address}<br />${cityState}<br />${stadium_zip}</span>` : ""}
-        </div>
-      </div>
+    <div class="tsw-modal-end-header">
+      <h3>Play fair. Cheer loud. Lift each other&#160;up.</h3>
     </div>
   `;
 };
@@ -660,19 +643,19 @@ fn5glModal.addEventListener("keydown", (event) => {
 
   // Prevent tabbing out of the modal if there's only one focusable element
   if (first === last) {
-    if (fn5glFinalFourContainerAEM.activeElement === first) {
+    if (document.activeElement === first) {
       event.preventDefault();
     }
     return;
   }
 
   if (event.shiftKey) {
-    if (fn5glFinalFourContainerAEM.activeElement === first) {
+    if (document.activeElement === first) {
       event.preventDefault();
       last.focus();
     }
   } else {
-    if (fn5glFinalFourContainerAEM.activeElement === last) {
+    if (document.activeElement === last) {
       event.preventDefault();
       first.focus();
     }
@@ -692,6 +675,19 @@ fn5glFinalFour.addEventListener("click", (event) => {
   const isExpanded = accordionBtn.getAttribute("aria-expanded") === "true";
   accordionBtn.setAttribute("aria-expanded", String(!isExpanded));
 });
+
+// Open/close accordions when window size changes
+
+const DESKTOP_QUERY = "(min-width: 1000px)"; // match your CSS breakpoint
+const desktopMql = window.matchMedia(DESKTOP_QUERY);
+
+const syncAccordionExpanded = () => {
+  fn5glFinalFour.querySelectorAll(".tsw-fn5gl-accordion-button").forEach((btn) => {
+    btn.setAttribute("aria-expanded", String(desktopMql.matches));
+  });
+};
+
+desktopMql.addEventListener("change", syncAccordionExpanded);
 
 // Open modal when high school name is clicked
 
@@ -714,10 +710,10 @@ const fetchData = async () => {
   try {
     const response = await fetch(DATA_SOURCE, {
       method: "GET", // Default method
-      // headers: {
-      //   Authorization: `Bearer ${BEARER_TOKEN}`,
-      //   "Content-Type": "application/json",
-      // },
+      headers: {
+        Authorization: `Bearer ${BEARER_TOKEN}`,
+        "Content-Type": "application/json",
+      },
     });
 
     if (!response.ok) {
@@ -742,11 +738,12 @@ const initModal = () => {
 };
 
 const init = async () => {
-  initModal(); // move modal and overlay to body first
   const apiData = await fetchData();
   schoolData = apiData;
 
+  initModal();
   renderAllRegions(apiData, accordionSchoolData);
+  syncAccordionExpanded();
 };
 
 init();

@@ -2,7 +2,8 @@
 // Data source and global variables
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-const DATA_SOURCE = "https://test-fn5gl.teamdigital.com/api/finalists/leaderboard/final_4";
+// const DATA_SOURCE = "https://test-fn5gl.teamdigital.com/api/finalists/leaderboard/final_4";
+const DATA_SOURCE = "https://fn5gl.t-mobile.com/api/finalists/leaderboard/final_4";
 const BEARER_TOKEN = "BRwrayCz7H1z3XJwMOpmnd9j";
 
 // DOM references
@@ -30,16 +31,15 @@ let modalState = {
 
 const renderRegion = (region, apiData, regionName) => {
   const schools = region
-    .map((school, index) => {
+    .map((school) => {
       return `
       <li class="school-name">
         <div class="school-name-rank">${school.rank_current}</div>
         <div class="school-name-text">
           <div>${school.name}</div>
           <div class="gray">${school.city}, ${school.state}</div>
-          <div class="gray">Total Votes: ${school.votes_phase_1}</div>
+          <div class="gray">Total Votes: ${school.votes_phase_1.toLocaleString("en-US")}</div>
         </div>
-
       </li>
     `;
     })
@@ -63,11 +63,11 @@ const renderRegion = (region, apiData, regionName) => {
         </button>
 
         <div class="tsw-region-champion-votes">Total Votes: ${regionChampion.votes_phase_2}</div>        
-        <button type="button" class="magenta-button">Vote for this school</button>
+        <a href="${regionChampion.voting_page_url}" class="tsw-region-champion-row-button magenta-button">Vote for this school</a>
       </div>
 
       <div class="tsw-fn5gl-finalfour-region-schools">
-        <button type="button" class="tsw-fn5gl-accordion-button" aria-expanded="true">
+        <button type="button" class="tsw-fn5gl-accordion-button" aria-expanded="false">
           <span>${regionName} Division Finalists</span>
           <svg width="24" height="24" aria-hidden="true">
             <use href="#tsw-fn5gl-caret-svg"></use>
@@ -160,27 +160,8 @@ const renderModal = (school) => {
       </div>
     </div>
 
-    <div class="tsw-modal-game">
-      <div class="tsw-modal-game-header">
-        <h3 class="tsw-modal-game-title">T-Mobile Home Game</h3>
-        <p class="tsw-modal-game-description">
-          ${description}
-        </p>
-      </div>
-      <div class="tsw-modal-game-details">
-        <div class="tsw-modal-game-detail">
-          <span class="tsw-modal-game-detail-value">${time ? `${time} ${timezone}` : "TBD"}</span>
-          <span class="tsw-modal-game-detail-label">Time</span>
-        </div>
-        <div class="tsw-modal-game-detail">
-          <span class="tsw-modal-game-detail-value">${datetime ? formattedDate : "TBD"}</span>
-          <span class="tsw-modal-game-detail-label">Date</span>
-        </div>
-        <div class="tsw-modal-game-detail">
-          <span class="tsw-modal-game-detail-value">${stadium_name || "Location TBD"}</span>
-          ${stadium_name ? `<span class="tsw-modal-game-detail-label">${stadium_address}<br />${cityState}<br />${stadium_zip}</span>` : ""}
-        </div>
-      </div>
+    <div class="tsw-modal-end-header">
+     <h3>Play fair. Cheer loud. Lift each other&#160;up.</h3>
     </div>
   `;
 };
@@ -236,8 +217,6 @@ fn5glModal.addEventListener("keydown", (event) => {
 
   const { focusableElements } = modalState;
 
-  console.log(focusableElements);
-
   if (!focusableElements.length) return;
 
   const first = focusableElements[0];
@@ -278,6 +257,19 @@ fn5glFinalFour.addEventListener("click", (event) => {
   accordionBtn.setAttribute("aria-expanded", String(!isExpanded));
 });
 
+// Open/close accordions when window size changes
+
+const DESKTOP_QUERY = "(min-width: 1000px)"; // match your CSS breakpoint
+const desktopMql = window.matchMedia(DESKTOP_QUERY);
+
+const syncAccordionExpanded = () => {
+  fn5glFinalFour.querySelectorAll(".tsw-fn5gl-accordion-button").forEach((btn) => {
+    btn.setAttribute("aria-expanded", String(desktopMql.matches));
+  });
+};
+
+desktopMql.addEventListener("change", syncAccordionExpanded);
+
 // Open modal when high school name is clicked
 
 fn5glFinalFour.addEventListener("click", (event) => {
@@ -299,10 +291,10 @@ const fetchData = async () => {
   try {
     const response = await fetch(DATA_SOURCE, {
       method: "GET", // Default method
-      // headers: {
-      //   Authorization: `Bearer ${BEARER_TOKEN}`,
-      //   "Content-Type": "application/json",
-      // },
+      headers: {
+        Authorization: `Bearer ${BEARER_TOKEN}`,
+        "Content-Type": "application/json",
+      },
     });
 
     if (!response.ok) {
@@ -323,6 +315,7 @@ const init = async () => {
   schoolData = apiData;
 
   renderAllRegions(apiData, accordionSchoolData);
+  syncAccordionExpanded();
 };
 
 init();

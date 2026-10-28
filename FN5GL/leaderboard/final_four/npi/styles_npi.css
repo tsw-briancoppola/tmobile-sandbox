@@ -99,14 +99,14 @@ a:visited {
 
 .tsw-fn5gl-container {
   position: relative;
-  padding: 3rem;
+  padding: 3rem 0;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 4rem;
   color: var(--color-brand-grayscale-white);
-  background-color: var(--color-brand-grayscale-900);
+  /* background-color: var(--color-brand-grayscale-900); */
 }
 
 /* Final four styles */
@@ -148,14 +148,14 @@ a:visited {
   width: 100%;
 }
 .tsw-fn5gl-finalfour-region-header h2 {
-  font-size: 3.8rem;
-  font-family: var(--tsw-font-display);
-  font-weight: 800;
+  font-size: 3.5rem;
+  font-weight: 900;
+  /* font-family: var(--tsw-font-display); */
   text-align: center;
 }
 @media (min-width: 600px) {
   .tsw-fn5gl-finalfour-region-header h2 {
-    font-size: 4rem;
+    font-size: 3.8rem;
   }
 }
 .tsw-fn5gl-finalfour-region-header h2 span {
@@ -191,12 +191,18 @@ a:visited {
 }
 @media (min-width: 1100px) {
   .tsw-region-champion-badge-text {
-    font-size: clamp(0.7rem, 1cqw, 1.8rem);
+    font-size: clamp(0.8rem, 1.2cqw, 1.8rem);
   }
 }
 .tsw-region-champion-votes {
   text-align: center;
   font-weight: 700;
+}
+
+.tsw-region-champion-row-button {
+  text-decoration: none;
+  text-align: center;
+  padding: 1rem 1.5rem;
 }
 
 .tsw-fn5gl-finalfour-region-schools {
@@ -222,6 +228,7 @@ a:visited {
 .tsw-fn5gl-accordion-button svg {
   transition: all 0.3s ease;
   fill: var(--color-brand-grayscale-white);
+  transform: rotate(180deg);
 }
 @media (hover: hover) {
   .tsw-fn5gl-accordion-button:hover svg {
@@ -229,7 +236,7 @@ a:visited {
   }
 }
 .tsw-fn5gl-accordion-button[aria-expanded="true"] svg {
-  transform: rotate(180deg);
+  transform: rotate(0);
 }
 
 /* School names styles */
@@ -239,7 +246,7 @@ a:visited {
   grid-template-rows: 0fr;
   overflow: hidden;
   transition: grid-template-rows ease-out 0.3s;
-  font-size: 1.4rem;
+  font-size: 1.5rem;
 }
 .tsw-fn5gl-accordion-button[aria-expanded="true"] ~ .tsw-fn5gl-finalfour-region-school-names {
   grid-template-rows: 1fr;
@@ -271,7 +278,7 @@ a:visited {
   gap: 0.3rem;
 }
 .tsw-fn5gl-finalfour-region-school-names-inner .school-name .gray {
-  font-size: 1.2rem;
+  font-size: 1.4rem;
   color: var(--color-brand-grayscale-450);
 }
 

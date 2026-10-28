@@ -763,7 +763,7 @@ const initWithRegion = async (region) => {
 };
 
 const init = () => {
-  const CUTOFF = new Date("2026-10-26T00:00:00-07:00"); // Midnight PST
+  const CUTOFF = new Date("2026-10-28T00:00:00-07:00"); // Midnight PST
 
   if (Date.now() < CUTOFF.getTime()) {
     renderIntroCopy("active");

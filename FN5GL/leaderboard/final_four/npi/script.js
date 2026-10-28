@@ -2,7 +2,8 @@
 // Data source and global variables
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-const DATA_SOURCE = "https://test-fn5gl.teamdigital.com/api/finalists/leaderboard/final_4";
+// const DATA_SOURCE = "https://test-fn5gl.teamdigital.com/api/finalists/leaderboard/final_4";
+const DATA_SOURCE = "https://fn5gl.t-mobile.com/api/finalists/leaderboard/final_4";
 const BEARER_TOKEN = "BRwrayCz7H1z3XJwMOpmnd9j";
 
 // DOM references
@@ -32,18 +33,19 @@ let modalState = {
 // Render final four school lists
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-const imagesBasePath = "/content/dam/digx/tmobile/us/en/sandbox/brianc/fn5gl/finalfour";
+const imagesBasePath =
+  "/content/dam/digx/tmobile/us/en/creative_assethandoff/2026/q1/11043950_fn5gl-2026/phase-4/top4-leaderboard";
 
 const renderRegion = (region, apiData, regionName) => {
   const schools = region
-    .map((school, index) => {
+    .map((school) => {
       return `
       <li class="school-name">
         <div class="school-name-rank">${school.rank_current}</div>
         <div class="school-name-text">
           <div>${school.name}</div>
           <div class="gray">${school.city}, ${school.state}</div>
-          <div class="gray">Total Votes: ${school.votes_phase_1}</div>
+          <div class="gray">Total Votes: ${school.votes_phase_1.toLocaleString("en-US")}</div>
         </div>
 
       </li>
@@ -53,7 +55,7 @@ const renderRegion = (region, apiData, regionName) => {
 
   const regionChampion = apiData.finalists.find((school) => school.region === regionName);
   const schoolName = regionChampion.name.replace(/High School/g, "H.S.");
-  const schoolBadge = `${imagesBasePath}/badge_${regionName.toLowerCase()}.png`;
+  const schoolBadge = `${imagesBasePath}/13460000-fg-badge_${regionName.toLowerCase()}.png`;
 
   return `
     <div class="tsw-fn5gl-finalfour-region">
@@ -69,11 +71,11 @@ const renderRegion = (region, apiData, regionName) => {
         </button>
 
         <div class="tsw-region-champion-votes">Total Votes: ${regionChampion.votes_phase_2}</div>        
-        <button type="button" class="magenta-button">Vote for this school</button>
+        <a href="${regionChampion.voting_page_url}" class="tsw-region-champion-row-button magenta-button">Vote for this school</a>
       </div>
 
       <div class="tsw-fn5gl-finalfour-region-schools">
-        <button type="button" class="tsw-fn5gl-accordion-button" aria-expanded="true">
+        <button type="button" class="tsw-fn5gl-accordion-button" aria-expanded="false">
           <span>${regionName} Division Finalists</span>
           <svg width="24" height="24" aria-hidden="true">
             <use href="#tsw-fn5gl-caret-svg"></use>
@@ -166,27 +168,8 @@ const renderModal = (school) => {
       </div>
     </div>
 
-    <div class="tsw-modal-game">
-      <div class="tsw-modal-game-header">
-        <h3 class="tsw-modal-game-title">T-Mobile Home Game</h3>
-        <p class="tsw-modal-game-description">
-          ${description}
-        </p>
-      </div>
-      <div class="tsw-modal-game-details">
-        <div class="tsw-modal-game-detail">
-          <span class="tsw-modal-game-detail-value">${time ? `${time} ${timezone}` : "TBD"}</span>
-          <span class="tsw-modal-game-detail-label">Time</span>
-        </div>
-        <div class="tsw-modal-game-detail">
-          <span class="tsw-modal-game-detail-value">${datetime ? formattedDate : "TBD"}</span>
-          <span class="tsw-modal-game-detail-label">Date</span>
-        </div>
-        <div class="tsw-modal-game-detail">
-          <span class="tsw-modal-game-detail-value">${stadium_name || "Location TBD"}</span>
-          ${stadium_name ? `<span class="tsw-modal-game-detail-label">${stadium_address}<br />${cityState}<br />${stadium_zip}</span>` : ""}
-        </div>
-      </div>
+    <div class="tsw-modal-end-header">
+      <h3>Play fair. Cheer loud. Lift each other&#160;up.</h3>
     </div>
   `;
 };
@@ -249,19 +232,19 @@ fn5glModal.addEventListener("keydown", (event) => {
 
   // Prevent tabbing out of the modal if there's only one focusable element
   if (first === last) {
-    if (fn5glFinalFourContainerAEM.activeElement === first) {
+    if (document.activeElement === first) {
       event.preventDefault();
     }
     return;
   }
 
   if (event.shiftKey) {
-    if (fn5glFinalFourContainerAEM.activeElement === first) {
+    if (document.activeElement === first) {
       event.preventDefault();
       last.focus();
     }
   } else {
-    if (fn5glFinalFourContainerAEM.activeElement === last) {
+    if (document.activeElement === last) {
       event.preventDefault();
       first.focus();
     }
@@ -281,6 +264,19 @@ fn5glFinalFour.addEventListener("click", (event) => {
   const isExpanded = accordionBtn.getAttribute("aria-expanded") === "true";
   accordionBtn.setAttribute("aria-expanded", String(!isExpanded));
 });
+
+// Open/close accordions when window size changes
+
+const DESKTOP_QUERY = "(min-width: 1000px)"; // match your CSS breakpoint
+const desktopMql = window.matchMedia(DESKTOP_QUERY);
+
+const syncAccordionExpanded = () => {
+  fn5glFinalFour.querySelectorAll(".tsw-fn5gl-accordion-button").forEach((btn) => {
+    btn.setAttribute("aria-expanded", String(desktopMql.matches));
+  });
+};
+
+desktopMql.addEventListener("change", syncAccordionExpanded);
 
 // Open modal when high school name is clicked
 
@@ -303,10 +299,10 @@ const fetchData = async () => {
   try {
     const response = await fetch(DATA_SOURCE, {
       method: "GET", // Default method
-      // headers: {
-      //   Authorization: `Bearer ${BEARER_TOKEN}`,
-      //   "Content-Type": "application/json",
-      // },
+      headers: {
+        Authorization: `Bearer ${BEARER_TOKEN}`,
+        "Content-Type": "application/json",
+      },
     });
 
     if (!response.ok) {
@@ -336,6 +332,7 @@ const init = async () => {
 
   initModal();
   renderAllRegions(apiData, accordionSchoolData);
+  syncAccordionExpanded();
 };
 
 init();

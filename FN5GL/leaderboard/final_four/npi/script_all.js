@@ -129,7 +129,7 @@ const accordionSchoolData = {
       city: "Richland",
       state: "WA",
       rank_current: 3,
-      votes_phase_1: 60098,
+      votes_phase_1: 77002,
       votes_phase_2: 0,
     },
     {
@@ -221,7 +221,7 @@ const accordionSchoolData = {
       city: "Greenfield",
       state: "OH",
       rank_current: 2,
-      votes_phase_1: 314412,
+      votes_phase_1: 314410,
       votes_phase_2: 0,
     },
     {
@@ -444,8 +444,7 @@ let modalState = {
 // Render final four school lists
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-const imagesBasePath =
-  "/content/dam/digx/tmobile/us/en/creative_assethandoff/2026/q1/11043950_fn5gl-2026/phase-4/top4-leaderboard";
+const imagesBasePath = "/content/dam/digx/tmobile/us/en/sandbox/brianc/fn5gl/finalfour/top4-leaderboard";
 
 const renderRegion = (region, apiData, regionName) => {
   const schools = region

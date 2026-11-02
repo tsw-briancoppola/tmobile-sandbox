@@ -171,6 +171,12 @@ a:visited {
   text-transform: uppercase;
 }
 
+.tsw-ds-pricing-row__extra-text {
+  margin-top: 1.5rem;
+  font-size: var(--ds-modal-font-size-row-label);
+  font-weight: 400;
+}
+
 .tsw-ds-pricing-row__amount-wrap {
   text-align: end;
   font-family: var(--tsw-font-display);
@@ -241,6 +247,8 @@ a:visited {
 /* Legal text styles */
 
 .tsw-ds-legal {
+  font-size: 1.4rem;
+  line-height: 1.9rem;
   font-weight: 400;
 }
 .tsw-ds-legal__label {

@@ -21,19 +21,33 @@
   const monthlyLabeliPhone = dsContaineriPhone.querySelector(".tsw-ds-pricing-row--monthly .tsw-ds-pricing-row__name");
   const dueTodayAmountiPhone = dsContaineriPhone.querySelector(".tsw-ds-pricing-row__amount--due-today");
 
-  // Plan values
-  // Change these dollar values as needed
+  const extraTextHTML = dsContaineriPhone.querySelector(".tsw-ds-pricing-row__extra-text");
+  const legalTextHTML = dsContaineriPhone.querySelector(".tsw-ds-legal");
+
+  // Plan values and conditional text
+  const extraTextBring60 = "Get it ON US with a $100 rebate after three months of payment, plus applicable tax.";
+  const legalNormal = "Bring your number pricing requires qualifying port-in from your current wireless&#160;carrier.";
+  const legalBring60 =
+    "ON US with $100 rebate: After your third month of service with your new line, you'll need to properly complete a form for a $100 virtual prepaid Mastercard, which you can use online or in stores; no cash access & expires in 6 months. Terms&#160;apply.";
+
   const plansiPhone = {
     oneTimeStrike: 599.99,
     get: {
       40: { oneTimeFinal: 449.99, monthly: 40, firstMonth: null, dueToday: 489.99 },
-      50: { oneTimeFinal: 299.99, monthly: 50, firstMonth: 55, dueToday: 354.99 },
-      60: { oneTimeFinal: 299.99, monthly: 60, firstMonth: 65, dueToday: 364.99 },
+      50: { oneTimeFinal: 449.99, monthly: 50, firstMonth: 55, dueToday: 504.99 },
+      60: { oneTimeFinal: 299.99, monthly: 55, firstMonth: 60, dueToday: 364.99 },
     },
     bring: {
       40: { oneTimeFinal: 399.99, monthly: 40, firstMonth: null, dueToday: 439.99 },
-      50: { oneTimeFinal: 99.99, monthly: 50, firstMonth: 55, dueToday: 154.99 },
-      60: { oneTimeFinal: 99.99, monthly: 60, firstMonth: 65, dueToday: 164.99 },
+      50: { oneTimeFinal: 399.99, monthly: 50, firstMonth: 55, dueToday: 454.99 },
+      60: {
+        oneTimeFinal: 99.99,
+        monthly: 55,
+        firstMonth: 60,
+        dueToday: 164.99,
+        extraText: extraTextBring60,
+        legalText: legalBring60,
+      },
     },
   };
 
@@ -50,6 +64,8 @@
   const renderPaymentValues = (join, plan) => {
     const oneTimeStrike = plansiPhone.oneTimeStrike;
     const { oneTimeFinal, monthly, firstMonth, dueToday } = plansiPhone[join][plan];
+    const extraText = plansiPhone[join][plan]?.extraText;
+    const legalText = plansiPhone[join][plan]?.legalText;
 
     const label = firstMonth
       ? [`$${monthly}/mo. with AutoPay,`, `${formatPrice(firstMonth)} for first month`]
@@ -60,6 +76,17 @@
     monthlyAmountiPhone.textContent = formatPrice(firstMonth ?? monthly);
     monthlyLabeliPhone.innerHTML = label.join("<br>");
     dueTodayAmountiPhone.textContent = formatPrice(dueToday);
+
+    extraTextHTML.hidden = true;
+    if (extraText) {
+      extraTextHTML.hidden = false;
+      extraTextHTML.innerHTML = extraText;
+    }
+
+    legalTextHTML.innerHTML = legalNormal;
+    if (legalText) {
+      legalTextHTML.innerHTML = legalText;
+    }
   };
 
   // =-=-=-=-=-=-=-=-=-=-=-

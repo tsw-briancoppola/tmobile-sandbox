@@ -1,0 +1,21 @@
+#tsw-applemusic-scroll {
+  width: calc(100% - calc(var(--xpr--layout-gutter) * 2));
+  overflow: hidden;
+
+  --edge: clamp(32px, 2vw, 25px); /* fade width */
+
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 var(--edge),
+    #000 calc(100% - var(--edge)),
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0,
+    #000 var(--edge),
+    #000 calc(100% - var(--edge)),
+    transparent 100%
+  );
+}

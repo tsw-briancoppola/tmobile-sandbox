@@ -1,0 +1,260 @@
+.tsw-netflix-scroll-container {
+  --tsw-font-display:
+    "TeleNeo Web", var(--phx--text-family-brand), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --tsw-font-main:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol";
+
+  --tsw-font-size: 16px;
+  --color-brand-primary-400: #e20074;
+  --color-brand-primary-600: #770141;
+  --color-brand-grayscale-100: #fbfbfb;
+  --color-brand-grayscale-200: #f5f5f5;
+  --color-brand-grayscale-300: #e6e6e6;
+  --color-brand-grayscale-400: #ccc;
+  --color-brand-grayscale-500: #8c8c8c;
+  --color-brand-grayscale-600: #6a6a6a;
+  --color-brand-grayscale-700: #414141;
+  --color-brand-grayscale-900: #1c1c1c;
+  --color-brand-grayscale-white: #fff;
+  --color-brand-grayscale-black: #1a1a1a;
+
+  --color-border: var(--color-brand-grayscale-400);
+  --color-input-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.5);
+  --color-overlay: rgba(0, 0, 0, 0.4);
+
+  font-family: var(--tsw-font-main);
+
+  --netflix-box-width-rectangle-desktop: 35rem;
+  --netflix-box-width-rectangle-mobile: 20rem;
+  --netflix-box-width-square-desktop: 20rem;
+  --netflix-box-width-square-mobile: 11.2rem;
+  --netflix-box-aspect-ratio-rectangle: 16 / 9;
+  --netflix-box-aspect-ratio-square: 1 / 1;
+  --netflix-scroll-gap-desktop: 2rem;
+  --netflix-scroll-gap-mobile: 1.4rem;
+
+  --netflix-text-color: var(--color-brand-grayscale-100);
+  --netflix-background-color: var(--color-brand-grayscale-black);
+  --netflix-play-button: var(--color-brand-grayscale-white);
+}
+
+/* Reset */
+
+h1,
+h2,
+h3,
+p,
+div {
+  margin: 0;
+  line-height: normal;
+}
+
+ul,
+ol {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+/* .gradient-overlay {
+  background-image: radial-gradient(circle at top center, transparent, rgba(0, 0, 0, 0.35));
+} */
+
+/* Spacer */
+
+.tsw-spacer {
+  height: 15rem;
+}
+
+/* Scrolling play button styles  */
+
+.tsw-netflix-buttons {
+  text-align: right;
+  padding: 1.4rem 2.4rem 0 0;
+}
+
+.tsw-netflix-play-button {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  background-color: transparent;
+  cursor: pointer;
+}
+@media (min-width: 1000px) {
+  .tsw-netflix-play-button {
+    width: 50px;
+    height: 50px;
+  }
+}
+
+.tsw-netflix-play-button svg {
+  width: 100%;
+  height: 100%;
+  fill: var(--netflix-play-button);
+  transition: fill 0.3s;
+}
+
+/* =-=-=-=-=-=-=-=-=-=-=-= */
+/* netflix scroller styles */
+/* =-=-=-=-=-=-=-=-=-=-=-= */
+
+/* netflix container styles */
+
+.tsw-netflix-scroll-container {
+  width: calc(100vw - calc(var(--xpr--layout-gutter) * 2));
+  overflow: hidden;
+  margin-inline: auto;
+  position: relative;
+  left: 50%;
+  padding: 5rem 0 3.5rem 0;
+  transform: translateX(-50%);
+  color: var(--netflix-text-color);
+  background-color: transparent;
+  transition:
+    color 0.3s,
+    background-color 0.3s;
+  box-sizing: border-box;
+}
+
+/* netflix scroller styles */
+
+.tsw-netflix-scroll {
+  /* opacity: 0; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--netflix-scroll-gap-mobile);
+  /* transition: opacity 0.3s ease; */
+}
+@media (min-width: 1000px) {
+  .tsw-netflix-scroll {
+    gap: var(--netflix-scroll-gap-desktop);
+  }
+}
+/* .tsw-netflix-scroll.is-loaded {
+  opacity: 1;
+} */
+
+/* netflix loading shimmer styles */
+
+/* @keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+} */
+/* Gradient sits above the image layer */
+/* .tsw-netflix-scroll-box::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top center, transparent, rgba(0, 0, 0, 0.35));
+  border-radius: inherit;
+  pointer-events: none;
+} */
+
+/* Shimmer overrides the gradient while loading (higher specificity wins) */
+/* .tsw-netflix-scroll-box.is-loading::after {
+  background: linear-gradient(90deg, transparent 25%, rgba(255, 255, 255, 0.12) 50%, transparent 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+} */
+
+@keyframes shimmer {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+
+.tsw-netflix-scroll-box {
+  overflow: hidden; /* clips the shimmer to the rounded corners */
+}
+
+.tsw-netflix-scroll-box.is-loading::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.12), transparent);
+  animation: shimmer 1.5s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* */
+
+.tsw-netflix-scroll-image {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.tsw-netflix-scroll-image.is-loaded {
+  opacity: 1;
+}
+
+/* netflix scroll row styles */
+
+.tsw-netflix-scroll-row {
+  display: grid;
+  grid-auto-flow: column;
+  gap: var(--netflix-scroll-gap-mobile);
+}
+@media (min-width: 1000px) {
+  .tsw-netflix-scroll-row {
+    gap: var(--netflix-scroll-gap-desktop);
+  }
+}
+
+/* netflix scroll box styles */
+
+.tsw-netflix-scroll-box {
+  width: var(--netflix-box-width-mobile);
+  aspect-ratio: var(--netflix-box-aspect-ratio);
+  position: relative;
+  color: var(--color-brand-grayscale-white);
+  font-size: 1.5rem;
+  font-weight: 700;
+  padding: 2rem;
+  background-size: cover;
+  background-color: #2a2a2a;
+  border-radius: 1rem;
+  will-change: transform; /* Needed for smoother animation */
+  backface-visibility: hidden; /* Needed for smoother animation */
+  box-sizing: border-box;
+}
+
+.tsw-netflix-scroll-box.rectangle {
+  width: var(--netflix-box-width-rectangle-mobile);
+  aspect-ratio: var(--netflix-box-aspect-ratio-rectangle);
+}
+.tsw-netflix-scroll-box.square {
+  width: var(--netflix-box-width-square-mobile);
+  aspect-ratio: var(--netflix-box-aspect-ratio-square);
+}
+@media (min-width: 1000px) {
+  .tsw-netflix-scroll-box {
+    width: var(--netflix-box-width-desktop);
+    font-size: 1.8rem;
+  }
+  .tsw-netflix-scroll-box.rectangle {
+    width: var(--netflix-box-width-rectangle-desktop);
+  }
+  .tsw-netflix-scroll-box.square {
+    width: var(--netflix-box-width-square-desktop);
+    aspect-ratio: var(--netflix-box-aspect-ratio-square);
+  }
+}

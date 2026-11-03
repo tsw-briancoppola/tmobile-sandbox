@@ -444,7 +444,7 @@ let modalState = {
 // Render final four school lists
 // =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
 
-const imagesBasePath = "/content/dam/digx/tmobile/us/en/sandbox/brianc/fn5gl/finalfour/top4-leaderboard";
+const imagesBasePath = "/content/dam/digx/tmobile/us/en/specific-use/fn5gl-homepage/top4-leaderboard/";
 
 const renderRegion = (region, apiData, regionName) => {
   const schools = region
@@ -480,7 +480,7 @@ const renderRegion = (region, apiData, regionName) => {
           </div>
         </button>
 
-        <div class="tsw-region-champion-votes">Total Votes: ${regionChampion.votes_phase_2}</div>        
+        <div class="tsw-region-champion-votes">Total Votes: ${regionChampion.votes_phase_2.toLocaleString("en-US")}</div>        
         <a href="${regionChampion.voting_page_url}" class="tsw-region-champion-row-button magenta-button">Vote for this school</a>
       </div>
 
@@ -570,7 +570,7 @@ const renderModal = (school) => {
         <span class="tsw-modal-school-stat-label">Rank</span>
       </div>
       <div class="tsw-modal-school-stat">
-        <span class="tsw-modal-school-stat-value">${school.votes_phase_1.toLocaleString("en-US")}</span>
+        <span class="tsw-modal-school-stat-value">${school.votes_phase_2.toLocaleString("en-US")}</span>
         <span class="tsw-modal-school-stat-label">Total Votes</span>
       </div>
       <div>
@@ -736,13 +736,21 @@ const initModal = () => {
   document.body.appendChild(fn5glModal);
 };
 
-const init = async () => {
-  const apiData = await fetchData();
-  schoolData = apiData;
+const CUTOFF = new Date("2026-11-08T23:59:00-08:00"); // Midnight PDT
 
-  initModal();
-  renderAllRegions(apiData, accordionSchoolData);
-  syncAccordionExpanded();
+const init = async () => {
+  if (Date.now() < CUTOFF.getTime()) {
+    const apiData = await fetchData();
+    schoolData = apiData;
+
+    initModal();
+    renderAllRegions(apiData, accordionSchoolData);
+    syncAccordionExpanded();
+  } else {
+    fn5glFinalFour.remove();
+    fn5glModal.remove();
+    fn5glModalOverlay.remove();
+  }
 };
 
 init();

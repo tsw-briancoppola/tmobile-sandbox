@@ -52,17 +52,17 @@ const renderRegion = (region, apiData, regionName) => {
   return `
     <div class="tsw-fn5gl-finalfour-region">
       <div class="tsw-fn5gl-finalfour-region-header">
-        <h2>${regionName} <span class="subhead">Division</span></h2>
+        <h2>${regionName} <span class="subhead">Division Champion</span></h2>
 
         <button type="button" class="tsw-region-champion-badge" data-school-id="${regionChampion.id}">
-          <img src="${schoolBadge}" />
+          <img src="${schoolBadge}" alt="${schoolName}" />
           <div class="tsw-region-champion-badge-text">
             <h4>${schoolName}</h4>
             <p>${regionChampion.city}, ${regionChampion.state}</p>
           </div>
         </button>
 
-        <div class="tsw-region-champion-votes">Total Votes: ${regionChampion.votes_phase_2}</div>        
+        <div class="tsw-region-champion-votes">Total Votes: ${regionChampion.votes_phase_2.toLocaleString("en-US")}</div>             
         <a href="${regionChampion.voting_page_url}" class="tsw-region-champion-row-button magenta-button">Vote for this school</a>
       </div>
 
@@ -152,7 +152,7 @@ const renderModal = (school) => {
         <span class="tsw-modal-school-stat-label">Rank</span>
       </div>
       <div class="tsw-modal-school-stat">
-        <span class="tsw-modal-school-stat-value">${school.votes_phase_1.toLocaleString("en-US")}</span>
+        <span class="tsw-modal-school-stat-value">${school.votes_phase_2.toLocaleString("en-US")}</span>
         <span class="tsw-modal-school-stat-label">Total Votes</span>
       </div>
       <div>
@@ -161,7 +161,7 @@ const renderModal = (school) => {
     </div>
 
     <div class="tsw-modal-end-header">
-     <h3>Play fair. Cheer loud. Lift each other&#160;up.</h3>
+      <h3>Play fair. Cheer loud. Lift each other&#160;up.</h3>
     </div>
   `;
 };
@@ -310,12 +310,20 @@ const fetchData = async () => {
   }
 };
 
-const init = async () => {
-  const apiData = await fetchData();
-  schoolData = apiData;
+const CUTOFF = new Date("2026-11-08T23:59:00-08:00"); // Midnight PDT
 
-  renderAllRegions(apiData, accordionSchoolData);
-  syncAccordionExpanded();
+const init = async () => {
+  if (Date.now() < CUTOFF.getTime()) {
+    const apiData = await fetchData();
+    schoolData = apiData;
+
+    renderAllRegions(apiData, accordionSchoolData);
+    syncAccordionExpanded();
+  } else {
+    fn5glFinalFour.remove();
+    fn5glModal.remove();
+    fn5glModalOverlay.remove();
+  }
 };
 
 init();

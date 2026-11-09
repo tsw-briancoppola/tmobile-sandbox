@@ -35,7 +35,7 @@
     get: {
       40: { oneTimeFinal: 449.99, monthly: 40, firstMonth: null, dueToday: 489.99 },
       50: { oneTimeFinal: 449.99, monthly: 50, firstMonth: 55, dueToday: 504.99 },
-      60: { oneTimeFinal: 299.99, monthly: 55, firstMonth: 60, dueToday: 364.99 },
+      60: { oneTimeFinal: 299.99, monthly: 55, firstMonth: 60, dueToday: 359.99 },
     },
     bring: {
       40: { oneTimeFinal: 399.99, monthly: 40, firstMonth: null, dueToday: 439.99 },
@@ -44,7 +44,7 @@
         oneTimeFinal: 99.99,
         monthly: 55,
         firstMonth: 60,
-        dueToday: 164.99,
+        dueToday: 159.99,
         extraText: extraTextBring60,
         legalText: legalBring60,
       },

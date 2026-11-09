@@ -1,0 +1,553 @@
+.tsw-fn5gl-container {
+  --tsw-font-display:
+    "TeleNeo Web", var(--phx--text-family-brand), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  --tsw-font-main:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol";
+
+  --tsw-font-size: 16px;
+  --color-brand-primary-400: #e20074;
+  --color-brand-primary-600: #770141;
+  --color-brand-grayscale-100: #fbfbfb;
+  --color-brand-grayscale-200: #f5f5f5;
+  --color-brand-grayscale-300: #e6e6e6;
+  --color-brand-grayscale-400: #ccc;
+  --color-brand-grayscale-450: #aaaaaa;
+  --color-brand-grayscale-500: #8c8c8c;
+  --color-brand-grayscale-550: #727272;
+  --color-brand-grayscale-600: #6a6a6a;
+  --color-brand-grayscale-700: #414141;
+  --color-brand-grayscale-900: #1c1c1c;
+  --color-brand-grayscale-white: #fff;
+
+  --color-focus-stroke: #005fcc;
+
+  font-family: var(--tsw-font-main);
+}
+
+/* Reset - local only (don't use in AEM) */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  height: 100vh;
+  font-size: 1.6rem;
+  font-family: "Arial", sans-serif;
+  overflow-x: hidden;
+  margin: 0;
+  background-color: var(--color-brand-grayscale-200);
+}
+
+/* Reset */
+
+h1,
+h2,
+h3,
+h4,
+p,
+div {
+  margin: 0;
+  line-height: normal;
+}
+
+ol {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.bold {
+  font-weight: 700;
+}
+
+.magenta {
+  color: var(--color-brand-primary-400);
+}
+
+.tsw-modal p,
+.tsw-modal span {
+  line-height: 2rem;
+}
+
+a,
+a:visited {
+  color: var(--color-brand-grayscale-white);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus-stroke);
+}
+
+.center-align {
+  text-align: center;
+}
+.right-align {
+  text-align: right;
+}
+
+/* UI elements */
+
+.magenta-button {
+  cursor: pointer;
+  padding: 0.8rem 1.2rem;
+  font-size: 1.4rem;
+  border: 0;
+  border-radius: 0.5rem;
+  color: var(--color-brand-grayscale-white);
+  background-color: var(--color-brand-primary-400);
+  align-self: center;
+}
+@media (min-width: 600px) {
+  .magenta-button {
+    font-size: 1.5rem;
+  }
+}
+
+/* =-=-=-=-=-=- */
+/* fn5gl styles */
+/* =-=-=-=-=-=- */
+
+/* Container styles */
+
+.tsw-fn5gl-container {
+  position: relative;
+  padding: 3rem;
+  max-width: 160rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4rem;
+  color: var(--color-brand-grayscale-white);
+  background-color: var(--color-brand-grayscale-900);
+}
+
+/* Final four styles */
+
+.tsw-fn5gl-finalfour {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 5rem;
+  width: 100%;
+}
+@media (min-width: 600px) {
+  .tsw-fn5gl-finalfour {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1100px) {
+  .tsw-fn5gl-finalfour {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* Final four region styles */
+
+.tsw-fn5gl-finalfour-region {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4rem;
+  /* padding: 1rem; */
+}
+
+.tsw-fn5gl-finalfour-region-header {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+}
+.tsw-fn5gl-finalfour-region-header h2 {
+  font-size: 3.8rem;
+  font-weight: 900;
+  /* font-family: var(--tsw-font-display); */
+  text-align: center;
+}
+@media (min-width: 600px) {
+  .tsw-fn5gl-finalfour-region-header h2 {
+    font-size: 4.2rem;
+  }
+}
+.tsw-fn5gl-finalfour-region-header h2 span {
+  display: block;
+  font-size: 1.8rem;
+  color: var(--color-brand-primary-400);
+}
+.tsw-fn5gl-finalfour-region-header img {
+  width: 100%;
+  border-radius: 0.5rem;
+}
+
+.tsw-region-champion-badge {
+  position: relative;
+  display: flex;
+  text-align: left;
+  color: var(--color-brand-grayscale-white);
+  background-color: transparent;
+  border: 0;
+}
+.tsw-region-champion-badge-text {
+  position: absolute;
+  top: 50%;
+  left: 38%;
+  transform: translateY(-50%);
+  font-size: 4.4cqw;
+}
+@media (min-width: 600px) {
+  .tsw-region-champion-badge-text {
+    font-size: 2.2cqw;
+  }
+}
+@media (min-width: 1100px) {
+  .tsw-region-champion-badge-text {
+    font-size: clamp(0.8rem, 1.2cqw, 1.8rem);
+  }
+}
+.tsw-region-champion-votes {
+  text-align: center;
+  font-weight: 700;
+}
+
+.tsw-region-champion-row-button {
+  text-decoration: none;
+  text-align: center;
+  padding: 1rem 1.5rem;
+}
+
+.tsw-fn5gl-finalfour-region-schools {
+  width: 100%;
+}
+
+/* Accordion styles */
+
+.tsw-fn5gl-accordion-button {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1.6rem;
+  font-weight: 600;
+  padding: 0.2rem 0;
+  margin-bottom: 1.4rem;
+  border: 0;
+  color: var(--color-brand-grayscale-white);
+  background-color: transparent;
+  cursor: pointer;
+}
+.tsw-fn5gl-accordion-button svg {
+  transition: all 0.3s ease;
+  fill: var(--color-brand-grayscale-white);
+  transform: rotate(180deg);
+}
+@media (hover: hover) {
+  .tsw-fn5gl-accordion-button:hover svg {
+    fill: var(--color-brand-primary-400);
+  }
+}
+.tsw-fn5gl-accordion-button[aria-expanded="true"] svg {
+  transform: rotate(0);
+}
+
+/* School names styles */
+
+.tsw-fn5gl-finalfour-region-school-names {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  transition: grid-template-rows ease-out 0.3s;
+  font-size: 1.5rem;
+}
+.tsw-fn5gl-accordion-button[aria-expanded="true"] ~ .tsw-fn5gl-finalfour-region-school-names {
+  grid-template-rows: 1fr;
+}
+
+.tsw-fn5gl-finalfour-region-school-names-inner {
+  min-height: 0;
+}
+
+.tsw-fn5gl-finalfour-region-school-names-inner .school-name {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--color-brand-grayscale-700);
+  padding: 1rem 0;
+}
+.tsw-fn5gl-finalfour-region-school-names-inner .school-name:first-child {
+  padding-top: 0;
+}
+.tsw-fn5gl-finalfour-region-school-names-inner .school-name:last-child {
+  border: 0;
+}
+.tsw-fn5gl-finalfour-region-school-names-inner .school-name .school-name-rank {
+  flex-basis: 2.2rem;
+}
+.tsw-fn5gl-finalfour-region-school-names-inner .school-name .school-name-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+.tsw-fn5gl-finalfour-region-school-names-inner .school-name .gray {
+  font-size: 1.4rem;
+  color: var(--color-brand-grayscale-450);
+}
+
+/* svg styles */
+
+.tsw-fn5gl-svg-icons {
+  display: none;
+}
+
+/* =-=-=-=-=-=-=-=-=-=-=-=- */
+/* Modal and overlay styles */
+/* =-=-=-=-=-=-=-=-=-=-=-=- */
+
+.tsw-modal {
+  /* Mobile default — full screen */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  max-height: 100%;
+  transform: none;
+  border-radius: 0;
+  overflow: hidden;
+
+  /* Shared styles */
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: clamp(2rem, 1.5vw + 1rem, 3rem);
+  font-size: 1.6rem;
+  border: 0;
+  background-color: var(--color-brand-grayscale-white);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: 9001;
+  box-sizing: border-box; /* Needed for AEM */
+  transform: none;
+}
+.tsw-modal:focus-visible {
+  outline: none;
+}
+.tsw-modal.is-visible {
+  opacity: 1;
+}
+.tsw-modal:not([open]) {
+  pointer-events: none;
+}
+
+@media (min-width: 768px) {
+  .tsw-modal {
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    width: 90%;
+    max-width: 60rem;
+    height: auto;
+    max-height: 90vh;
+    transform: translate(-50%, -50%);
+    border-radius: 1rem;
+    overflow: hidden;
+    transform: translate(-50%, -50%) translateZ(0);
+  }
+}
+
+/* Modal overlay styles */
+
+.tsw-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--color-overlay);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(7px);
+  -webkit-backdrop-filter: blur(7px);
+  z-index: 9000;
+  visibility: hidden;
+  opacity: 0;
+  transition:
+    opacity 0.5s ease,
+    visibility 0s linear 0.5s;
+  -webkit-transform: translateZ(0); /* force GPU compositing layer */
+  transform: translateZ(0);
+}
+.tsw-modal-overlay.is-visible {
+  visibility: visible;
+  opacity: 1;
+  /* On entry, visibility should switch instantly (no delay) */
+  transition-delay: 0s;
+}
+
+.tsw-modal-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+
+  /* Shared styles */
+  width: 5rem;
+  height: 5rem;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: var(--color-brand-primary-400);
+  color: var(--color-brand-grayscale-white);
+  border: 5px solid var(--color-brand-grayscale-white);
+  border-radius: 50%;
+  transition: 0.25s;
+  cursor: pointer;
+}
+.tsw-modal-close:hover,
+.tsw-modal-close:focus {
+  outline: none;
+  border: 1px solid var(--color-brand-primary-400);
+  box-shadow: var(--color-input-shadow);
+}
+
+.tsw-modal-close svg {
+  height: 100%;
+  width: 100%;
+  fill: var(--color-brand-grayscale-white);
+  cursor: pointer;
+}
+
+/* =-=-=-=-=-=-=-=-=-=- */
+/* Modal content styles */
+/* =-=-=-=-=-=-=-=-=-=- */
+
+.tsw-modal-main {
+  display: flex;
+  flex-direction: column;
+  gap: 3.4rem;
+  text-align: left;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.tsw-modal-school-header {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+.tsw-modal-school-location {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-right: 4rem;
+}
+.tsw-modal-school-city-state {
+  font-size: 1.5rem;
+  color: var(--color-brand-grayscale-700);
+}
+
+.tsw-modal-school-desc-logo {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.4rem;
+}
+@media (min-width: 480px) {
+  .tsw-modal-school-desc-logo {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+.tsw-modal-school-description {
+  line-height: 2rem;
+}
+.tsw-modal-school-logo {
+  text-align: center;
+  min-height: 20rem;
+}
+.tsw-modal-school-logo img {
+  width: 85%;
+}
+@media (min-width: 480px) {
+  .tsw-modal-school-logo img {
+    width: 100%;
+  }
+}
+
+.tsw-modal-school-stats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 1.4rem;
+  border-radius: 0.5rem;
+  color: var(--color-brand-grayscale-white);
+  background-color: var(--color-brand-grayscale-900);
+}
+.tsw-modal-school-stats > div {
+  padding-inline: clamp(0.8rem, 1.667vw + 0.467rem, 1.8rem);
+}
+.tsw-modal-school-stats > :nth-child(3) {
+  flex-basis: 100%; /* mobile default: wraps to new line */
+}
+@media (min-width: 480px) {
+  .tsw-modal-school-stats > :nth-child(3) {
+    flex-basis: auto; /* desktop: back to normal flex sizing */
+  }
+}
+
+.tsw-modal-school-stat {
+  text-align: center;
+}
+.tsw-modal-school-stat:first-child {
+  border-right: 1px solid var(--color-brand-grayscale-white);
+}
+.tsw-modal-school-stat-value {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--color-brand-primary-400);
+  display: block;
+}
+.tsw-modal-school-stat-label {
+  font-size: 1.5rem;
+}
+
+.tsw-modal-school-stat-button {
+  text-decoration: none;
+  padding: 0.8rem 1.1rem;
+  margin-top: 1.7rem;
+  font-size: 1.4rem;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+@media (min-width: 480px) {
+  .tsw-modal-school-stat-button {
+    padding: 1.2rem 1.6rem;
+    margin: 0;
+  }
+}
+
+/* Modal end styles */
+
+.tsw-modal-end-header {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 1.2rem;
+}
